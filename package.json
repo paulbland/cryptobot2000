@@ -1,11 +1,20 @@
 {
-  "name": "cryptobot",
+  "name": "coinbasebot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "4.1.1"
+  },
+  "dependencies": {
+    "express": "^4.15.3"
+  },
+  "description" : "a currency bot",
+  "repository" : "https://git.heroku.com/secret-dusk-72723.git"
 }
