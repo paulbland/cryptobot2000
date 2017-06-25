@@ -15,9 +15,7 @@
   "dependencies": {
     "coinbase": "^2.0.6",
     "express": "^4.15.3",
-    "ioredis": "^3.1.1",
-    "mongoose": "^4.10.8",
-    "redis": "^2.7.1"
+    "mongoose": "^4.10.8"
   },
-  "repository": "https://git.heroku.com/secret-dusk-72723.git"
+  "repository": "https://git.heroku.com/coinbasebot.git"
 }

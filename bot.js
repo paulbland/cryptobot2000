@@ -12,6 +12,7 @@ var app 		= express();
 mongoose.connect(process.env.MONGODB_URI);
 
 // Get the default connection
+mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 
 // Bind connection to error event (to get notification of connection errors)
