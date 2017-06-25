@@ -23,44 +23,56 @@ var Schema = mongoose.Schema;
 
 var PriceRecordSchema = new Schema({
     datetime	: Date,
-    value 		: Number
+    value_sell 	: Number,
+    value_buy 	: Number
 });
-
-// Compile model from schema
-var PriceRecordModel = mongoose.model('PriceRecordModel', PriceRecordSchema);
-	
 
 
 
 // Connect to Coinbase API
-var client = new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
+var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 
-client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, obj) {
-	
-	console.log('storing date and current value in mlab: ' + obj.data.amount);
-
- 	var pr = new PriceRecordModel;
-
-	pr.datetime 	= new Date;
-	pr.value 		= obj.data.amount;
-
-	pr.save(function (err) {
-  		if (err) return handleError(err);
-  		// saved!);	
-
-  		process.exit()
-  	})
-});
+getMyData('PriceRecordModelBTC', 'BTC')
+getMyData('PriceRecordModelETH', 'ETH')
+getMyData('PriceRecordModelLTC', 'LTC')
 
 
+function getMyData(modelName, currency) {
 
-// app.get('/', function(req, res) {
-// 	res.send('hello world');
-// })
+	// Compile model from schema
+	var PriceRecordModel = mongoose.model(modelName, PriceRecordSchema);
 
-// app.listen(process.env.PORT, function() { 
-// 	console.log('running on port: ' + process.env.PORT)
-// })
+	var pr 		= new PriceRecordModel;
+	pr.datetime = new Date;
 
+	// Promise
+	var myPromise1 = function() {
+		return new Promise(function (resolve, reject) {
+	    	client.getSellPrice({'currencyPair': currency+'-USD'}, function(err, obj) {
+				pr.value_sell = obj.data.amount;
+				resolve()
+			});
+		});
+	}
 
+	var myPromise2 = function() {
+		return new Promise(function (resolve, reject) {
+	    	client.getBuyPrice({'currencyPair': currency+'-USD'}, function(err, obj) {
+				pr.value_buy = obj.data.amount;
+				resolve()
+			});
+		});
+	}
 
+	myPromise1()
+		.then(myPromise2)
+		.then(function(fulfilled) {
+			pr.datetime = new Date;
+			pr.save(function (err) {
+				if (err) return handleError(err);
+					console.log('saved ' + currency);
+					//process.exit()
+			})
+		});
+
+}
