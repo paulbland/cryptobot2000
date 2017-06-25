@@ -1,11 +1,11 @@
 {
   "name": "coinbasebot",
   "version": "1.0.0",
-  "description": "",
+  "description": "a currency bot",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node worker.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,8 +13,11 @@
     "node": "4.1.1"
   },
   "dependencies": {
-    "express": "^4.15.3"
+    "coinbase": "^2.0.6",
+    "express": "^4.15.3",
+    "ioredis": "^3.1.1",
+    "mongoose": "^4.10.8",
+    "redis": "^2.7.1"
   },
-  "description" : "a currency bot",
-  "repository" : "https://git.heroku.com/secret-dusk-72723.git"
+  "repository": "https://git.heroku.com/secret-dusk-72723.git"
 }
