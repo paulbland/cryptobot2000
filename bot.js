@@ -41,9 +41,7 @@ function getMyData(modelName, currency) {
 
 	// Compile model from schema
 	var PriceRecordModel = mongoose.model(modelName, PriceRecordSchema);
-
-	var pr 		= new PriceRecordModel;
-	pr.datetime = new Date;
+	var pr = new PriceRecordModel;
 
 	// Promise
 	var myPromise1 = function() {
