@@ -13,7 +13,6 @@ var total_coins_owned;
 var buy_sell_unit;
 var total_spent;
 var total_sold;
-var do_i_own_coins;
 var total_transactions;
 var max_coins_ever_owned;
 var max_value_ever_owned;
@@ -153,7 +152,6 @@ function buyCoin(current_coin_price_buy) {
 
 	total_coins_owned 			+= number_of_coins_to_buy;
 	total_spent 				+= buy_sell_unit;
-	do_i_own_coins 				= true;
 	total_transactions++;
 
 	max_coins_ever_owned = (total_coins_owned > max_coins_ever_owned) ? total_coins_owned : max_coins_ever_owned;
@@ -184,7 +182,6 @@ function sellCoin(current_coin_price_sell) {
 	result += '<span style="color:red">TRANSACTION: SELL ALL COINS: ' +  total_coins_owned + ' BTC valued at $' + current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />';
 
 	total_coins_owned 	= 0;
-	do_i_own_coins 		= false;
 
 	return result;
 }
