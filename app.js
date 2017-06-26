@@ -1,10 +1,6 @@
 var express 	= require('express');
 var app 		= express();
-
-
 var fs 			= require('fs');
-
-
 
 
 
@@ -42,7 +38,8 @@ function testLoop() {
 
 	var result = '';
 
-	var interval_in_minutes = 10	// minutes
+	var interval_in_minutes = 10	// how often data is collected in minutes
+	var hrs_in_period 		= 24	 // working on full days = 24
 
 	var btc_data 			= require('./btc_data')	// 30 days of data (144*30 = 4320)
 	var values_per_day 		= ((24*60)/interval_in_minutes); // 144; // there are 144 10-min incremetns in a day
@@ -94,7 +91,7 @@ function decideBuyOrSell(data_to_be_tested) {
 	// calculate avg
 	var sum = 0;
 	for (j=0; j<data_to_be_tested.length; j++) {
-		sum += data_to_be_tested[j].value_buy;
+		sum += ((data_to_be_tested[j].value_buy+data_to_be_tested[j].value_sell)/2);
 	}
 	avg_24_hrs = (sum/data_to_be_tested.length).toFixed(2);
 
