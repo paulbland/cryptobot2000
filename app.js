@@ -1,8 +1,7 @@
 var express 	= require('express');
 var app 		= express();
 var fs 			= require('fs');
-
-
+var path    	= require("path");
 
 
 var total_coins_owned;
@@ -14,11 +13,20 @@ var max_coins_ever_owned;
 var max_value_ever_owned;
 
 
+
 app.get('/', function(req, res) {
+	res.sendFile(path.join(__dirname+'/index.html'));
+})
+
+app.get('/sim-run-once', function(req, res) {
 	var result = testLoop();
 	res.send(result);
 })
 
+app.get('/sim-run-multiple', function(req, res) {
+	var result = simRunMultiple();
+	res.send(result);
+})
 
 app.get('/create', function(req, res) {
 	createRandomData();
@@ -41,7 +49,7 @@ function testLoop() {
 	var interval_in_minutes = 10	// how often data is collected in minutes
 	var hrs_in_period 		= 24	// working on full days = 24
 
-	var btc_data 			= require('./btc_data')	// 30 days of data (144*30 = 4320)
+	var btc_data 			= require('./data/btc_data')	// 30 days of data (144*30 = 4320)
 	var values_per_period 	= ((hrs_in_period * 60) / interval_in_minutes); // 144; // there are 144 10-min incremetns in a day (24 hrs period)
 	
 	total_coins_owned 		= 0;
