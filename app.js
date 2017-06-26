@@ -39,10 +39,10 @@ function testLoop() {
 	var result = '';
 
 	var interval_in_minutes = 10	// how often data is collected in minutes
-	var hrs_in_period 		= 24	 // working on full days = 24
+	var hrs_in_period 		= 24	// working on full days = 24
 
 	var btc_data 			= require('./btc_data')	// 30 days of data (144*30 = 4320)
-	var values_per_day 		= ((24*60)/interval_in_minutes); // 144; // there are 144 10-min incremetns in a day
+	var values_per_period 	= ((hrs_in_period * 60) / interval_in_minutes); // 144; // there are 144 10-min incremetns in a day (24 hrs period)
 	
 	total_coins_owned 		= 0;
 	buy_sell_unit 			= 100;
@@ -53,15 +53,20 @@ function testLoop() {
 	max_value_ever_owned 	= 0;
 
 
-	for (i=0; i<=(btc_data.length - values_per_day); i++) {
+	var days_in_records = ((btc_data.length/24/60)*interval_in_minutes);
+
+
+	for (i=0; i<=(btc_data.length - values_per_period); i++) {
 		
 		// define start and end indexes for main array
-		result += '<strong><u>Day ' + Math.floor((i+values_per_day)/values_per_day) + ' of ' + (btc_data.length/values_per_day) + '</u></strong> ';
-		result += '(increment ' + ((i % values_per_day)+1) + ' of ' + values_per_day + ') ';
-		result += 'testing slice: ' + i + ' --> ' + (i+values_per_day) + '<br />';
+		result += '<strong><u>Period ' + Math.floor((i+values_per_period)/values_per_period) + ' of ' + (btc_data.length/values_per_period) + ' ';
+		result += '(in '+hrs_in_period+' hr periods)</u></strong> ';
+		result += '(' + days_in_records + ' days) ';
+		result += '(increment ' + ((i % values_per_period)+1) + ' of ' + values_per_period + ') ';
+		result += 'testing slice: ' + i + ' --> ' + (i+values_per_period) + '<br />';
 
 		// get 24 hrs worth of data (As a slice of 144 values)
-		var data_to_be_tested = btc_data.slice(i, (i+values_per_day));
+		var data_to_be_tested = btc_data.slice(i, (i+values_per_period));
 
 		// run the decide algorithm on just this part
 		result += decideBuyOrSell(data_to_be_tested)
@@ -77,7 +82,7 @@ function testLoop() {
 function decideBuyOrSell(data_to_be_tested) {
 
 	var result = '';
-	var avg_24_hrs			= 0;
+	var avg_for_period		= 0;	// orig was 24 hrs 'avg_for_24_hrs'
 	var latest_buy_price	= 0;	// this will be the currect price we're evaluating
 	var latest_sell_price	= 0;	// this will be the currect price we're evaluating
 
@@ -93,10 +98,10 @@ function decideBuyOrSell(data_to_be_tested) {
 	for (j=0; j<data_to_be_tested.length; j++) {
 		sum += ((data_to_be_tested[j].value_buy+data_to_be_tested[j].value_sell)/2);
 	}
-	avg_24_hrs = (sum/data_to_be_tested.length).toFixed(2);
+	avg_for_period = (sum/data_to_be_tested.length).toFixed(2);
 
 	// print avg result to browser
-	result += 'average price for last 24 hrs is: $' + avg_24_hrs + '<br>';
+	result += 'average price for last 24 hrs is: $' + avg_for_period + '<br>';
 
 	//get latest price
 	latest_buy_price = data_to_be_tested[data_to_be_tested.length-1].value_buy;
@@ -107,8 +112,8 @@ function decideBuyOrSell(data_to_be_tested) {
 	result += 'latest sell price: $' + latest_sell_price.toFixed(2) + '<br>';
 
 
-	var avg_plus_high_threshold = (avg_24_hrs * (1 + high_threshold)).toFixed(2);
-	var avg_minus_low_threshold = (avg_24_hrs * (1 - low_threshold)).toFixed(2);
+	var avg_plus_high_threshold = (avg_for_period * (1 + high_threshold)).toFixed(2);
+	var avg_minus_low_threshold = (avg_for_period * (1 - low_threshold)).toFixed(2);
 
 	result += '(avg price plus high threshold is ' + avg_plus_high_threshold + ')<br />';
 	result += '(avg price minus low threshold is ' + avg_minus_low_threshold + ')<br />';
