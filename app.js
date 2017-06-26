@@ -42,17 +42,18 @@ function testLoop() {
 
 	var result = '';
 
-	var btc_data 			= require('./btc_data')	// 30 days of data (144*30 = 4320)
-	var values_per_day 		= 144;					// there are 144 10-min incremetns in a day
-	
+	var interval_in_minutes = 10	// minutes
 
-	 total_coins_owned 	= 0;
-	 buy_sell_unit 		= 100;
-	 total_spent		= 0;
-	 total_sold			= 0;
-	 total_transactions	 = 0;
-	 max_coins_ever_owned = 0;
-	 max_value_ever_owned = 0;
+	var btc_data 			= require('./btc_data')	// 30 days of data (144*30 = 4320)
+	var values_per_day 		= ((24*60)/interval_in_minutes); // 144; // there are 144 10-min incremetns in a day
+	
+	total_coins_owned 		= 0;
+	buy_sell_unit 			= 100;
+	total_spent				= 0;
+	total_sold				= 0;
+	total_transactions	 	= 0;
+	max_coins_ever_owned 	= 0;
+	max_value_ever_owned 	= 0;
 
 
 	for (i=0; i<=(btc_data.length - values_per_day); i++) {
@@ -79,12 +80,12 @@ function testLoop() {
 function decideBuyOrSell(data_to_be_tested) {
 
 	var result = '';
-	var avg_24_hrs		= 0;
+	var avg_24_hrs			= 0;
 	var latest_buy_price	= 0;	// this will be the currect price we're evaluating
 	var latest_sell_price	= 0;	// this will be the currect price we're evaluating
 
-	var high_threshold  = 0.08;	// as a %
-	var low_threshold 	= 0.08;	// as a %
+	var high_threshold  	= 0.08;	// as a %
+	var low_threshold 		= 0.08;	// as a %
 
 
 	// print length to browser to make sure correct
