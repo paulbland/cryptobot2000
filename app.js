@@ -107,7 +107,7 @@ function testLoop() {
 	var result = '';
 
 	var interval_in_minutes = 10	// how often data is collected in minutes
-	var hrs_in_period 		= 13; 	// working on full days = 24
+	var hrs_in_period 		= 12; 	// working on full days = 24
 
 	//var btc_data 			= require('./data/btc_data')	// 30 days of data (144*30 = 4320)
 	var btc_data 			= real_db_data	// real!
@@ -187,8 +187,8 @@ function decideBuyOrSell(data_to_be_tested) {
 	var avg_plus_high_threshold = (avg_for_period * (1 + high_threshold)).toFixed(2);
 	var avg_minus_low_threshold = (avg_for_period * (1 - low_threshold)).toFixed(2);
 
-	result += '(avg price plus high threshold is ' + avg_plus_high_threshold + ')<br />';
-	result += '(avg price minus low threshold is ' + avg_minus_low_threshold + ')<br />';
+	result += '(avg price plus high threshold ('+high_threshold+'%) is ' + avg_plus_high_threshold + ')<br />';
+	result += '(avg price minus low threshold ('+low_threshold+'%) is ' + avg_minus_low_threshold + ')<br />';
 
 	
 	if (latest_sell_price > avg_plus_high_threshold) {
