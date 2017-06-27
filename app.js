@@ -159,8 +159,8 @@ function decideBuyOrSell(data_to_be_tested) {
 	var latest_buy_price	= 0;	// this will be the currect price we're evaluating
 	var latest_sell_price	= 0;	// this will be the currect price we're evaluating
 
-	var high_threshold  	= 0.04;	// as a %
-	var low_threshold 		= 0.03;	// as a %
+	var high_threshold  	= 0.02;	// sell price  - as a %
+	var low_threshold 		= 0.03;	// buy price - as a %
 
 	// print length to browser to make sure correct
 	//result += 'length is: ' + data_to_be_tested.length + '<br>';
@@ -171,6 +171,9 @@ function decideBuyOrSell(data_to_be_tested) {
 		sum += ((data_to_be_tested[j].value_buy+data_to_be_tested[j].value_sell)/2);
 	}
 	avg_for_period = (sum/data_to_be_tested.length).toFixed(2);
+
+	// print result
+	result += 'data collected at: ' + data_to_be_tested[data_to_be_tested.length-1].datetime + '<br />';
 
 	// print avg result to browser
 	result += 'average price for last 24 hrs is: $' + avg_for_period + '<br>';
