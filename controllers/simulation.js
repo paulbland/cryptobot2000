@@ -16,15 +16,15 @@ module.exports = {
 	max_value_ever_owned	: null,
 	browser_output 			: '',
 	show_full_debug			: true,
-	sell_all				: true,
+	sell_all				: true,	// false means sell just one unit
 
 
 	runMultiple : function(price_data) {
 
+		var periods 	= [3, 6, 12, 24]
 		var low_values 	= [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
 		var high_values = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
-		var periods 	= [3, 6, 12, 24]
-
+		
 		this.show_full_debug = false;
 
 		for (x=0; x<periods.length; x++){
@@ -47,7 +47,7 @@ module.exports = {
 		this.max_coins_ever_owned 	= 0;
 		this.max_value_ever_owned 	= 0;
 
-		var values_per_period 		= ((hrs_in_period * 60) / this.interval_in_minutes); 	// 144; // there are 144 10-min incremetns in a day (24 hrs period)
+		var values_per_period 		= ((hrs_in_period * 60) / this.interval_in_minutes); 	// 144 10-min incremetns in a 24 hr period)
 		var days_in_records 		= ((price_data.length/24/60)*this.interval_in_minutes);
 		var total_iterations 		= (price_data.length - values_per_period)
 
@@ -59,8 +59,9 @@ module.exports = {
 			
 			// define start and end indexes for main array
 			if (this.show_full_debug) {
-				this.debug('<strong><u>Period ' + Math.floor((i+values_per_period)/values_per_period) + ' of ' + (price_data.length/values_per_period).toFixed(2) + ' ');
-				this.debug('(in '+hrs_in_period+' hr periods)</u></strong> ');
+				this.debug('<strong><u>Period ' + Math.floor((i+values_per_period)/values_per_period) + ' of ');
+				this.debug((price_data.length/values_per_period).toFixed(2));
+				this.debug(' (in '+hrs_in_period+' hr periods)</u></strong> ');
 				this.debug('(' + days_in_records.toFixed(2) + ' days) ');
 				this.debug('(increment ' + ((i % values_per_period)+1) + ' of ' + values_per_period + ') ');
 				this.debug('testing slice: ' + i + ' --> ' + (i+values_per_period) + '<br />');
@@ -146,7 +147,8 @@ module.exports = {
 
 		// final debug thing
 		if (final_iteration) {
-			this.debug('&gt; total position (coins+total sold-investments): <strong>$' + ((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent).toFixed(2) + '</strong><br /><br />');
+			this.debug('&gt; total position (coins+total sold-investments): <strong>$');
+			this.debug(((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent).toFixed(2) + '</strong><br /><br />');
 		}
 
 
@@ -171,7 +173,8 @@ module.exports = {
 		this.max_value_ever_owned = (value_of_coins_owned_right_now > this.max_value_ever_owned) ? value_of_coins_owned_right_now : this.max_value_ever_owned;
 
 		if (this.show_full_debug) {
-			this.debug('<span style="color:green">TRANSACTION: BUYING $' +  this.buy_sell_unit + ': ' + number_of_coins_to_buy + 'BTC  valued at $' + current_coin_price_buy + '</span><br />');
+			this.debug('<span style="color:green">TRANSACTION: BUYING $' +  this.buy_sell_unit + ': ' + number_of_coins_to_buy + 'BTC  valued at $');
+			this.debug(current_coin_price_buy + '</span><br />');
 		}
 
 	},
@@ -184,33 +187,23 @@ module.exports = {
 			return 'Don’t have any coins to sell! returning<br/>';
 		}
 
-		// SELL EVERYTHING
 		if (this.sell_all) {
-			var result_of_this_sale = (current_coin_price_sell*this.total_coins_owned)
-
-			if (this.show_full_debug) {
-				this.debug('<span style="color:red">TRANSACTION: SELL ALL COINS: ' +  this.total_coins_owned + ' BTC valued at $' + current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
-			}
-
-			this.total_coins_owned= 0;
-
+			var number_of_coins_to_sell = this.total_coins_owned						// SELL EVERYTHING
 		} else {
-
-			// SELL LIMIT
-			var number_of_coins_to_sell		= (this.buy_sell_unit/current_coin_price_sell)
-			var result_of_this_sale 		= (current_coin_price_sell*number_of_coins_to_sell)
-
-			if (this.show_full_debug) {
-				this.debug('<span style="color:red">TRANSACTION: SELL '+number_of_coins_to_sell+' COINS: ' +  this.total_coins_owned + ' BTC valued at $' + current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
-			}
-
-			this.total_coins_owned -= number_of_coins_to_sell;
+			var number_of_coins_to_sell = (this.buy_sell_unit/current_coin_price_sell)	// SELL LIMIT
 		}
-		
 
-		this.total_sold += result_of_this_sale;
+		var result_of_this_sale = (current_coin_price_sell*number_of_coins_to_sell)
+
+		if (this.show_full_debug) {
+			this.debug('<span style="color:red">TRANSACTION: SELL '+number_of_coins_to_sell+' COINS: ' +  this.total_coins_owned + ' BTC valued at $');
+			this.debug(current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
+		}
+
+		this.total_coins_owned 	-= number_of_coins_to_sell;
+		this.total_sold			+= result_of_this_sale;
+
 		this.total_transactions++;
-
 	
 	},
 
@@ -223,7 +216,8 @@ module.exports = {
 		this.debug('&gt; total coins owned value (as sell price) = $' + (this.total_coins_owned * current_coin_price_sell).toFixed(2) + '<br />');
 		this.debug('&gt; total money invested spent = $' + this.total_spent + '<br />');
 		this.debug('&gt; total sold = $' + this.total_sold.toFixed(2) + '<br />');
-		this.debug('&gt; total position (coins+total sold-investments): $'	+ ((this.total_coins_owned * current_coin_price_sell) + this.total_sold - this.total_spent).toFixed(2) + '<br />');
+		this.debug('&gt; total position (coins+total sold-investments): $');
+		this.debug(((this.total_coins_owned * current_coin_price_sell) + this.total_sold - this.total_spent).toFixed(2) + '<br />');
 		this.debug('&gt; total transactions ' + this.total_transactions + '<br />');
 		this.debug('&gt; max coins ever owned ' + this.max_coins_ever_owned + '<br />');
 		this.debug('&gt; max value ever owned $' + this.max_value_ever_owned.toFixed(2) + '<br /><br />');
