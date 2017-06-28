@@ -175,13 +175,13 @@ module.exports = {
 		if (this.sell_all) {
 			var number_of_coins_to_sell = this.total_coins_owned						// SELL EVERYTHING
 		} else {
-			var number_of_coins_to_sell = (this.buy_sell_unit/current_coin_price_sell)	// SELL LIMIT
+			var number_of_coins_to_sell = (this.buy_sell_unit / current_coin_price_sell)	// SELL LIMIT
 		}
 
-		var result_of_this_sale = (current_coin_price_sell*number_of_coins_to_sell)
+		var result_of_this_sale = (current_coin_price_sell * number_of_coins_to_sell)
 
 		if (this.show_full_debug) {
-			this.debug('<span style="color:red">TRANSACTION: SELL '+number_of_coins_to_sell+' COINS: ' +  this.total_coins_owned + ' BTC valued at $');
+			this.debug('<span style="color:red">TRANSACTION: SELL ' + number_of_coins_to_sell + ' COINS: ' +  this.total_coins_owned + ' BTC valued at $');
 			this.debug(current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
 		}
 
