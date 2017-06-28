@@ -2,13 +2,11 @@ var express 	= require('express');
 var app 		= express();
 var fs 			= require('fs');
 var path    	= require('path');
-
 var mongoose 	= require('mongoose');
 
+var simulation 	= require('./controllers/simulation')
+var tools 		= require('./controllers/tools')
 
-
-var simulation = require('./controllers/simulation.js')
-//var simulation = require('./controllers/simulation')
 
 
 
@@ -38,7 +36,8 @@ var PriceRecordSchema = new Schema({
 
 // Compile model from schema
 var PriceRecordModelBTC = mongoose.model('PriceRecordModelBTC', PriceRecordSchema);
-
+var PriceRecordModelETH = mongoose.model('PriceRecordModelETH', PriceRecordSchema);
+var PriceRecordModelLTC = mongoose.model('PriceRecordModelLTC', PriceRecordSchema);
 
 
 
@@ -52,13 +51,9 @@ app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname+'/index.html'));
 })
 
-// THE OLD ONE - without db connection
-// app.get('/sim-run-once', function(req, res) {
-// 	var result = runOnce();
-// 	res.send(result);
-// })
 
-// Not written yet
+
+// run the simulation many time - with all combinations of parameters
 app.get('/sim-run-multiple', function(req, res) {
 	
 	PriceRecordModelBTC.find({}, function(error, price_data){
@@ -75,7 +70,7 @@ app.get('/sim-run-multiple', function(req, res) {
 
 
 
-// This is the one! 
+// Run the simulation once - with specifica parameters
 app.get('/sim-run-once', function(req, res) {
 
 	PriceRecordModelBTC.find({}, function(error, price_data){
@@ -83,7 +78,6 @@ app.get('/sim-run-once', function(req, res) {
             res.json(error);
         }
         else {
-            // copy retund db object into dat object for texst script
     		
     		// set up some sample data here
     		// var price_data 		= require('./data/btc_data')	// 30 days of data (144*30 = 4320)
@@ -101,9 +95,9 @@ app.get('/sim-run-once', function(req, res) {
 
 
 // for creating random data. wont need this anymore probably
-// app.get('/create', function(req, res) {
-// 	createRandomData();
-// })
+app.get('/create-data', function(req, res) {
+	//tools.createRandomData();
+})
 
 app.listen(process.env.PORT, function() { 
 	console.log('running on port: ' + process.env.PORT)
@@ -125,39 +119,3 @@ app.listen(process.env.PORT, function() {
 
 
 
-
-function createRandomData() {
-
-	var buy_price;
-	var sell_price;
-
-	var difference = 0.02; // %
-
-	var result = 'module.exports = [';
-
-	for (i=0; i<(144*30); i++) {
-
-		buy_price 	= (2300 + (Math.random() * 600)).toFixed(6);
-		sell_price 	= (buy_price * (1 - difference)).toFixed(6);
-
-		result += '{datetime: "xxx", value_buy : ' + buy_price + ', value_sell : ' + sell_price + '}';
-
-		if (i != ((144*90)-1)) {
-			result += ',\n';
-		}
-
-	}
-
-	result += ']';
-
-
-	fs.writeFile("btc_data.js", result, function(err) {
-	    if(err) {
-	        return console.log(err);
-	    }
-
-	    console.log("The file was saved!");
-	}); 
-
-
-}

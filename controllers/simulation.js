@@ -1,21 +1,22 @@
 module.exports = {
 
-
-
 	// Variables accessed globally defined here
-
 	// not changed by refresh!!?!?!
 
-	total_coins_owned 	: null,
-	buy_sell_unit 		: null,
-	total_spent 		: null,
-	total_sold 			: null,
-	total_transactions 	: null,
-	max_coins_ever_owned: null,
-	max_value_ever_owned: null,
-	browser_output 		: '',
-	show_full_debug		: true,
+	// these are constant vars thoughout entire simulation
+	interval_in_minutes 	: 10,	// how often data is collected in minutes
+	buy_sell_unit 			: 100,
 
+	// these are here because they must be visible globally, even though are updated throughout iterations
+	total_coins_owned 		: null,
+	total_spent 			: null,
+	total_sold 				: null,
+	total_transactions 		: null,
+	max_coins_ever_owned	: null,
+	max_value_ever_owned	: null,
+	browser_output 			: '',
+	show_full_debug			: true,
+	sell_all				: true,
 
 
 	runMultiple : function(price_data) {
@@ -26,41 +27,35 @@ module.exports = {
 
 		this.show_full_debug = false;
 
-		for (i1=0; i1<low_values.length; i1++){
-			for (i2=0; i2<high_values.length; i2++){
-				for (i3=0; i3<periods.length; i3++){
-					this.runOnce(periods[i3], low_values[i1], high_values[i2], price_data)
+		for (x=0; x<periods.length; x++){
+			for (y=0; y<low_values.length; y++){
+				for (z=0; z<high_values.length; z++){		
+					this.runOnce(periods[x], low_values[y], high_values[z], price_data)
 				}
 			}
-
 		}
-
 	},
 
 
 	runOnce : function(hrs_in_period, low_threshold, high_threshold, price_data) {
 
-		var interval_in_minutes		= 10												// how often data is collected in minutes
-		var values_per_period 		= ((hrs_in_period * 60) / interval_in_minutes); 	// 144; // there are 144 10-min incremetns in a day (24 hrs period)
-		var days_in_records 		= ((price_data.length/24/60)*interval_in_minutes);
-
-		// need to be reset here because for some reason dont change on refresh?!?
+		// these vars are relative to the current single simulation, and will be reset for ecah run
 		this.total_coins_owned 		= 0;
-		this.buy_sell_unit 			= 100;
 		this.total_spent			= 0;
 		this.total_sold				= 0;
 		this.total_transactions	 	= 0;
 		this.max_coins_ever_owned 	= 0;
 		this.max_value_ever_owned 	= 0;
 
+		var values_per_period 		= ((hrs_in_period * 60) / this.interval_in_minutes); 	// 144; // there are 144 10-min incremetns in a day (24 hrs period)
+		var days_in_records 		= ((price_data.length/24/60)*this.interval_in_minutes);
+		var total_iterations 		= (price_data.length - values_per_period)
+
 		this.debug('analyzing: ' + price_data.length + ' values ('+days_in_records.toFixed(2)+' days)<br />');
-		this.debug('hrs_in_period: ' + hrs_in_period+' ');
-		this.debug('low_threshold: ' + low_threshold+' ');
-		this.debug('high_threshold: ' + high_threshold+'<br />');
+		this.debug('hrs_in_period: ' + hrs_in_period+' low_threshold: ' + low_threshold+' high_threshold: ' + high_threshold+'<br />');
 
-		var limit = (price_data.length - values_per_period)
-
-		for (i=0; i<=limit; i++) {
+		// loop the data
+		for (i=0; i<=total_iterations; i++) {
 			
 			// define start and end indexes for main array
 			if (this.show_full_debug) {
@@ -75,7 +70,7 @@ module.exports = {
 			// actually not just 24 hrs anymore. "a period" of 24 hrs )For example) is 144 values
 			var data_to_be_tested = price_data.slice(i, (i+values_per_period));
 
-			var final_iteration = (i === limit) ? true : false;
+			var final_iteration = (i === total_iterations) ? true : false;
 
 			// run the decide algorithm on just this part
 			this.decideBuyOrSell(data_to_be_tested, low_threshold, high_threshold, final_iteration)
@@ -85,7 +80,7 @@ module.exports = {
 
 
 	/* 
-	* this function takes a slide of the array (144 values for a day, less for other periods) and decides on selling or buying
+	* this function takes a slide of the array (144 values for a day, fewer for other periods) and decides on selling or buying
 	*/
 	decideBuyOrSell: function(data_to_be_tested, low_threshold, high_threshold, final_iteration) {
 
@@ -190,16 +185,32 @@ module.exports = {
 		}
 
 		// SELL EVERYTHING
+		if (this.sell_all) {
+			var result_of_this_sale = (current_coin_price_sell*this.total_coins_owned)
 
-		var result_of_this_sale 		= (current_coin_price_sell*this.total_coins_owned)
-		this.total_sold 				+= result_of_this_sale;
+			if (this.show_full_debug) {
+				this.debug('<span style="color:red">TRANSACTION: SELL ALL COINS: ' +  this.total_coins_owned + ' BTC valued at $' + current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
+			}
+
+			this.total_coins_owned= 0;
+
+		} else {
+
+			// SELL LIMIT
+			var number_of_coins_to_sell		= (this.buy_sell_unit/current_coin_price_sell)
+			var result_of_this_sale 		= (current_coin_price_sell*number_of_coins_to_sell)
+
+			if (this.show_full_debug) {
+				this.debug('<span style="color:red">TRANSACTION: SELL '+number_of_coins_to_sell+' COINS: ' +  this.total_coins_owned + ' BTC valued at $' + current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
+			}
+
+			this.total_coins_owned -= number_of_coins_to_sell;
+		}
+		
+
+		this.total_sold += result_of_this_sale;
 		this.total_transactions++;
 
-		if (this.show_full_debug) {
-			this.debug('<span style="color:red">TRANSACTION: SELL ALL COINS: ' +  this.total_coins_owned + ' BTC valued at $' + current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
-		}
-
-		this.total_coins_owned 	= 0;
 	
 	},
 
