@@ -50,6 +50,7 @@ var PriceRecordModelLTC = mongoose.model('PriceRecordModelLTC', PriceRecordSchem
 
 
 
+
 // INDEX - nothing there
 app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname+'/index.html'));

@@ -59,8 +59,8 @@ module.exports = {
 			
 			// define start and end indexes for main array
 			if (this.show_full_debug) {
-				this.debug('<strong><u>Period ' + Math.floor((i+values_per_period)/values_per_period) + ' of ');
-				this.debug((price_data.length/values_per_period).toFixed(2));
+				this.debug('<strong><u>Period ' + Math.floor((i + values_per_period) / values_per_period) + ' of ');
+				this.debug((price_data.length / values_per_period).toFixed(2));
 				this.debug(' (in ' + hrs_in_period + ' hr periods)</u></strong> ');
 				this.debug('(' + days_in_records.toFixed(2) + ' days) ');
 				this.debug('(increment ' + ((i % values_per_period) + 1) + ' of ' + values_per_period + ') ');
@@ -131,7 +131,7 @@ module.exports = {
 
 		var sum = 0;
 
-		for (j=0; j<data_to_be_tested.length; j++) {
+		for (j=0; j < data_to_be_tested.length; j++) {
 			sum += ((data_to_be_tested[j].value_buy + data_to_be_tested[j].value_sell) / 2);
 		}
 		return (sum/data_to_be_tested.length).toFixed(2); // orig was 24 hrs 'avg_for_24_hrs'
@@ -144,7 +144,7 @@ module.exports = {
 		// i think this line will mean you only make one purchase at a time
 		//if (this.total_coins_owned > 0) return false;
 
-		var number_of_coins_to_buy 	= (this.buy_sell_unit/current_coin_price_buy)
+		var number_of_coins_to_buy 	= (this.buy_sell_unit / current_coin_price_buy)
 
 		this.total_coins_owned 			+= number_of_coins_to_buy;
 		this.total_spent 				+= this.buy_sell_unit;
@@ -187,7 +187,6 @@ module.exports = {
 
 		this.total_coins_owned 	-= number_of_coins_to_sell;
 		this.total_sold			+= result_of_this_sale;
-
 		this.total_transactions++;
 	
 	},
