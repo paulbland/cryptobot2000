@@ -147,8 +147,7 @@ module.exports = {
 
 		// final debug thing
 		if (final_iteration) {
-			this.debug('&gt; total position (coins+total sold-investments): <strong>$');
-			this.debug(((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent).toFixed(2) + '</strong><br /><br />');
+			this.debug('<strong>final profit: $' + ((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent).toFixed(2) + '</strong><br /><br />');
 		}
 
 
