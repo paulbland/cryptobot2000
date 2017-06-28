@@ -60,31 +60,40 @@ app.get('/', function(req, res) {
 
 // Not written yet
 app.get('/sim-run-multiple', function(req, res) {
-	var result = simRunMultiple();
-	res.send(result);
+	
+	PriceRecordModelBTC.find({}, function(error, price_data){
+   		if (error) {
+            res.json(error);
+        }
+        else {
+        	simulation.browser_output = '';
+    		simulation.runMultiple(price_data);
+			res.send(simulation.browser_output);
+        }
+	});
 })
+
 
 
 // This is the one! 
 app.get('/sim-run-once', function(req, res) {
 
-	PriceRecordModelBTC.find({}, function(error, data){
+	PriceRecordModelBTC.find({}, function(error, price_data){
    		if (error) {
             res.json(error);
         }
         else {
             // copy retund db object into dat object for texst script
     		
-
-    		// set up some sample data here...?
-    		//var price_data 			= require('./data/btc_data')	// 30 days of data (144*30 = 4320)
-    		var price_data 			= data;
-    		var hrs_in_period 		= 12; 	// working on full days = 24
-    		var low_threshold 		= 0.03;	// buy price - as a %
-			var high_threshold  	= 0.02;	// sell price  - as a %
+    		// set up some sample data here
+    		// var price_data 		= require('./data/btc_data')	// 30 days of data (144*30 = 4320)
+    		var hrs_in_period 		= 12; 		// working on full days = 24
+    		var low_threshold 		= 0.01;		// buy price - as a %
+			var high_threshold  	= 0.06;		// sell price  - as a %
 
     		// run the test! and send result to brwoser
-    		var result = simulation.runOnce(hrs_in_period, low_threshold, high_threshold, price_data);
+    		simulation.browser_output = '';
+    		simulation.runOnce(hrs_in_period, low_threshold, high_threshold, price_data);
 			res.send(simulation.browser_output);
         }
 	});
@@ -99,29 +108,6 @@ app.get('/sim-run-once', function(req, res) {
 app.listen(process.env.PORT, function() { 
 	console.log('running on port: ' + process.env.PORT)
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * this function sets up all parameters and runs the decideSellOrBuy fn for each period
- */
-
-
-
 
 
 

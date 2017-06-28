@@ -14,12 +14,26 @@ module.exports = {
 	max_coins_ever_owned: null,
 	max_value_ever_owned: null,
 	browser_output 		: '',
-	show_full_debug		: false,
+	show_full_debug		: true,
 
 
 
-	runMultiple : function() {
+	runMultiple : function(price_data) {
 
+		var low_values 	= [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
+		var high_values = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
+		var periods 	= [3, 6, 12, 24]
+
+		this.show_full_debug = false;
+
+		for (i1=0; i1<low_values.length; i1++){
+			for (i2=0; i2<high_values.length; i2++){
+				for (i3=0; i3<periods.length; i3++){
+					this.runOnce(periods[i3], low_values[i1], high_values[i2], price_data)
+				}
+			}
+
+		}
 
 	},
 
@@ -38,12 +52,11 @@ module.exports = {
 		this.total_transactions	 	= 0;
 		this.max_coins_ever_owned 	= 0;
 		this.max_value_ever_owned 	= 0;
-		this.browser_output			= '';
 
 		this.debug('analyzing: ' + price_data.length + ' values ('+days_in_records.toFixed(2)+' days)<br />');
-		this.debug('hrs_in_period: ' + hrs_in_period+'<br />');
-		this.debug('low_threshold: ' + low_threshold+'<br />');
-		this.debug('high_threshold: ' + high_threshold+'<br /><br />');
+		this.debug('hrs_in_period: ' + hrs_in_period+' ');
+		this.debug('low_threshold: ' + low_threshold+' ');
+		this.debug('high_threshold: ' + high_threshold+'<br />');
 
 		var limit = (price_data.length - values_per_period)
 
@@ -74,7 +87,7 @@ module.exports = {
 	/* 
 	* this function takes a slide of the array (144 values for a day, less for other periods) and decides on selling or buying
 	*/
-	decideBuyOrSell : function(data_to_be_tested, low_threshold, high_threshold, final_iteration) {
+	decideBuyOrSell: function(data_to_be_tested, low_threshold, high_threshold, final_iteration) {
 
 		// print length to browser to make sure correct
 		//this.browser_output += 'length is: ' + data_to_be_tested.length + '<br>';
@@ -132,8 +145,13 @@ module.exports = {
 			}
 		}
 
-		if (this.show_full_debug || final_iteration) {
+		if (this.show_full_debug) {
 			this.printCurrentPosition(latest_buy_price, latest_sell_price);
+		}
+
+		// final debug thing
+		if (final_iteration) {
+			this.debug('&gt; total position (coins+total sold-investments): <strong>$' + ((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent).toFixed(2) + '</strong><br /><br />');
 		}
 
 
