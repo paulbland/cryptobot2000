@@ -9,44 +9,31 @@ var tools 		= require('./controllers/tools')
 
 
 
+// SET TEMPLATING
 app.set('view engine', 'ejs');
 app.set('views',__dirname + '/views');
 
 
 
 
-
-
 // DATABASE
-
-// Set up default mongoose connection
-mongoose.connect(process.env.MONGODB_URI);
-
-// Get the default connection
-mongoose.Promise = global.Promise;
-var db = mongoose.connection;
-
-// Bind connection to error event (to get notification of connection errors)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-// Define a schema
-var Schema = mongoose.Schema;
-
-var PriceRecordSchema = new Schema({
-    datetime	: Date,
-    value_sell 	: Number,
-    value_buy 	: Number
-});
-
-// Compile model from schema
-var PriceRecordModelBTC = mongoose.model('PriceRecordModelBTC', PriceRecordSchema);
-var PriceRecordModelETH = mongoose.model('PriceRecordModelETH', PriceRecordSchema);
-var PriceRecordModelLTC = mongoose.model('PriceRecordModelLTC', PriceRecordSchema);
-
-// var price_data 		= require('./data/btc_data')	// 30 days of data (144*30 = 4320)
+mongoose.connect(process.env.MONGODB_URI);          // Set up default mongoose connection
+mongoose.Promise = global.Promise;                  // fix promise thing
+//var db = mongoose.connection;                     // Get the default connection
+//db.on('error', console.error.bind(console, 'MongoDB connection error:')); // Bind connection to error event (to get notification of connection errors)
 
 
 
+
+// GET MODELS
+var PriceRecordModelBTC = require('./models/pricerecordmodelbtc')
+var PriceRecordModelETH = require('./models/pricerecordmodeleth')
+var PriceRecordModelLTC = require('./models/pricerecordmodelltc')
+
+
+
+// STATIC DATA
+// var price_data       = require('./data/btc_data')    // 30 days of data (144*30 = 4320)
 
 
 
