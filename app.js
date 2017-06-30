@@ -71,7 +71,7 @@ app.get('/sim-run-once', function(req, res) {
         }
         else {
     		simulation.browser_output = '';
-    		simulation.runOnce(12, 0.01, 0.06, price_data);
+    		simulation.runSingle(12, 0.01, 0.06, price_data);
 			res.render('result', {
 				data : simulation.browser_output
 			});

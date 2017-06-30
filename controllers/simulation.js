@@ -19,7 +19,16 @@ module.exports = {
 	sell_all				: true,	// false means sell just one unit
 
 
+
+	printSummary: function(price_data) {
+		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
+		this.debug('<strong>analyzing: ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days)</strong><br /><br />');
+	},
+
+
 	runMultiple : function(price_data) {
+
+		this.printSummary(price_data);
 
 		var periods 	= [3, 6, 12, 24]
 		var low_values 	= [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
@@ -36,6 +45,10 @@ module.exports = {
 		}
 	},
 
+	runSingle: function(hrs_in_period, low_threshold, high_threshold, price_data) {
+		this.printSummary(price_data);
+		this.runOnce(hrs_in_period, low_threshold, high_threshold, price_data)
+	},
 
 	runOnce : function(hrs_in_period, low_threshold, high_threshold, price_data) {
 
@@ -48,10 +61,8 @@ module.exports = {
 		this.max_value_ever_owned 	= 0;
 
 		var values_per_period 		= ((hrs_in_period * 60) / this.interval_in_minutes); 	// 144 10-min incremetns in a 24 hr period)
-		var days_in_records 		= ((price_data.length / 24 / 60) * this.interval_in_minutes);
 		var total_iterations 		= (price_data.length - values_per_period)
 
-		this.debug('analyzing: ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days)<br />');
 		this.debug('hrs_in_period: ' + hrs_in_period + ' low_threshold: ' + low_threshold + ' high_threshold: ' + high_threshold + '<br />');
 
 		// loop the data
@@ -62,7 +73,7 @@ module.exports = {
 				this.debug('<strong><u>Period ' + Math.floor((i + values_per_period) / values_per_period) + ' of ');
 				this.debug((price_data.length / values_per_period).toFixed(2));
 				this.debug(' (in ' + hrs_in_period + ' hr periods)</u></strong> ');
-				this.debug('(' + days_in_records.toFixed(2) + ' days) ');
+				//this.debug('(' + days_in_records.toFixed(2) + ' days) ');
 				this.debug('(increment ' + ((i % values_per_period) + 1) + ' of ' + values_per_period + ') ');
 				this.debug('testing slice: ' + i + ' --> ' + (i + values_per_period) + '<br />');
 			}
@@ -121,7 +132,8 @@ module.exports = {
 
 		// final debug thing
 		if (final_iteration) {
-			this.debug('<strong>final profit: $' + ((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent).toFixed(2) + '</strong><br /><br />');
+			this.debug('<strong>final profit: $' + ((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent).toFixed(2) + '</strong>');
+			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br /><br />');
 		}
 
 	},
