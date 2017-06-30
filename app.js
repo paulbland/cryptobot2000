@@ -32,10 +32,6 @@ var PriceRecordModelLTC = require('./models/pricerecordmodelltc')
 
 
 
-// STATIC DATA
-// var price_data       = require('./data/btc_data')    // 30 days of data (144*30 = 4320)
-
-
 
 
 // INDEX - nothing there
@@ -46,13 +42,14 @@ app.get('/', function(req, res) {
 
 // run the simulation many time - with all combinations of parameters
 app.get('/sim-run-multiple', function(req, res) {
+
+	simulation.browser_output = '';
 	
 	PriceRecordModelBTC.find({}, function(error, price_data){
    		if (error) {
             res.json(error);
         }
         else {
-        	simulation.browser_output = '';
     		simulation.runMultiple(price_data);
 			res.render('result', {
 				data : simulation.browser_output
@@ -62,16 +59,34 @@ app.get('/sim-run-multiple', function(req, res) {
 })
 
 
+
+// Run the simulation once - with specifica parameters
+app.get('/sim-run-once-static', function(req, res) {
+
+	simulation.browser_output 	= '';
+	var price_data 				= require('./data/btc_data')    // 30 days of data (144*30 = 4320)
+
+    simulation.runSingle(24, 24, 0.01, 0.06, price_data);
+	res.render('result', {
+		data : simulation.browser_output
+	});
+    
+})
+
+
+
+
 // Run the simulation once - with specifica parameters
 app.get('/sim-run-once', function(req, res) {
 
+	simulation.browser_output = '';
+	
 	PriceRecordModelBTC.find({}, function(error, price_data){
    		if (error) {
             res.json(error);
         }
         else {
-    		simulation.browser_output = '';
-    		simulation.runSingle(12, 0.01, 0.06, price_data);
+    		simulation.runSingle(12, 0, 0.01, 0.06, price_data);
 			res.render('result', {
 				data : simulation.browser_output
 			});
