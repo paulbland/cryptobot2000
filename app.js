@@ -41,7 +41,7 @@ app.get('/', function(req, res) {
 
 
 // run the simulation many time - with all combinations of parameters
-app.get('/sim-run-multiple', function(req, res) {
+app.get('/run-simulation', function(req, res) {
 
 	simulation.browser_output = '';
 	
@@ -50,9 +50,9 @@ app.get('/sim-run-multiple', function(req, res) {
             res.json(error);
         }
         else {
-    		simulation.runMultiple(price_data);
+    		simulation.runFullSimulation(price_data);
 			res.render('result', {
-				data : simulation.browser_output
+				data: simulation.browser_output
 			});
         }
 	});
@@ -61,23 +61,23 @@ app.get('/sim-run-multiple', function(req, res) {
 
 
 // Run the simulation once - with specifica parameters
-app.get('/sim-run-once-static', function(req, res) {
+// app.get('/sim-run-once-static', function(req, res) {
 
-	simulation.browser_output 	= '';
-	var price_data 				= require('./data/btc_data')    // 30 days of data (144*30 = 4320)
+// 	simulation.browser_output 	= '';
+// 	var price_data 				= require('./data/btc_data')    // 30 days of data (144*30 = 4320)
 
-    simulation.runSingle(24, 24, 0.01, 0.06, price_data);
-	res.render('result', {
-		data : simulation.browser_output
-	});
+//     simulation.runSingleSimulation(24, 24, 0.01, 0.06, price_data);
+// 	res.render('result', {
+// 		data : simulation.browser_output
+// 	});
     
-})
+// })
 
 
 
 
 // Run the simulation once - with specifica parameters
-app.get('/sim-run-once', function(req, res) {
+app.get('/run-simulation-single', function(req, res) {
 
 	simulation.browser_output = '';
 	
@@ -86,9 +86,9 @@ app.get('/sim-run-once', function(req, res) {
             res.json(error);
         }
         else {
-    		simulation.runSingle(12, 0, 0.01, 0.06, price_data);
+    		simulation.runSingleSimulation(12, 24, 0.03, 0.01, price_data);
 			res.render('result', {
-				data : simulation.browser_output
+				data: simulation.browser_output
 			});
         }
 	});
@@ -96,9 +96,9 @@ app.get('/sim-run-once', function(req, res) {
 
 
 // for creating random data. wont need this anymore probably
-app.get('/create-data', function(req, res) {
-	//tools.createRandomData();
-})
+// app.get('/create-data', function(req, res) {
+// 	tools.createRandomData();
+// })
 
 app.listen(process.env.PORT, function() { 
 	console.log('running on port: ' + process.env.PORT)

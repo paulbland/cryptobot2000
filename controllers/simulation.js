@@ -16,7 +16,7 @@ module.exports = {
 	max_value_ever_owned	: null,
 	browser_output 			: '',
 	show_full_debug			: true,
-	sell_all				: true,	// false means sell just one unit
+	sell_all				: false,	// false means sell just one unit
 
 
 
@@ -26,7 +26,7 @@ module.exports = {
 	},
 
 
-	runMultiple: function(price_data) {
+	runFullSimulation: function(price_data) {
 
 		this.printSummary(price_data);
 
@@ -48,10 +48,12 @@ module.exports = {
 		}
 	},
 
-	runSingle: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
+
+	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 		this.printSummary(price_data);
 		this.runOnce(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 	},
+
 
 	runOnce: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
@@ -111,6 +113,8 @@ module.exports = {
 	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, final_iteration) {
 
 		var avg_for_period 			= this.calculateAverage(data_to_be_tested)						// get avg for period
+		var high_for_period 		= this.calculateHigh(data_to_be_tested)						// get avg for period
+		var low_for_period 			= this.calculateLow(data_to_be_tested)						// get avg for period
 		var avg_plus_high_threshold = (avg_for_period * (1 + high_threshold)).toFixed(2);
 		var avg_minus_low_threshold = (avg_for_period * (1 - low_threshold)).toFixed(2);
 
@@ -145,22 +149,47 @@ module.exports = {
 
 		// final debug thing
 		if (final_iteration) {
-			this.debug('<strong>final profit: $' + ((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent).toFixed(2) + '</strong> ');
-			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br /><br />');
+			var final_profit = ((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent)
+			this.debug('<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ');
+			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br />');
+			this.debug('invested:profit ratio: ' + (this.max_value_ever_owned / final_profit).toFixed(2) + '<br /><br />')
 		}
 
 	},
 
 
 	calculateAverage: function(data_to_be_tested) {
-
 		var sum = 0;
 
 		for (j=0; j < data_to_be_tested.length; j++) {
 			sum += ((data_to_be_tested[j].value_buy + data_to_be_tested[j].value_sell) / 2);
 		}
 		return (sum/data_to_be_tested.length).toFixed(2); // orig was 24 hrs 'avg_for_24_hrs'
+	},
 
+
+	// return highest sell price
+	calculateHigh: function(data_to_be_tested) {
+		var highest = 0
+
+		for (j=0; j < data_to_be_tested.length; j++) {
+			highest = (data_to_be_tested[j].value_sell > highest) ? data_to_be_tested[j].value_sell : highest;
+		}
+
+		return highest;
+	},
+
+
+	calculateLow: function(data_to_be_tested) {
+		// return lowest buy price
+
+		var lowest = data_to_be_tested[0].value_buy;
+
+		for (j=0; j < data_to_be_tested.length; j++) {
+			lowest = (data_to_be_tested[j].value_buy < lowest) ? data_to_be_tested[j].value_buy : lowest;
+		}
+
+		return lowest;
 	},
 
 
@@ -194,25 +223,36 @@ module.exports = {
 	 sellCoin: function(current_coin_price_sell) {
 
 		if (this.total_coins_owned === 0) {
-			return 'Don’t have any coins to sell! returning<br/>';
+			if (this.show_full_debug) {
+				this.debug('you don’t have any coins to sell!')
+			}
+			return;
 		}
 
 		if (this.sell_all) {
 			var number_of_coins_to_sell = this.total_coins_owned						// SELL EVERYTHING
 		} else {
 			var number_of_coins_to_sell = (this.buy_sell_unit / current_coin_price_sell)	// SELL LIMIT
+
+			if (number_of_coins_to_sell > this.total_coins_owned) {
+				number_of_coins_to_sell = this.total_coins_owned
+			}
 		}
 
 		var result_of_this_sale = (current_coin_price_sell * number_of_coins_to_sell)
 
 		if (this.show_full_debug) {
-			this.debug('<span style="color:red">TRANSACTION: SELL ' + number_of_coins_to_sell + ' COINS: ' +  this.total_coins_owned + ' BTC valued at $');
+			this.debug('<span style="color:red">TRANSACTION: SELL ' + number_of_coins_to_sell + ' of my ' +  this.total_coins_owned + ' COINS valued at $');
 			this.debug(current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
 		}
 
 		this.total_coins_owned 	-= number_of_coins_to_sell;
 		this.total_sold			+= result_of_this_sale;
 		this.total_transactions++;
+
+
+
+
 	
 	},
 
