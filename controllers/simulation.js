@@ -15,8 +15,9 @@ module.exports = {
 	max_coins_ever_owned	: null,
 	max_value_ever_owned	: null,
 	browser_output 			: '',
+	chart_data 				: '',
 	show_full_debug			: true,
-	sell_all				: true,		// false means sell just one unit
+	sell_all				: false,		// false means sell just one unit
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
 
 
@@ -42,10 +43,10 @@ module.exports = {
 
 		} else if (this.buy_sell_method === 'peak') {
 
-			var periods 	= [12, 24, 48];
-			var offsets 	= [0];
-			var low_values 	= [0.001, 0.003, 0.005, 0.007, 0.009, 0.01];
-			var high_values = [0.001, 0.003, 0.005, 0.007, 0.009, 0.01];
+			var periods 	= [24, 36, 48, 72];
+			var offsets 	= [0]; // offsets dont make sense here.. i dont think?
+			var low_values 	= [0.020, 0.021, 0.022, 0.023, 0.024, 0.025];
+			var high_values = [0.020, 0.021, 0.022, 0.023, 0.024, 0.025];
 
 		} else {
 			return;
@@ -67,6 +68,7 @@ module.exports = {
 
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 		this.browser_output = '';
+		this.chart_data 	= '';
 		this.printSummary(price_data);
 		this.runOnce(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 	},
@@ -94,15 +96,6 @@ module.exports = {
 		// loop the data
 		for (i=0; i<=total_iterations; i++) {
 			
-			// define start and end indexes for main array
-			if (this.show_full_debug) {
-				this.debug('<strong><u>Period ' + Math.floor((i + values_per_period) / values_per_period) + ' of ');
-				this.debug((price_data.length / values_per_period).toFixed(2));
-				this.debug(' (in ' + hrs_in_period + ' hr periods)</u></strong> ');
-				this.debug('(increment ' + ((i % values_per_period) + 1) + ' of ' + values_per_period + ') ');
-				this.debug('testing slice: ' + i + ' --> ' + (i + values_per_period) + '<br />');
-			}
-
 			// get 24 hrs worth of data (As a slice of 144 values)
 			// actually not just 24 hrs anymore. "a period" of 24 hrs )For example) is 144 values
 			var data_to_be_tested 	= price_data.slice(i, (i + values_per_period));
@@ -116,18 +109,30 @@ module.exports = {
 			var this_index 			= (i + values_per_period + values_in_offset - 1)
 			var latest_buy_price 	= price_data[this_index].value_buy;		// this will be the currect price we're evaluating
 			var latest_sell_price 	= price_data[this_index].value_sell;	// this will be the currect price we're evaluating
+			var current_date	 	= price_data[this_index].datetime
+
+			// define start and end indexes for main array
+			if (this.show_full_debug) {
+				this.debug('<strong><u>Period ' + Math.floor((i + values_per_period) / values_per_period) + ' of ');
+				this.debug((price_data.length / values_per_period).toFixed(2));
+				this.debug(' (in ' + hrs_in_period + ' hr periods)</u></strong> ');
+				this.debug('(increment ' + ((i % values_per_period) + 1) + ' of ' + values_per_period + ') ');
+				this.debug('analyzing slice: ' + i + ' --> ' + (i + values_per_period) + '<br />');
+				this.debug('this_index: ' + this_index + '<br />');
+				this.debug('offset: ' + offset + '<br />');
+				this.debug('values_in_offset: ' + values_in_offset + '<br />');
+			}
 
 			// run the decide algorithm on just this part
-			this.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, final_iteration)
+			this.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, final_iteration, current_date)
 		}
-
 	},
 
 
 	/* 
 	* this function takes a slide of the array (144 values for a day, fewer for other periods) and decides on selling or buying
 	*/
-	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, final_iteration) {
+	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, final_iteration, current_date) {
 
 		var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
 		var avg_plus_high_threshold 	= (avg_for_period * (1 + high_threshold)).toFixed(2);
@@ -171,22 +176,10 @@ module.exports = {
 				this.debug('low_plus_low_threshold is: $' + low_plus_low_threshold + '<br>');// print avg result to browser
 			}
 
-
-
 		} else {
 			return;
 		}
  
-
-// value to test = 1600
-
-
-// high/sell
-// 1800 * (1 - 0.05) = 1710
-
-
-// low/buy
-// 1400 * (1 + 0.05) = 1470
 
 
 
@@ -211,10 +204,18 @@ module.exports = {
 			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br />');
 			this.debug('invested:profit ratio: ' + (this.max_value_ever_owned / final_profit).toFixed(2) + '<br /><br />')
 
-			if (final_profit > 400) { this.debug('OVER 400<br />'); }
-			if (final_profit > 500) { this.debug('OVER 500<br />'); }
-			if (final_profit > 600) { this.debug('OVER 600<br />'); }
+			if (final_profit > 300) { this.debug('OVER $300<br />'); }
+			if (final_profit > 400) { this.debug('OVER $400<br />'); }
+			if (final_profit > 500) { this.debug('OVER $500<br />'); }
+			if (final_profit > 600) { this.debug('OVER $600<br />'); }
 		}
+
+		this.chart_data += '"' + current_date + '",';
+		this.chart_data += latest_buy_price + ',';
+		this.chart_data += (buy) ? 'buy,' : ',';
+		this.chart_data += latest_sell_price + ',';
+		this.chart_data += (sell) ? 'sell' : '';
+		this.chart_data += '<br />';
 
 	},
 
@@ -230,24 +231,25 @@ module.exports = {
 
 
 	// return highest sell price
+	// *****IT IS USING BUY PRICE! which should it be?
 	calculateHigh: function(data_to_be_tested) {
 		var highest = 0
 
 		for (j=0; j < data_to_be_tested.length; j++) {
-			highest = (data_to_be_tested[j].value_sell > highest) ? data_to_be_tested[j].value_sell : highest;
+			highest = (data_to_be_tested[j].value_buy > highest) ? data_to_be_tested[j].value_buy : highest;
 		}
 
 		return highest;
-	},
+	}, 
 
 
 	calculateLow: function(data_to_be_tested) {
 		// return lowest buy price
 
-		var lowest = data_to_be_tested[0].value_buy;
+		var lowest = data_to_be_tested[0].value_sell;
 
 		for (j=0; j < data_to_be_tested.length; j++) {
-			lowest = (data_to_be_tested[j].value_buy < lowest) ? data_to_be_tested[j].value_buy : lowest;
+			lowest = (data_to_be_tested[j].value_sell < lowest) ? data_to_be_tested[j].value_sell : lowest;
 		}
 
 		return lowest;
@@ -315,6 +317,14 @@ module.exports = {
 
 
 	
+	},
+
+
+	printGraphData: function(price_data) {
+		this.browser_output = '';
+		for (a=0; a < price_data.length; a++) {
+			this.browser_output += '"' + price_data[a].datetime + '",' + price_data[a].value_sell + ',' + price_data[a].value_buy + '<br />';
+		}
 	},
 
 

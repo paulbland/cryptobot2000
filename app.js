@@ -50,7 +50,8 @@ app.get('/run-simulation', function(req, res) {
         else {
     		simulation.runFullSimulation(price_data);
 			res.render('result', {
-				data: simulation.browser_output
+				data 		: simulation.browser_output,
+				chart_data 	: simulation.chart_data
 			});
         }
 	});
@@ -65,14 +66,45 @@ app.get('/run-simulation-single', function(req, res) {
             res.json(error);
         }
         else {
-    		simulation.runSingleSimulation(6, 12, 0.01, 0.05, price_data);
+
+    		// this is great for 'peak' sim
+    		//simulation.runSingleSimulation(24, 0, 0.0231, 0.0195, price_data); //low(buy), high(sell) 
+
+    		// this is great for 'avg' sim
+    		// (might be good long term (eg months)
+    		//simulation.runSingleSimulation(6, 12, 0.07, 0.07, price_data);  
+
+    		// this makes the most money so far
+    		simulation.runSingleSimulation(6, 24, 0.03, 0.05, price_data);  
+
+
 			res.render('result', {
-				data: simulation.browser_output
+				data 		: simulation.browser_output,
+				chart_data 	: simulation.chart_data
 			});
         }
 	});
 })
 
+
+
+
+
+// 
+app.get('/print-graph-data', function(req, res) {
+	PriceRecordModelBTC.find({}, function(error, price_data) { 
+   		if (error) {
+            res.json(error);
+        }
+        else {
+    		simulation.printGraphData(price_data);
+			res.render('result', {
+				data: simulation.browser_output,
+				chart_data 	: simulation.chart_data
+			});
+        }
+	});
+})
 
 
 
