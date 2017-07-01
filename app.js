@@ -40,11 +40,9 @@ app.get('/', function(req, res) {
 })
 
 
-// run the simulation many time - with all combinations of parameters
-app.get('/run-simulation', function(req, res) {
 
-	simulation.browser_output = '';
-	
+// run the simulation many time - with all combinations of parameters
+app.get('/run-simulation', function(req, res) {	
 	PriceRecordModelBTC.find({}, function(error, price_data){
    		if (error) {
             res.json(error);
@@ -61,7 +59,27 @@ app.get('/run-simulation', function(req, res) {
 
 
 // Run the simulation once - with specifica parameters
-// app.get('/sim-run-once-static', function(req, res) {
+app.get('/run-simulation-single', function(req, res) {
+	PriceRecordModelBTC.find({}, function(error, price_data) { 
+   		if (error) {
+            res.json(error);
+        }
+        else {
+    		simulation.runSingleSimulation(6, 12, 0.01, 0.05, price_data);
+			res.render('result', {
+				data: simulation.browser_output
+			});
+        }
+	});
+})
+
+
+
+
+
+
+// Run the simulation once - with specifica parameters
+// app.get('/run-simulation-single-static', function(req, res) {
 
 // 	simulation.browser_output 	= '';
 // 	var price_data 				= require('./data/btc_data')    // 30 days of data (144*30 = 4320)
@@ -74,25 +92,6 @@ app.get('/run-simulation', function(req, res) {
 // })
 
 
-
-
-// Run the simulation once - with specifica parameters
-app.get('/run-simulation-single', function(req, res) {
-
-	//simulation.browser_output = '';
-	
-	PriceRecordModelBTC.find({}, function(error, price_data){
-   		if (error) {
-            res.json(error);
-        }
-        else {
-    		simulation.runSingleSimulation(24, 0, 0.005, 0.005, price_data);
-			res.render('result', {
-				data: simulation.browser_output
-			});
-        }
-	});
-})
 
 
 // for creating random data. wont need this anymore probably

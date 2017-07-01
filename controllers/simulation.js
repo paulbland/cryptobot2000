@@ -17,7 +17,7 @@ module.exports = {
 	browser_output 			: '',
 	show_full_debug			: true,
 	sell_all				: true,		// false means sell just one unit
-	buy_sell_method			: 'peak',		// 'avg' or 'peak'
+	buy_sell_method			: 'avg',		// 'avg' or 'peak'
 
 
 
@@ -30,21 +30,23 @@ module.exports = {
 
 	runFullSimulation: function(price_data) {
 
+		this.browser_output = '';
 		this.printSummary(price_data);
 
 		if (this.buy_sell_method === 'avg') {
 
-			var periods 	= [6, 12, 24];
+			var periods 	= [6, 12, 24, 48, 36];
 			var offsets 	= [0, 12, 24];
-			var low_values 	= [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
-			var high_values = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
+			var low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.1, 0.15];
+			var high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.1, 0.15];
 
 		} else if (this.buy_sell_method === 'peak') {
 
 			var periods 	= [12, 24, 48];
 			var offsets 	= [0];
-			var low_values 	= [0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009, 0.01];
-			var high_values = [0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009, 0.01];
+			var low_values 	= [0.001, 0.003, 0.005, 0.007, 0.009, 0.01];
+			var high_values = [0.001, 0.003, 0.005, 0.007, 0.009, 0.01];
+
 		} else {
 			return;
 		}
@@ -64,6 +66,7 @@ module.exports = {
 
 
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
+		this.browser_output = '';
 		this.printSummary(price_data);
 		this.runOnce(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 	},
@@ -207,6 +210,10 @@ module.exports = {
 			this.debug('<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ');
 			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br />');
 			this.debug('invested:profit ratio: ' + (this.max_value_ever_owned / final_profit).toFixed(2) + '<br /><br />')
+
+			if (final_profit > 400) { this.debug('OVER 400<br />'); }
+			if (final_profit > 500) { this.debug('OVER 500<br />'); }
+			if (final_profit > 600) { this.debug('OVER 600<br />'); }
 		}
 
 	},
@@ -278,7 +285,7 @@ module.exports = {
 
 		if (this.total_coins_owned === 0) {
 			if (this.show_full_debug) {
-				this.debug('you don’t have any coins to sell!')
+				this.debug('you don’t have any coins to sell!<br />')
 			}
 			return;
 		}
