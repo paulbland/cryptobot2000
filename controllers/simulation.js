@@ -154,7 +154,7 @@ module.exports = {
 			var buy 	= (latest_buy_price < avg_minus_low_threshold) ? true : false;
 
 			if (this.show_full_debug) {
-				this.debug('average price for last 24 hrs is: $' + avg_for_period + '<br>');// print avg result to browser
+				this.debug('avg_for_period: $' + avg_for_period + '<br>');// print avg result to browser
 				this.debug('(avg price plus high threshold ('+high_threshold+'%) is ' + avg_plus_high_threshold + ')<br />');
 				this.debug('(avg price minus low threshold ('+low_threshold+'%) is ' + avg_minus_low_threshold + ')<br />');
 			}
