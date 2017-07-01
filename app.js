@@ -79,14 +79,14 @@ app.get('/run-simulation', function(req, res) {
 // Run the simulation once - with specifica parameters
 app.get('/run-simulation-single', function(req, res) {
 
-	simulation.browser_output = '';
+	//simulation.browser_output = '';
 	
 	PriceRecordModelBTC.find({}, function(error, price_data){
    		if (error) {
             res.json(error);
         }
         else {
-    		simulation.runSingleSimulation(12, 24, 0.03, 0.01, price_data);
+    		simulation.runSingleSimulation(24, 0, 0.005, 0.005, price_data);
 			res.render('result', {
 				data: simulation.browser_output
 			});

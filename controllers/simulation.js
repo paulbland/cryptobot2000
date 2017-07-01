@@ -16,13 +16,15 @@ module.exports = {
 	max_value_ever_owned	: null,
 	browser_output 			: '',
 	show_full_debug			: true,
-	sell_all				: false,	// false means sell just one unit
+	sell_all				: true,		// false means sell just one unit
+	buy_sell_method			: 'peak',		// 'avg' or 'peak'
 
 
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
-		this.debug('<strong>analyzing: ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days)</strong><br /><br />');
+		this.debug('<strong>analyzing: ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days, ');
+		this.debug('method: ' + this.buy_sell_method+')</strong><br /><br />');
 	},
 
 
@@ -30,10 +32,22 @@ module.exports = {
 
 		this.printSummary(price_data);
 
-		var periods 	= [6, 12, 24];
-		var offsets 	= [0, 12, 24];
-		var low_values 	= [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
-		var high_values = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
+		if (this.buy_sell_method === 'avg') {
+
+			var periods 	= [6, 12, 24];
+			var offsets 	= [0, 12, 24];
+			var low_values 	= [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
+			var high_values = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
+
+		} else if (this.buy_sell_method === 'peak') {
+
+			var periods 	= [12, 24, 48];
+			var offsets 	= [0];
+			var low_values 	= [0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009, 0.01];
+			var high_values = [0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009, 0.01];
+		} else {
+			return;
+		}
 		
 		this.show_full_debug = false;
 
@@ -112,33 +126,73 @@ module.exports = {
 	*/
 	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, final_iteration) {
 
-		var avg_for_period 			= this.calculateAverage(data_to_be_tested)						// get avg for period
-		var high_for_period 		= this.calculateHigh(data_to_be_tested)						// get avg for period
-		var low_for_period 			= this.calculateLow(data_to_be_tested)						// get avg for period
-		var avg_plus_high_threshold = (avg_for_period * (1 + high_threshold)).toFixed(2);
-		var avg_minus_low_threshold = (avg_for_period * (1 - low_threshold)).toFixed(2);
+		var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
+		var avg_plus_high_threshold 	= (avg_for_period * (1 + high_threshold)).toFixed(2);
+		var avg_minus_low_threshold 	= (avg_for_period * (1 - low_threshold)).toFixed(2);
+
+		var high_for_period 			= this.calculateHigh(data_to_be_tested)						// get avg for period
+		var low_for_period 				= this.calculateLow(data_to_be_tested)						// get avg for period
+		var high_minus_high_threshold 	= (high_for_period * (1 - high_threshold)).toFixed(2);
+		var low_plus_low_threshold 		= (low_for_period * (1 + low_threshold)).toFixed(2);
+
+	
 
 		if (this.show_full_debug) {
 			this.debug('data collected at: ' + data_to_be_tested[data_to_be_tested.length-1].datetime + '<br />');// print result
-			this.debug('average price for last 24 hrs is: $' + avg_for_period + '<br>');// print avg result to browser
 			this.debug('latest buy price: $' + latest_buy_price.toFixed(2) + '<br>');
 			this.debug('latest sell price: $' + latest_sell_price.toFixed(2) + '<br>');
-			this.debug('(avg price plus high threshold ('+high_threshold+'%) is ' + avg_plus_high_threshold + ')<br />');
-			this.debug('(avg price minus low threshold ('+low_threshold+'%) is ' + avg_minus_low_threshold + ')<br />');
 		}
 
-		if (latest_sell_price > avg_plus_high_threshold) {
 
-			// check if price is higher than period avg + threshold
+		
+		if (this.buy_sell_method === 'avg') {
+
+			var sell 	= (latest_sell_price > avg_plus_high_threshold) ? true : false;
+			var buy 	= (latest_buy_price < avg_minus_low_threshold) ? true : false;
+
+			if (this.show_full_debug) {
+				this.debug('average price for last 24 hrs is: $' + avg_for_period + '<br>');// print avg result to browser
+				this.debug('(avg price plus high threshold ('+high_threshold+'%) is ' + avg_plus_high_threshold + ')<br />');
+				this.debug('(avg price minus low threshold ('+low_threshold+'%) is ' + avg_minus_low_threshold + ')<br />');
+			}
+
+		} else if (this.buy_sell_method === 'peak') {
+
+			var sell 	= (latest_sell_price > high_minus_high_threshold) ? true : false;
+			var buy 	= (latest_buy_price < low_plus_low_threshold) ? true : false;
+
+			if (this.show_full_debug) {
+				this.debug('high_for_period is: $' + high_for_period + '<br>');// print avg result to browser
+				this.debug('low_for_period is: $' + low_for_period + '<br>');// print avg result to browser
+				this.debug('high_minus_high_threshold is: $' + high_minus_high_threshold + '<br>');// print avg result to browser
+				this.debug('low_plus_low_threshold is: $' + low_plus_low_threshold + '<br>');// print avg result to browser
+			}
+
+
+
+		} else {
+			return;
+		}
+ 
+
+// value to test = 1600
+
+
+// high/sell
+// 1800 * (1 - 0.05) = 1710
+
+
+// low/buy
+// 1400 * (1 + 0.05) = 1470
+
+
+
+		if (sell) {
 			if (this.show_full_debug) this.debug('latest price is higher than +' + high_threshold + '% --- sell!<br />');
 			this.sellCoin(latest_sell_price)
-
-		} else if (latest_buy_price < avg_minus_low_threshold) {
-
-			// check if price is lwoer than period avg - threshold
+		} else if (buy) {
 			if (this.show_full_debug) this.debug('latest price is lower than -' + high_threshold + '% --- buy!<br />');
 			this.buyCoin(latest_buy_price)
-
 		} else {
 			if (this.show_full_debug) this.debug('Neither higher nor lower -> do nothing<br />');
 		}
