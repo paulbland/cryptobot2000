@@ -2,6 +2,7 @@
   "name": "coinbasebot",
   "version": "1.0.0",
   "description": "a currency bot",
+  "repository": "https://git.heroku.com/coinbasebot.git",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,7 +19,6 @@
     "express": "^4.15.3",
     "mongoose": "^4.10.8"
   },
-  "repository": "https://git.heroku.com/coinbasebot.git",
   "devDependencies": {
     "nodemon": "^1.11.0"
   }
