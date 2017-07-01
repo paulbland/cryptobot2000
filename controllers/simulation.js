@@ -17,14 +17,16 @@ module.exports = {
 	browser_output 			: '',
 	chart_data 				: '',
 	show_full_debug			: true,
-	sell_all				: false,		// false means sell just one unit
+	sell_all				: true,		// false means sell just one unit
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
+	print_chart_data		: true,		
 
 
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
 		this.debug('<strong>analyzing: ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days, ');
+		this.debug('sell_all: ' + this.sell_all+', ');
 		this.debug('method: ' + this.buy_sell_method+')</strong><br /><br />');
 	},
 
@@ -32,6 +34,8 @@ module.exports = {
 	runFullSimulation: function(price_data) {
 
 		this.browser_output = '';
+		this.chart_data 	= '';
+
 		this.printSummary(price_data);
 
 		if (this.buy_sell_method === 'avg') {
@@ -79,7 +83,7 @@ module.exports = {
 		this.debug('hrs_in_period: ' + hrs_in_period + ' ');
 		this.debug('offset: ' + offset + ' ');
 		this.debug('low_threshold: ' + low_threshold + ' ');
-		this.debug('high_threshold: ' + high_threshold + '<br />');
+		this.debug('high_threshold: ' + high_threshold + '<br /><br />');
 
 		// these vars are relative to the current single simulation, and will be reset for each run
 		this.total_coins_owned 		= 0;
@@ -200,23 +204,22 @@ module.exports = {
 		// final debug thing
 		if (final_iteration) {
 			var final_profit = ((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent)
-			this.debug('<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ');
-			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br />');
-			this.debug('invested:profit ratio: ' + (this.max_value_ever_owned / final_profit).toFixed(2) + '<br /><br />')
 
-			if (final_profit > 300) { this.debug('OVER $300<br />'); }
-			if (final_profit > 400) { this.debug('OVER $400<br />'); }
-			if (final_profit > 500) { this.debug('OVER $500<br />'); }
-			if (final_profit > 600) { this.debug('OVER $600<br />'); }
+			//if (final_profit > 300) {
+				this.debug('<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ');
+				this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br />');
+				this.debug('invested:profit ratio: ' + (this.max_value_ever_owned / final_profit).toFixed(2) + '<br /><br />')
+			//}
 		}
 
-		this.chart_data += '"' + current_date + '",';
-		this.chart_data += latest_buy_price + ',';
-		this.chart_data += (buy) ? 'buy,' : ',';
-		this.chart_data += latest_sell_price + ',';
-		this.chart_data += (sell) ? 'sell' : '';
-		this.chart_data += '<br />';
-
+		if (this.print_chart_data) {
+			this.chart_data += '"' + current_date + '",';
+			this.chart_data += latest_buy_price + ',';
+			this.chart_data += (buy) ? 'buy,' : ',';
+			this.chart_data += latest_sell_price + ',';
+			this.chart_data += (sell) ? 'sell' : '';
+			this.chart_data += '<br />';
+		}
 	},
 
 

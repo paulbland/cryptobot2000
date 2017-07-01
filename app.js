@@ -74,8 +74,8 @@ app.get('/run-simulation-single', function(req, res) {
     		// (might be good long term (eg months)
     		//simulation.runSingleSimulation(6, 12, 0.07, 0.07, price_data);  
 
-    		// this makes the most money so far
-    		simulation.runSingleSimulation(6, 24, 0.03, 0.05, price_data);  
+    		// this is best ratio (over $300 profit)
+    		simulation.runSingleSimulation(12, 24, 0.03, 0.09, price_data);  
 
 
 			res.render('result', {
