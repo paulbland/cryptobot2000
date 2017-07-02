@@ -5,13 +5,14 @@ module.exports = {
 
 	// these are constant vars thoughout entire simulation
 	interval_in_minutes 	: 10,	// how often data is collected in minutes
-	buy_sell_unit 			: 100,
+	buy_sell_unit 			: 500,
 
 	// these are here because they must be visible globally, even though are updated throughout iterations
 	total_coins_owned 		: null,
 	total_spent 			: null,
 	total_sold 				: null,
-	total_transactions 		: null,
+	total_sell_transactions : null,
+	total_buy_transactions 	: null,
 	max_coins_ever_owned	: null,
 	max_value_ever_owned	: null,
 	browser_output 			: '',
@@ -22,6 +23,7 @@ module.exports = {
 	// algorthim differences that arent looped
 	sell_all				: true,		// false means sell just one unit
 	buy_sell_method			: 'avg',	// 'avg' or 'peak'
+	buy_limit				: 5000,
 	
 	// output options
 	print_full_debug		: null,
@@ -54,16 +56,22 @@ module.exports = {
 		if (this.buy_sell_method === 'avg') {
 
 			// FULL DATA FOR LONG TEST (3:39 m:s)
-			// var periods 	= [3, 6, 12, 18, 24];
-			// var offsets 	= [3, 6, 12, 18, 24];
-			// var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
-			// var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+			var periods 	= [3, 6, 12, 18, 24];
+			var offsets 	= [3, 6, 12, 18, 24];
+			var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
+			var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
 
 			// SHORT DATA FOR HEROKU 30 SEC TIMEOUT (~28 SEC)
-			var periods 		= [12, 24];
-			var offsets 		= [12, 24]; // remember 0 offsets..
-			var low_values 		= [0.025, 0.050, 0.075, 0.100, 0.125];
-			var high_values 	= [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70];
+			// var periods 		= [12, 24];
+			// var offsets 		= [12, 24]; // remember 0 offsets..
+			// var low_values 		= [0.025, 0.050, 0.075, 0.100, 0.125];
+			// var high_values 	= [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70];
+
+			// REALLY SHORT
+			// var periods 	= [6];
+			// var offsets 	= [12];
+			// var low_values 	= [0.16];
+			// var high_values = [0.3];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -122,7 +130,8 @@ module.exports = {
 		this.total_coins_owned 		= 0;
 		this.total_spent			= 0;
 		this.total_sold				= 0;
-		this.total_transactions	 	= 0;
+		this.total_sell_transactions	= 0;
+		this.total_buy_transactions	= 0;
 		this.max_coins_ever_owned 	= 0;
 		this.max_value_ever_owned 	= 0;
 
@@ -328,25 +337,90 @@ module.exports = {
 
 	buyCoin: function(current_coin_price_buy) {
 
-		// i think this line will mean you only make one purchase at a time
-		//if (this.total_coins_owned > 0) return false;
 
-		var number_of_coins_to_buy 	= (this.buy_sell_unit / current_coin_price_buy)
+
+
+		// eg:
+		// - unit 			= $1000
+		// - limit 			= $5000
+		// - buy price 		= $2500
+		// - current 		= 1.9
+		// - current value 	= $4750
+
+		// value i own right now
+		var value_of_coins_owned_right_now 	= (this.total_coins_owned * current_coin_price_buy)								// eg 4750 = 1.9 * 2500
+
+		// expected number of coins to buy
+		var number_of_coins_to_buy 			= (this.buy_sell_unit / current_coin_price_buy)  								// eg 0.4 = 1000/2500
+
+		var amount_spent_on_this_transaction = this.buy_sell_unit															// eg 1000
+
+		if (this.print_full_debug) {
+			this.debug('this.buy_sell_unit: ' 				+ this.buy_sell_unit + '<br />');
+			this.debug('this.buy_limit: ' 					+ this.buy_limit + '<br />');
+			this.debug('current_coin_price_buy: ' 			+ current_coin_price_buy + '<br />');
+			this.debug('this.total_coins_owned: ' 			+ this.total_coins_owned + '<br />');
+			this.debug('value_of_coins_owned_right_now: ' 	+ value_of_coins_owned_right_now + '<br />');
+			this.debug('number_of_coins_to_buy: ' 			+ number_of_coins_to_buy + '<br />');
+			this.debug('amount_spent_on_this_transaction: ' + amount_spent_on_this_transaction + '<br />');
+
+		}
+
+
+		// this confusing block will make sure the amount to be purchased is not over limit, and if it is
+		// set new purchase amount to the difference betwen current value and the limit
+
+		// if what i already own + value of what im about to buy is >  than limit
+		if ((value_of_coins_owned_right_now + (number_of_coins_to_buy * current_coin_price_buy)) > this.buy_limit) {		// eg	4750 + (0.4*2500) > 5000
+																															// 	    4750 + 1000 > 5000
+																															//	    5750 > 5000 
+			// get the $ value difference between my limit and value of coins owned right now
+			var difference = (this.buy_limit - value_of_coins_owned_right_now);												// eg  250 = 5000 - 4750
+
+			// new number of coins to buy
+			number_of_coins_to_buy = (difference / current_coin_price_buy)													// eg 0.1 = 250 / 2500
+
+			// new amount spent
+			amount_spent_on_this_transaction = difference;																	// eg 250
+
+
+			if (this.print_full_debug) {
+				this.debug('***reached limit! --- <br />')
+				this.debug('***setting number_of_coins_to_buy to ' + number_of_coins_to_buy+ '<br />')
+				this.debug('***setting amount_spent_on_this_transaction to ' + amount_spent_on_this_transaction + '<br />');
+			}
+
+		}
+
+
+
+
+
+		// if flag set, and already own coins -- dont buy again
+		// should mean you only ever buy one unit
+		// if (this.buy_only_once && (this.total_coins_owned > 0)) {
+
+		// 	if (this.print_full_debug) {
+		// 		this.debug('not buying -- already own');
+		// 	}
+		// 	return;
+		// }
+
+		
 
 		this.total_coins_owned 			+= number_of_coins_to_buy;
-		this.total_spent 				+= this.buy_sell_unit;
-		this.total_transactions++;
+		this.total_spent 				+= amount_spent_on_this_transaction;
+		this.total_buy_transactions++;
 
 		// update value for max coins ever owned
 		this.max_coins_ever_owned = (this.total_coins_owned > this.max_coins_ever_owned) ? this.total_coins_owned : this.max_coins_ever_owned;
 
 		// update value for max value of coins ever owned
-		var value_of_coins_owned_right_now = (this.total_coins_owned * current_coin_price_buy)
 		this.max_value_ever_owned = (value_of_coins_owned_right_now > this.max_value_ever_owned) ? value_of_coins_owned_right_now : this.max_value_ever_owned;
 
 		if (this.print_full_debug) {
-			this.debug('<span style="color:green">TRANSACTION: BUYING $' +  this.buy_sell_unit + ': ' + number_of_coins_to_buy + ' coins  valued at $');
-			this.debug(current_coin_price_buy + '</span><br />');
+			this.debug('<span style="color:green">TRANSACTION: BUYING $' +  amount_spent_on_this_transaction.toFixed(2) + ': (' + number_of_coins_to_buy.toFixed(2) + ' coins valued at $');
+			this.debug(current_coin_price_buy.toFixed(2) + ' each)</span><br />');
 		}
 
 	},
@@ -363,7 +437,7 @@ module.exports = {
 		}
 
 		if (this.sell_all) {
-			var number_of_coins_to_sell = this.total_coins_owned						// SELL EVERYTHING
+			var number_of_coins_to_sell = this.total_coins_owned							// SELL EVERYTHING
 		} else {
 			var number_of_coins_to_sell = (this.buy_sell_unit / current_coin_price_sell)	// SELL LIMIT
 
@@ -375,14 +449,13 @@ module.exports = {
 		var result_of_this_sale = (current_coin_price_sell * number_of_coins_to_sell)
 
 		if (this.print_full_debug) {
-			this.debug('<span style="color:red">TRANSACTION: SELL ' + number_of_coins_to_sell + ' of my ' +  this.total_coins_owned + ' COINS valued at $');
+			this.debug('<span style="color:red">TRANSACTION: SELL ' + number_of_coins_to_sell + ' of my ' +  this.total_coins_owned + ' coins valued at $');
 			this.debug(current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
 		}
 
 		this.total_coins_owned 	-= number_of_coins_to_sell;
 		this.total_sold			+= result_of_this_sale;
-		this.total_transactions++;
-
+		this.total_sell_transactions++;
 
 	},
 
@@ -491,7 +564,8 @@ module.exports = {
 		this.debug('&gt;&gt; total sold = $' + this.total_sold.toFixed(2) + '<br />');
 		this.debug('&gt;&gt; total position (coins+total sold-investments): $');
 		this.debug(((this.total_coins_owned * current_coin_price_sell) + this.total_sold - this.total_spent).toFixed(2) + '<br />');
-		this.debug('&gt;&gt; total transactions ' + this.total_transactions + '<br />');
+		this.debug('&gt;&gt; total sell transactions ' + this.total_sell_transactions + '<br />');
+		this.debug('&gt;&gt; total buy transactions ' + this.total_buy_transactions + '<br />');
 		this.debug('&gt;&gt; max coins ever owned ' + this.max_coins_ever_owned + '<br />');
 		this.debug('&gt;&gt; max value ever owned $' + this.max_value_ever_owned.toFixed(2) + '<br /><br />');
 
