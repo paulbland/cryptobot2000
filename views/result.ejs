@@ -4,6 +4,8 @@
 	<meta charset="utf-8">
 	<title>Coinbasebot</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+	
  	<style>
  		body {
  			font-family: Menlo, monospace;
@@ -39,8 +41,6 @@
 
 	<p><%- data %></p>
 
-	<p><%- /* chart_data */ %></p>
-
 	<% for (key in table_data) { %>
 		key:  <%- key %><br />
 		<table>
@@ -54,48 +54,7 @@
 		</table>
 	<% } %>	
 
-
-	<div id="curve_chart" style="width: 100%; height: 800px"></div>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        // var data = google.visualization.arrayToDataTable([
-        // 	<%- chart_data %>
-        // ]);
-
-
-        var data = new google.visualization.DataTable();
-		data.addColumn('string', 'Date'); // Implicit domain label col.
-		data.addColumn('number', 'buy price '); // Implicit series 1 data col.
-		data.addColumn({type:'string', role:'annotation'}); // annotation role col.
-		data.addColumn('number', 'sell price '); // Implicit series 1 data col.
-		data.addColumn({type:'string', role:'annotation'}); // annotationText col.
-
-		data.addRows([
-		    <%- chart_data %>
-		]);
-
-
-        var options = {
-          title: '<%- currency %>',
-          curveType: 'function',
-          legend: { position: 'bottom' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-        chart.draw(data, options);
-      }
-    </script>
- 
-
 </body>
 </html>
 
 	
-   
-
-

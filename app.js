@@ -84,7 +84,7 @@ app.get('/run-simulation-single', function(req, res) {
             simulation.runSingleSimulation(parseFloat(req.query.hrs_in_period), parseFloat(req.query.offset), 
                 parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data);  
 
-			res.render('result', {
+			res.render('result-single', {
                 currency    : 'ETH',
 				data 		: simulation.browser_output,
 				chart_data 	: simulation.chart_data,

@@ -50,15 +50,15 @@ module.exports = {
 
 		if (this.buy_sell_method === 'avg') {
 
-			var periods 	= [3, 6, 12, 18, 24];
-			var offsets 	= [3, 6, 12, 18, 24];
-			var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
-			var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+			// var periods 	= [3, 6, 12, 18, 24];
+			// var offsets 	= [3, 6, 12, 18, 24];
+			// var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
+			// var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
 
-			// var periods 	= [6];
-			// var offsets 	= [24];
-			// var low_values 	= [0.08];
-			// var high_values = [0.30];
+			var periods 	= [6];
+			var offsets 	= [24];
+			var low_values 	= [0.08];
+			var high_values = [0.30];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -95,7 +95,7 @@ module.exports = {
 
 		this.table_data 		= {};
 		this.print_basic_debug 	= true;
-		this.print_full_debug 	= false; //usually true
+		this.print_full_debug 	= true; //usually true
 		this.print_chart_data	= true;
 		this.printSummary(price_data);
 		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
@@ -263,6 +263,7 @@ module.exports = {
 
 
 	updateChartData: function(current_date, latest_buy_price, buy, latest_sell_price, sell) {
+		// CSV
 		// this.chart_data += '"' + current_date + '",';
 		// this.chart_data += latest_buy_price + ',';
 		// this.chart_data += (buy) ? 'buy,' : ',';
@@ -270,18 +271,16 @@ module.exports = {
 		// this.chart_data += (sell) ? 'sell' : '';
 		// this.chart_data += '<br />'
 
-		// as array
+		// ARRAY
 		// this.chart_data.push(latest_buy_price)
 
+		// ARRAY AS TEXT
 		this.chart_data += '["' + current_date + '",';
 		this.chart_data += latest_buy_price + ',';
 		this.chart_data += (buy) ? '"buy",' : '"",';
 		this.chart_data += latest_sell_price + ',';
 		this.chart_data += (sell) ? '"sell"' : '""';
 		this.chart_data += '],'
-
-
-
 	},
 
 
