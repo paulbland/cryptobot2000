@@ -53,15 +53,17 @@ module.exports = {
 
 		if (this.buy_sell_method === 'avg') {
 
-			var periods 	= [3, 6, 12, 18, 24];
-			var offsets 	= [3, 6, 12, 18, 24];
-			var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
-			var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+			// FULL DATA FOR LONG TEST (3:39 m:s)
+			// var periods 	= [3, 6, 12, 18, 24];
+			// var offsets 	= [3, 6, 12, 18, 24];
+			// var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
+			// var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
 
-			// var periods 		= [6];
-			// var offsets 		= [24];
-			// var low_values 	= [0.08];
-			// var high_values 	= [0.30];
+			// SHORT DATA FOR HEROKU 30 SEC TIMEOUT (~28 SEC)
+			var periods 		= [12, 24];
+			var offsets 		= [0, 12, 24];
+			var low_values 		= [0.010, 0.025, 0.050, 0.075, 0.100, 0.125];
+			var high_values 	= [0.01, 0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70];
 
 		} else if (this.buy_sell_method === 'peak') {
 

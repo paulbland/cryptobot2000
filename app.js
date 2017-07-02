@@ -10,7 +10,7 @@ var basicAuth   = require('./controllers/auth');
 
 
 
-
+// THIS DIDNT WORK??
 // var timeout = require('connect-timeout'); //express v4
 
 // app.use(timeout('300s'));
