@@ -85,10 +85,11 @@ app.get('/run-simulation-single', function(req, res) {
                 parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data);  
 
 			res.render('result-single', {
-                currency    : 'ETH',
-				data 		: simulation.browser_output,
-				chart_data 	: simulation.chart_data,
-                table_data  : ''
+                currency        : 'ETH',
+				data 		    : simulation.browser_output,
+				chart_data 	    : simulation.chart_data,
+                table_data      : '',
+                summary_output  : simulation.summary_output
 			});
         }
 	});

@@ -16,6 +16,7 @@ module.exports = {
 	max_value_ever_owned	: null,
 	browser_output 			: '',
 	chart_data 				: '',
+	summary_output			: '',
 
 	// algorthim differences that arent looped
 	sell_all				: true,		// false means sell just one unit
@@ -50,15 +51,15 @@ module.exports = {
 
 		if (this.buy_sell_method === 'avg') {
 
-			// var periods 	= [3, 6, 12, 18, 24];
-			// var offsets 	= [3, 6, 12, 18, 24];
-			// var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
-			// var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+			var periods 	= [3, 6, 12, 18, 24];
+			var offsets 	= [3, 6, 12, 18, 24];
+			var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
+			var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
 
-			var periods 	= [6];
-			var offsets 	= [24];
-			var low_values 	= [0.08];
-			var high_values = [0.30];
+			// var periods 		= [6];
+			// var offsets 		= [24];
+			// var low_values 	= [0.08];
+			// var high_values 	= [0.30];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -88,6 +89,7 @@ module.exports = {
 
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 		this.browser_output 	= '';
+		this.summary_output		= '';
 		this.chart_data 		= '';
 
 		//this.chart_data += '["date","buy price","sell price"],';
@@ -151,9 +153,9 @@ module.exports = {
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 
 		if (this.print_basic_debug) {
-			this.debug('<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ');
-			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>) ');
-			this.debug('invested:profit ratio: ' + invest_profit_ratio + '<br /><br />')
+			this.summary_output += '<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ';
+			this.summary_output += '(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>) ';
+			this.summary_output += 'invested:profit ratio: ' + invest_profit_ratio + '<br /><br />';
 		}
 
 		if (this.print_table_data) {
@@ -268,7 +270,7 @@ module.exports = {
 		// this.chart_data += latest_buy_price + ',';
 		// this.chart_data += (buy) ? 'buy,' : ',';
 		// this.chart_data += latest_sell_price + ',';
-		// this.chart_data += (sell) ? 'sell' : '';
+		// this.chart_data += (sell) ? 'sell' : ''; 
 		// this.chart_data += '<br />'
 
 		// ARRAY
@@ -277,9 +279,9 @@ module.exports = {
 		// ARRAY AS TEXT
 		this.chart_data += '["' + current_date + '",';
 		this.chart_data += latest_buy_price + ',';
-		this.chart_data += (buy) ? '"buy",' : '"",';
+		this.chart_data += (buy) ? '"buy",' : 'null,';
 		this.chart_data += latest_sell_price + ',';
-		this.chart_data += (sell) ? '"sell"' : '""';
+		this.chart_data += (sell) ? '"sell"' : 'null';
 		this.chart_data += '],'
 	},
 
@@ -339,7 +341,7 @@ module.exports = {
 		this.max_value_ever_owned = (value_of_coins_owned_right_now > this.max_value_ever_owned) ? value_of_coins_owned_right_now : this.max_value_ever_owned;
 
 		if (this.print_full_debug) {
-			this.debug('<span style="color:green">TRANSACTION: BUYING $' +  this.buy_sell_unit + ': ' + number_of_coins_to_buy + 'coins  valued at $');
+			this.debug('<span style="color:green">TRANSACTION: BUYING $' +  this.buy_sell_unit + ': ' + number_of_coins_to_buy + ' coins  valued at $');
 			this.debug(current_coin_price_buy + '</span><br />');
 		}
 
