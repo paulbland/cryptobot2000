@@ -75,8 +75,11 @@ app.get('/run-simulation-single', function(req, res) {
         }
         else {
 
-            simulation.runSingleSimulation(parseInt(req.query.hrs_in_period), parseInt(req.query.offset), 
-                    parseInt(req.query.low_threshold), parseInt(req.query.high_threshold), price_data);  
+
+
+            simulation.runSingleSimulation(parseFloat(req.query.hrs_in_period), parseFloat(req.query.offset), 
+                parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data);  
+           // simulation.runSingleSimulation(6, 12, 0.08, 0.3, price_data);  
 
 			res.render('result', {
                 currency    : 'ETH',
