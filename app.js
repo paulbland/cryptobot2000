@@ -6,7 +6,7 @@ var mongoose 	= require('mongoose');
 
 var simulation 	= require('./controllers/simulation')
 var tools 		= require('./controllers/tools')
-
+var basicAuth   = require('./controllers/auth');
 
 
 // SET TEMPLATING
@@ -17,7 +17,6 @@ app.set('views',__dirname + '/views');
 
 // SET STATIC FILE DIRECTORY
 app.use(express.static('static'))
-
 
 
 
@@ -41,14 +40,14 @@ PriceRecordModels['LTC'] = require('./models/pricerecordmodelltc')
 
 
 // INDEX - nothing there
-app.get('/', function(req, res) {
+app.get('/', basicAuth, function(req, res) {
 	res.sendFile(path.join(__dirname+'/index.html'));
 })
 
 
 
 // run the simulation many time - with all combinations of parameters
-app.get('/run-simulation', function(req, res) {	
+app.get('/run-simulation', basicAuth, function(req, res) {	
 
      if (typeof req.query.currency === 'undefined') {
         res.send('no currency vars present. must be BTC ETH or LTC')
@@ -73,7 +72,7 @@ app.get('/run-simulation', function(req, res) {
 
 
 // Run the simulation once - with specifica parameters
-app.get('/run-simulation-single', function(req, res) {
+app.get('/run-simulation-single', basicAuth, function(req, res) {
 
     if ((typeof req.query.hrs_in_period === 'undefined') || (typeof req.query.offset === 'undefined') || (typeof req.query.low_threshold === 'undefined') || 
         (typeof req.query.high_threshold === 'undefined') || (typeof req.query.currency === 'undefined')) {
@@ -105,7 +104,7 @@ app.get('/run-simulation-single', function(req, res) {
 
 
 // 
-app.get('/print-graph-data', function(req, res) {
+app.get('/print-graph-data', basicAuth, function(req, res) {
 	PriceRecordModelBTC.find({}, function(error, price_data) { 
    		if (error) {
             res.json(error);
@@ -125,7 +124,7 @@ app.get('/print-graph-data', function(req, res) {
 
 
 // Run the simulation once - with specifica parameters
-// app.get('/run-simulation-single-static', function(req, res) {
+// app.get('/run-simulation-single-static', basicAuth, function(req, res) {
 
 // 	simulation.browser_output 	= '';
 // 	var price_data 				= require('./data/btc_data')    // 30 days of data (144*30 = 4320)
@@ -141,7 +140,7 @@ app.get('/print-graph-data', function(req, res) {
 
 
 // for creating random data. wont need this anymore probably
-// app.get('/create-data', function(req, res) {
+// app.get('/create-data', basicAuth, function(req, res) {
 // 	tools.createRandomData();
 // })
 
