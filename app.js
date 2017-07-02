@@ -43,13 +43,14 @@ app.get('/', function(req, res) {
 
 // run the simulation many time - with all combinations of parameters
 app.get('/run-simulation', function(req, res) {	
-	PriceRecordModelBTC.find({}, function(error, price_data){
+	PriceRecordModelETH.find({}, function(error, price_data){
    		if (error) {
             res.json(error);
         }
         else {
     		simulation.runFullSimulation(price_data);
 			res.render('result', {
+                currency    : 'ETH',
 				data 		: simulation.browser_output,
                 chart_data  : simulation.chart_data,
                 table_data  : simulation.table_data
@@ -62,26 +63,25 @@ app.get('/run-simulation', function(req, res) {
 
 // Run the simulation once - with specifica parameters
 app.get('/run-simulation-single', function(req, res) {
-	PriceRecordModelBTC.find({}, function(error, price_data) { 
+
+    if ((typeof req.query.hrs_in_period === 'undefined') || (typeof req.query.offset === 'undefined') || 
+        (typeof req.query.low_threshold === 'undefined') || (typeof req.query.high_threshold === 'undefined')) {
+        res.send('get vars not present')
+    }
+
+	PriceRecordModelETH.find({}, function(error, price_data) { 
    		if (error) {
             res.json(error);
         }
         else {
 
-    		// this is great for 'peak' sim
-    		//simulation.runSingleSimulation(24, 0, 0.0231, 0.0195, price_data); //low(buy), high(sell) 
-
-    		// this is great for 'avg' sim
-    		// (might be good long term (eg months)
-    		//simulation.runSingleSimulation(6, 12, 0.07, 0.07, price_data);  
-
-    		// this is best ratio (over $300 profit)
-    		simulation.runSingleSimulation(12, 24, 0.03, 0.09, price_data);  
-
+            simulation.runSingleSimulation(req.query.hrs_in_period, req.query.offset, req.query.low_threshold, req.query.high_threshold, price_data);  
 
 			res.render('result', {
+                currency    : 'ETH',
 				data 		: simulation.browser_output,
-				chart_data 	: simulation.chart_data
+				chart_data 	: simulation.chart_data,
+                table_data  : ''
 			});
         }
 	});

@@ -16,12 +16,16 @@ module.exports = {
 	max_value_ever_owned	: null,
 	browser_output 			: '',
 	chart_data 				: '',
-	show_full_debug			: false,
-	print_basic_debug 		: false,
+
+	// algorthim differences that arent looped
 	sell_all				: true,		// false means sell just one unit
-	buy_sell_method			: 'avg',		// 'avg' or 'peak'
-	print_chart_data		: false,
-	print_table_data		: true,	
+	buy_sell_method			: 'avg',	// 'avg' or 'peak'
+	
+	// output options
+	print_full_debug		: null,
+	print_basic_debug 		: null,
+	print_chart_data		: null,
+	print_table_data		: null,	
 	
 
 	printSummary: function(price_data) {
@@ -34,25 +38,29 @@ module.exports = {
 
 	runFullSimulation: function(price_data) {
 
-		this.browser_output = '';
-		this.chart_data 	= '';
-		this.table_data 	= {};
-
+		this.browser_output 	= '';
+		this.chart_data 		= '';
+		this.table_data 		= {};
+		this.print_basic_debug 	= true; //usually false
+		this.print_full_debug 	= true; //usually false
+		this.print_chart_data	= false;
+		this.print_table_data 	= false;	
+		
 
 		this.printSummary(price_data);
 
 		if (this.buy_sell_method === 'avg') {
 
-			var periods 	= [12, 24, 48, 36];
-			var offsets 	= [0, 12, 24];
-			var low_values 	= [0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
-			var high_values = [0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
+			// var periods 	= [3, 6, 12, 18, 24];
+			// var offsets 	= [3, 6, 12, 18, 24];
+			// var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
+			// var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
 
-			// FASTER!
-			// var periods 	= [12, 18];
-			// var offsets 	= [3, 6];
-			// var low_values 	= [0.04, 0.05, 0.06];
-			// var high_values = [0.07, 0.08, 0.09];
+
+			var periods 	= [6];
+			var offsets 	= [24];
+			var low_values 	= [0.08];
+			var high_values = [0.30];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -65,7 +73,7 @@ module.exports = {
 			return;
 		}
 		
-		this.show_full_debug = false;
+		
 
 		for (x=0; x < periods.length; x++) {
 			for (q=0; q < offsets.length; q++) {
@@ -81,21 +89,26 @@ module.exports = {
 
 
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
-		this.browser_output = '';
-		this.chart_data 	= '';
+		this.browser_output 	= '';
+		this.chart_data 		= '';
+		this.table_data 		= {};
+		this.print_basic_debug 	= true;
+		this.print_full_debug 	= true;
+		this.print_chart_data	= false;
+		this.print_table_data 	= false;	// not relevant here
 		this.printSummary(price_data);
 		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 	},
 
 
+	
+
 	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
+		console.log(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 
 		if (this.print_basic_debug) {
-			this.debug('processing: hrs_in_period: ' + hrs_in_period + ' ');
-			this.debug('offset: ' + offset + ' ');
-			this.debug('low_threshold: ' + low_threshold + ' ');
-			this.debug('high_threshold: ' + high_threshold + '<br />');
+			this.printLoopSummary(hrs_in_period, offset, low_threshold, high_threshold)
 		}
 
 		// these vars are relative to the current single simulation, and will be reset for each run
@@ -105,7 +118,6 @@ module.exports = {
 		this.total_transactions	 	= 0;
 		this.max_coins_ever_owned 	= 0;
 		this.max_value_ever_owned 	= 0;
-
 
 		var values_per_period 		= ((hrs_in_period * 60) / this.interval_in_minutes); 	// 144 10-min incremetns in a 24 hr period)
 		var values_in_offset		= ((offset * 60) / this.interval_in_minutes);
@@ -117,10 +129,6 @@ module.exports = {
 			// get 24 hrs worth of data (As a slice of 144 values)
 			// actually not just 24 hrs anymore. "a period" of 24 hrs )For example) is 144 values
 			var data_to_be_tested 	= price_data.slice(i, (i + values_per_period));
-			
-			// OLD WITHOUT OFFSET
-			//var latest_buy_price 	= data_to_be_tested[(data_to_be_tested.length - 1)].value_buy;	// this will be the currect price we're evaluating
-			//var latest_sell_price = data_to_be_tested[(data_to_be_tested.length - 1)].value_sell;	// this will be the currect price we're evaluating
 
 			// NEW WITH OFFSET
 			var this_index 			= (i + values_per_period + values_in_offset - 1)
@@ -128,7 +136,7 @@ module.exports = {
 			var latest_sell_price 	= price_data[this_index].value_sell;	// this will be the currect price we're evaluating
 			var current_date	 	= price_data[this_index].datetime
 
-			if (this.show_full_debug) {
+			if (this.print_full_debug) {
 				this.printLoopDebug(i, values_per_period, price_data, hrs_in_period, this_index, offset, values_in_offset);
 			}
 
@@ -171,10 +179,15 @@ module.exports = {
 	*/
 	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, current_date) {
 
+		
+
 		var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
 		var avg_plus_high_threshold 	= (avg_for_period * (1 + high_threshold)).toFixed(2);
 		var avg_minus_low_threshold 	= (avg_for_period * (1 - low_threshold)).toFixed(2);
 
+		//console.log(avg_for_period, latest_buy_price, latest_sell_price, low_threshold, high_threshold, current_date)
+		//console.log(avg_plus_high_threshold)
+		
 		var high_for_period 			= this.calculateHigh(data_to_be_tested)						// get avg for period
 		var low_for_period 				= this.calculateLow(data_to_be_tested)						// get avg for period
 		var high_minus_high_threshold 	= (high_for_period * (1 - high_threshold)).toFixed(2);
@@ -182,7 +195,7 @@ module.exports = {
 
 	
 
-		if (this.show_full_debug) {
+		if (this.print_full_debug) {
 			this.debug('data collected at: ' + data_to_be_tested[data_to_be_tested.length-1].datetime + '<br />');// print result
 			this.debug('latest buy price: $' + latest_buy_price.toFixed(2) + '<br>');
 			this.debug('latest sell price: $' + latest_sell_price.toFixed(2) + '<br>');
@@ -195,7 +208,7 @@ module.exports = {
 			var sell 	= (latest_sell_price > avg_plus_high_threshold) ? true : false;
 			var buy 	= (latest_buy_price < avg_minus_low_threshold) ? true : false;
 
-			if (this.show_full_debug) {
+			if (this.print_full_debug) {
 				this.debug('avg_for_period: $' + avg_for_period + '<br>');// print avg result to browser
 				this.debug('(avg price plus high threshold ('+high_threshold+'%) is ' + avg_plus_high_threshold + ')<br />');
 				this.debug('(avg price minus low threshold ('+low_threshold+'%) is ' + avg_minus_low_threshold + ')<br />');
@@ -206,7 +219,7 @@ module.exports = {
 			var sell 	= (latest_sell_price > high_minus_high_threshold) ? true : false;
 			var buy 	= (latest_buy_price < low_plus_low_threshold) ? true : false;
 
-			if (this.show_full_debug) {
+			if (this.print_full_debug) {
 				this.debug('high_for_period is: $' + high_for_period + '<br>');// print avg result to browser
 				this.debug('low_for_period is: $' + low_for_period + '<br>');// print avg result to browser
 				this.debug('high_minus_high_threshold is: $' + high_minus_high_threshold + '<br>');// print avg result to browser
@@ -220,23 +233,23 @@ module.exports = {
 
 
 		if (sell) {
-			if (this.show_full_debug) {
+			if (this.print_full_debug) {
 				this.debug('latest price is higher than +' + high_threshold + '% --- sell!<br />');
 			}
 			this.sellCoin(latest_sell_price)
 		} else if (buy) {
-			if (this.show_full_debug) {
+			if (this.print_full_debug) {
 				this.debug('latest price is lower than -' + high_threshold + '% --- buy!<br />');
 			}
 			this.buyCoin(latest_buy_price)
 		} else {
-			if (this.show_full_debug) {
+			if (this.print_full_debug) {
 				this.debug('Neither higher nor lower -> do nothing<br />');
 			}
 		}
 
 
-		if (this.show_full_debug) {
+		if (this.print_full_debug) {
 			this.printCurrentPosition(latest_buy_price, latest_sell_price);
 		}
 
@@ -312,7 +325,7 @@ module.exports = {
 		var value_of_coins_owned_right_now = (this.total_coins_owned * current_coin_price_buy)
 		this.max_value_ever_owned = (value_of_coins_owned_right_now > this.max_value_ever_owned) ? value_of_coins_owned_right_now : this.max_value_ever_owned;
 
-		if (this.show_full_debug) {
+		if (this.print_full_debug) {
 			this.debug('<span style="color:green">TRANSACTION: BUYING $' +  this.buy_sell_unit + ': ' + number_of_coins_to_buy + 'BTC  valued at $');
 			this.debug(current_coin_price_buy + '</span><br />');
 		}
@@ -324,7 +337,7 @@ module.exports = {
 	 sellCoin: function(current_coin_price_sell) {
 
 		if (this.total_coins_owned === 0) {
-			if (this.show_full_debug) {
+			if (this.print_full_debug) {
 				this.debug('you don’t have any coins to sell!<br />')
 			}
 			return;
@@ -342,7 +355,7 @@ module.exports = {
 
 		var result_of_this_sale = (current_coin_price_sell * number_of_coins_to_sell)
 
-		if (this.show_full_debug) {
+		if (this.print_full_debug) {
 			this.debug('<span style="color:red">TRANSACTION: SELL ' + number_of_coins_to_sell + ' of my ' +  this.total_coins_owned + ' COINS valued at $');
 			this.debug(current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
 		}
@@ -357,6 +370,14 @@ module.exports = {
 	
 	},
 
+	printLoopSummary: function(hrs_in_period, offset, low_threshold, high_threshold) {
+		this.debug('processing: hrs_in_period: ' + hrs_in_period + ' ');
+		this.debug('offset: ' + offset + ' ');
+		this.debug('low_threshold: ' + low_threshold + ' ');
+		this.debug('high_threshold: ' + high_threshold + '<br />');
+	},
+
+
 
 	compileTableData: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit) {
 		//console.log('running with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
@@ -364,8 +385,7 @@ module.exports = {
 
 		var array_key 	= 'period_' + hrs_in_period + '_offset_' + offset;
 		var row_key 	= 'row_'+high_threshold;
-
-
+		var cell_link 	= '/run-simulation-single?hrs_in_period='+hrs_in_period+'&offset='+offset+'&low_threshold='+low_threshold+'&high_threshold='+high_threshold;
 
 		if (typeof this.table_data[array_key] === 'undefined') {
 			this.table_data[array_key] = {
@@ -390,8 +410,8 @@ module.exports = {
 		// i dont have max value yet os lets just copy it in
 		// 256 is obviosuly max rgba num
 		// then set colors weighted to the total value
-		var max 		= 486.85;
-		var min  		= -688.08;
+		var max 		= 1000;
+		var min  		= -1000;
 		var rgb_color 	= 0
 		var color_text 	= ''
 
@@ -414,13 +434,9 @@ module.exports = {
 		}
 
 
-		
 
 
-		
-
-
-		this.table_data[array_key][row_key].push('<td style="font-weight:bold;color:'+color_text+'">$'+final_profit.toFixed(2)+'</td>')
+		this.table_data[array_key][row_key].push('<td><a style="font-weight:bold;color:'+color_text+'" href="'+cell_link+'" target="_blank">$'+final_profit.toFixed(2)+'</a></td>')
 
 		
 
@@ -447,8 +463,8 @@ module.exports = {
 	printCurrentPosition: function (current_coin_price_buy, current_coin_price_sell) {
 
 		this.debug('<strong> &gt;&gt; CURRENT POSITION</strong><br />');
-		this.debug('&gt;&gt; total bitcoins owned right now: ' + this.total_coins_owned + '<br/>');
-		this.debug('&gt;&gt; current bitcoin sell price: $' + current_coin_price_sell.toFixed(2) + '<br/>');
+		this.debug('&gt;&gt; total coins owned right now: ' + this.total_coins_owned + '<br/>');
+		this.debug('&gt;&gt; current coin sell price: $' + current_coin_price_sell.toFixed(2) + '<br/>');
 		this.debug('&gt;&gt; total coins owned value (as sell price) = $' + (this.total_coins_owned * current_coin_price_sell).toFixed(2) + '<br />');
 		this.debug('&gt;&gt; total money invested spent = $' + this.total_spent + '<br />');
 		this.debug('&gt;&gt; total sold = $' + this.total_sold.toFixed(2) + '<br />');
