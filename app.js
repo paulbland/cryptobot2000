@@ -9,6 +9,20 @@ var tools 		= require('./controllers/tools')
 var basicAuth   = require('./controllers/auth');
 
 
+
+
+var timeout = require('connect-timeout'); //express v4
+
+app.use(timeout('300s'));
+app.use(haltOnTimedout);
+
+function haltOnTimedout(req, res, next){
+  if (!req.timedout) next();
+}
+
+
+
+
 // SET TEMPLATING
 app.set('view engine', 'ejs');
 app.set('views',__dirname + '/views');
