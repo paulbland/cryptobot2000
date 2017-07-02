@@ -32,10 +32,10 @@ mongoose.Promise = global.Promise;                  // fix promise thing
 
 
 // GET MODELS
-var PriceRecordModelBTC = require('./models/pricerecordmodelbtc')
-var PriceRecordModelETH = require('./models/pricerecordmodeleth')
-var PriceRecordModelLTC = require('./models/pricerecordmodelltc')
-
+var PriceRecordModels = [];
+PriceRecordModels['BTC'] = require('./models/pricerecordmodelbtc')
+PriceRecordModels['ETH'] = require('./models/pricerecordmodeleth')
+PriceRecordModels['LTC'] = require('./models/pricerecordmodelltc')
 
 
 
@@ -49,14 +49,19 @@ app.get('/', function(req, res) {
 
 // run the simulation many time - with all combinations of parameters
 app.get('/run-simulation', function(req, res) {	
-	PriceRecordModelETH.find({}, function(error, price_data){
+
+     if (typeof req.query.currency === 'undefined') {
+        res.send('no currency vars present. must be BTC ETH or LTC')
+    }
+
+    PriceRecordModels[req.query.currency].find({}, function(error, price_data){
    		if (error) {
             res.json(error);
         }
         else {
-    		simulation.runFullSimulation(price_data);
+    		simulation.runFullSimulation(price_data, req.query.currency);
 			res.render('result', {
-                currency    : 'ETH',
+                currency    : req.query.currency,       // BTC, ETH or LTC
 				data 		: simulation.browser_output,
                 chart_data  : simulation.chart_data,
                 table_data  : simulation.table_data
@@ -70,12 +75,12 @@ app.get('/run-simulation', function(req, res) {
 // Run the simulation once - with specifica parameters
 app.get('/run-simulation-single', function(req, res) {
 
-    if ((typeof req.query.hrs_in_period === 'undefined') || (typeof req.query.offset === 'undefined') || 
-        (typeof req.query.low_threshold === 'undefined') || (typeof req.query.high_threshold === 'undefined')) {
+    if ((typeof req.query.hrs_in_period === 'undefined') || (typeof req.query.offset === 'undefined') || (typeof req.query.low_threshold === 'undefined') || 
+        (typeof req.query.high_threshold === 'undefined') || (typeof req.query.currency === 'undefined')) {
         res.send('get vars not present')
     }
 
-	PriceRecordModelETH.find({}, function(error, price_data) { 
+    PriceRecordModels[req.query.currency].find({}, function(error, price_data) { 
    		if (error) {
             res.json(error);
         }
@@ -85,7 +90,7 @@ app.get('/run-simulation-single', function(req, res) {
                 parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data);  
 
 			res.render('result-single', {
-                currency        : 'ETH',
+                currency        : req.query.currency,
 				data 		    : simulation.browser_output,
 				chart_data 	    : simulation.chart_data,
                 table_data      : '',

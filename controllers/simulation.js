@@ -17,6 +17,7 @@ module.exports = {
 	browser_output 			: '',
 	chart_data 				: '',
 	summary_output			: '',
+	currency 				: null,
 
 	// algorthim differences that arent looped
 	sell_all				: true,		// false means sell just one unit
@@ -37,7 +38,7 @@ module.exports = {
 	},
 
 
-	runFullSimulation: function(price_data) {
+	runFullSimulation: function(price_data, currency) {
 
 		this.browser_output 	= '';
 		this.chart_data 		= '';
@@ -45,6 +46,7 @@ module.exports = {
 		this.print_basic_debug 	= false; 
 		this.print_full_debug 	= false; 
 		this.print_table_data 	= true;	
+		this.currency 			= currency;
 		
 
 		this.printSummary(price_data);
@@ -398,7 +400,7 @@ module.exports = {
 
 		var array_key 	= 'period_' + hrs_in_period + '_offset_' + offset;
 		var row_key 	= 'row_'+high_threshold;
-		var cell_link 	= '/run-simulation-single?hrs_in_period='+hrs_in_period+'&offset='+offset+'&low_threshold='+low_threshold+'&high_threshold='+high_threshold;
+		var cell_link 	= '/run-simulation-single?hrs_in_period='+hrs_in_period+'&offset='+offset+'&low_threshold='+low_threshold+'&high_threshold='+high_threshold+'&currency='+this.currency;
 
 		if (typeof this.table_data[array_key] === 'undefined') {
 			this.table_data[array_key] = {
@@ -459,7 +461,6 @@ module.exports = {
 		
 
 		// this.table_data['x_y'] = {
-		// 		"table_title" : "data for period 12, offset 0",
 		// 		"header_row" : ['', 0.05, 0.4, 0.7],
 		// 		"row_0.05" : [34,234,454]
 		//		"row_0.06" : [34,234,454]
