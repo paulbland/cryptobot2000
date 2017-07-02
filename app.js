@@ -15,6 +15,12 @@ app.set('views',__dirname + '/views');
 
 
 
+// SET STATIC FILE DIRECTORY
+app.use(express.static('static'))
+
+
+
+
 
 // DATABASE
 mongoose.connect(process.env.MONGODB_URI);          // Set up default mongoose connection
@@ -74,7 +80,7 @@ app.get('/run-simulation-single', function(req, res) {
             res.json(error);
         }
         else {
-            
+
             simulation.runSingleSimulation(parseFloat(req.query.hrs_in_period), parseFloat(req.query.offset), 
                 parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data);  
 

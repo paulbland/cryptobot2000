@@ -89,9 +89,13 @@ module.exports = {
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 		this.browser_output 	= '';
 		this.chart_data 		= '';
+
+		//this.chart_data += '["date","buy price","sell price"],';
+		
+
 		this.table_data 		= {};
 		this.print_basic_debug 	= true;
-		this.print_full_debug 	= true;
+		this.print_full_debug 	= false; //usually true
 		this.print_chart_data	= true;
 		this.printSummary(price_data);
 		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
@@ -259,12 +263,25 @@ module.exports = {
 
 
 	updateChartData: function(current_date, latest_buy_price, buy, latest_sell_price, sell) {
-		this.chart_data += '"' + current_date + '",';
+		// this.chart_data += '"' + current_date + '",';
+		// this.chart_data += latest_buy_price + ',';
+		// this.chart_data += (buy) ? 'buy,' : ',';
+		// this.chart_data += latest_sell_price + ',';
+		// this.chart_data += (sell) ? 'sell' : '';
+		// this.chart_data += '<br />'
+
+		// as array
+		// this.chart_data.push(latest_buy_price)
+
+		this.chart_data += '["' + current_date + '",';
 		this.chart_data += latest_buy_price + ',';
-		this.chart_data += (buy) ? 'buy,' : ',';
+		this.chart_data += (buy) ? '"buy",' : '"",';
 		this.chart_data += latest_sell_price + ',';
-		this.chart_data += (sell) ? 'sell' : '';
-		this.chart_data += '<br />'
+		this.chart_data += (sell) ? '"sell"' : '""';
+		this.chart_data += '],'
+
+
+
 	},
 
 
@@ -362,16 +379,14 @@ module.exports = {
 		this.total_transactions++;
 
 
-
-
-	
 	},
 
 	printLoopSummary: function(hrs_in_period, offset, low_threshold, high_threshold) {
-		this.debug('processing: hrs_in_period: ' + hrs_in_period + ' ');
-		this.debug('offset: ' + offset + ' ');
-		this.debug('low_threshold: ' + low_threshold + ' ');
-		this.debug('high_threshold: ' + high_threshold + '<br />');
+		this.debug('<strong>processing:</strong><br />');
+		this.debug('- hrs_in_period: ' + hrs_in_period + '<br />');
+		this.debug('- offset: ' + offset + '<br />');
+		this.debug('- low_threshold: ' + low_threshold + '<br />');
+		this.debug('- high_threshold: ' + high_threshold + '<br /><br />');
 	},
 
 
