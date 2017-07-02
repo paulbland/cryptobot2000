@@ -61,7 +61,7 @@ module.exports = {
 
 			// SHORT DATA FOR HEROKU 30 SEC TIMEOUT (~28 SEC)
 			var periods 		= [12, 24];
-			var offsets 		= [0, 12, 24];
+			var offsets 		= [12, 24]; // remember 0 offsets..
 			var low_values 		= [0.025, 0.050, 0.075, 0.100, 0.125];
 			var high_values 	= [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70];
 
