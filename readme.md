@@ -14,3 +14,5 @@
 	http://localhost:5000/run-simulation-single?hrs_in_period=6&offset=24&low_threshold=0.08&high_threshold=0.3
 
 
+# run with this at home:
+heroku local web -f Procfile.dev
