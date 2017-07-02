@@ -5,7 +5,7 @@ module.exports = {
 
 	// these are constant vars thoughout entire simulation
 	interval_in_minutes 	: 10,	// how often data is collected in minutes
-	buy_sell_unit 			: 500,
+	buy_sell_unit 			: 750,	
 
 	// these are here because they must be visible globally, even though are updated throughout iterations
 	total_coins_owned 		: null,
@@ -23,7 +23,7 @@ module.exports = {
 	// algorthim differences that arent looped
 	sell_all				: true,		// false means sell just one unit
 	buy_sell_method			: 'avg',	// 'avg' or 'peak'
-	buy_limit				: 5000,
+	buy_limit				: 10000,
 	
 	// output options
 	print_full_debug		: null,
@@ -34,9 +34,11 @@ module.exports = {
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
-		this.debug('<strong>Analyzing ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days) ');
-		this.debug('sell_all: ' + this.sell_all+', ');
-		this.debug('buy_sell_method: \'' + this.buy_sell_method+'\'</strong><br /><br />');
+		this.debug('<strong>Analyzing ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days)</strong><br />');
+		this.debug('- sell_all: ' + this.sell_all+'<br />');
+		this.debug('- buy_sell_method: \'' + this.buy_sell_method+'\'<br />');
+		this.debug('- buy_sell_unit: ' + this.buy_sell_unit+'<br />');
+		this.debug('- buy_limit: ' + this.buy_limit+'<br /><br />');
 	},
 
 
@@ -55,23 +57,23 @@ module.exports = {
 
 		if (this.buy_sell_method === 'avg') {
 
-			// FULL DATA FOR LONG TEST (3:39 m:s)
+			// FULL DATA FOR LONG TEST (~3:39 m:s)
 			var periods 	= [3, 6, 12, 18, 24];
-			var offsets 	= [3, 6, 12, 18, 24];
+			var offsets 	= [0, 6, 12, 18, 24];
 			var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
 			var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
 
-			// SHORT DATA FOR HEROKU 30 SEC TIMEOUT (~28 SEC)
+			// SHORT DATA FOR HEROKU 30 SEC TIMEOUT (~25 SEC)
 			// var periods 		= [12, 24];
 			// var offsets 		= [12, 24]; // remember 0 offsets..
 			// var low_values 		= [0.025, 0.050, 0.075, 0.100, 0.125];
 			// var high_values 	= [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70];
 
-			// REALLY SHORT
-			// var periods 	= [6];
-			// var offsets 	= [12];
-			// var low_values 	= [0.16];
-			// var high_values = [0.3];
+			// ONE TABLE - FOR TESTING
+			// periods 	= [24];
+			// offsets 	= [12];
+			// low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18];
+			// high_values = [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -412,6 +414,9 @@ module.exports = {
 		this.total_spent 				+= amount_spent_on_this_transaction;
 		this.total_buy_transactions++;
 
+		// update total owned (set before transaction - need to be updated)
+		value_of_coins_owned_right_now = (this.total_coins_owned * current_coin_price_buy)
+
 		// update value for max coins ever owned
 		this.max_coins_ever_owned = (this.total_coins_owned > this.max_coins_ever_owned) ? this.total_coins_owned : this.max_coins_ever_owned;
 
@@ -460,7 +465,7 @@ module.exports = {
 	},
 
 	printLoopSummary: function(hrs_in_period, offset, low_threshold, high_threshold) {
-		this.debug('<strong>processing:</strong><br />');
+		this.debug('<strong>Loop variables:</strong><br />');
 		this.debug('- hrs_in_period: ' + hrs_in_period + '<br />');
 		this.debug('- offset: ' + offset + '<br />');
 		this.debug('- low_threshold: ' + low_threshold + '<br />');
@@ -500,8 +505,8 @@ module.exports = {
 		// i dont have max value yet os lets just copy it in
 		// 256 is obviosuly max rgba num
 		// then set colors weighted to the total value
-		var max 		= 1000;
-		var min  		= -1000;
+		var max 		= 2000;
+		var min  		= -500;
 		var rgb_color 	= 0
 		var color_text 	= ''
 		var cell_str 	= '';

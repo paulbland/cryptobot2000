@@ -67,7 +67,7 @@ app.get('/run-simulation', basicAuth, function(req, res) {
         res.send('no currency vars present. must be BTC ETH or LTC')
     }
 
-    PriceRecordModels[req.query.currency].find({}, function(error, price_data){
+    PriceRecordModels[req.query.currency].find({}, function(error, price_data) {
    		if (error) {
             res.json(error);
         }
