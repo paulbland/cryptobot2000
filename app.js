@@ -11,14 +11,14 @@ var basicAuth   = require('./controllers/auth');
 
 
 
-var timeout = require('connect-timeout'); //express v4
+// var timeout = require('connect-timeout'); //express v4
 
-app.use(timeout('300s'));
-app.use(haltOnTimedout);
+// app.use(timeout('300s'));
+// app.use(haltOnTimedout);
 
-function haltOnTimedout(req, res, next){
-  if (!req.timedout) next();
-}
+// function haltOnTimedout(req, res, next){
+//   if (!req.timedout) next();
+// }
 
 
 
