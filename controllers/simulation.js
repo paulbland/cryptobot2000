@@ -19,7 +19,7 @@ module.exports = {
 	show_full_debug			: true,
 	sell_all				: true,		// false means sell just one unit
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
-	print_chart_data		: true,		
+	print_chart_data		: false,		
 
 
 
@@ -35,15 +35,23 @@ module.exports = {
 
 		this.browser_output = '';
 		this.chart_data 	= '';
+		this.table_data 	= {};
+
 
 		this.printSummary(price_data);
 
 		if (this.buy_sell_method === 'avg') {
 
-			var periods 	= [6, 12, 24, 48, 36];
+			var periods 	= [12, 24, 48, 36];
 			var offsets 	= [0, 12, 24];
-			var low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.1, 0.15];
-			var high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.1, 0.15];
+			var low_values 	= [0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
+			var high_values = [0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1];
+
+			// FASTER!
+			// var periods 	= [12, 18];
+			// var offsets 	= [3, 6];
+			// var low_values 	= [0.04, 0.05, 0.06];
+			// var high_values = [0.07, 0.08, 0.09];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -62,11 +70,12 @@ module.exports = {
 			for (q=0; q < offsets.length; q++) {
 				for (y=0; y < low_values.length; y++) {
 					for (z=0; z < high_values.length; z++) {		
-						this.runOnce(periods[x], offsets[q], low_values[y], high_values[z], price_data)
+						this.processDataSet(periods[x], offsets[q], low_values[y], high_values[z], price_data)
 					}
 				}
 			}
 		}
+
 	},
 
 
@@ -74,11 +83,11 @@ module.exports = {
 		this.browser_output = '';
 		this.chart_data 	= '';
 		this.printSummary(price_data);
-		this.runOnce(hrs_in_period, offset, low_threshold, high_threshold, price_data)
+		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 	},
 
 
-	runOnce: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
+	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
 		this.debug('hrs_in_period: ' + hrs_in_period + ' ');
 		this.debug('offset: ' + offset + ' ');
@@ -93,6 +102,7 @@ module.exports = {
 		this.max_coins_ever_owned 	= 0;
 		this.max_value_ever_owned 	= 0;
 
+
 		var values_per_period 		= ((hrs_in_period * 60) / this.interval_in_minutes); 	// 144 10-min incremetns in a 24 hr period)
 		var values_in_offset		= ((offset * 60) / this.interval_in_minutes);
 		var total_iterations 		= (price_data.length - values_per_period - values_in_offset)
@@ -103,7 +113,6 @@ module.exports = {
 			// get 24 hrs worth of data (As a slice of 144 values)
 			// actually not just 24 hrs anymore. "a period" of 24 hrs )For example) is 144 values
 			var data_to_be_tested 	= price_data.slice(i, (i + values_per_period));
-			var final_iteration 	= (i === total_iterations) ? true : false;
 			
 			// OLD WITHOUT OFFSET
 			//var latest_buy_price 	= data_to_be_tested[(data_to_be_tested.length - 1)].value_buy;	// this will be the currect price we're evaluating
@@ -115,28 +124,45 @@ module.exports = {
 			var latest_sell_price 	= price_data[this_index].value_sell;	// this will be the currect price we're evaluating
 			var current_date	 	= price_data[this_index].datetime
 
-			// define start and end indexes for main array
 			if (this.show_full_debug) {
-				this.debug('<strong><u>Period ' + Math.floor((i + values_per_period) / values_per_period) + ' of ');
-				this.debug((price_data.length / values_per_period).toFixed(2));
-				this.debug(' (in ' + hrs_in_period + ' hr periods)</u></strong> ');
-				this.debug('(increment ' + ((i % values_per_period) + 1) + ' of ' + values_per_period + ') ');
-				this.debug('analyzing slice: ' + i + ' --> ' + (i + values_per_period) + '<br />');
-				this.debug('this_index: ' + this_index + '<br />');
-				this.debug('offset: ' + offset + '<br />');
-				this.debug('values_in_offset: ' + values_in_offset + '<br />');
+				this.printLoopDebug(i, values_per_period, price_data, hrs_in_period, this_index, offset, values_in_offset);
 			}
 
 			// run the decide algorithm on just this part
-			this.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, final_iteration, current_date)
+			this.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, current_date)
 		}
+
+		// calculate final profit now set has been process
+		var final_sell_price 	= price_data[(price_data.length - 1)].value_sell;
+		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
+
+		//if (final_profit > 300) {
+			this.debug('<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ');
+			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br />');
+			this.debug('invested:profit ratio: ' + (this.max_value_ever_owned / final_profit).toFixed(2) + '<br /><br />')
+		//}
+
+		this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit);
+	},
+
+
+
+	printLoopDebug: function(i, values_per_period, price_data, hrs_in_period, this_index, offset, values_in_offset) {
+		this.debug('<strong><u>Period ' + Math.floor((i + values_per_period) / values_per_period) + ' of ');
+		this.debug((price_data.length / values_per_period).toFixed(2));
+		this.debug(' (in ' + hrs_in_period + ' hr periods)</u></strong> ');
+		this.debug('(increment ' + ((i % values_per_period) + 1) + ' of ' + values_per_period + ') ');
+		this.debug('analyzing slice: ' + i + ' --> ' + (i + values_per_period) + '<br />');
+		this.debug('this_index: ' + this_index + '<br />');
+		this.debug('offset: ' + offset + '<br />');
+		this.debug('values_in_offset: ' + values_in_offset + '<br />');
 	},
 
 
 	/* 
 	* this function takes a slide of the array (144 values for a day, fewer for other periods) and decides on selling or buying
 	*/
-	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, final_iteration, current_date) {
+	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, current_date) {
 
 		var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
 		var avg_plus_high_threshold 	= (avg_for_period * (1 + high_threshold)).toFixed(2);
@@ -186,40 +212,42 @@ module.exports = {
  
 
 
-
 		if (sell) {
-			if (this.show_full_debug) this.debug('latest price is higher than +' + high_threshold + '% --- sell!<br />');
+			if (this.show_full_debug) {
+				this.debug('latest price is higher than +' + high_threshold + '% --- sell!<br />');
+			}
 			this.sellCoin(latest_sell_price)
 		} else if (buy) {
-			if (this.show_full_debug) this.debug('latest price is lower than -' + high_threshold + '% --- buy!<br />');
+			if (this.show_full_debug) {
+				this.debug('latest price is lower than -' + high_threshold + '% --- buy!<br />');
+			}
 			this.buyCoin(latest_buy_price)
 		} else {
-			if (this.show_full_debug) this.debug('Neither higher nor lower -> do nothing<br />');
+			if (this.show_full_debug) {
+				this.debug('Neither higher nor lower -> do nothing<br />');
+			}
 		}
+
 
 		if (this.show_full_debug) {
 			this.printCurrentPosition(latest_buy_price, latest_sell_price);
 		}
 
-		// final debug thing
-		if (final_iteration) {
-			var final_profit = ((this.total_coins_owned * latest_sell_price) + this.total_sold - this.total_spent)
 
-			//if (final_profit > 300) {
-				this.debug('<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ');
-				this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br />');
-				this.debug('invested:profit ratio: ' + (this.max_value_ever_owned / final_profit).toFixed(2) + '<br /><br />')
-			//}
-		}
-
+		// update chart data for each iteration of 10 mins
 		if (this.print_chart_data) {
-			this.chart_data += '"' + current_date + '",';
-			this.chart_data += latest_buy_price + ',';
-			this.chart_data += (buy) ? 'buy,' : ',';
-			this.chart_data += latest_sell_price + ',';
-			this.chart_data += (sell) ? 'sell' : '';
-			this.chart_data += '<br />';
+			this.updateChartData(current_date, latest_buy_price, buy, latest_sell_price, sell);
 		}
+	},
+
+
+	updateChartData: function(current_date, latest_buy_price, buy, latest_sell_price, sell) {
+		this.chart_data += '"' + current_date + '",';
+		this.chart_data += latest_buy_price + ',';
+		this.chart_data += (buy) ? 'buy,' : ',';
+		this.chart_data += latest_sell_price + ',';
+		this.chart_data += (sell) ? 'sell' : '';
+		this.chart_data += '<br />'
 	},
 
 
@@ -321,6 +349,55 @@ module.exports = {
 
 	
 	},
+
+
+	compileTableData: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit) {
+		//console.log('running with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
+
+
+		var array_key 	= 'period_' + hrs_in_period + '_offset_' + offset;
+		var row_key 	= 'row_'+high_threshold;
+
+
+
+		if (typeof this.table_data[array_key] === 'undefined') {
+			this.table_data[array_key] = {
+				'header_row' 	: ['<th>↓high\\low→</th>']
+			}
+		}
+
+		// adds for every loop. this prevents that. not elegant...
+		if (this.table_data[array_key].header_row[(this.table_data[array_key].header_row.length - 1)] !== '<th>'+low_threshold+'</th>') {
+			this.table_data[array_key].header_row.push('<th>'+low_threshold+'</th>')
+		}
+
+		// add value
+		if (typeof this.table_data[array_key][row_key] === 'undefined') {
+			this.table_data[array_key][row_key] = ['<th>'+high_threshold+'</th>']
+		}
+
+		// set color value from 0-255 based on value of final profit (from 0-500)
+
+		// ok heres the fun part
+		// convert final_product to 0->255
+		// i dont have max value yet os lets just copy it in
+		// 256 is obviosuly max rgba num
+		var max 		= 486.85;
+		var rgb_color 	= Math.floor(final_profit*(256/max));
+		this.table_data[array_key][row_key].push('<td style="font-weight:bold;color:rgb('+rgb_color+',0,0)">$'+final_profit.toFixed(2)+'</td>')
+
+		
+
+		// this.table_data['x_y'] = {
+		// 		"table_title" : "data for period 12, offset 0",
+		// 		"header_row" : ['', 0.05, 0.4, 0.7],
+		// 		"row_0.05" : [34,234,454]
+		//		"row_0.06" : [34,234,454]
+
+
+	},
+
+
 
 
 	printGraphData: function(price_data) {

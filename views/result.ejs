@@ -7,15 +7,65 @@
  	<style>
  		body {
  			font-family: Menlo, monospace;
- 			/*background-color: #222;
- 			color: #ddd;*/
  			font-weight: 400;
  			font-size: 12px;
+ 		}
+ 		table{
+ 			border-collapse: collapse;
+ 			margin: 0 0 15px;
+ 			
+ 		}
+ 		td, th {
+ 			padding: 5px;
+ 			border: 1px solid black;
+ 			
+ 		}
+ 		th {
+ 			background: #eee;
  		}
  	</style>
 </head>
 <body>
 	<%- data %>
 	<%- chart_data %>
+
+
+
+	
+
+	<% for (key in table_data) { %>
+		
+		key:  <%- key %><br />
+
+		<table>
+			
+			<% for (key2 in table_data[key]) { %>
+
+				<tr>
+
+					<% table_data[key][key2].forEach(function(item2) { %>
+						 <%- item2 %> 
+					<% }); %>
+				</tr>
+
+			<% } %>	
+		
+		</table>
+
+	<% } %>	
+
+
+
+
+
+
+
+<!--  period_12_offset_12:
+   { header_row: [ 'low/high', 0.01, 0.01, 0.15, 0.15 ],
+     'row_0.01': [ 0.01, -75.80550190890062, 0 ],
+      'row_0.15': [ 0.15, -229.8724005260574, 0 ]
+  }  -->
+
+
 </body>
 </html>

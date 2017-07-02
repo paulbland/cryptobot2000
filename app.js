@@ -51,7 +51,8 @@ app.get('/run-simulation', function(req, res) {
     		simulation.runFullSimulation(price_data);
 			res.render('result', {
 				data 		: simulation.browser_output,
-				chart_data 	: simulation.chart_data
+                chart_data  : simulation.chart_data,
+                table_data  : simulation.table_data
 			});
         }
 	});
