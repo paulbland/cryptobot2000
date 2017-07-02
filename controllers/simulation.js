@@ -16,12 +16,13 @@ module.exports = {
 	max_value_ever_owned	: null,
 	browser_output 			: '',
 	chart_data 				: '',
-	show_full_debug			: true,
+	show_full_debug			: false,
+	print_basic_debug 		: false,
 	sell_all				: true,		// false means sell just one unit
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
-	print_chart_data		: false,		
-
-
+	print_chart_data		: false,
+	print_table_data		: true,	
+	
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
@@ -89,10 +90,13 @@ module.exports = {
 
 	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
-		this.debug('processing: hrs_in_period: ' + hrs_in_period + ' ');
-		this.debug('offset: ' + offset + ' ');
-		this.debug('low_threshold: ' + low_threshold + ' ');
-		this.debug('high_threshold: ' + high_threshold + '<br />');
+
+		if (this.print_basic_debug) {
+			this.debug('processing: hrs_in_period: ' + hrs_in_period + ' ');
+			this.debug('offset: ' + offset + ' ');
+			this.debug('low_threshold: ' + low_threshold + ' ');
+			this.debug('high_threshold: ' + high_threshold + '<br />');
+		}
 
 		// these vars are relative to the current single simulation, and will be reset for each run
 		this.total_coins_owned 		= 0;
@@ -137,14 +141,16 @@ module.exports = {
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 
-		//if (final_profit > 300) {
+		if (this.print_basic_debug) {
 			this.debug('<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ');
 			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>) ');
 			this.debug('invested:profit ratio: ' + invest_profit_ratio + '<br /><br />')
-		//}
+		}
 
-		this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit);
-	},
+		if (this.print_table_data) {
+			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit);
+		}
+	}, 
 
 
 
