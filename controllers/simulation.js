@@ -105,7 +105,7 @@ module.exports = {
 
 	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
-		console.log(hrs_in_period, offset, low_threshold, high_threshold, price_data)
+	//	console.log(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 
 		if (this.print_basic_debug) {
 			this.printLoopSummary(hrs_in_period, offset, low_threshold, high_threshold)
@@ -326,7 +326,7 @@ module.exports = {
 		this.max_value_ever_owned = (value_of_coins_owned_right_now > this.max_value_ever_owned) ? value_of_coins_owned_right_now : this.max_value_ever_owned;
 
 		if (this.print_full_debug) {
-			this.debug('<span style="color:green">TRANSACTION: BUYING $' +  this.buy_sell_unit + ': ' + number_of_coins_to_buy + 'BTC  valued at $');
+			this.debug('<span style="color:green">TRANSACTION: BUYING $' +  this.buy_sell_unit + ': ' + number_of_coins_to_buy + 'coins  valued at $');
 			this.debug(current_coin_price_buy + '</span><br />');
 		}
 
