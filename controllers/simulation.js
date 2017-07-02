@@ -63,7 +63,7 @@ module.exports = {
 			var periods 		= [12, 24];
 			var offsets 		= [0, 12, 24];
 			var low_values 		= [0.025, 0.050, 0.075, 0.100, 0.125];
-			var high_values 	= [0.01, 0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70];
+			var high_values 	= [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70];
 
 		} else if (this.buy_sell_method === 'peak') {
 
