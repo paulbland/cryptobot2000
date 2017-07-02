@@ -24,8 +24,8 @@ module.exports = {
 	// output options
 	print_full_debug		: null,
 	print_basic_debug 		: null,
-	print_chart_data		: null,
-	print_table_data		: null,	
+	print_chart_data		: false,
+	print_table_data		: false,	
 	
 
 	printSummary: function(price_data) {
@@ -41,26 +41,24 @@ module.exports = {
 		this.browser_output 	= '';
 		this.chart_data 		= '';
 		this.table_data 		= {};
-		this.print_basic_debug 	= true; //usually false
-		this.print_full_debug 	= true; //usually false
-		this.print_chart_data	= false;
-		this.print_table_data 	= false;	
+		this.print_basic_debug 	= false; 
+		this.print_full_debug 	= false; 
+		this.print_table_data 	= true;	
 		
 
 		this.printSummary(price_data);
 
 		if (this.buy_sell_method === 'avg') {
 
-			// var periods 	= [3, 6, 12, 18, 24];
-			// var offsets 	= [3, 6, 12, 18, 24];
-			// var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
-			// var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+			var periods 	= [3, 6, 12, 18, 24];
+			var offsets 	= [3, 6, 12, 18, 24];
+			var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
+			var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
 
-
-			var periods 	= [6];
-			var offsets 	= [24];
-			var low_values 	= [0.08];
-			var high_values = [0.30];
+			// var periods 	= [6];
+			// var offsets 	= [24];
+			// var low_values 	= [0.08];
+			// var high_values = [0.30];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -94,8 +92,7 @@ module.exports = {
 		this.table_data 		= {};
 		this.print_basic_debug 	= true;
 		this.print_full_debug 	= true;
-		this.print_chart_data	= false;
-		this.print_table_data 	= false;	// not relevant here
+		this.print_chart_data	= true;
 		this.printSummary(price_data);
 		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 	},
@@ -105,7 +102,7 @@ module.exports = {
 
 	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
-	//	console.log(hrs_in_period, offset, low_threshold, high_threshold, price_data)
+		//	console.log(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 
 		if (this.print_basic_debug) {
 			this.printLoopSummary(hrs_in_period, offset, low_threshold, high_threshold)
