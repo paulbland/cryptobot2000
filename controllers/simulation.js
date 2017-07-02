@@ -89,10 +89,10 @@ module.exports = {
 
 	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
-		this.debug('hrs_in_period: ' + hrs_in_period + ' ');
+		this.debug('processing: hrs_in_period: ' + hrs_in_period + ' ');
 		this.debug('offset: ' + offset + ' ');
 		this.debug('low_threshold: ' + low_threshold + ' ');
-		this.debug('high_threshold: ' + high_threshold + '<br /><br />');
+		this.debug('high_threshold: ' + high_threshold + '<br />');
 
 		// these vars are relative to the current single simulation, and will be reset for each run
 		this.total_coins_owned 		= 0;
@@ -135,11 +135,12 @@ module.exports = {
 		// calculate final profit now set has been process
 		var final_sell_price 	= price_data[(price_data.length - 1)].value_sell;
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
+		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 
 		//if (final_profit > 300) {
 			this.debug('<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ');
-			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>)<br />');
-			this.debug('invested:profit ratio: ' + (this.max_value_ever_owned / final_profit).toFixed(2) + '<br /><br />')
+			this.debug('(<strong>max ever value: $' + this.max_value_ever_owned.toFixed(2) + '</strong>) ');
+			this.debug('invested:profit ratio: ' + invest_profit_ratio + '<br /><br />')
 		//}
 
 		this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit);
@@ -382,9 +383,38 @@ module.exports = {
 		// convert final_product to 0->255
 		// i dont have max value yet os lets just copy it in
 		// 256 is obviosuly max rgba num
+		// then set colors weighted to the total value
 		var max 		= 486.85;
-		var rgb_color 	= Math.floor(final_profit*(256/max));
-		this.table_data[array_key][row_key].push('<td style="font-weight:bold;color:rgb('+rgb_color+',0,0)">$'+final_profit.toFixed(2)+'</td>')
+		var min  		= -688.08;
+		var rgb_color 	= 0
+		var color_text 	= ''
+
+
+		if (final_profit > 0) {
+
+			rgb_color 	= Math.floor(final_profit * (255 / max));
+			rgb_color 	= (rgb_color > 255) ? 255 : rgb_color;
+			color_text 	= 'rgb(0,'+rgb_color+',0)';
+
+		} else if (final_profit < 0) {
+
+			rgb_color 	= Math.floor(final_profit * (255 / min));
+			rgb_color 	= (rgb_color > 255) ? 255 : rgb_color;
+			color_text 	= 'rgb('+rgb_color+',0,0)';
+
+		}
+		else if (final_profit === 0) {
+			color_text = '#ccc';
+		}
+
+
+		
+
+
+		
+
+
+		this.table_data[array_key][row_key].push('<td style="font-weight:bold;color:'+color_text+'">$'+final_profit.toFixed(2)+'</td>')
 
 		
 
