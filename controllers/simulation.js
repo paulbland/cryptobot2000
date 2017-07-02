@@ -30,9 +30,9 @@ module.exports = {
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
-		this.debug('<strong>analyzing: ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days, ');
+		this.debug('<strong>Analyzing ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days) ');
 		this.debug('sell_all: ' + this.sell_all+', ');
-		this.debug('method: ' + this.buy_sell_method+')</strong><br /><br />');
+		this.debug('buy_sell_method: \'' + this.buy_sell_method+'\'</strong><br /><br />');
 	},
 
 
@@ -153,7 +153,7 @@ module.exports = {
 		}
 
 		if (this.print_table_data) {
-			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit);
+			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio);
 		}
 	}, 
 
@@ -376,7 +376,7 @@ module.exports = {
 
 
 
-	compileTableData: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit) {
+	compileTableData: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio) {
 		//console.log('running with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
 
 
@@ -411,6 +411,7 @@ module.exports = {
 		var min  		= -1000;
 		var rgb_color 	= 0
 		var color_text 	= ''
+		var cell_str 	= '';
 
 
 		if (final_profit > 0) {
@@ -431,9 +432,13 @@ module.exports = {
 		}
 
 
+		cell_str += '<td>\
+			<a style="font-weight:bold;color:'+color_text+'" href="'+cell_link+'" target="_blank">\
+				$'+final_profit.toFixed(2)+'</a><br />\
+				<span>($'+this.max_value_ever_owned.toFixed(2)+'\/'+invest_profit_ratio+')</span>\
+		</td>';
 
-
-		this.table_data[array_key][row_key].push('<td><a style="font-weight:bold;color:'+color_text+'" href="'+cell_link+'" target="_blank">$'+final_profit.toFixed(2)+'</a></td>')
+		this.table_data[array_key][row_key].push(cell_str)
 
 		
 
