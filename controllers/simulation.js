@@ -5,7 +5,6 @@ module.exports = {
 
 	// these are constant vars thoughout entire simulation
 	interval_in_minutes 	: 10,	// how often data is collected in minutes
-	buy_sell_unit 			: 750,	
 
 	// these are here because they must be visible globally, even though are updated throughout iterations
 	total_coins_owned 		: null,
@@ -20,16 +19,18 @@ module.exports = {
 	summary_output			: '',
 	currency 				: null,
 
-	// algorthim differences that arent looped
-	sell_all				: true,		// false means sell just one unit
-	buy_sell_method			: 'avg',	// 'avg' or 'peak'
-	buy_limit				: 10000,
-	
 	// output options
 	print_full_debug		: null,
 	print_basic_debug 		: null,
 	print_chart_data		: false,
 	print_table_data		: false,	
+
+	// algorthim differences that arent looped
+	buy_sell_method			: 'avg',		// 'avg' or 'peak'
+	buy_sell_unit 			: 300,			//500/10k seems to be good  -- also 300/5k
+	buy_limit				: 5000,
+	sell_all				: true,			// false means sell just one unit
+	simulate_crash 			: true,
 	
 
 	printSummary: function(price_data) {
@@ -38,7 +39,8 @@ module.exports = {
 		this.debug('- sell_all: ' + this.sell_all+'<br />');
 		this.debug('- buy_sell_method: \'' + this.buy_sell_method+'\'<br />');
 		this.debug('- buy_sell_unit: ' + this.buy_sell_unit+'<br />');
-		this.debug('- buy_limit: ' + this.buy_limit+'<br /><br />');
+		this.debug('- buy_limit: ' + this.buy_limit+'<br />');
+		this.debug('- simulate_crash: ' + this.simulate_crash+'<br /><br />');
 	},
 
 
@@ -57,23 +59,23 @@ module.exports = {
 
 		if (this.buy_sell_method === 'avg') {
 
-			// FULL DATA FOR LONG TEST (~3:39 m:s)
-			var periods 	= [3, 6, 12, 18, 24];
-			var offsets 	= [0, 6, 12, 18, 24];
-			var low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
-			var high_values = [0.01, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+			// FULL DATA FOR LONG TESTS
+			var periods 	= [6, 12]; 		// bad: 18 , 24
+			var offsets 	= [3, 6, 9]; 	// bad: 0, 12  
+			var low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
+			var high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
 
 			// SHORT DATA FOR HEROKU 30 SEC TIMEOUT (~25 SEC)
 			// var periods 		= [12, 24];
 			// var offsets 		= [12, 24]; // remember 0 offsets..
-			// var low_values 		= [0.025, 0.050, 0.075, 0.100, 0.125];
+			// var low_values 	= [0.025, 0.050, 0.075, 0.100, 0.125];
 			// var high_values 	= [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70];
 
 			// ONE TABLE - FOR TESTING
-			// periods 	= [24];
-			// offsets 	= [12];
-			// low_values 	= [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18];
-			// high_values = [0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+			// periods 	= [12]; 
+			// offsets 	= [6]; 
+			// low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];
+			// high_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -164,6 +166,12 @@ module.exports = {
 
 		// calculate final profit now set has been process
 		var final_sell_price 	= price_data[(price_data.length - 1)].value_sell;
+		
+		// set final sell to 25%
+		if (this.simulate_crash) {
+			final_sell_price *= 0.25;
+		}
+
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 
@@ -505,23 +513,24 @@ module.exports = {
 		// i dont have max value yet os lets just copy it in
 		// 256 is obviosuly max rgba num
 		// then set colors weighted to the total value
-		var max 		= 2000;
-		var min  		= -500;
+		var max 		= 1500;
+		var min  		= -1500;
 		var rgb_color 	= 0
 		var color_text 	= ''
 		var cell_str 	= '';
+		var max_rgb_value = 210; // use 210 because 255 is too hard to read on white screen
 
 
 		if (final_profit > 0) {
 
-			rgb_color 	= Math.floor(final_profit * (255 / max));
-			rgb_color 	= (rgb_color > 255) ? 255 : rgb_color;
+			rgb_color 	= Math.floor(final_profit * (max_rgb_value / max));
+			rgb_color 	= (rgb_color > max_rgb_value) ? max_rgb_value : rgb_color;
 			color_text 	= 'rgb(0,'+rgb_color+',0)';
 
 		} else if (final_profit < 0) {
 
-			rgb_color 	= Math.floor(final_profit * (255 / min));
-			rgb_color 	= (rgb_color > 255) ? 255 : rgb_color;
+			rgb_color 	= Math.floor(final_profit * (max_rgb_value / min));
+			rgb_color 	= (rgb_color > max_rgb_value) ? max_rgb_value : rgb_color;
 			color_text 	= 'rgb('+rgb_color+',0,0)';
 
 		}
