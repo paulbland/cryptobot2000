@@ -55,27 +55,16 @@ module.exports = {
 		this.currency 			= currency;
 		
 
-		this.printSummary(price_data);
+		this.printSummary(price_data); 
 
 		if (this.buy_sell_method === 'avg') {
 
 			// FULL DATA FOR LONG TESTS
-			var periods 	= [6, 12]; 		// bad: 18 , 24
-			var offsets 	= [3, 6, 9]; 	// bad: 0, 12  
+			var periods 	= [24, 48, 72]; 		// bad: 18 , 24
+			var offsets 	= [0, 24, 48]; 	// bad: 0, 12  
 			var low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
 			var high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
 
-			// SHORT DATA FOR HEROKU 30 SEC TIMEOUT (~25 SEC)
-			// var periods 		= [12, 24];
-			// var offsets 		= [12, 24]; // remember 0 offsets..
-			// var low_values 	= [0.025, 0.050, 0.075, 0.100, 0.125];
-			// var high_values 	= [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70];
-
-			// ONE TABLE - FOR TESTING
-			// periods 	= [12]; 
-			// offsets 	= [6]; 
-			// low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];
-			// high_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];
 
 		} else if (this.buy_sell_method === 'peak') {
 
