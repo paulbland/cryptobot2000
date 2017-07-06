@@ -68,7 +68,7 @@ module.exports = {
 			// SHORT FOR HEROKU
 			periods 	= [6, 12]; 
 			offsets 	= [6, 12]; 	
-			low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];	
+			low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13];	
 			high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];	
 
 			// GOOD/BAD
@@ -541,8 +541,8 @@ module.exports = {
 		// i dont have max value yet os lets just copy it in
 		// 256 is obviosuly max rgba num
 		// then set colors weighted to the total value
-		var max 		= 100;
-		var min  		= -1000;
+		var max 		= 2200;
+		var min  		= -500;
 		var rgb_color 	= 0
 		var color_text 	= ''
 		var cell_str 	= '';
