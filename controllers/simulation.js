@@ -66,10 +66,44 @@ module.exports = {
 			var high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
 
 			// SHORT FOR HEROKU
-			periods 	= [12, 24, 48]; 
-			offsets 	= [0, 12]; 	
-			low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
-			high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
+			periods 	= [6, 12]; 
+			offsets 	= [6, 12, 24]; 	
+			low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];	
+			high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];	
+
+			// GOOD/BAD
+
+			// ==ETH== (7/5) (300/5000/avg/sellall=true/nocrash)
+			//
+			//	off \ per |		6		12		24		48		72
+			// ------------------------------------------------------
+			// 		0	  |		✔		✔ 		✔ 		✘ 		✘
+			//		6	  |		✔ 		✔✔		✔ 		✘ 		✘
+			//		12	  | 	✔✔		✔		✔ 		✘ 		✘
+			//		24    |		✔		✔✔		✘		✘		✘
+			//		48	  |		✘		✘		✘		✘		✘✘
+
+			// ==BTC== (7/5) (300/5000/avg/sellall=true/nocrash)
+			//
+			//	off \ per |		6		12		24		48		72
+			// -----------------------------------------------------
+			// 		0	  |		✘		~		 		 		
+			//		6	  |		~		~		~		 		 		
+			//		12	  | 	~		~		~ 		 		
+			//		24    |		~		~		✘				
+			//		48	  |		~	
+
+			// ==LTC== (7/5) (300/5000/avg/sellall=true/nocrash)
+			//
+			//	off \ per |		6		12		24		48		72
+			// -----------------------------------------------------
+			// 		0	  |		✔		✔✔		✔		~		✔
+			//		6	  |		✔✔		✔✔		✔		✔ 		 		
+			//		12	  | 	✔✔		✔✔		✔✔ 		✔		
+			//		24    |		✔✔		✔✔		✔		✔		
+			//		48	  |		✔		✔		✔		✔		
+							
+
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -507,8 +541,8 @@ module.exports = {
 		// i dont have max value yet os lets just copy it in
 		// 256 is obviosuly max rgba num
 		// then set colors weighted to the total value
-		var max 		= 1500;
-		var min  		= -1500;
+		var max 		= 100;
+		var min  		= -1000;
 		var rgb_color 	= 0
 		var color_text 	= ''
 		var cell_str 	= '';
