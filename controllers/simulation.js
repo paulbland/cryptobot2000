@@ -30,7 +30,7 @@ module.exports = {
 	buy_sell_unit 			: 300,			//500/10k seems to be good  -- also 300/5k
 	buy_limit				: 5000,
 	sell_all				: true,			// false means sell just one unit
-	simulate_crash 			: true,
+	simulate_crash 			: false,
 	
 
 	printSummary: function(price_data) {
@@ -65,6 +65,11 @@ module.exports = {
 			var low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
 			var high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
 
+			// SHORT FOR HEROKU
+			periods 	= [12, 24, 48]; 
+			offsets 	= [0, 12]; 	
+			low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
+			high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
 
 		} else if (this.buy_sell_method === 'peak') {
 
