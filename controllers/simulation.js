@@ -27,10 +27,10 @@ module.exports = {
 
 	// algorthim differences that arent looped
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
-	buy_sell_unit 			: 300,			//500/10k seems to be good  -- also 300/5k
-	buy_limit				: 5000,
+	buy_sell_unit 			: 100,			//500/10k seems to be good  -- also 300/5k
+	buy_limit				: 1000,
 	sell_all				: true,			// false means sell just one unit
-	simulate_crash 			: false,
+	simulate_crash 			: true,
 	
 
 	printSummary: function(price_data) {
@@ -60,16 +60,20 @@ module.exports = {
 		if (this.buy_sell_method === 'avg') {
 
 			// FULL DATA FOR LONG TESTS
-			var periods 	= [24, 48, 72]; 		// bad: 18 , 24
-			var offsets 	= [0, 24, 48]; 	// bad: 0, 12  
+			var periods 	= [24, 48, 72]; 	
+			var offsets 	= [0, 24, 48]; 	
 			var low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
 			var high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
 
 			// SHORT FOR HEROKU
-			periods 	= [6, 12]; 
+			periods 	= [6]; 
 			offsets 	= [12]; 	
-			low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15];	
-			high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19];	
+			low_values 	= [0.03, 0.05, 0.07, 0.09, 0.11, 0.13];	
+			high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23];	
+
+
+			// a fave
+			//http://localhost:5000/run-simulation-single?hrs_in_period=6&offset=12&low_threshold=0.11&high_threshold=0.13&currency=LTC
 
 			// GOOD/BAD
 
@@ -202,6 +206,7 @@ module.exports = {
 
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
+		var profit_percentage	= ((final_profit / this.max_value_ever_owned)* 100).toFixed(0)
 
 		if (this.print_basic_debug) {
 			this.summary_output += '<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ';
@@ -210,7 +215,7 @@ module.exports = {
 		}
 
 		if (this.print_table_data) {
-			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio);
+			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage);
 		}
 	}, 
 
@@ -510,7 +515,7 @@ module.exports = {
 
 
 
-	compileTableData: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio) {
+	compileTableData: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage) {
 		//console.log('running with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
 
 
@@ -541,8 +546,8 @@ module.exports = {
 		// i dont have max value yet os lets just copy it in
 		// 256 is obviosuly max rgba num
 		// then set colors weighted to the total value
-		var max 		= 2200;
-		var min  		= -500;
+		var max 		= 250;
+		var min  		= -50;
 		var rgb_color 	= 0
 		var color_text 	= ''
 		var cell_str 	= '';
@@ -570,8 +575,11 @@ module.exports = {
 		cell_str += '<td>\
 			<a style="font-weight:bold;color:'+color_text+'" href="'+cell_link+'" target="_blank">\
 				$'+final_profit.toFixed(2)+'</a><br />\
-				<span>($'+this.max_value_ever_owned.toFixed(2)+'\/'+invest_profit_ratio+')</span>\
+				<span>($'+this.max_value_ever_owned.toFixed(2)+'\/'+profit_percentage+'%)</span>\
 		</td>';
+
+		// used to show a ratio. now shows % earnt
+		//<span>($'+this.max_value_ever_owned.toFixed(2)+'\/'+invest_profit_ratio+')</span>\
 
 		this.table_data[array_key][row_key].push(cell_str)
 
