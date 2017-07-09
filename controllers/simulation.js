@@ -50,8 +50,6 @@ module.exports = {
 
 	runFullSimulation: function(price_data, currency) {
 
-		//this.browser_output 	= '';
-		//this.chart_data 		= '';
 		this.table_data 		= {};
 		this.table_averages 	= {};
 		this.print_basic_debug 	= false; 
@@ -59,8 +57,7 @@ module.exports = {
 		this.print_table_data 	= true;	
 		this.currency 			= currency;
 		
-
-		reporting.reset();
+		reporting.resetOutput();
 
 		this.printSummary(price_data); 
 
@@ -121,11 +118,8 @@ module.exports = {
 
 
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
-		//this.browser_output 	= '';
-		//this.summary_output	= '';
-		//this.chart_data 		= '';
 
-		reporting.reset();
+		reporting.resetOutput();
 		
 		this.table_data 		= {};
 		this.print_basic_debug 	= true;
@@ -159,8 +153,8 @@ module.exports = {
 		this.max_coins_ever_owned 	= 0;
 		this.max_value_ever_owned 	= 0;
 
-		var values_per_period 		= ((hrs_in_period * 60) / this.interval_in_minutes); 	// 144 10-min incremetns in a 24 hr period)
-		var values_in_offset		= ((offset * 60) / this.interval_in_minutes);
+		var values_per_period 		= tools.calculateValuesForGivenPeriod(hrs_in_period, this.interval_in_minutes)		//((hrs_in_period * 60) / interval_in_minutes); 	
+		var values_in_offset		= tools.calculateValuesForGivenPeriod(offset, this.interval_in_minutes)				//((offset * 60) / this.interval_in_minutes);
 		var total_iterations 		= (price_data.length - values_per_period - values_in_offset)
 
 		// loop the data
@@ -184,7 +178,7 @@ module.exports = {
 			}
 
 			// run the decide algorithm on just this part
-			var sell_or_buy = this.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, 
+			var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, 
 				this.buy_sell_method, this.print_full_debug)
 
 			if (sell_or_buy === 'sell') {
@@ -238,62 +232,6 @@ module.exports = {
 	}, 
 
 
-
-
-
-	/* 
-	* this function takes a slide of the array (144 values for a day, fewer for other periods) and decides on selling or buying
-	*/
-	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug) {
-
-		var avg_for_period 				= tools.calculateAverage(data_to_be_tested)						// get avg for period
-		var avg_plus_high_threshold 	= (avg_for_period * (1 + high_threshold)).toFixed(2);
-		var avg_minus_low_threshold 	= (avg_for_period * (1 - low_threshold)).toFixed(2);
-		var high_for_period 			= tools.calculateHigh(data_to_be_tested)						// get avg for period
-		var low_for_period 				= tools.calculateLow(data_to_be_tested)						// get avg for period
-		var high_minus_high_threshold 	= (high_for_period * (1 - high_threshold)).toFixed(2);
-		var low_plus_low_threshold 		= (low_for_period * (1 + low_threshold)).toFixed(2);
-	
-		if (buy_sell_method === 'avg') {
-
-			var sell 	= (latest_sell_price > avg_plus_high_threshold) ? true : false;
-			var buy 	= (latest_buy_price < avg_minus_low_threshold) ? true : false;
-
-			if (print_full_debug) {
-				reporting.debug('avg_for_period: $' + avg_for_period + '<br>');// print avg result to browser
-				reporting.debug('(avg price plus high threshold ('+high_threshold+'%) is ' + avg_plus_high_threshold + ')<br />');
-				reporting.debug('(avg price minus low threshold ('+low_threshold+'%) is ' + avg_minus_low_threshold + ')<br />');
-			}
-
-		} else if (buy_sell_method === 'peak') {
-
-			var sell 	= (latest_sell_price > high_minus_high_threshold) ? true : false;
-			var buy 	= (latest_buy_price < low_plus_low_threshold) ? true : false;
-
-			if (print_full_debug) {
-				reporting.debug('high_for_period is: $' + high_for_period + '<br>');// print avg result to browser
-				reporting.debug('low_for_period is: $' + low_for_period + '<br>');// print avg result to browser
-				reporting.debug('high_minus_high_threshold is: $' + high_minus_high_threshold + '<br>');// print avg result to browser
-				reporting.debug('low_plus_low_threshold is: $' + low_plus_low_threshold + '<br>');// print avg result to browser
-			}
-
-		} else {
-			return;
-		}
-
-		if (sell) {
-			return 'sell';
-		} else if (buy) {
-			return 'buy';
-		} else {
-			return false;
-		}
-	},
-
-
-	
-
-	
 
 
 	buyCoinSim: function(current_coin_price_buy, high_threshold) {

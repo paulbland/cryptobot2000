@@ -8,19 +8,7 @@ module.exports  = {
         this.browser_output += str;
     },
 
-    getFinalOutput : function() {
-        return this.browser_output;
-    },
-
-    getFinalChartData : function() {
-        return this.chart_data;
-    },
-
-    getSummaryData : function() {
-        return this.summary_output;
-    },
-
-    reset: function() {
+    resetOutput: function() {
         this.browser_output = '';
         this.chart_data = '';
         this.summary_output = '';
@@ -43,17 +31,6 @@ module.exports  = {
 		this.debug('&gt;&gt; max value ever owned $' + max_value_ever_owned.toFixed(2) + '<br /><br />');
 	},
 
-    updateChartData: function(current_date, latest_buy_price, buy, latest_sell_price, sell) {
-		// ARRAY AS TEXT
-		this.chart_data += '["' + current_date + '",';
-		this.chart_data += latest_buy_price + ',';
-		this.chart_data += (buy) ? '"buy",' : 'null,';
-		this.chart_data += latest_sell_price + ',';
-		this.chart_data += (sell) ? '"sell"' : 'null';
-		this.chart_data += '],'
-	},
-
-
     printLoopDebug: function(i, values_per_period, price_data, hrs_in_period, this_index, offset, values_in_offset) {
 		this.debug('<strong><u>Period ' + Math.floor((i + values_per_period) / values_per_period) + ' of ');
 		this.debug((price_data.length / values_per_period).toFixed(2));
@@ -65,10 +42,32 @@ module.exports  = {
 		this.debug('values_in_offset: ' + values_in_offset + '<br />');
 	},
 
-    updateSummaryData: function(final_profit, max_value_ever_owned, invest_profit_ratio){
+    updateChartData: function(current_date, latest_buy_price, buy, latest_sell_price, sell) {
+		// ARRAY AS TEXT
+		this.chart_data += '["' + current_date + '",';
+		this.chart_data += latest_buy_price + ',';
+		this.chart_data += (buy) ? '"buy",' : 'null,';
+		this.chart_data += latest_sell_price + ',';
+		this.chart_data += (sell) ? '"sell"' : 'null';
+		this.chart_data += '],'
+	},
+
+    updateSummaryData: function(final_profit, max_value_ever_owned, invest_profit_ratio) {
         this.summary_output += '<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ';
 		this.summary_output += '(<strong>max ever value: $' + max_value_ever_owned.toFixed(2) + '</strong>) ';
 		this.summary_output += 'invested:profit ratio: ' + invest_profit_ratio + '<br /><br />';
+    },
+
+    getFinalOutput: function() {
+        return this.browser_output;
+    },
+
+    getFinalChartData: function() {
+        return this.chart_data;
+    },
+
+    getSummaryData: function() {
+        return this.summary_output;
     }
 
 
