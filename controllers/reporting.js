@@ -1,7 +1,8 @@
 module.exports  = {
 
-    browser_output : '',
-    chart_data : '',
+    browser_output  : '',
+    chart_data      : '',
+    summary_output  : '',
 
     debug: function(str) {
         this.browser_output += str;
@@ -15,9 +16,14 @@ module.exports  = {
         return this.chart_data;
     },
 
+    getSummaryData : function() {
+        return this.summary_output;
+    },
+
     reset: function() {
         this.browser_output = '';
         this.chart_data = '';
+        this.summary_output = '';
     },
 
     printCurrentPosition: function (current_coin_price_buy, current_coin_price_sell, total_coins_owned, total_spent, total_sold, 
@@ -45,6 +51,25 @@ module.exports  = {
 		this.chart_data += latest_sell_price + ',';
 		this.chart_data += (sell) ? '"sell"' : 'null';
 		this.chart_data += '],'
-	}
+	},
+
+
+    printLoopDebug: function(i, values_per_period, price_data, hrs_in_period, this_index, offset, values_in_offset) {
+		this.debug('<strong><u>Period ' + Math.floor((i + values_per_period) / values_per_period) + ' of ');
+		this.debug((price_data.length / values_per_period).toFixed(2));
+		this.debug(' (in ' + hrs_in_period + ' hr periods)</u></strong> ');
+		this.debug('(increment ' + ((i % values_per_period) + 1) + ' of ' + values_per_period + ') ');
+		this.debug('analyzing slice: ' + i + ' --> ' + (i + values_per_period) + '<br />');
+		this.debug('this_index: ' + this_index + '<br />');
+		this.debug('offset: ' + offset + '<br />');
+		this.debug('values_in_offset: ' + values_in_offset + '<br />');
+	},
+
+    updateSummaryData: function(final_profit, max_value_ever_owned, invest_profit_ratio){
+        this.summary_output += '<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ';
+		this.summary_output += '(<strong>max ever value: $' + max_value_ever_owned.toFixed(2) + '</strong>) ';
+		this.summary_output += 'invested:profit ratio: ' + invest_profit_ratio + '<br /><br />';
+    }
+
 
 }
