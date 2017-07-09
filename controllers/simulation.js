@@ -50,8 +50,8 @@ module.exports = {
 
 	runFullSimulation: function(price_data, currency) {
 
-		this.browser_output 	= '';
-		this.chart_data 		= '';
+		//this.browser_output 	= '';
+		//this.chart_data 		= '';
 		this.table_data 		= {};
 		this.table_averages 	= {};
 		this.print_basic_debug 	= false; 
@@ -112,19 +112,18 @@ module.exports = {
 		console.log(this.table_averages);
 
 		this.browser_output = reporting.getFinalOutput()
+		this.chart_data 	= reporting.getFinalChartData()
 
 	},
 
 
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
-		this.browser_output 	= '';
+		//this.browser_output 	= '';
 		this.summary_output		= '';
-		this.chart_data 		= '';
+		//this.chart_data 		= '';
 
 		reporting.reset();
-		//this.chart_data += '["date","buy price","sell price"],';
 		
-
 		this.table_data 		= {};
 		this.print_basic_debug 	= true;
 		this.print_full_debug 	= true; //usually true
@@ -133,6 +132,7 @@ module.exports = {
 		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 
 		this.browser_output 	= reporting.getFinalOutput()
+		this.chart_data 		= reporting.getFinalChartData()
 	},
 
 
@@ -303,32 +303,12 @@ module.exports = {
 
 		// update chart data for each iteration of 10 mins
 		if (print_chart_data) {
-			this.updateChartData(current_date, latest_buy_price, buy, latest_sell_price, sell);
+			reporting.updateChartData(current_date, latest_buy_price, buy, latest_sell_price, sell);
 		}
 	},
 
 
-	updateChartData: function(current_date, latest_buy_price, buy, latest_sell_price, sell) {
-		// CSV
-		// this.chart_data += '"' + current_date + '",';
-		// this.chart_data += latest_buy_price + ',';
-		// this.chart_data += (buy) ? 'buy,' : ',';
-		// this.chart_data += latest_sell_price + ',';
-		// this.chart_data += (sell) ? 'sell' : ''; 
-		// this.chart_data += '<br />'
-
-		// ARRAY
-		// this.chart_data.push(latest_buy_price)
-
-		// ARRAY AS TEXT
-		this.chart_data += '["' + current_date + '",';
-		this.chart_data += latest_buy_price + ',';
-		this.chart_data += (buy) ? '"buy",' : 'null,';
-		this.chart_data += latest_sell_price + ',';
-		this.chart_data += (sell) ? '"sell"' : 'null';
-		this.chart_data += '],'
-	},
-
+	
 
 	
 
