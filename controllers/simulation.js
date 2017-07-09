@@ -30,7 +30,7 @@ module.exports = {
 	buy_sell_unit 			: 100,			//500/10k seems to be good  -- also 300/5k
 	buy_limit				: 1000,
 	sell_all				: true,			// false means sell just one unit
-	simulate_crash 			: true,
+	simulate_crash 			: false, 
 	
 
 	printSummary: function(price_data) {
@@ -49,65 +49,29 @@ module.exports = {
 		this.browser_output 	= '';
 		this.chart_data 		= '';
 		this.table_data 		= {};
+		this.table_averages 	= {};
 		this.print_basic_debug 	= false; 
 		this.print_full_debug 	= false; 
 		this.print_table_data 	= true;	
 		this.currency 			= currency;
 		
-
 		this.printSummary(price_data); 
 
 		if (this.buy_sell_method === 'avg') {
 
 			// FULL DATA FOR LONG TESTS
-			var periods 	= [24, 48, 72]; 	
-			var offsets 	= [0, 24, 48]; 	
-			var low_values 	= [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
-			var high_values = [0.01, 0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
+			var periods 	= [6, 12, 24]; 																// 6/12/24 - good,  48+ always bad
+			var offsets 	= [6, 12, 24]; 																// 6/12/24 - good, 0 is mixed, 48+ bad
+			var low_values 	= [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
+			var high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
+
+			// removed 0.01 and 0.03 - dont seem significant ever (both axes)
 
 			// SHORT FOR HEROKU
-			periods 	= [6]; 
-			offsets 	= [12]; 	
-			low_values 	= [0.03, 0.05, 0.07, 0.09, 0.11, 0.13];	
-			high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23];	
-
-
-			// a fave
-			//http://localhost:5000/run-simulation-single?hrs_in_period=6&offset=12&low_threshold=0.11&high_threshold=0.13&currency=LTC
-
-			// GOOD/BAD
-
-			// ==ETH== (7/5) (300/5000/avg/sellall=true/nocrash)
-			//
-			//	off \ per |		6		12		24		48		72
-			// ------------------------------------------------------
-			// 		0	  |		✔		✔ 		✔ 		✘ 		✘
-			//		6	  |		✔ 		✔✔		✔ 		✘ 		✘
-			//		12	  | 	✔✔		✔		✔ 		✘ 		✘
-			//		24    |		✔		✔✔		✘		✘		✘
-			//		48	  |		✘		✘		✘		✘		✘✘
-
-			// ==BTC== (7/5) (300/5000/avg/sellall=true/nocrash)
-			//
-			//	off \ per |		6		12		24		48		72
-			// -----------------------------------------------------
-			// 		0	  |		✘		~		 		 		
-			//		6	  |		~		~		~		 		 		
-			//		12	  | 	~		~		~ 		 		
-			//		24    |		~		~		✘				
-			//		48	  |		~	
-
-			// ==LTC== (7/5) (300/5000/avg/sellall=true/nocrash)
-			//
-			//	off \ per |		6		12		24		48		72
-			// -----------------------------------------------------
-			// 		0	  |		✔		✔✔		✔		~		✔
-			//		6	  |		✔✔		✔✔		✔		✔ 		 		
-			//		12	  | 	✔✔		✔✔		✔✔ 		✔		
-			//		24    |		✔✔		✔✔		✔		✔		
-			//		48	  |		✔		✔		✔		✔		
-							
-
+			periods 	= [12]; 		// winner: period 6
+			offsets 	= [6]; 			// winner: offset: 12
+			low_values 	= [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];//[0.16];	 ???it was. a scond ago?
+			high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];//[0.17];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -131,6 +95,14 @@ module.exports = {
 				}
 			}
 		}
+
+
+		// print table average just to console for now
+		for (x in this.table_averages) {
+			this.table_averages[x] = (this.table_averages[x] / (low_values.length * high_values.length));
+		}
+		console.log('table averages:')
+		console.log(this.table_averages);
 
 	},
 
@@ -201,7 +173,9 @@ module.exports = {
 		
 		// set final sell to 25%
 		if (this.simulate_crash) {
-			final_sell_price *= 0.25;
+			//final_sell_price *= 0.25;
+			// changed: now crashes to period average. the crash thing was misleading
+			final_sell_price = this.calculateAverage(data_to_be_tested)
 		}
 
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
@@ -527,6 +501,7 @@ module.exports = {
 			this.table_data[array_key] = {
 				'header_row' 	: ['<th>↓high\\low→</th>']
 			}
+			this.table_averages[array_key] = 0;
 		}
 
 		// adds for every loop. this prevents that. not elegant...
@@ -583,7 +558,7 @@ module.exports = {
 
 		this.table_data[array_key][row_key].push(cell_str)
 
-		
+		this.table_averages[array_key] += final_profit;
 
 		// this.table_data['x_y'] = {
 		// 		"header_row" : ['', 0.05, 0.4, 0.7],
@@ -592,6 +567,9 @@ module.exports = {
 
 
 	},
+
+	
+
 
 
 

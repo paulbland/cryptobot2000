@@ -1,5 +1,5 @@
 
-
+/*
 set heroku scheduler to run this every 10 minutes
 
 
@@ -44,3 +44,4 @@ also-
 - Split simulation obj into simulation / tools / reporting
 
 
+*/
