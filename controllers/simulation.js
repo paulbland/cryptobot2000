@@ -104,16 +104,19 @@ module.exports = {
 		}
 
 
-		// print table average just to console for now
+		// print table average 
 		for (x in this.table_averages) {
+			// convert sum to average
 			this.table_averages[x] = (this.table_averages[x] / (low_values.length * high_values.length));
 		}
-		console.log('table averages:')
-		console.log(this.table_averages);
+
+		reporting.debug('average value of table:<br />')
+		for (x in this.table_averages) {
+			reporting.debug(x + ': ' + this.table_averages[x]);
+		}
 
 		this.browser_output = reporting.getFinalOutput()
 		this.chart_data 	= reporting.getFinalChartData()
-
 	},
 
 
