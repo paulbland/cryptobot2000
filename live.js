@@ -153,11 +153,15 @@ function step3(price_data, live_data_eth) {
 
 function sellCoinAPI() {
 	console.log('SELLING COING FROM API!');
+	var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
+
 }
 
 
 function buyCoinAPI() {
 	console.log('BUYING COING FROM API!');
+	var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
+
 }
 
 

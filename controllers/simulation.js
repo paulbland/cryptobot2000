@@ -182,9 +182,9 @@ module.exports = {
 				this.buy_sell_method, this.print_full_debug)
 
 			if (sell_or_buy === 'sell') {
-				this.sellCoinSim(latest_sell_price, this.print_full_debug, high_threshold)
+				this.sellCoinSim(latest_sell_price, high_threshold)
 			} else if (sell_or_buy === 'buy') {
-				this.buyCoinSim(latest_buy_price, this.print_full_debug, high_threshold)
+				this.buyCoinSim(latest_buy_price, high_threshold)
 			} else {
 				// Do nothing
 				// return 'do_nothing'
@@ -237,94 +237,31 @@ module.exports = {
 
 	buyCoinSim: function(current_coin_price_buy, high_threshold) {
 
+
 		if (this.print_full_debug) {
 			reporting.debug('latest price is lower than -' + high_threshold + '% --- buy!<br />');
 		}
 
-		// eg:
-		// - unit 			= $1000
-		// - limit 			= $5000
-		// - buy price 		= $2500
-		// - current 		= 1.9
-		// - current value 	= $4750
+		var buy_coin_result = tools.buyCoin(this.total_coins_owned, this.buy_sell_unit, this.buy_limit, current_coin_price_buy, this.print_full_debug)
 
-		// value i own right now
-		var value_of_coins_owned_right_now 	= (this.total_coins_owned * current_coin_price_buy)								// eg 4750 = 1.9 * 2500
-
-		// expected number of coins to buy
-		var number_of_coins_to_buy 			= (this.buy_sell_unit / current_coin_price_buy)  								// eg 0.4 = 1000/2500
-
-		var amount_spent_on_this_transaction = this.buy_sell_unit															// eg 1000
-
-		if (this.print_full_debug) {
-			reporting.debug('this.buy_sell_unit: ' 				+ this.buy_sell_unit + '<br />');
-			reporting.debug('this.buy_limit: ' 					+ this.buy_limit + '<br />');
-			reporting.debug('current_coin_price_buy: ' 			+ current_coin_price_buy + '<br />');
-			reporting.debug('this.total_coins_owned: ' 			+ this.total_coins_owned + '<br />');
-			reporting.debug('value_of_coins_owned_right_now: ' 	+ value_of_coins_owned_right_now + '<br />');
-			reporting.debug('number_of_coins_to_buy: ' 			+ number_of_coins_to_buy + '<br />');
-			reporting.debug('amount_spent_on_this_transaction: ' + amount_spent_on_this_transaction + '<br />');
-
-		}
-
-
-		// this confusing block will make sure the amount to be purchased is not over limit, and if it is
-		// set new purchase amount to the difference betwen current value and the limit
-
-		// if what i already own + value of what im about to buy is >  than limit
-		if ((value_of_coins_owned_right_now + (number_of_coins_to_buy * current_coin_price_buy)) > this.buy_limit) {		// eg	4750 + (0.4*2500) > 5000
-																															// 	    4750 + 1000 > 5000
-																															//	    5750 > 5000 
-			// get the $ value difference between my limit and value of coins owned right now
-			var difference = (this.buy_limit - value_of_coins_owned_right_now);												// eg  250 = 5000 - 4750
-
-			// new number of coins to buy
-			number_of_coins_to_buy = (difference / current_coin_price_buy)													// eg 0.1 = 250 / 2500
-
-			// new amount spent
-			amount_spent_on_this_transaction = difference;																	// eg 250
-
-
-			if (this.print_full_debug) {
-				reporting.debug('***reached limit! --- <br />')
-				reporting.debug('***setting number_of_coins_to_buy to ' + number_of_coins_to_buy+ '<br />')
-				reporting.debug('***setting amount_spent_on_this_transaction to ' + amount_spent_on_this_transaction + '<br />');
-			}
-
-		}
-
-
-
-
-
-		// if flag set, and already own coins -- dont buy again
-		// should mean you only ever buy one unit
-		// if (this.buy_only_once && (this.total_coins_owned > 0)) {
-
-		// 	if (this.print_full_debug) {
-		// 		reporting.debug('not buying -- already own');
-		// 	}
-		// 	return;
-		// }
-
-		
-
-		this.total_coins_owned 			+= number_of_coins_to_buy;
-		this.total_spent 				+= amount_spent_on_this_transaction;
+		// update sim values
+		this.total_coins_owned 			+= buy_coin_result.number_of_coins_to_buy;
+		this.total_spent 				+= buy_coin_result.amount_spent_on_this_transaction;
 		this.total_buy_transactions++;
 
+
 		// update total owned (set before transaction - need to be updated)
-		value_of_coins_owned_right_now = (this.total_coins_owned * current_coin_price_buy)
+		var value_of_coins_owned_after_transaction = (this.total_coins_owned * current_coin_price_buy)
 
 		// update value for max coins ever owned
 		this.max_coins_ever_owned = (this.total_coins_owned > this.max_coins_ever_owned) ? this.total_coins_owned : this.max_coins_ever_owned;
 
 		// update value for max value of coins ever owned
-		this.max_value_ever_owned = (value_of_coins_owned_right_now > this.max_value_ever_owned) ? value_of_coins_owned_right_now : this.max_value_ever_owned;
+		this.max_value_ever_owned = (value_of_coins_owned_after_transaction > this.max_value_ever_owned) ? value_of_coins_owned_after_transaction : this.max_value_ever_owned;
 
 		if (this.print_full_debug) {
-			reporting.debug('<span style="color:green">TRANSACTION: BUYING $' +  amount_spent_on_this_transaction.toFixed(2) + ':');
-			reporting.debug('(' + number_of_coins_to_buy.toFixed(2) + ' coins valued at $');
+			reporting.debug('<span style="color:green">TRANSACTION: BUYING $' +  buy_coin_result.amount_spent_on_this_transaction.toFixed(2) + ':');
+			reporting.debug('(' + buy_coin_result.number_of_coins_to_buy.toFixed(2) + ' coins valued at $');
 			reporting.debug(current_coin_price_buy.toFixed(2) + ' each)</span><br />');
 		}
 
@@ -345,28 +282,18 @@ module.exports = {
 			return;
 		}
 
-		if (this.sell_all) {
-			var number_of_coins_to_sell = this.total_coins_owned							// SELL EVERYTHING
-		} else {
-			var number_of_coins_to_sell = (this.buy_sell_unit / current_coin_price_sell)	// SELL LIMIT
+		var sell_coin_result = tools.sellCoin(high_threshold, this.print_full_debug, this.sell_all, this.total_coins_owned, this.buy_sell_unit, current_coin_price_sell)
 
-			if (number_of_coins_to_sell > this.total_coins_owned) {
-				number_of_coins_to_sell = this.total_coins_owned
-			}
-		}
-
-		var result_of_this_sale = (current_coin_price_sell * number_of_coins_to_sell)
-
-		if (this.print_full_debug) {
-			reporting.debug('<span style="color:red">TRANSACTION: SELL ' + number_of_coins_to_sell + ' of my ' +  this.total_coins_owned + ' coins valued at $');
-			reporting.debug(current_coin_price_sell + ' = $' + result_of_this_sale + '</span><br />');
-		}
-
-		this.total_coins_owned 	-= number_of_coins_to_sell;
-		this.total_sold			+= result_of_this_sale;
+		this.total_coins_owned 	-= sell_coin_result.number_of_coins_to_sell;
+		this.total_sold			+= sell_coin_result.result_of_this_sale;
 		this.total_sell_transactions++;
-
 	},
+
+
+
+
+
+
 
 	printLoopSummary: function(hrs_in_period, offset, low_threshold, high_threshold) {
 		reporting.debug('<strong>Loop variables:</strong><br />');
@@ -383,7 +310,7 @@ module.exports = {
 
 
 		var array_key 	= 'period_' + hrs_in_period + '_offset_' + offset;
-		var row_key 	= 'row_'+high_threshold;
+		var row_key 	= 'row_' + high_threshold;
 		var cell_link 	= '/run-simulation-single?hrs_in_period='+hrs_in_period+'&offset='+offset+'&low_threshold='+low_threshold+'&high_threshold='+high_threshold+'&currency='+this.currency;
 
 		if (typeof this.table_data[array_key] === 'undefined') {
@@ -466,7 +393,7 @@ module.exports = {
 		for (a=0; a < price_data.length; a++) {
 			this.browser_output += '"' + price_data[a].datetime + '",' + price_data[a].value_sell + ',' + price_data[a].value_buy + '<br />';
 		}
-	},
+	}
 
 
 
