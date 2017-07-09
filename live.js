@@ -7,7 +7,6 @@ var tools 		= require('./controllers/tools')
 var reporting 	= require('./controllers/reporting')
 
 
-console.log('running live.js!')
 
 
 
@@ -22,17 +21,25 @@ mongoose.Promise = global.Promise;
 
 
 
+// get latest live data from dd
+var liveDataModelETH = require('./models/livedatamodeleth')
+
+// prep new item to be appended to live data recrod
+var newliveDataRecordETH = liveDataModelETH();
+
+
+console.log('running live.js!')
 step1();
 
 
 
 function step1() {
+	console.log('starting step 1...');
 
 	// GET PRICE RECORDS
-	var priceRecordModelBTC = require('./models/pricerecordmodelbtc')
+	//var priceRecordModelBTC = require('./models/pricerecordmodelbtc')
 	var priceRecordModelETH = require('./models/pricerecordmodeleth')
-	var priceRecordModelLTC = require('./models/pricerecordmodelltc')
-
+	//var priceRecordModelLTC = require('./models/pricerecordmodelltc')
 
 	priceRecordModelETH.find({}, function(error, price_data_eth) {
 		if (error) {
@@ -50,10 +57,10 @@ function step1() {
 
 
 function step2(price_data_eth) {
-	// get latest live data from dd
-	var liveDataModelETH = require('./models/livedatamodeleth')
-
-	liveDataModelETH.find({}, function(error, live_data_eth) {
+	console.log('starting step 2...');
+	
+	// get latest 
+	liveDataModelETH.findOne({}).sort('-datetime_updated').exec(function(error, live_data_eth) {
 		if (error) {
 			res.json(error);
 			console.log('error connecting to db');
@@ -61,7 +68,7 @@ function step2(price_data_eth) {
 		}
 		else {
 			console.log('got liveDataModelETH data');
-			// console.log(live_data_eth);
+			console.log(live_data_eth);
 			step3(price_data_eth, live_data_eth)
 		}
 	});
@@ -72,7 +79,9 @@ function step2(price_data_eth) {
 
 
 function step3(price_data, live_data_eth) {
+	console.log('starting step 3...');
 
+	// hard code vars for live
 	var low_threshold 		= 0.16;
 	var high_threshold 		= 0.17;
 	var buy_sell_method		= 'avg';
@@ -101,8 +110,54 @@ function step3(price_data, live_data_eth) {
 	console.log('latest_sell_price: ' + latest_sell_price)
 	console.log('sell_or_buy: ' + sell_or_buy)
 
-	process.exit();
 
+	if (sell_or_buy === 'sell') {
+		sellCoinAPI()
+	} else if (sell_or_buy === 'buy') {
+		buyCoinAPI()
+	} else {
+		// Do nothing
+		// returns 'do_nothing'
+		console.log('not buying or selling today');
+	}
+
+	console.log('ORIGINAL DATA: ')
+	console.log('live_data_eth.datetime_updated: ' + live_data_eth.datetime_updated)
+	console.log('live_data_eth.total_coins_owned: ' + live_data_eth.total_coins_owned)
+	console.log('live_data_eth.total_coins_sold: ' + live_data_eth.total_coins_sold)
+
+
+
+	// create new record and save
+
+
+	newliveDataRecordETH.datetime_updated 	= new Date;
+	newliveDataRecordETH.total_coins_owned 	= 888;
+	newliveDataRecordETH.total_coins_sold 	= 999;
+	newliveDataRecordETH.latest_sell_price 	= latest_sell_price;
+	newliveDataRecordETH.latest_buy_price 	= latest_buy_price;
+	newliveDataRecordETH.transaction	 	= sell_or_buy;
+
+	
+
+	newliveDataRecordETH.save(function (err) {
+		if (err) return handleError(err);
+			console.log('saved liveDataModelETH');
+			process.exit();
+	})
+
+
+}
+
+
+
+function sellCoinAPI() {
+	console.log('SELLING COING FROM API!');
+}
+
+
+function buyCoinAPI() {
+	console.log('BUYING COING FROM API!');
 }
 
 

@@ -187,6 +187,7 @@ module.exports = {
 				this.buyCoinSim(latest_buy_price, this.print_full_debug, high_threshold)
 			} else {
 				// Do nothing
+				// return 'do_nothing'
 				if (this.print_full_debug) {
 					reporting.debug('Neither higher nor lower -> do nothing<br />');
 				}

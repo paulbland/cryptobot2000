@@ -123,7 +123,7 @@ module.exports  = {
 		} else if (buy) {
 			return 'buy';
 		} else {
-			return false;
+			return 'do_nothing';
 		}
 	},
 
