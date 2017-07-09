@@ -11,6 +11,8 @@ var LiveDataSchema = new Schema({
     latest_buy_price        : Number,
     transaction             : String,
     total_sell_transactions : Number,
+    total_buy_transactions  : Number,
+    total_spent             : Number,
     total_buy_transactions  : Number
 });
 
