@@ -70,8 +70,8 @@ module.exports = {
 			// SHORT FOR HEROKU
 			periods 	= [12]; 		// winner: period 6
 			offsets 	= [6]; 			// winner: offset: 12
-			low_values 	= [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];//[0.16];	 ???it was. a scond ago?
-			high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];//[0.17];
+			low_values 	= [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];//[0.16];	 ???it was. a scond ago? //0.11
+			high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];//[0.17];							//0.21
 
 		} else if (this.buy_sell_method === 'peak') {
 
