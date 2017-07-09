@@ -114,6 +114,22 @@ function step3(price_data, live_data_eth) {
 	console.log('sell_or_buy: ' + sell_or_buy)
 
 
+
+	// create new record and save
+	newliveDataRecordETH.datetime_updated 	= new Date;
+	newliveDataRecordETH.latest_sell_price 	= latest_sell_price;
+	newliveDataRecordETH.latest_buy_price 	= latest_buy_price;
+	newliveDataRecordETH.transaction	 	= sell_or_buy;
+
+	// RESET DATA (IF I CLEAR DB)
+	// newliveDataRecordETH.total_coins_owned 			= 0;
+	// newliveDataRecordETH.total_coins_sold 			= 0;
+	// newliveDataRecordETH.total_sell_transactions 	= 0;
+	// newliveDataRecordETH.total_buy_transactions 	= 0;
+	// newliveDataRecordETH.total_spent				= 0;
+
+
+
 	if (sell_or_buy === 'sell') {
 		sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, latest_sell_price)
 	} else if (sell_or_buy === 'buy' || 1===1) {
@@ -128,26 +144,6 @@ function step3(price_data, live_data_eth) {
 	console.log('live_data_eth.datetime_updated: ' + live_data_eth.datetime_updated)
 	console.log('live_data_eth.total_coins_owned: ' + live_data_eth.total_coins_owned)
 	console.log('live_data_eth.total_coins_sold: ' + live_data_eth.total_coins_sold)
-
-
-
-	// create new record and save
-
-
-	newliveDataRecordETH.datetime_updated 	= new Date;
-	newliveDataRecordETH.latest_sell_price 	= latest_sell_price;
-	newliveDataRecordETH.latest_buy_price 	= latest_buy_price;
-	newliveDataRecordETH.transaction	 	= sell_or_buy;
-
-
-
-	// RESET DATA (IF I CLEAR DB)
-	// newliveDataRecordETH.total_coins_owned 			= 0;
-	// newliveDataRecordETH.total_coins_sold 			= 0;
-	// newliveDataRecordETH.total_sell_transactions 	= 0;
-	// newliveDataRecordETH.total_buy_transactions 	= 0;
-	// newliveDataRecordETH.total_spent				= 0;
-
 
 
 	console.log('SAVING THIS MODEL');
