@@ -1,2 +1,2 @@
 web: nodemon app.js
-myworker: node live.js
+live: node live.js

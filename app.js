@@ -115,6 +115,26 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
 
 
 
+// just print whatevers in the live result table to the browser
+app.get('/live-result', basicAuth, function(req, res) {
+
+    var liveDataModelETH = require('./models/livedatamodeleth')
+
+	liveDataModelETH.find({}).sort('-datetime_updated').exec(function(error, live_data_eth) {
+		if (error) {
+			//res.json(error);
+			process.exit(1);
+		}
+		else {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(live_data_eth, null, "  "));
+			// res.render('live-result', {
+			// 	data : live_data_eth
+			// });
+		}
+	});
+
+})
 
 
 // 

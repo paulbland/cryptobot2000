@@ -172,6 +172,7 @@ module.exports  = {
 	buyCoin: function(total_coins_owned, buy_sell_unit, buy_limit, current_coin_price_buy, print_full_debug)  { 
 
 
+		var transaction_notes;
 
 		// eg:
 		// - unit 			= $1000
@@ -216,6 +217,8 @@ module.exports  = {
 			// new amount spent
 			amount_spent_on_this_transaction = difference;																		// eg 250
 
+			transaction_notes = 'reached limit - setting number_of_coins_to_buy to ' + number_of_coins_to_buy+ ' and setting amount_spent_on_this_transaction to ' + amount_spent_on_this_transaction;
+
 			if (print_full_debug) {
 				reporting.debug('***reached limit! --- <br />')
 				reporting.debug('***setting number_of_coins_to_buy to ' + number_of_coins_to_buy+ '<br />')
@@ -239,7 +242,8 @@ module.exports  = {
 		// return some vars for sim to update 
 		return {
 			"number_of_coins_to_buy" 			: number_of_coins_to_buy,
-			"amount_spent_on_this_transaction" 	: amount_spent_on_this_transaction
+			"amount_spent_on_this_transaction" 	: amount_spent_on_this_transaction,
+			"transaction_notes" 				: transaction_notes
 		}
 
 
