@@ -225,7 +225,6 @@ module.exports  = {
 		}
 
 
-
 		// if flag set, and already own coins -- dont buy again
 		// should mean you only ever buy one unit
 		// if (this.buy_only_once && (total_coins_owned > 0)) {
@@ -237,11 +236,11 @@ module.exports  = {
 		// }
 
 
+		// return some vars for sim to update 
 		return {
 			"number_of_coins_to_buy" 			: number_of_coins_to_buy,
 			"amount_spent_on_this_transaction" 	: amount_spent_on_this_transaction
 		}
-
 
 
 

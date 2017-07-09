@@ -89,6 +89,8 @@ function step3(price_data, live_data_eth) {
 	var hrs_in_period 		= 12
 	var offset 				= 6;
 	var interval_in_minutes = 10;
+	var sell_all			= false;
+	var buy_sell_unit		= 100;
 
 	var values_per_period 	= tools.calculateValuesForGivenPeriod(hrs_in_period, interval_in_minutes)			
 	var values_in_offset	= tools.calculateValuesForGivenPeriod(offset, interval_in_minutes)	
@@ -111,8 +113,8 @@ function step3(price_data, live_data_eth) {
 	console.log('sell_or_buy: ' + sell_or_buy)
 
 
-	if (sell_or_buy === 'sell') {
-		sellCoinAPI()
+	if (sell_or_buy === 'sell' || 1===1) {
+		sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, latest_sell_price)
 	} else if (sell_or_buy === 'buy') {
 		buyCoinAPI()
 	} else {
@@ -132,8 +134,9 @@ function step3(price_data, live_data_eth) {
 
 
 	newliveDataRecordETH.datetime_updated 	= new Date;
-	newliveDataRecordETH.total_coins_owned 	= 888;
-	newliveDataRecordETH.total_coins_sold 	= 999;
+	// now in sell fn
+	//newliveDataRecordETH.total_coins_owned 	= 888;
+	//newliveDataRecordETH.total_coins_sold 	= 999;
 	newliveDataRecordETH.latest_sell_price 	= latest_sell_price;
 	newliveDataRecordETH.latest_buy_price 	= latest_buy_price;
 	newliveDataRecordETH.transaction	 	= sell_or_buy;
@@ -141,9 +144,11 @@ function step3(price_data, live_data_eth) {
 	
 
 	newliveDataRecordETH.save(function (err) {
-		if (err) return handleError(err);
-			console.log('saved liveDataModelETH');
-			process.exit();
+		if (err) {
+			console.log(err);
+		}
+		console.log('saved liveDataModelETH');
+		process.exit();
 	})
 
 
@@ -151,9 +156,22 @@ function step3(price_data, live_data_eth) {
 
 
 
-function sellCoinAPI() {
+function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, latest_sell_price) {
 	console.log('SELLING COING FROM API!');
-	var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
+	//var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
+
+	if (live_data_eth.total_coins_owned === 0) {
+		console.log('you don’t have any coins to sell!<br />')
+		return;
+	}
+
+	var sell_coin_result = tools.sellCoin(high_threshold, false, sell_all, live_data_eth.total_coins_owned, buy_sell_unit, latest_sell_price)
+
+	console.log(sell_coin_result);
+
+	newliveDataRecordETH.total_coins_owned 			= (live_data_eth.total_coins_owned - sell_coin_result.number_of_coins_to_sell);
+	newliveDataRecordETH.total_coins_sold 			= (live_data_eth.total_coins_owned + sell_coin_result.result_of_this_sale);
+	newliveDataRecordETH.total_sell_transactions 	= (live_data_eth.total_sell_transactions + 1);
 
 }
 
