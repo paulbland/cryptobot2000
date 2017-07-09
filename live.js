@@ -28,6 +28,9 @@ var liveDataModelETH = require('./models/livedatamodeleth')
 var newliveDataRecordETH = liveDataModelETH();
 
 
+var really_buy_and_sell = false; //THIS IS IT
+
+
 console.log('running live.js!')
 step1();
 
@@ -119,8 +122,8 @@ function step3(price_data, live_data_eth) {
 	// decide buy or sell
 	var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug)
 
-	// TESTING
-	sell_or_buy = 'sell'
+	// TESTING OVERRIDE
+	//sell_or_buy = 'sell'
 
 	// console.log('price_data.length: ' + price_data.length)
 	// console.log('from_index: ' + from_index)
@@ -146,6 +149,15 @@ function step3(price_data, live_data_eth) {
 	newliveDataRecordETH.number_of_coins_to_sell	= 0;										// transaction - reset
 	newliveDataRecordETH.api_response_err			= '';										// transaction - reset
 	newliveDataRecordETH.api_response_xfer			= '';										// transaction - reset
+	
+	var avg_for_period 								= tools.calculateAverage(data_to_be_tested) 
+	newliveDataRecordETH.avg_for_period 			= avg_for_period														// transaction - set here only
+	newliveDataRecordETH.avg_plus_high_threshold 	= tools.calculateAvgPlusHighThreshold(avg_for_period, high_threshold); 	// transaction - set here only
+	newliveDataRecordETH.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, low_threshold); 	// transaction - set here only
+
+	// wont change but lets record to make it easier to read logs
+	newliveDataRecordETH.low_threshold 				= low_threshold;
+	newliveDataRecordETH.high_threshold 			= high_threshold;
 
 	if (sell_or_buy === 'sell') {
 		sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, latest_sell_price)
@@ -154,8 +166,8 @@ function step3(price_data, live_data_eth) {
 	} else {
 		// Do nothing
 		// returns 'do_nothing'
-		console.log('not buying or selling today');
-		process.exit();
+		newliveDataRecordETH.transaction_notes = 'not buying or selling today';
+		finalStepSaveAndExit()
 	}
 
 	// console.log('ORIGINAL DATA: ')
@@ -176,7 +188,7 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 	if (live_data_eth.total_coins_owned === 0) {
 		//console.log('you don’t have any coins to sell!<br />')
 		newliveDataRecordETH.transaction_notes = 'You don’t have any coins to sell!';
-		finishBuyOrSell()
+		finalStepSaveAndExit()
 	}
 
 	var sell_coin_result = tools.sellCoin(high_threshold, false, sell_all, live_data_eth.total_coins_owned, buy_sell_unit, latest_sell_price)
@@ -192,35 +204,33 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 	}
 
 
-	// connect to coinbase and get my ETH account
-	console.log('connecting to api')
-	var client 			= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
-	var myETHAccount 	= client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
-		
-		// PRINT account info/balance
-		//console.log(account);
-		//console.log(account.balance);
+	if (really_buy_and_sell) {
 
-		// ***UNCOMMENT TO RUN FOR REAL***
-		// ***AND CHANGE "amount" TO "sell_coin_result.number_of_coins_to_sell"
-		// ***NEVER TESTED****
+		// connect to coinbase and get my ETH account
+		console.log('connecting to api')
+		var client 			= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
+		var myETHAccount 	= client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
 
-		// var args = {
-		// 	"amount": "0.001",
-		// 	"currency": "ETH"
-		// };
-		// account.sell(args, function(err, xfer) {
-		// 	//console.log('selling done');
-		// 	//console.log(err)
-		// 	//console.log(xfer)
+			//console.log(account);
 
-		// 	newliveDataRecordETH.api_response_err 	= err;
-		// 	newliveDataRecordETH.api_response_xfer 	= xfer;
+			var args = {
+				"amount"	: sell_coin_result.number_of_coins_to_sell,  //"0.001",
+				"currency" 	: "ETH"
+			};
+			account.sell(args, function(err, xfer) {
+				//console.log('selling done');
 
-			finishBuyOrSell();
-		// });
+				// store response in DB
+				newliveDataRecordETH.api_response_err 	= err;
+				newliveDataRecordETH.api_response_xfer 	= xfer;
 
-	});
+				finalStepSaveAndExit();
+			});
+
+		});
+	} else {
+		finalStepSaveAndExit();
+	}
 
 
 
@@ -233,7 +243,6 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 
 function buyCoinAPI(live_data_eth, buy_sell_unit, buy_limit, latest_buy_price) {
 	console.log('BUYING COIN FROM API!');
-//	var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 
 	var buy_coin_result = tools.buyCoin(live_data_eth.total_coins_owned, buy_sell_unit, buy_limit, latest_buy_price, false)
 
@@ -249,11 +258,43 @@ function buyCoinAPI(live_data_eth, buy_sell_unit, buy_limit, latest_buy_price) {
 	}
 
 
+
+	if (really_buy_and_sell) {
+
+		// connect to coinbase and get my ETH account
+		console.log('connecting to api')
+		var client 			= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
+		var myETHAccount 	= client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
+
+			//console.log(account);
+
+			var args = {
+				"amount"	: sell_coin_result.number_of_coins_to_buy,  //"0.001",
+				"currency" 	: "ETH"
+			};
+			account.buy(args, function(err, xfer) {
+				//console.log('selling done');
+				
+				// store response in DB
+				newliveDataRecordETH.api_response_err 	= err;
+				newliveDataRecordETH.api_response_xfer 	= xfer;
+
+				finalStepSaveAndExit();
+			});
+
+		});
+	} else {
+		finalStepSaveAndExit();
+	}
+
+
+
+
 }
 
 
 
-function finishBuyOrSell() {
+function finalStepSaveAndExit() {
 
 	newliveDataRecordETH.save(function (err) {
 		if (err) {

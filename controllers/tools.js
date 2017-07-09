@@ -77,6 +77,17 @@ module.exports  = {
 
 
 
+	calculateAvgPlusHighThreshold: function(avg_for_period, high_threshold) {
+		return (avg_for_period * (1 + high_threshold));
+	},
+
+
+	calculateAvgMinusLowThreshold: function(avg_for_period, low_threshold) {
+		return (avg_for_period * (1 - low_threshold));
+	},
+
+
+
 
 	/* 
 	* this function takes a slide of the array (144 values for a day, fewer for other periods) and decides on selling or buying
@@ -84,8 +95,8 @@ module.exports  = {
 	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug) {
 
 		var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
-		var avg_plus_high_threshold 	= (avg_for_period * (1 + high_threshold)).toFixed(2);
-		var avg_minus_low_threshold 	= (avg_for_period * (1 - low_threshold)).toFixed(2);
+		var avg_plus_high_threshold 	= this.calculateAvgPlusHighThreshold(avg_for_period, high_threshold);
+		var avg_minus_low_threshold 	= this.calculateAvgMinusLowThreshold(avg_for_period, low_threshold)
 		var high_for_period 			= this.calculateHigh(data_to_be_tested)						// get avg for period
 		var low_for_period 				= this.calculateLow(data_to_be_tested)						// get avg for period
 		var high_minus_high_threshold 	= (high_for_period * (1 - high_threshold)).toFixed(2);

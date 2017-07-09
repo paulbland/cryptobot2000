@@ -17,7 +17,14 @@ var LiveDataSchema = new Schema({
     number_of_coins_to_sell : { type: Number, default: 0 },
     transaction_notes       : { type: String, default: '' },
     api_response_err        : { type: String, default: '' },
-    api_response_xfer       : { type: String, default: '' }
+    api_response_xfer       : { type: String, default: '' },
+    avg_for_period          : { type: Number, default: 0 },
+    avg_plus_high_threshold : { type: Number, default: 0 },
+    avg_minus_low_threshold : { type: Number, default: 0 },
+    high_threshold          : { type: Number, default: 0 },
+    low_threshold           : { type: Number, default: 0 }
+   
+
 });
 
 // Compile model from schema
