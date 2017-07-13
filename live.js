@@ -99,16 +99,16 @@ function step3(price_data, live_data_eth) {
 	//console.log('starting step 3...');
 
 	// hard code vars for live
-	var low_threshold 		= 0.16;
-	var high_threshold 		= 0.17;
+	var low_threshold 		= 0.11;
+	var high_threshold 		= 0.15;
 	var buy_sell_method		= 'avg';
 	var print_full_debug 	= false;
-	var hrs_in_period 		= 12
-	var offset 				= 6;
+	var hrs_in_period 		= 14
+	var offset 				= 8;
 	var interval_in_minutes = 10;
 	var sell_all			= false;
-	var buy_sell_unit		= 100;
-	var buy_limit			= 1000;
+	var buy_sell_unit		= 200;
+	var buy_limit			= 2000;
 
 	var values_per_period 	= tools.calculateValuesForGivenPeriod(hrs_in_period, interval_in_minutes)			
 	var values_in_offset	= tools.calculateValuesForGivenPeriod(offset, interval_in_minutes)	
