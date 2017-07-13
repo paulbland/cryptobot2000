@@ -257,8 +257,13 @@ module.exports  = {
 			"transaction_notes" 				: transaction_notes
 		}
 
+	},
 
-
+	getArrayAverage(arr) {
+		var sum = arr.reduce(function add(a, b) {
+    		return a + b;
+		}, 0);
+		return (sum / arr.length)
 	}
 
 

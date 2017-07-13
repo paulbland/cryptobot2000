@@ -52,6 +52,7 @@ module.exports = {
 
 		this.table_data 		= {};
 		this.table_averages 	= {};
+		this.global_averages 	= {};
 		this.print_basic_debug 	= false; 
 		this.print_full_debug 	= false; 
 		this.print_table_data 	= true;	
@@ -72,11 +73,25 @@ module.exports = {
 			// removed 0.01 and 0.03 - dont seem significant ever (both axes)
 
 			// FINE TUNING
-			// best 14/8/11/15 - MY CURRENT BEST
-			periods 	= [14]; 	
-			offsets 	= [8]; 		
-			low_values 	= [0.11];	
-			high_values = [0.15];	
+			// best 14-period/8-offset/11-low/15-high - MY CURRENT BEST
+			// best for global avg
+			// 13-period/7-offset/12-low/14-high
+			periods 	= [12, 13, 14, 15, 16]; 	
+			offsets 	= [6, 7, 8, 9, 10]; 		
+			low_values 	= [0.09, 0.10, 0.11, 0.12, 0.13];	
+			high_values = [0.13, 0.14, 0.15, 0.16, 0.17];	
+
+			// values i thought were best
+			// periods 	= [14]; 	
+			// offsets 	= [8]; 		
+			// low_values 	= [0.11];	
+			// high_values = [0.15]; 
+			
+			// values best by average!
+			periods 	= [13]; 	
+			offsets 	= [7]; 		
+			low_values 	= [0.12];	
+			high_values = [0.14]; 
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -102,15 +117,16 @@ module.exports = {
 		}
 
 
-		// print table average 
-		for (x in this.table_averages) {
-			// convert sum to average
-			this.table_averages[x] = (this.table_averages[x] / (low_values.length * high_values.length));
-		}
-
+		// print table averages
 		reporting.debug('average value of table:<br />')
 		for (x in this.table_averages) {
-			reporting.debug(x + ': ' + this.table_averages[x].toFixed(0) + '<br />');
+			reporting.debug(x + ': ' + tools.getArrayAverage(this.table_averages[x]).toFixed(0) + '<br />')
+		}
+
+		// print global averages
+		reporting.debug('<br />global averages:<br />')
+		for (x in this.global_averages) {
+			reporting.debug(x + ': ' + tools.getArrayAverage(this.global_averages[x]).toFixed(0) + '<br />')
 		}
 
 		this.browser_output = reporting.getFinalOutput()
@@ -231,6 +247,12 @@ module.exports = {
 		if (this.print_table_data) {
 			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage);
 		}
+
+		if (this.print_table_data) {
+			this.compileGlobalAverages(hrs_in_period, offset, low_threshold, high_threshold, final_profit)
+
+			
+		}
 	}, 
 
 
@@ -318,7 +340,7 @@ module.exports = {
 			this.table_data[array_key] = {
 				'header_row' 	: ['<th>↓high\\low→</th>']
 			}
-			this.table_averages[array_key] = 0;
+			this.table_averages[array_key] = [];
 		}
 
 		// adds for every loop. this prevents that. not elegant...
@@ -375,8 +397,8 @@ module.exports = {
 
 		this.table_data[array_key][row_key].push(cell_str)
 
-		// actually getting sum. average is calculated later
-		this.table_averages[array_key] += final_profit;
+		// create array of final profity values (print average later)
+		this.table_averages[array_key].push(final_profit)
 
 		// this.table_data['x_y'] = {
 		// 		"header_row" : ['', 0.05, 0.4, 0.7],
@@ -384,6 +406,38 @@ module.exports = {
 		//		"row_0.06" : [34,234,454]
 
 
+	},
+
+
+
+
+	
+	compileGlobalAverages: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit) {
+		console.log('running compileGlobalAverages with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
+
+		var period_key 	= 'period_' + hrs_in_period;
+		var offset_key	= 'offset_' + offset;
+		var high_key 	= 'high_' + high_threshold;
+		var low_key 	= 'low_' + low_threshold;
+
+
+		if (typeof this.global_averages[period_key] === 'undefined') {
+			this.global_averages[period_key] = []
+		}
+		if (typeof this.global_averages[offset_key] === 'undefined') {
+			this.global_averages[offset_key] = []
+		}
+		if (typeof this.global_averages[high_key] === 'undefined') {
+			this.global_averages[high_key] = []
+		}
+		if (typeof this.global_averages[low_key] === 'undefined') {
+			this.global_averages[low_key] = []
+		}
+
+		this.global_averages[period_key].push(final_profit)
+		this.global_averages[offset_key].push(final_profit)
+		this.global_averages[high_key].push(final_profit)
+		this.global_averages[low_key].push(final_profit)
 	},
 
 	
