@@ -52,10 +52,11 @@ module.exports  = {
 		this.chart_data += '],'
 	},
 
-    updateSummaryData: function(final_profit, max_value_ever_owned, invest_profit_ratio) {
+    updateSummaryData: function(final_profit, max_value_ever_owned, invest_profit_ratio, profit_percentage) {
         this.summary_output += '<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ';
 		this.summary_output += '(<strong>max ever value: $' + max_value_ever_owned.toFixed(2) + '</strong>) ';
-		this.summary_output += 'invested:profit ratio: ' + invest_profit_ratio + '<br /><br />';
+		this.summary_output += 'invested:profit ratio: ' + invest_profit_ratio + ' ';
+		this.summary_output += 'percentage earnt: ' + profit_percentage + '%<br /><br />';
     },
 
     getFinalOutput: function() {

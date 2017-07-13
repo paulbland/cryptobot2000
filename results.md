@@ -110,3 +110,193 @@ LTC REVERE
 16l/17h
 
     $267.75/267
+
+=========================
+
+
+  result testing jul 13
+
+  best single value: (forward)
+  period_9_offset_12
+  low 0.15
+  high 0.17
+
+
+=====
+
+
+
+TEST FORWARD
+3/6/9/12/15/18
+0/3/6/9/12/15/18
+
+evertyhing over $200 (for offset/period)
+average value of table:
+    period_3_offset_12: 217.88057131729866
+    period_3_offset_15: 234.88101764344228
+    period_3_offset_18: 268.7368830971073
+    period_6_offset_9: 202.14099018810282
+    period_6_offset_12: 261.39052689005933
+    period_6_offset_15: 260.7026054519383
+    period_9_offset_9: 240.9802428876629
+    period_9_offset_12: 271.4037251281057
+    period_12_offset_6: 220.4799577539591
+    period_12_offset_9: 233.72821896886296
+    period_15_offset_3: 202.88389552249404
+    period_15_offset_6: 219.66456313505958
+
+everything over $400:
+  low 0.13++++, 0.15+++++++, 0.17++++
+  high 0.11+, 0.13++, 0.15+++++, 0.17+++++, 0.19+
+
+
+TEST BACKWARD
+everything over $200
+    average value of table:
+    period_12_offset_6: 203
+    period_15_offset_6: 209
+    period_15_offset_9: 206
+    period_15_offset_12: 207
+    period_18_offset_3: 203
+    period_18_offset_6: 230
+    period_18_offset_9: 206
+    period_18_offset_12: 205
+
+low 0.09++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 0.11+++++++++++++++++++++++++++++++++ 0.13+++++++++
+high 0.13++ 0.15+++++++ 0.17++++++++++++++ 0.19++++++++++++++++++++++++++++ 0.21+++++++++++++++++++++++++++++++++++++++++
+
+
+BEST OF BOTH WORLDS
+  period_12_offset_6:
+  period_15_offset_6:
+  low 0.13
+  high 0.15 0.17
+
+-----
+
+SECOND TEST === FINE GRAIN ON THESE VALUES:
+    periods 	= [10, 11, 12, 13, 14, 15, 16, 17]; 	
+    offsets 	= [4, 5, 6, 7, 8]; 						
+    low_values 	= [0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18];
+    high_values = [0.14, 0.15, 0.16, 0.17, 0.18, 0.19];//[0.17];
+
+
+
+
+
+
+remove everything under $280
+
+period_11_offset_8: 298
+period_12_offset_8: 310***
+period_13_offset_7: 305***
+period_13_offset_8: 326***
+period_14_offset_6: 282
+period_14_offset_7: 300***
+period_14_offset_8: 326***
+period_15_offset_6: 297
+period_15_offset_7: 313***
+period_16_offset_5: 283
+period_16_offset_6: 293
+period_17_offset_5: 288
+
+values over $400
+  low--- 0.11-0.14 (0.12-13++)
+  high---14 15
+
+
+reverse:
+
+
+average value of table:
+
+period_10_offset_7: 239**
+period_10_offset_8: 223
+period_11_offset_6: 232**
+period_11_offset_7: 230**
+period_12_offset_6: 227
+period_12_offset_8: 222
+period_13_offset_5: 220
+period_13_offset_6: 225
+period_14_offset_8: 221
+period_15_offset_4: 220
+period_15_offset_8: 228
+period_16_offset_7: 232**
+period_16_offset_8: 235**
+period_17_offset_7: 244****
+period_17_offset_8: 234**
+
+values over $400/$500
+  low---11
+  high---15 16++ 17++ 18 19
+
+
+COMMON
+  12/8
+  14/8
+  low 11
+  high 15
+
+
+
+
+  ====getting really close:
+best of both worlds here
+
+  	periods 	= [14]; 	
+			offsets 	= [8]; 			
+			low_values 	= [0.11];	
+			high_values = [0.15];			
+
+======
+
+expanding best of both worlds:
+
+f
+period_13_offset_7: 324
+period_13_offset_8: 359
+period_13_offset_9: 376
+period_14_offset_7: 325
+period_14_offset_8: 376
+period_14_offset_9: 332
+period_15_offset_7: 381
+period_15_offset_8: 344
+period_15_offset_9: 218
+b
+period_13_offset_7: 310
+period_13_offset_8: 276
+period_13_offset_9: 274
+period_14_offset_7: 333
+period_14_offset_8: 329
+period_14_offset_9: 281
+period_15_offset_7: 290
+period_15_offset_8: 288
+period_15_offset_9: 292
+sum
+period_13_offset_7: 324+310=634
+period_13_offset_8: 359+276=635
+period_13_offset_9: 376+274=650*
+period_14_offset_7: 325+333=658*
+period_14_offset_8: 376+329=705**** CONFIRMATION 14/8
+period_14_offset_9: 332+281=613
+period_15_offset_7: 381+290=671*
+period_15_offset_8: 344+288=632
+period_15_offset_9: 218+292=510
+
+
+AVERAGE OF 14/8 tavbles
+key: period_14_offset_8
+
+↓high\low→	 0.1	            0.11	      0.12
+0.14	       658.76           643.61      576.98
+0.15         924.48           837.3       603.07
+0.16	       836.37           748.47      512.78
+
+high 0.15 confimred
+this says 0.1 for low
+
+SO BEST TODAY IS 14/8/0.10/0.15
+
+so wait 0.11 is more consisten
+
+*** BEST TODAY: 14-period/8-offset/0.11-low/0.15-high ****

@@ -71,11 +71,12 @@ module.exports = {
 
 			// removed 0.01 and 0.03 - dont seem significant ever (both axes)
 
-			// SHORT FOR HEROKU
-			periods 	= [12]; 		// winner: period 6
-			offsets 	= [6]; 			// winner: offset: 12
-			low_values 	= [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];//[0.16];	 ???it was. a scond ago? //0.11
-			high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];//[0.17];							//0.21
+			// FINE TUNING
+			// best 14/8/11/15 - MY CURRENT BEST
+			periods 	= [14]; 	
+			offsets 	= [8]; 		
+			low_values 	= [0.11];	
+			high_values = [0.15];	
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -109,7 +110,7 @@ module.exports = {
 
 		reporting.debug('average value of table:<br />')
 		for (x in this.table_averages) {
-			reporting.debug(x + ': ' + this.table_averages[x]);
+			reporting.debug(x + ': ' + this.table_averages[x].toFixed(0) + '<br />');
 		}
 
 		this.browser_output = reporting.getFinalOutput()
@@ -220,10 +221,10 @@ module.exports = {
 
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
-		var profit_percentage	= ((final_profit / this.max_value_ever_owned)* 100).toFixed(0)
+		var profit_percentage	= ((final_profit / this.max_value_ever_owned) * 100).toFixed(2)
 
 		if (this.print_basic_debug) {
-			reporting.updateSummaryData(final_profit, this.max_value_ever_owned, invest_profit_ratio)
+			reporting.updateSummaryData(final_profit, this.max_value_ever_owned, invest_profit_ratio, profit_percentage)
 			
 		}
 
@@ -374,7 +375,7 @@ module.exports = {
 
 		this.table_data[array_key][row_key].push(cell_str)
 
-		// actually getting sum. avrage is calcualted later
+		// actually getting sum. average is calculated later
 		this.table_averages[array_key] += final_profit;
 
 		// this.table_data['x_y'] = {
