@@ -31,8 +31,8 @@ module.exports = {
 
 	// algorthim differences that arent looped
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
-	buy_sell_unit 			: 100,			//500/10k seems to be good  -- also 300/5k
-	buy_limit				: 1000,
+	buy_sell_unit 			: 200,			//500/10k seems to be good  -- also 300/5k
+	buy_limit				: 2000,
 	sell_all				: true,			// false means sell just one unit
 	simulate_crash 			: false, 
 	
