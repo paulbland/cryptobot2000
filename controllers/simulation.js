@@ -76,10 +76,10 @@ module.exports = {
 			// best 14-period/8-offset/11-low/15-high - MY CURRENT BEST
 			// best for global avg
 			// 13-period/7-offset/12-low/14-high
-			periods 	= [12, 13, 14, 15, 16]; 	
-			offsets 	= [6, 7, 8, 9, 10]; 		
-			low_values 	= [0.09, 0.10, 0.11, 0.12, 0.13];	
-			high_values = [0.13, 0.14, 0.15, 0.16, 0.17];	
+			periods 	= [10, 11, 12, 13, 14, 15, 16, 17, 18]; 	
+			offsets 	= [4, 5, 6, 7, 8, 9, 10, 11, 12]; 		
+			low_values 	= [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14];	
+			high_values = [0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17];	
 
 			// values i thought were best
 			// periods 	= [14]; 	
@@ -87,11 +87,17 @@ module.exports = {
 			// low_values 	= [0.11];	
 			// high_values = [0.15]; 
 			
-			// values best by average!
-			periods 	= [13]; 	
-			offsets 	= [7]; 		
-			low_values 	= [0.12];	
-			high_values = [0.14]; 
+			// values best by average! (only for some tests)????
+			// periods 	= [13]; 	
+			// offsets 	= [7]; 		
+			// low_values 	= [0.12];	
+			// high_values = [0.14]; 
+
+			// my best/ their best /(different averages!!!!!)
+			// periods 	= [13, 14]; 	
+			// offsets 	= [7, 8]; 		
+			// low_values 	= [0.11, 0.12];	
+			// high_values = [0.14, 0.15]; 
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -115,7 +121,6 @@ module.exports = {
 				}
 			}
 		}
-
 
 		// print table averages
 		reporting.debug('average value of table:<br />')
@@ -413,7 +418,7 @@ module.exports = {
 
 	
 	compileGlobalAverages: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit) {
-		console.log('running compileGlobalAverages with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
+		//console.log('running compileGlobalAverages with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
 
 		var period_key 	= 'period_' + hrs_in_period;
 		var offset_key	= 'offset_' + offset;
