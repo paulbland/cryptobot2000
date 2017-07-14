@@ -70,34 +70,17 @@ module.exports = {
 			var low_values 	= [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
 			var high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
 
-			// removed 0.01 and 0.03 - dont seem significant ever (both axes)
-
-			// FINE TUNING
-			// best 14-period/8-offset/11-low/15-high - MY CURRENT BEST
-			// best for global avg
-			// 13-period/7-offset/12-low/14-high
+			// FULL DATA SET AROUND CURRENT FAVE VALUES (LONG!)
 			periods 	= [10, 11, 12, 13, 14, 15, 16, 17, 18]; 	
 			offsets 	= [4, 5, 6, 7, 8, 9, 10, 11, 12]; 		
 			low_values 	= [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14];	
 			high_values = [0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17];	
 
-			// values i thought were best
-			// periods 	= [14]; 	
-			// offsets 	= [8]; 		
-			// low_values 	= [0.11];	
-			// high_values = [0.15]; 
-			
-			// values best by average! (only for some tests)????
-			// periods 	= [13]; 	
-			// offsets 	= [7]; 		
-			// low_values 	= [0.12];	
-			// high_values = [0.14]; 
-
-			// my best/ their best /(different averages!!!!!)
-			// periods 	= [13, 14]; 	
-			// offsets 	= [7, 8]; 		
-			// low_values 	= [0.11, 0.12];	
-			// high_values = [0.14, 0.15]; 
+			// ALL VALUES THAT HAVE WON AT LEAST ONCE:
+			// periods 	= [12, 13, 14, 14.5]; 	
+			// offsets 	= [5, 7, 7.5, 8]; 		
+			// low_values = [0.12];
+			// high_values = [0.14, 0.145, 0.15]; 
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -365,7 +348,7 @@ module.exports = {
 		// i dont have max value yet os lets just copy it in
 		// 256 is obviosuly max rgba num
 		// then set colors weighted to the total value
-		var max 		= 250;
+		var max 		= 1000;
 		var min  		= -50;
 		var rgb_color 	= 0
 		var color_text 	= ''

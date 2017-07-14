@@ -300,3 +300,36 @@ SO BEST TODAY IS 14/8/0.10/0.15
 so wait 0.11 is more consisten
 
 *** BEST TODAY: 14-period/8-offset/0.11-low/0.15-high ****
+
+
+==============================
+
+
+# TESTS JULY 13 
+
+
+VALUES I THOUGH WRE BEST FROM LOOKING (last night):
+    14-period/8-offset/11-low/15-high
+
+BEST GLOBAL AVG from two different tests (i forget values):
+    13-period/7-offset/12-low/14-high 
+    14-14.5-period/8-offset/0.12-low/0.145-15-high
+
+best averages from MASSIVE test:
+    12-period/5-offset/0.12-low/0.14-high
+
+best single $ value from massive test (less importnat???):
+    (12/10o/14l/15-16/h --- $930)
+
+best averages from massive test -- in reverse!!!!:
+    period_16, offset_6, low_0.08, high_0.17
+
+best single $ value from reverse ($1205.44!):
+    period_12, offset_5, low-0.08, 0.16-high
+
+
+*** 12p/5o same as best from forward! *** ??
+
+* question -- what period/offsets are best when i test from 12/15 (because they are consistent with boths tests!)
+
+* next --- instead of picking just the best - pick the top 3? or something. or all in top 90% ...?
