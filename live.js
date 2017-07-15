@@ -126,8 +126,8 @@ function step3(price_data, live_data_eth) {
 	var latest_sell_price 	= price_data[this_index].value_sell;	// this will be the currect price we're evaluating
 
 	// override for testing
-	 latest_sell_price = 300;
-	//latest_buy_price = 150;
+	// latest_sell_price = 300;
+	// latest_buy_price = 150;
 
 	// decide buy or sell
 	var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug)
