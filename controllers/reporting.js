@@ -42,13 +42,14 @@ module.exports  = {
 		this.debug('values_in_offset: ' + values_in_offset + '<br />');
 	},
 
-    updateChartData: function(current_date, latest_buy_price, buy, latest_sell_price, sell) {
+    updateChartData: function(current_date, latest_buy_price, buy, latest_sell_price, sell, avg_for_period) {
 		// ARRAY AS TEXT
 		this.chart_data += '["' + current_date + '",';
 		this.chart_data += latest_buy_price + ',';
 		this.chart_data += (buy) ? '"buy",' : 'null,';
 		this.chart_data += latest_sell_price + ',';
-		this.chart_data += (sell) ? '"sell"' : 'null';
+		this.chart_data += (sell) ? '"sell",' : 'null,';
+		this.chart_data += avg_for_period;
 		this.chart_data += '],'
 	},
 

@@ -58,52 +58,106 @@ module.exports = {
 		this.print_table_data 	= true;	
 		this.currency 			= currency;
 		
-		reporting.resetOutput();
+		reporting.resetOutput(); 
 
 		this.printSummary(price_data); 
 
 		if (this.buy_sell_method === 'avg') {
 
-			// FULL DATA FOR LONG TESTS
-			var periods 	= [6, 12, 24]; 																// 6/12/24 - good,  48+ always bad
-			var offsets 	= [6, 12, 24]; 																// 6/12/24 - good, 0 is mixed, 48+ bad
-			var low_values 	= [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
-			var high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
+			// FULL DATA FOR LONG TESTS (KINDA OLD NOW)
+			// var periods 	= [6, 12, 24]; 																// 6/12/24 - good,  48+ always bad
+			// var offsets 	= [6, 12, 24]; 																// 6/12/24 - good, 0 is mixed, 48+ bad
+			// var low_values 	= [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
+			// var high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
 
-			// FULL DATA SET AROUND CURRENT FAVE VALUES (LONG!)
-			periods 	= [10, 11, 12, 13, 14, 15, 16, 17, 18]; 	
-			offsets 	= [4, 5, 6, 7, 8, 9, 10, 11, 12]; 		
-			low_values 	= [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14];	
-			high_values = [0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17];	
+			// ok big 15 minute test:
+			// var periods 	= [4, 6, 8, 10, 12, 14, 16, 18]; 	
+			// var offsets 	= [4, 6, 8, 10, 12, 14, 16, 18]; 	
+			// var low_values 	= [0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
+			// var high_values = [0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20]; 
 
-			// ALL VALUES THAT HAVE WON AT LEAST ONCE:
-			// periods 	= [12, 13, 14, 14.5]; 	
-			// offsets 	= [5, 7, 7.5, 8]; 		
-			// low_values = [0.12];
-			// high_values = [0.14, 0.145, 0.15]; 
+			// test
+			var low_values 	= [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18];
+			var high_values = [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18];
 
 		} else if (this.buy_sell_method === 'peak') {
 
 			var periods 	= [24, 36, 48, 72];
 			var offsets 	= [0]; // offsets dont make sense here.. i dont think?
 			var low_values 	= [0.020, 0.021, 0.022, 0.023, 0.024, 0.025];
-			var high_values = [0.020, 0.021, 0.022, 0.023, 0.024, 0.025];
+			var high_values = [0.020, 0.021, 0.022, 0.023, 0.024, 0.025]; 
 
 		} else {
 			return;
 		}
-		
+
+
+		// NEW WAY
+		// only run combos that add up to 24 (or whatver the sweet spot is...)
+		// 21.5 - still could be fine tuned
+		var period_offset_combos = [
+			{period: 1, offset: 20.5},
+			{period: 2, offset: 19.5},
+			{period: 3, offset: 18.5},
+			{period: 4, offset: 17.5},
+			{period: 5, offset: 16.5},
+			{period: 6, offset: 15.5},
+			{period: 7, offset: 14.5},
+			{period: 8, offset: 13.5},
+			{period: 9, offset: 12.5},
+			{period: 10, offset: 11.5},
+			{period: 11, offset: 10.5},
+			{period: 12, offset: 9.5},
+			{period: 13, offset: 8.5},
+			{period: 14, offset: 7.5},
+			{period: 15, offset: 6.5},
+			{period: 16, offset: 5.5},
+			{period: 17, offset: 4.5},
+			{period: 18, offset: 3.5},
+			{period: 19, offset: 2.5},
+			{period: 20, offset: 1.5},
+			{period: 21, offset: 0.5}
+		]
+
+
+
+
 		
 
-		for (x=0; x < periods.length; x++) {
-			for (q=0; q < offsets.length; q++) {
-				for (y=0; y < low_values.length; y++) {
-					for (z=0; z < high_values.length; z++) {		
-						this.processDataSet(periods[x], offsets[q], low_values[y], high_values[z], price_data)
-					}
+		// OLD WAY
+		// var total_tests 		= (periods.length * offsets.length * low_values.length * high_values.length);
+		// NEW WAY
+		var total_tests			= (period_offset_combos.length * low_values.length * high_values.length);
+		var start 				= new Date();
+		var time_per_test_min 	= 0.05;
+		var time_per_test_max 	= 0.17;
+		console.log("Running " + total_tests + " tests");
+		console.log("Should be about " + (time_per_test_min * total_tests).toFixed(2) + "-" + (time_per_test_max * total_tests).toFixed(2) + " seconds.")
+
+		// OLD WAY
+		// for (x=0; x < periods.length; x++) {
+		// 	for (q=0; q < offsets.length; q++) {
+		// 		for (y=0; y < low_values.length; y++) {
+		// 			for (z=0; z < high_values.length; z++) {		
+		// 				this.processDataSet(periods[x], offsets[q], low_values[y], high_values[z], price_data)
+		// 			}
+		// 		}
+		// 	}
+		// }
+
+		// NEW WAY
+		for (x=0; x < period_offset_combos.length; x++) {
+			for (y=0; y < low_values.length; y++) {
+				for (z=0; z < high_values.length; z++) {		
+					this.processDataSet(period_offset_combos[x].period, period_offset_combos[x].offset, low_values[y], high_values[z], price_data)
 				}
 			}
 		}
+
+		var execution_time = ((new Date() - start)/1000)
+		console.log('Took ' + execution_time.toFixed(2) + ' seconds. (about ' + (execution_time / total_tests).toFixed(2) + ' seconds each)')
+
+
 
 		// print table averages
 		reporting.debug('average value of table:<br />')
@@ -180,7 +234,7 @@ module.exports = {
 				reporting.debug('data collected at: ' + data_to_be_tested[data_to_be_tested.length-1].datetime + '<br />');// print result
 				reporting.debug('latest buy price: $' + latest_buy_price.toFixed(2) + '<br>');
 				reporting.debug('latest sell price: $' + latest_sell_price.toFixed(2) + '<br>');
-			}
+			} 
 
 			// run the decide algorithm on just this part
 			var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, 
@@ -207,7 +261,7 @@ module.exports = {
 			if (this.print_chart_data) {
 				var sell = (sell_or_buy === 'sell') ? true : false;
 				var buy = (sell_or_buy === 'buy') ? true : false;
-				reporting.updateChartData(current_date, latest_buy_price, buy, latest_sell_price, sell);
+				reporting.updateChartData(current_date, latest_buy_price, buy, latest_sell_price, sell, tools.calculateAverage(data_to_be_tested));
 			}
 		}
 
@@ -329,6 +383,7 @@ module.exports = {
 				'header_row' 	: ['<th>↓high\\low→</th>']
 			}
 			this.table_averages[array_key] = [];
+			this.table_averages['sum_' + (hrs_in_period + offset)] = [];
 		}
 
 		// adds for every loop. this prevents that. not elegant...
@@ -387,7 +442,8 @@ module.exports = {
 
 		// create array of final profity values (print average later)
 		this.table_averages[array_key].push(final_profit)
-
+		this.table_averages['sum_' + (hrs_in_period + offset)].push(final_profit)
+	
 		// this.table_data['x_y'] = {
 		// 		"header_row" : ['', 0.05, 0.4, 0.7],
 		// 		"row_0.05" : [34,234,454]

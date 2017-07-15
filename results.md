@@ -333,3 +333,16 @@ best single $ value from reverse ($1205.44!):
 * question -- what period/offsets are best when i test from 12/15 (because they are consistent with boths tests!)
 
 * next --- instead of picking just the best - pick the top 3? or something. or all in top 90% ...?
+
+
+
+BREAKTHRGUH
+
+JUL 14
+
+			// triangulate ... so these are all great!
+			periods 	= [8, 9, 10, 11, 12, 13]; 	
+			offsets 	= [7, 8, 9, 10, 11, 12];	
+			low_values 	= [0.12, 0.13, 0.14, 0.15];
+			high_values = [0.125, 0.13, 0.135, 0.14, 0.145, 0.15];
+ 

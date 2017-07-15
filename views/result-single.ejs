@@ -22,6 +22,7 @@
 			data.addColumn({type:'string', role:'annotation'}); // annotation role col.
 			data.addColumn('number', 'sell price '); // Implicit series 1 data col.
 			data.addColumn({type:'string', role:'annotation'}); // annotationText col.
+			data.addColumn('number', 'avg'); // annotationText col.
 
 			data.addRows([
 				<%- chart_data %>
@@ -30,8 +31,9 @@
 			var options = {
 				title: '<%- currency %>',
 				curveType: 'function',
-				legend: { position: 'bottom' }
-			};
+				legend: { position: 'bottom' },
+				colors: ['red', 'blue', 'green']
+			}; 
 
 			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
