@@ -14,7 +14,7 @@ var reporting 	= require('./controllers/reporting')
 
 
 // DATABASE
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 // var db = mongoose.connection;
 // db.on('error', console.error.bind(console, 'MongoDB connection error:'));
