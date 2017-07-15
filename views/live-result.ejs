@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="600">
 	<title>coinbasebot</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="styles.css">	
@@ -16,7 +17,7 @@
 	<% var low_threshold = data[0].program_vars.low_threshold %>
 	<% var high_threshold = data[0].program_vars.high_threshold %>
 
-	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&low_threshold=<%- low_threshold %>&high_threshold=<%- high_threshold %>&currency=ETH">Link to simulation for this data</a><br /><br />
+	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&low_threshold=<%- low_threshold %>&high_threshold=<%- high_threshold %>&currency=ETH">Run simulation for this data</a><br /><br />
 
 	<% for (i in data) { %>
 		{<br />
@@ -68,9 +69,6 @@
 
 		}<br />
 	<% } %>	
-
-}
-
 
 </body>
 </html>
