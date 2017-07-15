@@ -65,15 +65,13 @@ module.exports = {
 
 		if (this.buy_sell_method === 'avg') {
 
-			// ok big 15 minute test:
-			// var periods 	= [4, 6, 8, 10, 12, 14, 16, 18]; 	
-			// var offsets 	= [4, 6, 8, 10, 12, 14, 16, 18]; 	
-			// var low_values 	= [0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
-			// var high_values = [0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20]; 
-
-			// good range for wide testing (aslo past of big spreadhset test)
+			// good range for wide testing (also used these for big spreadsheet test)
 			var low_values 	= [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18];
 			var high_values = [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18];
+
+			// narrow range (just best values) for quicker testing 
+			//var low_values 	= [0.13, 0.14, 0.15, 0.16, 0.17];
+			//var high_values = [0.13, 0.14, 0.15, 0.16, 0.17];
 
 		} else if (this.buy_sell_method === 'peak') {
 
@@ -91,27 +89,85 @@ module.exports = {
 		// only run combos that add up to 24 (or whatver the sweet spot is...)
 		// 21.5 - still could be fine tuned
 		var period_offset_combos = [
-			{period: 1, offset: 20.5},
-			{period: 2, offset: 19.5},
-			{period: 3, offset: 18.5},
-			{period: 4, offset: 17.5},
-			{period: 5, offset: 16.5},
-			{period: 6, offset: 15.5},
-			{period: 7, offset: 14.5},
-			{period: 8, offset: 13.5},
-			{period: 9, offset: 12.5},
-			{period: 10, offset: 11.5},
-			{period: 11, offset: 10.5},
-			{period: 12, offset: 9.5},
-			{period: 13, offset: 8.5},
-			{period: 14, offset: 7.5},
-			{period: 15, offset: 6.5},
-			{period: 16, offset: 5.5},
-			{period: 17, offset: 4.5},
-			{period: 18, offset: 3.5},
-			{period: 19, offset: 2.5},
-			{period: 20, offset: 1.5},
-			{period: 21, offset: 0.5}
+
+			// compelte set for 21.5 testing...
+			// {period: 1, offset: 20.5},
+			// {period: 2, offset: 19.5},
+			// {period: 3, offset: 18.5},
+			// {period: 4, offset: 17.5},
+			// {period: 5, offset: 16.5},
+			// {period: 6, offset: 15.5},
+			// {period: 7, offset: 14.5},
+			// {period: 8, offset: 13.5},
+			// {period: 9, offset: 12.5},
+			// {period: 10, offset: 11.5},
+			// {period: 11, offset: 10.5},
+			// {period: 12, offset: 9.5},
+			// {period: 13, offset: 8.5},
+			// {period: 14, offset: 7.5},
+			// {period: 15, offset: 6.5},
+			// {period: 16, offset: 5.5},
+			// {period: 17, offset: 4.5},
+			// {period: 18, offset: 3.5},
+			// {period: 19, offset: 2.5},
+			// {period: 20, offset: 1.5},
+			// {period: 21, offset: 0.5}
+
+
+
+			// test to see sum graph (though could expand this to big test. i like the 5/50 split thing)
+			// relly wanna expand this - but it will take forever. over night?
+			// 19
+			{period: 5.5, offset: 13.5},
+			{period: 6.5, offset: 12.5},
+			{period: 7.5, offset: 11.5},
+			{period: 8.5, offset: 10.5},
+			{period: 9.5, offset: 9.5},
+			{period: 10.5, offset: 8.5},
+			{period: 11.5, offset: 7.5},
+			{period: 12.5, offset: 6.5},
+			{period: 13.5, offset: 5.5},
+			// 20
+			{period: 6, offset: 14},
+			{period: 7, offset: 13},
+			{period: 8, offset: 12},
+			{period: 9, offset: 11},
+			{period: 10, offset: 10},
+			{period: 11, offset: 9},
+			{period: 12, offset: 8},
+			{period: 13, offset: 7},
+			{period: 14, offset: 6},
+			// 21
+			{period: 6.5, offset: 14.5},
+			{period: 7.5, offset: 13.5},
+			{period: 8.5, offset: 12.5},
+			{period: 9.5, offset: 11.5},
+			{period: 10.5, offset: 10.5},
+			{period: 11.5, offset: 9.5},
+			{period: 12.5, offset: 8.5},
+			{period: 13.5, offset: 7.5},
+			{period: 14.5, offset: 6.5},
+			// 22	
+			{period: 7, offset: 15},
+			{period: 8, offset: 14},
+			{period: 9, offset: 13},
+			{period: 10, offset: 12},
+			{period: 11, offset: 11},
+			{period: 12, offset: 10},
+			{period: 13, offset: 9},
+			{period: 14, offset: 8},
+			{period: 15, offset: 7},
+			// 23
+			{period: 7.5, offset: 15.5},
+			{period: 8.5, offset: 14.5},
+			{period: 9.5, offset: 13.5},
+			{period: 10.5, offset: 12.5},
+			{period: 11.5, offset: 11.5},
+			{period: 12.5, offset: 10.5},
+			{period: 13.5, offset: 9.5},
+			{period: 14.5, offset: 8.5},
+			{period: 15.5, offset: 7.5}
+
 		]
 
 
@@ -124,8 +180,8 @@ module.exports = {
 		// NEW WAY
 		var total_tests			= (period_offset_combos.length * low_values.length * high_values.length);
 		var start 				= new Date();
-		var time_per_test_min 	= 0.16;
-		var time_per_test_max 	= 0.17;
+		var time_per_test_min 	= 0.15;
+		var time_per_test_max 	= 0.16;
 		console.log("Running " + total_tests + " tests");
 		console.log("Should be about " + (time_per_test_min * total_tests).toFixed(2) + "-" + (time_per_test_max * total_tests).toFixed(2) + " seconds.")
 
@@ -155,7 +211,7 @@ module.exports = {
 
 
 		// print table averages
-		reporting.debug('average value of table:<br />')
+		reporting.debug('<strong>average value of table:</strong><br />')
 		for (x in this.table_averages) {
 			var this_avg = tools.getArrayAverage(this.table_averages[x]).toFixed(0)
 			reporting.debug(x + ': ' + this_avg + '<br />')
@@ -163,7 +219,7 @@ module.exports = {
 		}
 
 		// print global averages
-		reporting.debug('<br />global averages:<br />')
+		reporting.debug('<br /><strong>global averages:</strong><br />')
 		for (x in this.global_averages) {
 			var this_avg = tools.getArrayAverage(this.global_averages[x]).toFixed(0)
 			reporting.debug(x + ': ' + this_avg + '<br />')
@@ -172,13 +228,9 @@ module.exports = {
 
 
 
-
-
 		this.browser_output 	= reporting.getFinalOutput()
 		this.chart_data 		= reporting.getFinalChartData()
 		this.average_chart_data = reporting.getAverageChartData()
-
-		console.log(this.average_chart_data);
 	},
 
 

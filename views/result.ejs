@@ -15,6 +15,7 @@
 			drawChart('low')
 			drawChart('high')
 			drawChart('period-offset')
+			drawChart('sum')
 		}
 
 		function drawChart(chart_tag) {
@@ -26,6 +27,7 @@
 			thisData['low'] 			= [<%- average_chart_data['low'] %>]
 			thisData['high'] 			= [<%- average_chart_data['high'] %>]
 			thisData['period-offset'] 	= [<%- average_chart_data['period-offset'] %>]
+			thisData['sum'] 			= [<%- average_chart_data['sum'] %>]
 
 			data.addRows(thisData[chart_tag]);
 
@@ -47,9 +49,11 @@
 
 	<p><%- data %></p>
 
-	<div id="average_chart_low" style="width: 33%; height: 300px"></div>
-	<div id="average_chart_high" style="width: 33%; height: 300px"></div>
-	<div id="average_chart_period-offset" style="width: 33%; height: 300px"></div>
+	<div id="average_chart_low" style="width: 45%; height: 300px; display: inline-block"></div>
+	<div id="average_chart_high" style="width: 45%; height: 300px; display: inline-block"></div>
+	<div id="average_chart_period-offset" style="width: 45%; height: 300px; display: inline-block"></div>
+	<div id="average_chart_sum" style="width: 45%; height: 300px; display: inline-block"></div>
+	<br />
 
 	<% for (key in table_data) { %>
 		key:  <%- key %><br />
