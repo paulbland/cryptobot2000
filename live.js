@@ -74,15 +74,20 @@ function step2(price_data_eth) {
 			// if first time, created empty set
 			if (!live_data_eth) {
 				live_data_eth = {
-					total_coins_owned 	    : 0,
-					total_coins_sold 	    : 0,
-					latest_sell_price       : 0, 
-					latest_buy_price        : 0,
-					transaction             : '',
-					total_sell_transactions : 0,
-					total_buy_transactions  : 0,
-					total_spent             : 0,
-					total_buy_transactions  : 0
+					totals: {
+						total_coins_owned 		: 0,
+						total_coins_sold_value 	: 0,
+						total_sell_transactions : 0,
+						total_buy_transactions  : 0,
+						total_spent             : 0,
+						current_value_of_coins_owned : 0,
+						current_position        : 0
+					},
+					latest_sell_price      	 	: 0, 
+					latest_buy_price        	: 0,
+					transaction: {
+						transaction 			: ''
+					}
 				}
 			}
 			//console.log(live_data_eth);
@@ -106,7 +111,7 @@ function step3(price_data, live_data_eth) {
 	var hrs_in_period 		= 8
 	var offset 				= 14;
 	var interval_in_minutes = 10;
-	var sell_all			= false;
+	var sell_all			= true; 
 	var buy_sell_percentage	= 7.5;
 	var buy_limit			= 2000;
 	var buy_sell_unit		= (buy_limit * (buy_sell_percentage / 100)); // calculate
@@ -119,6 +124,10 @@ function step3(price_data, live_data_eth) {
 	var this_index 			= (price_data.length - 1);				// alwasys last value
 	var latest_buy_price 	= price_data[this_index].value_buy;		// this will be the currect price we're evaluating
 	var latest_sell_price 	= price_data[this_index].value_sell;	// this will be the currect price we're evaluating
+
+	// override for testing
+	 latest_sell_price = 300;
+	//latest_buy_price = 150;
 
 	// decide buy or sell
 	var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug)
@@ -138,27 +147,38 @@ function step3(price_data, live_data_eth) {
 	newliveDataRecordETH.datetime_updated 	= new Date;
 	newliveDataRecordETH.latest_sell_price 	= latest_sell_price;
 	newliveDataRecordETH.latest_buy_price 	= latest_buy_price;
-	newliveDataRecordETH.transaction	 	= sell_or_buy;
+	newliveDataRecordETH.transaction.transaction	 	= sell_or_buy;
 
 	// set fields that may not be updated to most recent value
-	newliveDataRecordETH.total_coins_owned 			= live_data_eth.total_coins_owned;			// total - carried over
-	newliveDataRecordETH.total_coins_sold 			= live_data_eth.total_coins_sold;			// total - carried over
-	newliveDataRecordETH.total_sell_transactions 	= live_data_eth.total_sell_transactions;	// total - carried over
-	newliveDataRecordETH.total_buy_transactions 	= live_data_eth.total_buy_transactions;		// total - carried over
-	newliveDataRecordETH.total_spent				= live_data_eth.total_spent;				// total - carried over
-	newliveDataRecordETH.transaction_notes			= '';										// transaction - reset
-	newliveDataRecordETH.number_of_coins_to_sell	= 0;										// transaction - reset
-	newliveDataRecordETH.api_response_err			= '';										// transaction - reset
-	newliveDataRecordETH.api_response_xfer			= '';										// transaction - reset
+	newliveDataRecordETH.totals.total_coins_owned 				= live_data_eth.totals.total_coins_owned;			// total - carried over
+	newliveDataRecordETH.totals.total_coins_sold_value 			= live_data_eth.totals.total_coins_sold_value;		// total - carried over
+	newliveDataRecordETH.totals.total_sell_transactions 		= live_data_eth.totals.total_sell_transactions;		// total - carried over
+	newliveDataRecordETH.totals.total_buy_transactions 			= live_data_eth.totals.total_buy_transactions;		// total - carried over
+	newliveDataRecordETH.totals.total_spent						= live_data_eth.totals.total_spent;					// total - carried over
+	newliveDataRecordETH.totals.current_value_of_coins_owned	= live_data_eth.totals.current_value_of_coins_owned;// total - carried over
+	newliveDataRecordETH.totals.current_position				= live_data_eth.totals.current_position;			// total - carried over
+
+	newliveDataRecordETH.transaction.transaction_notes			= '';										// transaction - reset
+	newliveDataRecordETH.transaction.number_of_coins_to_sell	= 0;										// transaction - reset // sell only
+	newliveDataRecordETH.transaction.result_of_this_sale		= 0;										// transaction - reset // sell only
+	newliveDataRecordETH.transaction.number_of_coins_to_buy		= 0;										// transaction - reset // buy only
+	newliveDataRecordETH.transaction.amount_spent_on_this_transaction = 0;									// transaction - reset // buy only
+	newliveDataRecordETH.transaction.api_response_err			= '';										// transaction - reset
+	newliveDataRecordETH.transaction.api_response_xfer			= '';										// transaction - reset
 	
 	var avg_for_period 								= tools.calculateAverage(data_to_be_tested) 
-	newliveDataRecordETH.avg_for_period 			= avg_for_period														// transaction - set here only
-	newliveDataRecordETH.avg_plus_high_threshold 	= tools.calculateAvgPlusHighThreshold(avg_for_period, high_threshold); 	// transaction - set here only
-	newliveDataRecordETH.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, low_threshold); 	// transaction - set here only
+	newliveDataRecordETH.avg_for_period 			= avg_for_period														// current iteration - set here only
+	newliveDataRecordETH.avg_plus_high_threshold 	= tools.calculateAvgPlusHighThreshold(avg_for_period, high_threshold); 	// current iteration - set here only
+	newliveDataRecordETH.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, low_threshold); 	// current iteration - set here only
 
 	// wont change but lets record to make it easier to read logs
-	newliveDataRecordETH.low_threshold 				= low_threshold;
-	newliveDataRecordETH.high_threshold 			= high_threshold;
+	newliveDataRecordETH.program_vars = {
+		low_threshold 		: low_threshold,
+		high_threshold 		: high_threshold,
+		buy_sell_percentage	: buy_sell_percentage,
+		buy_limit	 		: buy_limit,
+		buy_sell_unit	 	: buy_sell_unit
+	} 		
 
 	if (sell_or_buy === 'sell') {
 		sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, latest_sell_price)
@@ -167,7 +187,7 @@ function step3(price_data, live_data_eth) {
 	} else {
 		// Do nothing
 		// returns 'do_nothing'
-		newliveDataRecordETH.transaction_notes = 'not buying or selling today';
+		//newliveDataRecordETH.transaction.transaction_notes = 'not buying or selling';
 		finalStepSaveAndExit()
 	}
 
@@ -186,22 +206,26 @@ function step3(price_data, live_data_eth) {
 function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, latest_sell_price) {
 	console.log('SELLING COIN FROM API!');
 
-	if (live_data_eth.total_coins_owned === 0) {
+	if (live_data_eth.totals.total_coins_owned === 0) {
 		//console.log('you don’t have any coins to sell!<br />')
-		newliveDataRecordETH.transaction_notes = 'You don’t have any coins to sell!';
+		newliveDataRecordETH.transaction.transaction_notes = 'You don’t have any coins to sell!';
 		finalStepSaveAndExit()
+		return;
 	}
 
-	var sell_coin_result = tools.sellCoin(high_threshold, false, sell_all, live_data_eth.total_coins_owned, buy_sell_unit, latest_sell_price)
+	var sell_coin_result = tools.sellCoin(high_threshold, false, sell_all, live_data_eth.totals.total_coins_owned, buy_sell_unit, latest_sell_price)
 
 	// console.log("sell_coin_result");
 	// console.log(sell_coin_result);
 
-	newliveDataRecordETH.number_of_coins_to_sell 	= sell_coin_result.number_of_coins_to_sell;
-	newliveDataRecordETH.total_coins_owned 			= (live_data_eth.total_coins_owned - sell_coin_result.number_of_coins_to_sell);
-	newliveDataRecordETH.total_coins_sold 			= (live_data_eth.total_coins_owned + sell_coin_result.result_of_this_sale);
+	newliveDataRecordETH.transaction.number_of_coins_to_sell = sell_coin_result.number_of_coins_to_sell;
+	newliveDataRecordETH.transaction.result_of_this_sale 	= sell_coin_result.result_of_this_sale;
+	newliveDataRecordETH.transaction.transaction_notes 		= sell_coin_result.transaction_notes;
+	
+	newliveDataRecordETH.totals.total_coins_owned 			= (live_data_eth.totals.total_coins_owned - sell_coin_result.number_of_coins_to_sell);
+	newliveDataRecordETH.totals.total_coins_sold_value 		= (live_data_eth.totals.total_coins_sold_value + sell_coin_result.result_of_this_sale);
 	if (sell_coin_result.number_of_coins_to_sell > 0) {
-		newliveDataRecordETH.total_sell_transactions 	= (live_data_eth.total_sell_transactions + 1);
+		newliveDataRecordETH.totals.total_sell_transactions = (live_data_eth.totals.total_sell_transactions + 1);
 	}
 
 
@@ -222,8 +246,8 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 				//console.log('selling done');
 
 				// store response in DB
-				newliveDataRecordETH.api_response_err 	= err;
-				newliveDataRecordETH.api_response_xfer 	= xfer;
+				newliveDataRecordETH.transaction.api_response_err 	= err;
+				newliveDataRecordETH.transaction.api_response_xfer 	= xfer;
 
 				finalStepSaveAndExit();
 			});
@@ -245,17 +269,20 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 function buyCoinAPI(live_data_eth, buy_sell_unit, buy_limit, latest_buy_price) {
 	console.log('BUYING COIN FROM API!');
 
-	var buy_coin_result = tools.buyCoin(live_data_eth.total_coins_owned, buy_sell_unit, buy_limit, latest_buy_price, false)
+	var buy_coin_result = tools.buyCoin(live_data_eth.totals.total_coins_owned, buy_sell_unit, buy_limit, latest_buy_price, false)
 
 	// console.log("buy_coin_result");
 	// console.log(buy_coin_result);
 
-	newliveDataRecordETH.total_coins_owned 			= (live_data_eth.total_coins_owned + buy_coin_result.number_of_coins_to_buy);
-	newliveDataRecordETH.total_spent 				= (live_data_eth.total_spent + buy_coin_result.amount_spent_on_this_transaction);
-	newliveDataRecordETH.transaction_notes 			= buy_coin_result.transaction_notes;
+	newliveDataRecordETH.totals.total_coins_owned 			= (live_data_eth.totals.total_coins_owned + buy_coin_result.number_of_coins_to_buy);
+	newliveDataRecordETH.totals.total_spent 				= (live_data_eth.totals.total_spent + buy_coin_result.amount_spent_on_this_transaction);
+	
+	newliveDataRecordETH.transaction.transaction_notes 					= buy_coin_result.transaction_notes;
+	newliveDataRecordETH.transaction.number_of_coins_to_buy 			= buy_coin_result.number_of_coins_to_buy;
+	newliveDataRecordETH.transaction.amount_spent_on_this_transaction 	= buy_coin_result.amount_spent_on_this_transaction
 
 	if (buy_coin_result.number_of_coins_to_buy > 0) {
-		newliveDataRecordETH.total_buy_transactions 	= (live_data_eth.total_buy_transactions + 1);
+		newliveDataRecordETH.totals.total_buy_transactions 	= (live_data_eth.totals.total_buy_transactions + 1);
 	}
 
 
@@ -277,8 +304,8 @@ function buyCoinAPI(live_data_eth, buy_sell_unit, buy_limit, latest_buy_price) {
 				//console.log('selling done');
 				
 				// store response in DB
-				newliveDataRecordETH.api_response_err 	= err;
-				newliveDataRecordETH.api_response_xfer 	= xfer;
+				newliveDataRecordETH.transaction.api_response_err 	= err;
+				newliveDataRecordETH.transaction.api_response_xfer 	= xfer;
 
 				finalStepSaveAndExit();
 			});
@@ -297,12 +324,15 @@ function buyCoinAPI(live_data_eth, buy_sell_unit, buy_limit, latest_buy_price) {
 
 function finalStepSaveAndExit() {
 
+	newliveDataRecordETH.totals.current_value_of_coins_owned 	= (newliveDataRecordETH.totals.total_coins_owned * newliveDataRecordETH.latest_sell_price)
+	newliveDataRecordETH.totals.current_position 				= (newliveDataRecordETH.totals.current_value_of_coins_owned + newliveDataRecordETH.totals.total_coins_sold_value)
+
 	newliveDataRecordETH.save(function (err) {
 		if (err) {
 			console.log(err);
 		}
 		console.log('saved new liveDataModelETH');
-		process.exit();
+		process.exit(5);
 	})
 
 }

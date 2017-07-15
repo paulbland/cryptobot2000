@@ -161,6 +161,8 @@ module.exports  = {
 
 		var result_of_this_sale = (current_coin_price_sell * number_of_coins_to_sell)
 
+		var transaction_notes = 'Selling ' + number_of_coins_to_sell + ' coins values at $' + current_coin_price_sell + ' each for a total sale of $' + result_of_this_sale;
+
 		
 		if (print_full_debug) {
 			reporting.debug('<span style="color:red">TRANSACTION: SELL ' + number_of_coins_to_sell + ' of my ' +  total_coins_owned + ' coins valued at $');
@@ -169,7 +171,8 @@ module.exports  = {
 
 		return {
 			"number_of_coins_to_sell" 	: number_of_coins_to_sell,
-			"result_of_this_sale" 		: result_of_this_sale
+			"result_of_this_sale" 		: result_of_this_sale,
+			"transaction_notes" 		: transaction_notes
 		}
 
 
@@ -182,8 +185,6 @@ module.exports  = {
 
 	buyCoin: function(total_coins_owned, buy_sell_unit, buy_limit, current_coin_price_buy, print_full_debug)  { 
 
-
-		var transaction_notes;
 
 		// eg:
 		// - unit 			= $1000
@@ -199,6 +200,8 @@ module.exports  = {
 		var number_of_coins_to_buy 					= (buy_sell_unit / current_coin_price_buy)  							// eg 0.4 = 1000/2500
 
 		var amount_spent_on_this_transaction 		= buy_sell_unit															// eg 1000
+
+		var transaction_notes = 'Buying ' + number_of_coins_to_buy + ' coins valued at $' + current_coin_price_buy + ' each for a total purchase of $' + amount_spent_on_this_transaction;
 
 		if (print_full_debug) {
 			reporting.debug('buy_sell_unit: ' 							+ buy_sell_unit + '<br />');
@@ -228,7 +231,7 @@ module.exports  = {
 			// new amount spent
 			amount_spent_on_this_transaction = difference;																		// eg 250
 
-			transaction_notes = 'reached limit - setting number_of_coins_to_buy to ' + number_of_coins_to_buy+ ' and setting amount_spent_on_this_transaction to ' + amount_spent_on_this_transaction;
+			transaction_notes += '***reached limit*** - setting number_of_coins_to_buy to ' + number_of_coins_to_buy+ ' and setting amount_spent_on_this_transaction to ' + amount_spent_on_this_transaction;
 
 			if (print_full_debug) {
 				reporting.debug('***reached limit! --- <br />')
