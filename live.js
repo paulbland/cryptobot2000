@@ -334,7 +334,7 @@ function finalStepSaveAndExit() {
 		if (err) {
 			console.log(err);
 		}
-		console.log('saved new liveDataModelETH');12345
+		console.log('saved new liveDataModelETH');
 		//process.exit();
 	})
 
