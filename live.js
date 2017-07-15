@@ -332,7 +332,7 @@ function finalStepSaveAndExit() {
 			console.log(err);
 		}
 		console.log('saved new liveDataModelETH');
-		process.exit(5);
+		//process.exit();
 	})
 
 }
