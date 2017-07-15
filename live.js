@@ -108,7 +108,7 @@ function step3(price_data, live_data_eth) {
 	var high_threshold 		= 0.145;
 	var buy_sell_method		= 'avg';
 	var print_full_debug 	= false;
-	var hrs_in_period 		= 8
+	var period 				= 8 // formerlly hrs_in_period
 	var offset 				= 14;
 	var interval_in_minutes = 10;
 	var sell_all			= true; 
@@ -116,7 +116,7 @@ function step3(price_data, live_data_eth) {
 	var buy_limit			= 2000;
 	var buy_sell_unit		= (buy_limit * (buy_sell_percentage / 100)); // calculate
 
-	var values_per_period 	= tools.calculateValuesForGivenPeriod(hrs_in_period, interval_in_minutes)			
+	var values_per_period 	= tools.calculateValuesForGivenPeriod(period, interval_in_minutes)			
 	var values_in_offset	= tools.calculateValuesForGivenPeriod(offset, interval_in_minutes)	
 	var from_index 			= (price_data.length - (values_per_period + values_in_offset))		// start index, minus offset and period length
 	var to_index 			= (price_data.length - values_in_offset)							// last period index (same without period length)
@@ -126,14 +126,15 @@ function step3(price_data, live_data_eth) {
 	var latest_sell_price 	= price_data[this_index].value_sell;	// this will be the currect price we're evaluating
 
 	// override for testing
-	// latest_sell_price = 300;
-	// latest_buy_price = 150;
+	// latest_sell_price = 225;
+	// latest_buy_price = 145;
 
 	// decide buy or sell
 	var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug)
 
 	// TESTING OVERRIDE
-	//sell_or_buy = 'sell'
+	// sell_or_buy = 'sell'
+	// sell_or_buy = 'buy'
 
 	// console.log('price_data.length: ' + price_data.length)
 	// console.log('from_index: ' + from_index)
@@ -177,7 +178,9 @@ function step3(price_data, live_data_eth) {
 		high_threshold 		: high_threshold,
 		buy_sell_percentage	: buy_sell_percentage,
 		buy_limit	 		: buy_limit,
-		buy_sell_unit	 	: buy_sell_unit
+		buy_sell_unit	 	: buy_sell_unit,
+		period	 			: period,
+		offset	 			: offset
 	} 		
 
 	if (sell_or_buy === 'sell') {
@@ -325,13 +328,13 @@ function buyCoinAPI(live_data_eth, buy_sell_unit, buy_limit, latest_buy_price) {
 function finalStepSaveAndExit() {
 
 	newliveDataRecordETH.totals.current_value_of_coins_owned 	= (newliveDataRecordETH.totals.total_coins_owned * newliveDataRecordETH.latest_sell_price)
-	newliveDataRecordETH.totals.current_position 				= (newliveDataRecordETH.totals.current_value_of_coins_owned + newliveDataRecordETH.totals.total_coins_sold_value)
+	newliveDataRecordETH.totals.current_position 				= (newliveDataRecordETH.totals.current_value_of_coins_owned + newliveDataRecordETH.totals.total_coins_sold_value - newliveDataRecordETH.totals.total_spent)
 
 	newliveDataRecordETH.save(function (err) {
 		if (err) {
 			console.log(err);
 		}
-		console.log('saved new liveDataModelETH');
+		console.log('saved new liveDataModelETH');12345
 		//process.exit();
 	})
 

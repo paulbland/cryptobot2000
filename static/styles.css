@@ -26,3 +26,11 @@ td a:hover, th a:hover {
 td span {
 	font-size: 9px;
 }
+t1 {
+	display: inline-block;
+	margin-right: 20px;
+}
+t2 {
+	display: inline-block;
+	margin-right: 40px;
+}

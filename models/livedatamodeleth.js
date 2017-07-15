@@ -16,7 +16,9 @@ var LiveDataSchema = new Schema({
 		high_threshold 		: { type: Number, default: 0 },
 		buy_sell_percentage	: { type: Number, default: 0 },
 		buy_limit	 		: { type: Number, default: 0 },
-		buy_sell_unit	 	: { type: Number, default: 0 }
+		buy_sell_unit	 	: { type: Number, default: 0 },
+		period	 	        : { type: Number, default: 0 },
+		offset	 	        : { type: Number, default: 0 }
     },
     totals: {
         total_coins_owned 	    : { type: Number, default: 0 },
@@ -36,7 +38,7 @@ var LiveDataSchema = new Schema({
         api_response_xfer       : { type: String, default: '' },
         number_of_coins_to_buy  : { type: Number, default: 0 },
         amount_spent_on_this_transaction : { type: Number, default: 0 }
-    }
+    } 
 });
 
 // Compile model from schema

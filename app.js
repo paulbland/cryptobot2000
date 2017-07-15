@@ -9,6 +9,8 @@ var tools 		= require('./controllers/tools')
 var basicAuth   = require('./controllers/auth');
 
 
+var moment = require('moment');
+
 
 // THIS DIDNT WORK??
 // var timeout = require('connect-timeout'); //express v4
@@ -127,11 +129,12 @@ app.get('/live-result', basicAuth, function(req, res) {
 			process.exit(1);
 		}
 		else {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(live_data_eth, null, "  "));
-			// res.render('live-result', {
-			// 	data : live_data_eth
-			// });
+           // res.setHeader('Content-Type', 'application/json');
+           // res.send(JSON.stringify(live_data_eth, null, "  "));
+			res.render('live-result', {
+				data : live_data_eth,
+				moment: moment 
+			});
 		}
 	});
 

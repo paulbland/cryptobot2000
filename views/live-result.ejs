@@ -5,12 +5,72 @@
 	<title>coinbasebot</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="styles.css">	
+
 </head>
 <body>
 
 	<h1>Live result</h1>
+	
+	<% var period = data[0].program_vars.period %>
+	<% var offset = data[0].program_vars.offset %>
+	<% var low_threshold = data[0].program_vars.low_threshold %>
+	<% var high_threshold = data[0].program_vars.high_threshold %>
 
-	<p><%- data %></p>
+	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&low_threshold=<%- low_threshold %>&high_threshold=<%- high_threshold %>&currency=ETH">Link to simulation for this data</a><br /><br />
+
+	<% for (i in data) { %>
+		{<br />
+
+			<t1></t1><strong>datetime_updated: <%- data[i].datetime_updated.toUTCString() %>
+			<span style="color:limegreen">
+				(<%= moment(data[i].datetime_updated).calendar() %>, 
+				<%= moment(data[i].datetime_updated).fromNow() %>)
+			</span></strong><br />
+			<br />
+
+			<t1></t1>latest_buy_price: $<%- data[i].latest_buy_price %><br />
+			<t1></t1>latest_sell_price: $<%- data[i].latest_sell_price %><br />
+			<t1></t1>avg_for_period: $<%- data[i].avg_for_period %><br />
+			<t1></t1>avg_minus_low_threshold: $<%- data[i].avg_minus_low_threshold.toFixed(2) %><br />
+			<t1></t1>avg_plus_high_threshold: $<%- data[i].avg_plus_high_threshold.toFixed(2) %><br />
+			<br />
+
+			<strong><t1></t1>transaction:</strong><br />
+			<t2></t2>transaction: <%- data[i].transaction.transaction %><br />
+			<t2></t2>transaction_notes: <%- data[i].transaction.transaction_notes %><br />
+			<t2></t2>(if buy) amount_spent_on_this_transaction: <%- data[i].transaction.amount_spent_on_this_transaction %><br />
+			<t2></t2>(if buy) number_of_coins_to_buy: <%- data[i].transaction.number_of_coins_to_buy %><br />
+			<t2></t2>(if sell) result_of_this_sale: $<%- data[i].transaction.result_of_this_sale.toFixed(2) %><br />
+			<t2></t2>(if sell) number_of_coins_to_sell: <%- data[i].transaction.number_of_coins_to_sell %><br />
+			<t2></t2>api_response_xfer: <%- data[i].transaction.api_response_xfer %><br />
+			<t2></t2>api_response_err: <%- data[i].transaction.api_response_err %><br />
+			<br />
+
+			<strong><t1></t1>totals:</strong><br />
+			<t2></t2>total_buy_transactions: <%- data[i].totals.total_buy_transactions %><br />
+			<t2></t2>total_sell_transactions: <%- data[i].totals.total_sell_transactions %><br />
+			<t2></t2>total_spent: $<%- data[i].totals.total_spent.toFixed(2) %><br />
+			<t2></t2>total_coins_sold_value: $<%- data[i].totals.total_coins_sold_value.toFixed(2) %><br />
+			<t2></t2>total_coins_owned: <%- data[i].totals.total_coins_owned %><br />
+			<t2></t2>current_value_of_coins_owned: <%- data[i].totals.current_value_of_coins_owned %><br />
+			<t2></t2>current_position: $<%- data[i].totals.current_position.toFixed(2) %><br />
+			<br />
+
+			<strong><t1></t1>program_vars:</strong><br />
+			<t2></t2>period: <%- data[i].program_vars.period %> hrs<br />
+			<t2></t2>offset: <%- data[i].program_vars.offset %> hrs<br />
+			<t2></t2>low_threshold: <%- data[i].program_vars.low_threshold %>%<br />
+			<t2></t2>high_threshold: <%- data[i].program_vars.high_threshold %>%<br />
+			<t2></t2>buy_sell_percentage: <%- data[i].program_vars.buy_sell_percentage %>%<br />
+			<t2></t2>buy_limit: $<%- data[i].program_vars.buy_limit %><br />
+			<t2></t2>buy_sell_unit: $<%- data[i].program_vars.buy_sell_unit %><br />
+			<br />
+
+		}<br />
+	<% } %>	
+
+}
+
 
 </body>
 </html>
