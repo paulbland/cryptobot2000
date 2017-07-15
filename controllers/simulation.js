@@ -20,6 +20,7 @@ module.exports = {
 	max_value_ever_owned	: null,
 	browser_output 			: '',
 	chart_data 				: '',
+	average_chart_data		: [],
 	summary_output			: '',
 	currency 				: null,
 
@@ -64,19 +65,13 @@ module.exports = {
 
 		if (this.buy_sell_method === 'avg') {
 
-			// FULL DATA FOR LONG TESTS (KINDA OLD NOW)
-			// var periods 	= [6, 12, 24]; 																// 6/12/24 - good,  48+ always bad
-			// var offsets 	= [6, 12, 24]; 																// 6/12/24 - good, 0 is mixed, 48+ bad
-			// var low_values 	= [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// this seems to be a good set for wide variety
-			// var high_values = [0.05, 0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25];		// and they match each other
-
 			// ok big 15 minute test:
 			// var periods 	= [4, 6, 8, 10, 12, 14, 16, 18]; 	
 			// var offsets 	= [4, 6, 8, 10, 12, 14, 16, 18]; 	
 			// var low_values 	= [0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20];
 			// var high_values = [0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20]; 
 
-			// test
+			// good range for wide testing (aslo past of big spreadhset test)
 			var low_values 	= [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18];
 			var high_values = [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18];
 
@@ -129,7 +124,7 @@ module.exports = {
 		// NEW WAY
 		var total_tests			= (period_offset_combos.length * low_values.length * high_values.length);
 		var start 				= new Date();
-		var time_per_test_min 	= 0.05;
+		var time_per_test_min 	= 0.16;
 		var time_per_test_max 	= 0.17;
 		console.log("Running " + total_tests + " tests");
 		console.log("Should be about " + (time_per_test_min * total_tests).toFixed(2) + "-" + (time_per_test_max * total_tests).toFixed(2) + " seconds.")
@@ -162,17 +157,28 @@ module.exports = {
 		// print table averages
 		reporting.debug('average value of table:<br />')
 		for (x in this.table_averages) {
-			reporting.debug(x + ': ' + tools.getArrayAverage(this.table_averages[x]).toFixed(0) + '<br />')
+			var this_avg = tools.getArrayAverage(this.table_averages[x]).toFixed(0)
+			reporting.debug(x + ': ' + this_avg + '<br />')
+			reporting.updateAverageChartData(x, this_avg)
 		}
 
 		// print global averages
 		reporting.debug('<br />global averages:<br />')
 		for (x in this.global_averages) {
-			reporting.debug(x + ': ' + tools.getArrayAverage(this.global_averages[x]).toFixed(0) + '<br />')
+			var this_avg = tools.getArrayAverage(this.global_averages[x]).toFixed(0)
+			reporting.debug(x + ': ' + this_avg + '<br />')
+			reporting.updateAverageChartData(x, this_avg)
 		}
 
-		this.browser_output = reporting.getFinalOutput()
-		this.chart_data 	= reporting.getFinalChartData()
+
+
+
+
+		this.browser_output 	= reporting.getFinalOutput()
+		this.chart_data 		= reporting.getFinalChartData()
+		this.average_chart_data = reporting.getAverageChartData()
+
+		console.log(this.average_chart_data);
 	},
 
 
@@ -190,6 +196,7 @@ module.exports = {
 		this.browser_output 	= reporting.getFinalOutput()
 		this.chart_data 		= reporting.getFinalChartData()
 		this.summary_output		= reporting.getSummaryData()
+		this.average_chart_data = reporting.getAverageChartData()
 	},
 
 
@@ -283,7 +290,6 @@ module.exports = {
 
 		if (this.print_basic_debug) {
 			reporting.updateSummaryData(final_profit, this.max_value_ever_owned, invest_profit_ratio, profit_percentage)
-			
 		}
 
 		if (this.print_table_data) {
@@ -292,8 +298,6 @@ module.exports = {
 
 		if (this.print_table_data) {
 			this.compileGlobalAverages(hrs_in_period, offset, low_threshold, high_threshold, final_profit)
-
-			
 		}
 	}, 
 
@@ -374,7 +378,8 @@ module.exports = {
 		//console.log('running with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
 
 
-		var array_key 	= 'period_' + hrs_in_period + '_offset_' + offset;
+		//var array_key 	= 'period_' + hrs_in_period + '_offset_' + offset;
+		var array_key 	= 'period-offset_' + hrs_in_period + '-' + offset;
 		var row_key 	= 'row_' + high_threshold;
 		var cell_link 	= '/run-simulation-single?hrs_in_period='+hrs_in_period+'&offset='+offset+'&low_threshold='+low_threshold+'&high_threshold='+high_threshold+'&currency='+this.currency;
 
@@ -459,18 +464,19 @@ module.exports = {
 	compileGlobalAverages: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit) {
 		//console.log('running compileGlobalAverages with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
 
-		var period_key 	= 'period_' + hrs_in_period;
-		var offset_key	= 'offset_' + offset;
+		// note - commenting out period and offset as they are now both judged only together
+
+		//var period_key 	= 'period_' + hrs_in_period;
+		//var offset_key	= 'offset_' + offset;
 		var high_key 	= 'high_' + high_threshold;
 		var low_key 	= 'low_' + low_threshold;
 
-
-		if (typeof this.global_averages[period_key] === 'undefined') {
-			this.global_averages[period_key] = []
-		}
-		if (typeof this.global_averages[offset_key] === 'undefined') {
-			this.global_averages[offset_key] = []
-		}
+		// if (typeof this.global_averages[period_key] === 'undefined') {
+		// 	this.global_averages[period_key] = []
+		// }
+		// if (typeof this.global_averages[offset_key] === 'undefined') {
+		// 	this.global_averages[offset_key] = []
+		// }
 		if (typeof this.global_averages[high_key] === 'undefined') {
 			this.global_averages[high_key] = []
 		}
@@ -478,8 +484,8 @@ module.exports = {
 			this.global_averages[low_key] = []
 		}
 
-		this.global_averages[period_key].push(final_profit)
-		this.global_averages[offset_key].push(final_profit)
+		//this.global_averages[period_key].push(final_profit)
+		//this.global_averages[offset_key].push(final_profit)
 		this.global_averages[high_key].push(final_profit)
 		this.global_averages[low_key].push(final_profit)
 	},

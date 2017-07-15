@@ -1,17 +1,19 @@
 module.exports  = {
 
-    browser_output  : '',
-    chart_data      : '',
-    summary_output  : '',
+    browser_output  	: '',
+    chart_data      	: '',
+    average_chart_data  : [],
+    summary_output  	: '',
 
     debug: function(str) {
         this.browser_output += str;
     },
 
     resetOutput: function() {
-        this.browser_output = '';
-        this.chart_data = '';
-        this.summary_output = '';
+        this.browser_output 	= '';
+        this.chart_data 		= '';
+        this.average_chart_data = [];
+        this.summary_output 	= '';
     },
 
     printCurrentPosition: function (current_coin_price_buy, current_coin_price_sell, total_coins_owned, total_spent, total_sold, 
@@ -58,7 +60,18 @@ module.exports  = {
 		this.summary_output += '(<strong>max ever value: $' + max_value_ever_owned.toFixed(2) + '</strong>) ';
 		this.summary_output += 'invested:profit ratio: ' + invest_profit_ratio + ' ';
 		this.summary_output += 'percentage earnt: ' + profit_percentage + '%<br /><br />';
-    },
+	},
+	
+	updateAverageChartData: function(key, value) {
+		// array as text
+		var this_key = key.substr(0, key.indexOf('_'));
+		var this_val = key.substr((key.indexOf('_') + 1));
+
+		if (typeof this.average_chart_data[this_key] === 'undefined') {
+			this.average_chart_data[this_key] = '';
+		}
+		this.average_chart_data[this_key] += '["' +  this_val + '",' + value + '],';
+	},
 
     getFinalOutput: function() {
         return this.browser_output;
@@ -70,6 +83,10 @@ module.exports  = {
 
     getSummaryData: function() {
         return this.summary_output;
+	},
+	
+	getAverageChartData: function() {
+        return this.average_chart_data;
     }
 
 

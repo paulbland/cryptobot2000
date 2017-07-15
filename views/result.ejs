@@ -5,13 +5,51 @@
 	<title>coinbasebot</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="styles.css">
- 	
+
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawCharts);
+
+		function drawCharts() {
+			drawChart('low')
+			drawChart('high')
+			drawChart('period-offset')
+		}
+
+		function drawChart(chart_tag) {
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'input'); // Implicit domain label col.
+			data.addColumn('number', 'result'); // Implicit series 1 data col.
+			
+			var thisData = [];
+			thisData['low'] 			= [<%- average_chart_data['low'] %>]
+			thisData['high'] 			= [<%- average_chart_data['high'] %>]
+			thisData['period-offset'] 	= [<%- average_chart_data['period-offset'] %>]
+
+			data.addRows(thisData[chart_tag]);
+
+			var options = {
+				title: chart_tag,
+				curveType: 'function',
+				legend: { position: 'bottom' }
+			}; 
+
+			var chart = new google.visualization.LineChart(document.getElementById('average_chart_' + chart_tag));
+			chart.draw(data, options);
+		}
+</script>
+
 </head>
 <body>
 
 	<h1><%- currency %></h1>
 
 	<p><%- data %></p>
+
+	<div id="average_chart_low" style="width: 33%; height: 300px"></div>
+	<div id="average_chart_high" style="width: 33%; height: 300px"></div>
+	<div id="average_chart_period-offset" style="width: 33%; height: 300px"></div>
 
 	<% for (key in table_data) { %>
 		key:  <%- key %><br />
