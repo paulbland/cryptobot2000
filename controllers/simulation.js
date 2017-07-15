@@ -64,121 +64,17 @@ module.exports = {
 		this.printSummary(price_data); 
 
 		if (this.buy_sell_method === 'avg') {
-
-			// good range for wide testing (also used these for big spreadsheet test)
-			var low_values 	= [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18];
-			var high_values = [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18];
-
-			// narrow range (just best values) for quicker testing 
-			//var low_values 	= [0.13, 0.14, 0.15, 0.16, 0.17];
-			//var high_values = [0.13, 0.14, 0.15, 0.16, 0.17];
-
+			var test_values = require(__dirname + '/../data/test_values_avg');
 		} else if (this.buy_sell_method === 'peak') {
-
-			var periods 	= [24, 36, 48, 72];
-			var offsets 	= [0]; // offsets dont make sense here.. i dont think?
-			var low_values 	= [0.020, 0.021, 0.022, 0.023, 0.024, 0.025];
-			var high_values = [0.020, 0.021, 0.022, 0.023, 0.024, 0.025]; 
-
+			var test_values = require(__dirname + '/../data/test_values_peak');
 		} else {
 			return;
 		}
 
-
-		// NEW WAY
-		// only run combos that add up to 24 (or whatver the sweet spot is...)
-		// 21.5 - still could be fine tuned
-		var period_offset_combos = [
-
-			// compelte set for 21.5 testing...
-			// {period: 1, offset: 20.5},
-			// {period: 2, offset: 19.5},
-			// {period: 3, offset: 18.5},
-			// {period: 4, offset: 17.5},
-			// {period: 5, offset: 16.5},
-			// {period: 6, offset: 15.5},
-			// {period: 7, offset: 14.5},
-			// {period: 8, offset: 13.5},
-			// {period: 9, offset: 12.5},
-			// {period: 10, offset: 11.5},
-			// {period: 11, offset: 10.5},
-			// {period: 12, offset: 9.5},
-			// {period: 13, offset: 8.5},
-			// {period: 14, offset: 7.5},
-			// {period: 15, offset: 6.5},
-			// {period: 16, offset: 5.5},
-			// {period: 17, offset: 4.5},
-			// {period: 18, offset: 3.5},
-			// {period: 19, offset: 2.5},
-			// {period: 20, offset: 1.5},
-			// {period: 21, offset: 0.5}
-
-
-
-			// test to see sum graph (though could expand this to big test. i like the 5/50 split thing)
-			// relly wanna expand this - but it will take forever. over night?
-			// 19
-			{period: 5.5, offset: 13.5},
-			{period: 6.5, offset: 12.5},
-			{period: 7.5, offset: 11.5},
-			{period: 8.5, offset: 10.5},
-			{period: 9.5, offset: 9.5},
-			{period: 10.5, offset: 8.5},
-			{period: 11.5, offset: 7.5},
-			{period: 12.5, offset: 6.5},
-			{period: 13.5, offset: 5.5},
-			// 20
-			{period: 6, offset: 14},
-			{period: 7, offset: 13},
-			{period: 8, offset: 12},
-			{period: 9, offset: 11},
-			{period: 10, offset: 10},
-			{period: 11, offset: 9},
-			{period: 12, offset: 8},
-			{period: 13, offset: 7},
-			{period: 14, offset: 6},
-			// 21
-			{period: 6.5, offset: 14.5},
-			{period: 7.5, offset: 13.5},
-			{period: 8.5, offset: 12.5},
-			{period: 9.5, offset: 11.5},
-			{period: 10.5, offset: 10.5},
-			{period: 11.5, offset: 9.5},
-			{period: 12.5, offset: 8.5},
-			{period: 13.5, offset: 7.5},
-			{period: 14.5, offset: 6.5},
-			// 22	
-			{period: 7, offset: 15},
-			{period: 8, offset: 14},
-			{period: 9, offset: 13},
-			{period: 10, offset: 12},
-			{period: 11, offset: 11},
-			{period: 12, offset: 10},
-			{period: 13, offset: 9},
-			{period: 14, offset: 8},
-			{period: 15, offset: 7},
-			// 23
-			{period: 7.5, offset: 15.5},
-			{period: 8.5, offset: 14.5},
-			{period: 9.5, offset: 13.5},
-			{period: 10.5, offset: 12.5},
-			{period: 11.5, offset: 11.5},
-			{period: 12.5, offset: 10.5},
-			{period: 13.5, offset: 9.5},
-			{period: 14.5, offset: 8.5},
-			{period: 15.5, offset: 7.5}
-
-		]
-
-
-
-
-		
-
 		// OLD WAY
-		// var total_tests 		= (periods.length * offsets.length * low_values.length * high_values.length);
+		// var total_tests 		= (test_values.periods.length * test_values.offsets.length * test_values.low_values.length * test_values.high_values.length);
 		// NEW WAY
-		var total_tests			= (period_offset_combos.length * low_values.length * high_values.length);
+		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
 		var start 				= new Date();
 		var time_per_test_min 	= 0.15;
 		var time_per_test_max 	= 0.16;
@@ -186,29 +82,28 @@ module.exports = {
 		console.log("Should be about " + (time_per_test_min * total_tests).toFixed(2) + "-" + (time_per_test_max * total_tests).toFixed(2) + " seconds.")
 
 		// OLD WAY
-		// for (x=0; x < periods.length; x++) {
-		// 	for (q=0; q < offsets.length; q++) {
-		// 		for (y=0; y < low_values.length; y++) {
-		// 			for (z=0; z < high_values.length; z++) {		
-		// 				this.processDataSet(periods[x], offsets[q], low_values[y], high_values[z], price_data)
+		// for (x=0; x < test_values.periods.length; x++) {
+		// 	for (q=0; q < test_values.offsets.length; q++) {
+		// 		for (y=0; y < test_values.low_values.length; y++) {
+		// 			for (z=0; z < test_values.high_values.length; z++) {		
+		// 				this.processDataSet(test_values.periods[x], test_values.offsets[q], test_values.low_values[y], test_values.high_values[z], price_data)
 		// 			}
 		// 		}
 		// 	}
 		// }
 
 		// NEW WAY
-		for (x=0; x < period_offset_combos.length; x++) {
-			for (y=0; y < low_values.length; y++) {
-				for (z=0; z < high_values.length; z++) {		
-					this.processDataSet(period_offset_combos[x].period, period_offset_combos[x].offset, low_values[y], high_values[z], price_data)
+		for (x=0; x < test_values.period_offset_combos.length; x++) {
+			for (y=0; y < test_values.low_values.length; y++) {
+				for (z=0; z < test_values.high_values.length; z++) {		
+					this.processDataSet(test_values.period_offset_combos[x].period, test_values.period_offset_combos[x].offset, 
+							test_values.low_values[y], test_values.high_values[z], price_data)
 				}
 			}
 		}
 
 		var execution_time = ((new Date() - start)/1000)
 		console.log('Took ' + execution_time.toFixed(2) + ' seconds. (about ' + (execution_time / total_tests).toFixed(2) + ' seconds each)')
-
-
 
 		// print table averages
 		reporting.debug('<strong>average value of table:</strong><br />')
@@ -225,8 +120,6 @@ module.exports = {
 			reporting.debug(x + ': ' + this_avg + '<br />')
 			reporting.updateAverageChartData(x, this_avg)
 		}
-
-
 
 		this.browser_output 	= reporting.getFinalOutput()
 		this.chart_data 		= reporting.getFinalChartData()
