@@ -32,18 +32,23 @@ module.exports = {
 
 	// algorthim differences that arent looped
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
-	buy_sell_unit 			: 200,			//500/10k seems to be good  -- also 300/5k
+	buy_sell_percentage 	: 7.5,
 	buy_limit				: 2000,
+	buy_sell_unit 			: 0,	// calculated now!
 	sell_all				: true,			// false means sell just one unit
 	simulate_crash 			: false, 
 	
+	setBuySellUnit: function() { 
+		this.buy_sell_unit = (this.buy_limit * (this.buy_sell_percentage / 100));
+	},
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
 		reporting.debug('<strong>Analyzing ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days)</strong><br />');
 		reporting.debug('- sell_all: ' + this.sell_all+'<br />');
 		reporting.debug('- buy_sell_method: \'' + this.buy_sell_method+'\'<br />');
-		reporting.debug('- buy_sell_unit: ' + this.buy_sell_unit+'<br />');
+		reporting.debug('- buy_sell_percentage: ' + this.buy_sell_percentage+'%<br />');
+		reporting.debug('- (buy_sell_unit: ' + this.buy_sell_unit+')<br />');
 		reporting.debug('- buy_limit: ' + this.buy_limit+'<br />');
 		reporting.debug('- simulate_crash: ' + this.simulate_crash+'<br /><br />');
 	},
@@ -60,6 +65,7 @@ module.exports = {
 		this.currency 			= currency;
 		
 		reporting.resetOutput(); 
+		this.setBuySellUnit();
 
 		this.printSummary(price_data); 
 
@@ -130,6 +136,7 @@ module.exports = {
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
 		reporting.resetOutput();
+		this.setBuySellUnit();
 		
 		this.table_data 		= {};
 		this.print_basic_debug 	= true;

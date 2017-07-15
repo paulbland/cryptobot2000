@@ -98,3 +98,22 @@ low_0.18: 428
 running full test for 22 --- with  0.5 hrs incremetns
 Screen Shot 2017-07-15 at 10.58.15 AM
 (same as aobve but twice as many values )
+
+
+
+# final results today:
+
+sum **22**
+period/offset
+    5/17 -> 12/10
+    no, acutally:
+    5.5/16.5 -> 10.5/11.5
+    so middle of these values is
+    **period-8, offset-14**
+low **0.14**
+high **14.5**
+
+
+# NEW IMPORTANT TEST
+
+best buy/sell percentage is **7.5%** ... ?
