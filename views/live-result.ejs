@@ -24,16 +24,27 @@
 
 			<t1></t1><strong>datetime_updated: <%- data[i].datetime_updated.toUTCString() %>
 			<span style="color:limegreen">
-				(<%= moment(data[i].datetime_updated).calendar() %>, 
-				<%= moment(data[i].datetime_updated).fromNow() %>)
+				<%= moment(data[i].datetime_updated).tz("America/New_York").calendar() %> (NY Time), 
+				<%= moment(data[i].datetime_updated).fromNow() %>
 			</span></strong><br />
 			<br />
 
-			<t1></t1>latest_buy_price: $<%- data[i].latest_buy_price %><br />
-			<t1></t1>latest_sell_price: $<%- data[i].latest_sell_price %><br />
-			<t1></t1>avg_for_period: $<%- data[i].avg_for_period %><br />
-			<t1></t1>avg_minus_low_threshold: $<%- data[i].avg_minus_low_threshold.toFixed(2) %><br />
-			<t1></t1>avg_plus_high_threshold: $<%- data[i].avg_plus_high_threshold.toFixed(2) %><br />
+			<strong><t1></t1>program_vars:</strong><br />
+			<t2></t2>period: <%- data[i].program_vars.period %> hrs<br />
+			<t2></t2>offset: <%- data[i].program_vars.offset %> hrs<br />
+			<t2></t2>low_threshold: <%- data[i].program_vars.low_threshold %>%<br />
+			<t2></t2>high_threshold: <%- data[i].program_vars.high_threshold %>%<br />
+			<t2></t2>buy_sell_percentage: <%- data[i].program_vars.buy_sell_percentage %>%<br />
+			<t2></t2>buy_limit: $<%- data[i].program_vars.buy_limit %><br />
+			<t2></t2>buy_sell_unit: $<%- data[i].program_vars.buy_sell_unit %><br />
+			<br />
+
+			<strong><t1></t1>this_iteration:</strong><br />
+			<t2></t2>avg_for_period: $<%- data[i].avg_for_period %><br />
+			<t2></t2>latest_buy_price: $<%- data[i].latest_buy_price %><br />
+			<t2></t2>latest_sell_price: $<%- data[i].latest_sell_price %><br />
+			<t2></t2>avg_minus_low_threshold: $<%- data[i].avg_minus_low_threshold.toFixed(2) %><br />
+			<t2></t2>avg_plus_high_threshold: $<%- data[i].avg_plus_high_threshold.toFixed(2) %><br />
 			<br />
 
 			<strong><t1></t1>transaction:</strong><br />
@@ -57,15 +68,7 @@
 			<t2></t2>current_position: $<%- data[i].totals.current_position.toFixed(2) %><br />
 			<br />
 
-			<strong><t1></t1>program_vars:</strong><br />
-			<t2></t2>period: <%- data[i].program_vars.period %> hrs<br />
-			<t2></t2>offset: <%- data[i].program_vars.offset %> hrs<br />
-			<t2></t2>low_threshold: <%- data[i].program_vars.low_threshold %>%<br />
-			<t2></t2>high_threshold: <%- data[i].program_vars.high_threshold %>%<br />
-			<t2></t2>buy_sell_percentage: <%- data[i].program_vars.buy_sell_percentage %>%<br />
-			<t2></t2>buy_limit: $<%- data[i].program_vars.buy_limit %><br />
-			<t2></t2>buy_sell_unit: $<%- data[i].program_vars.buy_sell_unit %><br />
-			<br />
+			
 
 		}<br />
 	<% } %>	
