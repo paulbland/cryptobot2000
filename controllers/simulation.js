@@ -39,7 +39,7 @@ module.exports = {
 	money_in_bank 			: 0,			// calculated	
 	sell_all				: true,			// false means sell just one unit
 	simulate_crash 			: false, 
-	reinvest_profit 		: true,
+	reinvest_profit 		: false,
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);

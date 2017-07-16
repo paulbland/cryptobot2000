@@ -107,11 +107,11 @@ function step3(price_data, live_data_eth) {
 
 	// hard code vars for live
 	var low_threshold 		= 0.15;
-	var high_threshold 		= 0.12;
+	var high_threshold 		= 0.16;
 	var buy_sell_method		= 'avg';
 	var print_full_debug 	= false;
-	var period 				= 12; // formerlly hrs_in_period
-	var offset 				= 9;
+	var period 				= 9; 
+	var offset 				= 12;
 	var interval_in_minutes = 10;
 	var sell_all			= true; 
 	var buy_sell_percentage	= 7.5;
