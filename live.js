@@ -116,9 +116,8 @@ function step3(price_data, live_data_eth) {
 	var sell_all			= true; 
 	var buy_sell_percentage	= 7.5;
 	var reinvest_profit     = false;
-	//var buy_limit			= 2000;
-	//var buy_sell_unit		= (buy_limit * (buy_sell_percentage / 100)); // calculate
-	var buy_sell_unit		= (live_data_eth.totals.money_in_bank * (buy_sell_percentage / 100)); // calculate
+	var buy_sell_unit		= (initial_investment * (buy_sell_percentage / 100)); // calculate
+	//var buy_sell_unit		= (live_data_eth.totals.money_in_bank * (buy_sell_percentage / 100)); // calculate
 
 	var values_per_period 	= tools.calculateValuesForGivenPeriod(period, interval_in_minutes)			
 	var values_in_offset	= tools.calculateValuesForGivenPeriod(offset, interval_in_minutes)	

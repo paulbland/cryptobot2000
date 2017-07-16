@@ -171,9 +171,9 @@ module.exports = {
 
 		// new - always start with initl investment
 		this.money_in_bank 			= this.initial_investment;
-		// set buy/sell unit to a percentage of total money in bank !
-		// this could be better off.. remaining static... ugh not sure
-		this.buy_sell_unit 			= (this.money_in_bank * (this.buy_sell_percentage / 100));
+		// set buy/sell unit to a percentage of init investment
+		this.buy_sell_unit 			= (this.initial_investment * (this.buy_sell_percentage / 100));
+		// also option to set to money in bank ...
 
 
 		var values_per_period 		= tools.calculateValuesForGivenPeriod(hrs_in_period, this.interval_in_minutes)		//((hrs_in_period * 60) / interval_in_minutes); 	
