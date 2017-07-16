@@ -1,2 +1,3 @@
 web: nodemon app.js
 live: node live.js
+bot: node bot.js
