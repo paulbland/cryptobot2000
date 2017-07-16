@@ -199,15 +199,16 @@ module.exports  = {
 			reporting.debug('amount_spent_on_this_transaction: ' 		+ amount_spent_on_this_transaction + '<br />');
 		}
 
-		// value i own right now (not including currently owned coins)
-		var profit = (total_spent - total_sold);
-
 		if (reinvest_profit) {
 			var reached_limit = (money_in_bank < buy_sell_unit) 			// THIS WILL SPEND PROFIT
 		} else {
-			var reached_limit = ((money_in_bank - profit) < buy_sell_unit)	// THIS WILL RETAIN PROFIT
+			var current_position = this.calculateCurrentPosition(total_coins_owned, latest_sell_price, total_sold, total_spent)
+			var reached_limit = ((money_in_bank - buy_sell_unit) < current_position) // THIS WILL RETAIN PROFIT
+			//console.log('current position: ' + current_position);
 		}
+
 		
+
 		if (reached_limit) {
 			number_of_coins_to_buy 				= 0;
 			amount_spent_on_this_transaction 	= 0;
@@ -218,6 +219,13 @@ module.exports  = {
 				reporting.debug('***reached limit!***<br />')
 				reporting.debug('---setting number_of_coins_to_buy and amount_spent_on_this_transaction to 0<br />');
 			}
+		}
+
+		else {
+			if (print_full_debug) {
+				reporting.debug('LIMIT NOT REACHED: <br />')
+				reporting.debug('total_spent ('+total_spent+') - total_sold ('+total_sold+') + buy_sell_unit ('+buy_sell_unit+') = ('+(total_spent - total_sold + buy_sell_unit)+') is not greater than 2000<br />')
+			}	
 		}
 
 
@@ -239,6 +247,11 @@ module.exports  = {
 			"transaction_notes" 				: transaction_notes
 		}
 
+	},
+
+
+	calculateCurrentPosition: function(total_coins_owned, latest_sell_price, total_sold, total_spent) {
+		return ((total_coins_owned * latest_sell_price) + (total_sold - total_spent));
 	},
 
 	getArrayAverage(arr) {

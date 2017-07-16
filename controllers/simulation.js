@@ -175,6 +175,7 @@ module.exports = {
 		// this could be better off.. remaining static... ugh not sure
 		this.buy_sell_unit 			= (this.money_in_bank * (this.buy_sell_percentage / 100));
 
+
 		var values_per_period 		= tools.calculateValuesForGivenPeriod(hrs_in_period, this.interval_in_minutes)		//((hrs_in_period * 60) / interval_in_minutes); 	
 		var values_in_offset		= tools.calculateValuesForGivenPeriod(offset, this.interval_in_minutes)				//((offset * 60) / this.interval_in_minutes);
 		var total_iterations 		= (price_data.length - values_per_period - values_in_offset)
@@ -310,7 +311,7 @@ module.exports = {
 
 
 
-	 sellCoinSim: function(current_coin_price_sell, high_threshold) {
+	 sellCoinSim: function(latest_sell_price, high_threshold) {
 
 		if (this.print_full_debug) {
 			reporting.debug('latest price is higher than +' + high_threshold + '% --- sell!<br />');
@@ -323,11 +324,12 @@ module.exports = {
 			return;
 		}
 
-		var sell_coin_result = tools.sellCoin(high_threshold, this.print_full_debug, this.sell_all, this.total_coins_owned, this.buy_sell_unit, current_coin_price_sell)
+		var sell_coin_result = tools.sellCoin(high_threshold, this.print_full_debug, this.sell_all, this.total_coins_owned, this.buy_sell_unit, latest_sell_price)
 
 		this.total_coins_owned 	-= sell_coin_result.number_of_coins_to_sell;
 		this.total_sold			+= sell_coin_result.result_of_this_sale;
 		this.money_in_bank 		+= sell_coin_result.result_of_this_sale;
+
 		this.total_sell_transactions++;
 	},
 
@@ -358,7 +360,7 @@ module.exports = {
 
 		if (typeof this.table_data[array_key] === 'undefined') {
 			this.table_data[array_key] = {
-				'header_row' 	: ['<th>↓high\\low→</th>']
+				header_row 	: ['<th>↓high\\low→</th>']
 			}
 			this.table_averages[array_key] = [];
 			this.table_averages['sum_' + (hrs_in_period + offset)] = [];
@@ -379,39 +381,38 @@ module.exports = {
 		// ok heres the fun part
 		// convert final_product to 0->255
 		// i dont have max value yet os lets just copy it in
-		// 256 is obviosuly max rgba num
+		// 256 is obviously max rgba num
 		// then set colors weighted to the total value
 		var max 		= 1000;
-		var min  		= -50;
+		var min  		= -1000;
 		var rgb_color 	= 0
-		var color_text 	= ''
+		var cell_color 	= ''
 		var cell_str 	= '';
-		var max_rgb_value = 210; // use 210 because 255 is too hard to read on white screen
+		var max_rgb_value = 128;//210; // use 210 because 255 is too hard to read on white screen
 
 
 		if (final_profit > 0) {
 
 			rgb_color 	= Math.floor(final_profit * (max_rgb_value / max));
 			rgb_color 	= (rgb_color > max_rgb_value) ? max_rgb_value : rgb_color;
-			color_text 	= 'rgb(0,'+rgb_color+',0)';
+			cell_color 	= 'rgb(0,'+rgb_color+',0)';
 
 		} else if (final_profit < 0) {
 
 			rgb_color 	= Math.floor(final_profit * (max_rgb_value / min));
 			rgb_color 	= (rgb_color > max_rgb_value) ? max_rgb_value : rgb_color;
-			color_text 	= 'rgb('+rgb_color+',0,0)';
+			cell_color 	= 'rgb('+rgb_color+',0,0)';
 
+		} else if (final_profit === 0) {
+			cell_color = '#ccc';
 		}
-		else if (final_profit === 0) {
-			color_text = '#ccc';
-		}
 
-
-		cell_str += '<td>\
-			<a style="font-weight:bold;color:'+color_text+'" href="'+cell_link+'" target="_blank">\
-				$'+final_profit.toFixed(2)+'</a><br />\
-				<span>($'+this.max_value_ever_owned.toFixed(2)+'\/'+profit_percentage+'%)</span>\
-		</td>';
+		cell_str += '\
+			<td style="background-color:' + cell_color + '">\
+				<a href="' + cell_link + '" target="_blank">$' + final_profit.toFixed(2) + '</a><br />\
+				<span>($' + this.max_value_ever_owned.toFixed(2) + '\/'+profit_percentage + '%)</span>\
+			</td>\
+		';
 
 		// used to show a ratio. now shows % earnt
 		//<span>($'+this.max_value_ever_owned.toFixed(2)+'\/'+invest_profit_ratio+')</span>\

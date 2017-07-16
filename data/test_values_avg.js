@@ -1,15 +1,24 @@
 module.exports = {
 
+	// super wide jsut for some fun
+	// low_values 	: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25],
+	// high_values : [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25],
+
 	// range for wide testing 
 	// low_values 	: [0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
 	// high_values : [0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
 
-
 	// range for narrow testing 
 	low_values 	: [0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17],
-	high_values : [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15],
+	high_values : [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18],
+
+	// fast fast fast
+	// low_values 	: [0.15],
+	// high_values : [0.15],
 
 
+	// test C --- JUST ONE PERIOD/OFFSET COMBO!
+	// THEY ALL HAVE DIFFERNET VALUES!
 
 	period_offset_combos: [
 
@@ -59,27 +68,27 @@ module.exports = {
 		// {period: 19, offset: 1},
 		// {period: 20, offset: 0},
 		// // 21  
-		{period: 1, offset: 20},
-		{period: 2, offset: 19},
-		{period: 3, offset: 18},
-		{period: 4, offset: 17},
-		{period: 5, offset: 16},
-		{period: 6, offset: 15},
-		{period: 7, offset: 14},
-		{period: 8, offset: 13},
+		// {period: 1, offset: 20},
+		// {period: 2, offset: 19},
+		// {period: 3, offset: 18},
+		// {period: 4, offset: 17},
+		// {period: 5, offset: 16},
+		// {period: 6, offset: 15},
+		// {period: 7, offset: 14},
+		// {period: 8, offset: 13},
 		{period: 9, offset: 12},
-		{period: 10, offset: 11},
-		{period: 11, offset: 10},
-		{period: 12, offset: 9},
-		{period: 13, offset: 8},
-		{period: 14, offset: 7},
-		{period: 15, offset: 6},
-		{period: 16, offset: 5},
-		{period: 17, offset: 4},
-		{period: 18, offset: 3},
-		{period: 19, offset: 2},
-		{period: 20, offset: 1},
-		{period: 21, offset: 0},
+		// {period: 10, offset: 11},
+		// {period: 11, offset: 10},
+		// {period: 12, offset: 9},
+		// {period: 13, offset: 8},
+		// {period: 14, offset: 7},
+		// {period: 15, offset: 6},
+		// {period: 16, offset: 5},
+		// {period: 17, offset: 4},
+		// {period: 18, offset: 3},
+		// {period: 19, offset: 2},
+		// {period: 20, offset: 1},
+		// {period: 21, offset: 0},
 		// // 22
 		// {period: 1, offset: 21},
 		// {period: 2, offset: 20},
