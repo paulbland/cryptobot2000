@@ -109,8 +109,8 @@ module.exports  = {
 
 			if (print_full_debug) {
 				reporting.debug('avg_for_period: $' + avg_for_period + '<br>');// print avg result to browser
-				reporting.debug('(avg price plus high threshold ('+high_threshold+'%) is ' + avg_plus_high_threshold + ')<br />');
-				reporting.debug('(avg price minus low threshold ('+low_threshold+'%) is ' + avg_minus_low_threshold + ')<br />');
+				reporting.debug('(avg price plus high threshold ('+high_threshold+'%) is $' + avg_plus_high_threshold.toFixed(2) + ')<br />');
+				reporting.debug('(avg price minus low threshold ('+low_threshold+'%) is $' + avg_minus_low_threshold.toFixed(2) + ')<br />');
 			}
 
 		} else if (buy_sell_method === 'peak') {

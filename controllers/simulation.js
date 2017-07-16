@@ -39,7 +39,7 @@ module.exports = {
 	money_in_bank 			: 0,			// calculated	
 	sell_all				: true,			// false means sell just one unit
 	simulate_crash 			: false, 
-	reinvest_profit 		: false,
+	reinvest_profit 		: true,
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
@@ -47,8 +47,9 @@ module.exports = {
 		reporting.debug('- sell_all: ' + this.sell_all+'<br />');
 		reporting.debug('- buy_sell_method: \'' + this.buy_sell_method+'\'<br />');
 		reporting.debug('- buy_sell_percentage: ' + this.buy_sell_percentage+'%<br />');
-		reporting.debug('- (buy_sell_unit: ' + this.buy_sell_unit+')<br />');
-		reporting.debug('- simulate_crash: ' + this.simulate_crash+'<br /><br />');
+		reporting.debug('- simulate_crash: ' + this.simulate_crash+'<br />');
+		reporting.debug('- reinvest_profit: ' + this.reinvest_profit+'<br />');
+		reporting.debug('- initial_investment: ' + this.initial_investment+'<br /><br />');
 	},
 
 

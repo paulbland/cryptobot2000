@@ -106,12 +106,12 @@ function step3(price_data, live_data_eth) {
 	//console.log('starting step 3...');
 
 	// hard code vars for live
-	var low_threshold 		= 0.14;
-	var high_threshold 		= 0.145;
+	var low_threshold 		= 0.15;
+	var high_threshold 		= 0.12;
 	var buy_sell_method		= 'avg';
 	var print_full_debug 	= false;
-	var period 				= 8 // formerlly hrs_in_period
-	var offset 				= 14;
+	var period 				= 12; // formerlly hrs_in_period
+	var offset 				= 9;
 	var interval_in_minutes = 10;
 	var sell_all			= true; 
 	var buy_sell_percentage	= 7.5;
@@ -125,13 +125,9 @@ function step3(price_data, live_data_eth) {
 	var from_index 			= (price_data.length - (values_per_period + values_in_offset))		// start index, minus offset and period length
 	var to_index 			= (price_data.length - values_in_offset)							// last period index (same without period length)
 	var data_to_be_tested 	= price_data.slice((from_index - 1), (to_index - 1));				// get slice. take one since index starts from 0
-	var this_index 			= (price_data.length - 1);				// alwasys last value
-	var latest_buy_price 	= price_data[this_index].value_buy;		// this will be the currect price we're evaluating
-	var latest_sell_price 	= price_data[this_index].value_sell;	// this will be the currect price we're evaluating
-
-	// override for testing
-	// latest_sell_price = 225;
-	// latest_buy_price = 145;
+	var this_index 			= (price_data.length - 1);											// always last value
+	var latest_buy_price 	= price_data[this_index].value_buy;									// this will be the currect price we're evaluating
+	var latest_sell_price 	= price_data[this_index].value_sell;								// this will be the currect price we're evaluating
 
 	// decide buy or sell
 	var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug)
