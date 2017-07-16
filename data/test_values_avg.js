@@ -1,85 +1,98 @@
 module.exports = {
 
-	// good range for wide testing (also used these for big spreadsheet test)
-	//low_values 	: [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18],
-	//high_values : [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18],
+	// range for wide testing 
+	low_values 	: [0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
+	high_values : [0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
 
 
 
-	// wide ranges for univeral testing
-	// lets find out best LTC
-	low_values 	: [0.07, 0.08, 0.09, 0.10],
-	high_values : [0.07, 0.08, 0.09, 0.10, 0.11, 0.12],
-
-
-
-	// only run combos that add up to specific sum
 	period_offset_combos: [
 
 		/**
-		 * BIG TEST FOR CHECKING ALL SUMS (19-23)
+		 * TEST A - FIND BEST SUM
+		 * (checking 19-23)
 		 */ 
-		// // 19
-		// {period: 5.5, offset: 13.5},
-		// {period: 6.5, offset: 12.5},
-		// {period: 7.5, offset: 11.5},
-		// {period: 8.5, offset: 10.5},
-		// {period: 9.5, offset: 9.5},
-		// {period: 10.5, offset: 8.5},
-		// {period: 11.5, offset: 7.5},
-		// {period: 12.5, offset: 6.5},
-		// {period: 13.5, offset: 5.5},
-		// // 20
-		// {period: 6, offset: 14},
-		// {period: 7, offset: 13},
-		// {period: 8, offset: 12},
-		// {period: 9, offset: 11},
-		// {period: 10, offset: 10},
-		// {period: 11, offset: 9},
-		// {period: 12, offset: 8},
-		// {period: 13, offset: 7},
-		// {period: 14, offset: 6},
-		// // 21
-		// {period: 6.5, offset: 14.5},
-		// {period: 7.5, offset: 13.5},
-		// {period: 8.5, offset: 12.5},
-		// {period: 9.5, offset: 11.5},
-		// {period: 10.5, offset: 10.5},
-		// {period: 11.5, offset: 9.5},
-		// {period: 12.5, offset: 8.5},
-		// {period: 13.5, offset: 7.5},
-		// {period: 14.5, offset: 6.5},
-		// // 22
-		// {period: 7, offset: 15},
-		// {period: 8, offset: 14},
-		// {period: 9, offset: 13},
-		// {period: 10, offset: 12},
-		// {period: 11, offset: 11},
-		// {period: 12, offset: 10},
-		// {period: 13, offset: 9},
-		// {period: 14, offset: 8},
-		// {period: 15, offset: 7},
-		// // 23
-		// {period: 7.5, offset: 15.5},
-		// {period: 8.5, offset: 14.5},
-		// {period: 9.5, offset: 13.5},
-		// {period: 10.5, offset: 12.5},
-		// {period: 11.5, offset: 11.5},
-		// {period: 12.5, offset: 10.5},
-		// {period: 13.5, offset: 9.5},
-		// {period: 14.5, offset: 8.5},
-		// {period: 15.5, offset: 7.5},
-
-
-
-		// 21.5 - BEST FOR ALL CURRENCIES!?! (I THINK)
-		// short thing to get theset sts moving along!
-		{period: 10, offset: 11.5},
-		{period: 12, offset: 9.5},
-		{period: 14, offset: 7.5},
-		{period: 16, offset: 5.5},
-
-
+		// 19
+		{period: 2.5, offset: 16.5},
+		{period: 3.5, offset: 15.5},
+		{period: 4.5, offset: 14.5},
+		{period: 5.5, offset: 13.5},
+		{period: 6.5, offset: 12.5},
+		{period: 7.5, offset: 11.5},
+		{period: 8.5, offset: 10.5},
+		{period: 9.5, offset: 9.5},
+		{period: 10.5, offset: 8.5},
+		{period: 11.5, offset: 7.5},
+		{period: 12.5, offset: 6.5},
+		{period: 13.5, offset: 5.5},
+		{period: 14.5, offset: 4.5},
+		{period: 15.5, offset: 3.5},
+		{period: 16.5, offset: 2.5},
+		// 20
+		{period: 3, offset: 17},
+		{period: 4, offset: 16},
+		{period: 5, offset: 15},
+		{period: 6, offset: 14},
+		{period: 7, offset: 13},
+		{period: 8, offset: 12},
+		{period: 9, offset: 11},
+		{period: 10, offset: 10},
+		{period: 11, offset: 9},
+		{period: 12, offset: 8},
+		{period: 13, offset: 7},
+		{period: 14, offset: 6},
+		{period: 15, offset: 5},
+		{period: 16, offset: 4},
+		{period: 17, offset: 3},
+		// 21
+		{period: 3.5, offset: 17.5},
+		{period: 4.5, offset: 16.5},
+		{period: 5.5, offset: 15.5},
+		{period: 6.5, offset: 14.5},
+		{period: 7.5, offset: 13.5},
+		{period: 8.5, offset: 12.5},
+		{period: 9.5, offset: 11.5},
+		{period: 10.5, offset: 10.5},
+		{period: 11.5, offset: 9.5},
+		{period: 12.5, offset: 8.5},
+		{period: 13.5, offset: 7.5},
+		{period: 14.5, offset: 6.5},
+		{period: 15.5, offset: 5.5},
+		{period: 16.5, offset: 4.5},
+		{period: 17.5, offset: 3.5},
+		// 22
+		{period: 4, offset: 18},
+		{period: 5, offset: 17},
+		{period: 6, offset: 16},
+		{period: 7, offset: 15},
+		{period: 8, offset: 14},
+		{period: 9, offset: 13},
+		{period: 10, offset: 12},
+		{period: 11, offset: 11},
+		{period: 12, offset: 10},
+		{period: 13, offset: 9},
+		{period: 14, offset: 8},
+		{period: 15, offset: 7},
+		{period: 16, offset: 6},
+		{period: 17, offset: 5},
+		{period: 18, offset: 4},
+		// 23
+		{period: 4.5, offset: 18.5},
+		{period: 5.5, offset: 17.5},
+		{period: 6.5, offset: 16.5},
+		{period: 7.5, offset: 15.5},
+		{period: 8.5, offset: 14.5},
+		{period: 9.5, offset: 13.5},
+		{period: 10.5, offset: 12.5},
+		{period: 11.5, offset: 11.5},
+		{period: 12.5, offset: 10.5},
+		{period: 13.5, offset: 9.5},
+		{period: 14.5, offset: 8.5},
+		{period: 15.5, offset: 7.5},
+		{period: 16.5, offset: 6.5},
+		{period: 17.5, offset: 5.5},
+		{period: 18.5, offset: 4.5},
+ 
 
 
 
@@ -87,10 +100,13 @@ module.exports = {
 
 		// ***remember i can do 21+(5/6) ---
 		// {period: 8, offset: 13+(5/6)}
+
+		// 21.5 - best for all currencies?
 		
 
 		/**
-		 * FULL TEST FOR SUM 22
+		 * TEST B - FULL TEST FOR INDIVIDUAL SUM
+		 * (in this case sum = 22)
 		 */ 
 		// {period: 0.5, offset: 21.5},
 		// {period: 1, offset: 21},
@@ -147,7 +163,7 @@ module.exports = {
 
 
 		/**
-		 *  WIDE SET FOR UNIVERSAL TESTS
+		 *  WIDER SET FOR UNIVERSAL TESTS
 		 */ 
 		// // 16
 		// {period: 6, offset: 10},
