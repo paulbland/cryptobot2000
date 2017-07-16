@@ -183,60 +183,39 @@ module.exports  = {
 
 
 
-	buyCoin: function(total_coins_owned, buy_sell_unit, buy_limit, current_coin_price_buy, print_full_debug)  { 
-
-
-		// eg:
-		// - unit 			= $1000
-		// - limit 			= $5000
-		// - buy price 		= $2500
-		// - current 		= 1.9
-		// - current value 	= $4750
-
-		// value i own right now
-		var value_of_coins_owned_before_transaction = (total_coins_owned * current_coin_price_buy)							// eg 4750 = 1.9 * 2500
+	buyCoin: function(total_coins_owned, buy_sell_unit, current_coin_price_buy, print_full_debug, latest_sell_price, total_spent, total_sold, money_in_bank)  { 
 
 		// expected number of coins to buy
-		var number_of_coins_to_buy 					= (buy_sell_unit / current_coin_price_buy)  							// eg 0.4 = 1000/2500
-
-		var amount_spent_on_this_transaction 		= buy_sell_unit															// eg 1000
+		var number_of_coins_to_buy 					= (buy_sell_unit / current_coin_price_buy);
+		var amount_spent_on_this_transaction 		= buy_sell_unit;
 
 		var transaction_notes = 'Buying ' + number_of_coins_to_buy.toFixed(2) + ' coins valued at $' + current_coin_price_buy.toFixed(2) + ' each for a total purchase of $' + amount_spent_on_this_transaction.toFixed(2);
 
 		if (print_full_debug) {
 			reporting.debug('buy_sell_unit: ' 							+ buy_sell_unit + '<br />');
-			reporting.debug('buy_limit: ' 								+ buy_limit + '<br />');
 			reporting.debug('current_coin_price_buy: ' 					+ current_coin_price_buy + '<br />');
 			reporting.debug('total_coins_owned: ' 						+ total_coins_owned + '<br />');
-			reporting.debug('value_of_coins_owned_before_transaction: ' + value_of_coins_owned_before_transaction + '<br />');
 			reporting.debug('number_of_coins_to_buy: ' 					+ number_of_coins_to_buy + '<br />');
 			reporting.debug('amount_spent_on_this_transaction: ' 		+ amount_spent_on_this_transaction + '<br />');
-
 		}
 
+		// value i own right now (not including currently owned coins)
+		var profit = (total_spent - total_sold);
 
-		// this confusing block will make sure the amount to be purchased is not over limit, and if it is
-		// set new purchase amount to the difference betwen current value and the limit
+		// THIS WILL SPEND PROFIT
+		if (money_in_bank < buy_sell_unit) {
 
-		// if what i already own + value of what im about to buy is >  than limit
-		if ((value_of_coins_owned_before_transaction + (number_of_coins_to_buy * current_coin_price_buy)) > buy_limit) {		// eg	4750 + (0.4*2500) > 5000
-																																// 	    4750 + 1000 > 5000
-																																//	    5750 > 5000 
-			// get the $ value difference between my limit and value of coins owned right now
-			var difference = (buy_limit - value_of_coins_owned_before_transaction);												// eg  250 = 5000 - 4750
+		// THIS WILL RETAIN PROFIT
+		//if ((money_in_bank - profit) < buy_sell_unit) {
+																						
+			 number_of_coins_to_buy 			= 0;
+			 amount_spent_on_this_transaction 	= 0;
 
-			// new number of coins to buy
-			number_of_coins_to_buy = (difference / current_coin_price_buy)														// eg 0.1 = 250 / 2500
-
-			// new amount spent
-			amount_spent_on_this_transaction = difference;																		// eg 250
-
-			transaction_notes += '***reached limit*** - setting number_of_coins_to_buy to ' + number_of_coins_to_buy+ ' and setting amount_spent_on_this_transaction to ' + amount_spent_on_this_transaction;
+			transaction_notes += '***reached limit*** - setting number_of_coins_to_buy/amount_spent_on_this_transaction to 0';
 
 			if (print_full_debug) {
-				reporting.debug('***reached limit! --- <br />')
-				reporting.debug('***setting number_of_coins_to_buy to ' + number_of_coins_to_buy+ '<br />')
-				reporting.debug('***setting amount_spent_on_this_transaction to ' + amount_spent_on_this_transaction + '<br />');
+				reporting.debug('***reached limit!***<br />')
+				reporting.debug('---setting number_of_coins_to_buy and amount_spent_on_this_transaction to 0<br />');
 			}
 
 		}

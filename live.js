@@ -29,6 +29,7 @@ var newliveDataRecordETH = liveDataModelETH();
 
 
 var really_buy_and_sell = false; //THIS IS IT
+var initial_investment = 2000;
 
 
 console.log('running live.js!')
@@ -81,7 +82,8 @@ function step2(price_data_eth) {
 						total_buy_transactions  : 0,
 						total_spent             : 0,
 						current_value_of_coins_owned : 0,
-						current_position        : 0
+						current_position        : 0,
+						money_in_bank 	        : initial_investment
 					},
 					latest_sell_price      	 	: 0, 
 					latest_buy_price        	: 0,
@@ -113,8 +115,9 @@ function step3(price_data, live_data_eth) {
 	var interval_in_minutes = 10;
 	var sell_all			= true; 
 	var buy_sell_percentage	= 7.5;
-	var buy_limit			= 2000;
-	var buy_sell_unit		= (buy_limit * (buy_sell_percentage / 100)); // calculate
+	//var buy_limit			= 2000;
+	//var buy_sell_unit		= (buy_limit * (buy_sell_percentage / 100)); // calculate
+	var buy_sell_unit		= (live_data_eth.totals.money_in_bank * (buy_sell_percentage / 100)); // calculate
 
 	var values_per_period 	= tools.calculateValuesForGivenPeriod(period, interval_in_minutes)			
 	var values_in_offset	= tools.calculateValuesForGivenPeriod(offset, interval_in_minutes)	
@@ -145,9 +148,9 @@ function step3(price_data, live_data_eth) {
 	// console.log('sell_or_buy: ' + sell_or_buy)
 
 	// create new record 
-	newliveDataRecordETH.datetime_updated 	= new Date;
-	newliveDataRecordETH.latest_sell_price 	= latest_sell_price;
-	newliveDataRecordETH.latest_buy_price 	= latest_buy_price;
+	newliveDataRecordETH.datetime_updated 				= new Date;
+	newliveDataRecordETH.latest_sell_price 				= latest_sell_price;
+	newliveDataRecordETH.latest_buy_price 				= latest_buy_price;
 	newliveDataRecordETH.transaction.transaction	 	= sell_or_buy;
 
 	// set fields that may not be updated to most recent value
@@ -158,6 +161,7 @@ function step3(price_data, live_data_eth) {
 	newliveDataRecordETH.totals.total_spent						= live_data_eth.totals.total_spent;					// total - carried over
 	newliveDataRecordETH.totals.current_value_of_coins_owned	= live_data_eth.totals.current_value_of_coins_owned;// total - carried over
 	newliveDataRecordETH.totals.current_position				= live_data_eth.totals.current_position;			// total - carried over
+	newliveDataRecordETH.totals.money_in_bank					= live_data_eth.totals.money_in_bank;				// total - carried over
 
 	newliveDataRecordETH.transaction.transaction_notes			= '';										// transaction - reset
 	newliveDataRecordETH.transaction.number_of_coins_to_sell	= 0;										// transaction - reset // sell only
@@ -177,7 +181,6 @@ function step3(price_data, live_data_eth) {
 		low_threshold 		: low_threshold,
 		high_threshold 		: high_threshold,
 		buy_sell_percentage	: buy_sell_percentage,
-		buy_limit	 		: buy_limit,
 		buy_sell_unit	 	: buy_sell_unit,
 		period	 			: period,
 		offset	 			: offset
@@ -186,7 +189,7 @@ function step3(price_data, live_data_eth) {
 	if (sell_or_buy === 'sell') {
 		sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, latest_sell_price)
 	} else if (sell_or_buy === 'buy') {
-		buyCoinAPI(live_data_eth, buy_sell_unit, buy_limit, latest_buy_price)
+		buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price)
 	} else {
 		// Do nothing
 		// returns 'do_nothing'
@@ -227,6 +230,8 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 	
 	newliveDataRecordETH.totals.total_coins_owned 			= (live_data_eth.totals.total_coins_owned - sell_coin_result.number_of_coins_to_sell);
 	newliveDataRecordETH.totals.total_coins_sold_value 		= (live_data_eth.totals.total_coins_sold_value + sell_coin_result.result_of_this_sale);
+	newliveDataRecordETH.totals.money_in_bank 				= (live_data_eth.totals.money_in_bank + sell_coin_result.result_of_this_sale);
+	
 	if (sell_coin_result.number_of_coins_to_sell > 0) {
 		newliveDataRecordETH.totals.total_sell_transactions = (live_data_eth.totals.total_sell_transactions + 1);
 	}
@@ -269,16 +274,18 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 }
 
 
-function buyCoinAPI(live_data_eth, buy_sell_unit, buy_limit, latest_buy_price) {
+function buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price, total_spent, total_sold) {
 	console.log('BUYING COIN FROM API!');
 
-	var buy_coin_result = tools.buyCoin(live_data_eth.totals.total_coins_owned, buy_sell_unit, buy_limit, latest_buy_price, false)
+	var buy_coin_result = tools.buyCoin(live_data_eth.totals.total_coins_owned, buy_sell_unit, latest_buy_price, false, 
+			live_data_eth.totals.total_spent, live_data_eth.totals.total_coins_sold_value, live_data_eth.totals.money_in_bank)
 
 	// console.log("buy_coin_result");
 	// console.log(buy_coin_result);
 
 	newliveDataRecordETH.totals.total_coins_owned 			= (live_data_eth.totals.total_coins_owned + buy_coin_result.number_of_coins_to_buy);
 	newliveDataRecordETH.totals.total_spent 				= (live_data_eth.totals.total_spent + buy_coin_result.amount_spent_on_this_transaction);
+	newliveDataRecordETH.totals.money_in_bank 				= (live_data_eth.totals.money_in_bank - buy_coin_result.amount_spent_on_this_transaction);
 	
 	newliveDataRecordETH.transaction.transaction_notes 					= buy_coin_result.transaction_notes;
 	newliveDataRecordETH.transaction.number_of_coins_to_buy 			= buy_coin_result.number_of_coins_to_buy;

@@ -105,7 +105,7 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
         res.send('get vars not present')
     }
 
-    PriceRecordModels[req.query.currency].find({}, function(error, price_data) { 
+   	PriceRecordModels[req.query.currency].find({}, function(error, price_data) { 
    		if (error) {
             res.json(error);
         }

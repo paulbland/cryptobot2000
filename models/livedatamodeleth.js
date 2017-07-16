@@ -15,7 +15,6 @@ var LiveDataSchema = new Schema({
         low_threshold 		: { type: Number, default: 0 },
 		high_threshold 		: { type: Number, default: 0 },
 		buy_sell_percentage	: { type: Number, default: 0 },
-		buy_limit	 		: { type: Number, default: 0 },
 		buy_sell_unit	 	: { type: Number, default: 0 },
 		period	 	        : { type: Number, default: 0 },
 		offset	 	        : { type: Number, default: 0 }
@@ -27,7 +26,8 @@ var LiveDataSchema = new Schema({
         total_spent             : { type: Number, default: 0 },
         total_buy_transactions  : { type: Number, default: 0 },
         current_value_of_coins_owned  : { type: Number, default: 0 },
-        current_position         : { type: Number, default: 0 }
+        current_position        : { type: Number, default: 0 },
+        money_in_bank           : { type: Number, default: 0 }
     },
     transaction: {
         transaction             : { type: String, default: '' },

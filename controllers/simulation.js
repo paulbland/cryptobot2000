@@ -34,14 +34,11 @@ module.exports = {
 	// algorthim differences that arent looped
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
 	buy_sell_percentage 	: 7.5,
-	buy_limit				: 2000,
-	buy_sell_unit 			: 0,	// calculated now!
+	initial_investment		: 2000,
+	buy_sell_unit 			: 0,			// calculated now!
+	money_in_bank 			: 0,			// calculated	
 	sell_all				: true,			// false means sell just one unit
 	simulate_crash 			: false, 
-	
-	setBuySellUnit: function() { 
-		this.buy_sell_unit = (this.buy_limit * (this.buy_sell_percentage / 100));
-	},
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
@@ -50,7 +47,6 @@ module.exports = {
 		reporting.debug('- buy_sell_method: \'' + this.buy_sell_method+'\'<br />');
 		reporting.debug('- buy_sell_percentage: ' + this.buy_sell_percentage+'%<br />');
 		reporting.debug('- (buy_sell_unit: ' + this.buy_sell_unit+')<br />');
-		reporting.debug('- buy_limit: ' + this.buy_limit+'<br />');
 		reporting.debug('- simulate_crash: ' + this.simulate_crash+'<br /><br />');
 	},
 
@@ -66,7 +62,6 @@ module.exports = {
 		this.currency 			= currency;
 		
 		reporting.resetOutput(); 
-		this.setBuySellUnit();
 
 		this.printSummary(price_data); 
 
@@ -135,7 +130,6 @@ module.exports = {
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
 		reporting.resetOutput();
-		this.setBuySellUnit();
 		
 		this.table_data 		= {};
 		this.print_basic_debug 	= true;
@@ -152,10 +146,13 @@ module.exports = {
 
 
 	
-
+	/**
+	 * essentially a single simulation
+	 * 
+	 */
 	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
-		//	console.log(hrs_in_period, offset, low_threshold, high_threshold, price_data)
+		//console.log('START', hrs_in_period, offset, low_threshold, high_threshold, price_data.length)
 
 		if (this.print_basic_debug) {
 			this.printLoopSummary(hrs_in_period, offset, low_threshold, high_threshold)
@@ -165,10 +162,16 @@ module.exports = {
 		this.total_coins_owned 		= 0;
 		this.total_spent			= 0;
 		this.total_sold				= 0;
-		this.total_sell_transactions	= 0;
+		this.total_sell_transactions= 0;
 		this.total_buy_transactions	= 0;
 		this.max_coins_ever_owned 	= 0;
 		this.max_value_ever_owned 	= 0;
+
+		// new - always start with initl investment
+		this.money_in_bank 			= this.initial_investment;
+		// set buy/sell unit to a percentage of total money in bank !
+		// this could be better off.. remaining static... ugh not sure
+		this.buy_sell_unit 			= (this.money_in_bank * (this.buy_sell_percentage / 100));
 
 		var values_per_period 		= tools.calculateValuesForGivenPeriod(hrs_in_period, this.interval_in_minutes)		//((hrs_in_period * 60) / interval_in_minutes); 	
 		var values_in_offset		= tools.calculateValuesForGivenPeriod(offset, this.interval_in_minutes)				//((offset * 60) / this.interval_in_minutes);
@@ -201,7 +204,7 @@ module.exports = {
 			if (sell_or_buy === 'sell') {
 				this.sellCoinSim(latest_sell_price, high_threshold)
 			} else if (sell_or_buy === 'buy') {
-				this.buyCoinSim(latest_buy_price, high_threshold)
+				this.buyCoinSim(latest_buy_price, high_threshold, latest_sell_price)
 			} else {
 				// Do nothing
 				// return 'do_nothing'
@@ -210,9 +213,12 @@ module.exports = {
 				}
 			}
 
+			//console.log('middle', latest_buy_price, latest_sell_price, this.total_coins_owned, this.total_spent, this.total_sold, 
+			//		this.total_sell_transactions, this.total_buy_transactions, this.max_coins_ever_owned, this.max_value_ever_owned, this.money_in_bank);
+
 			if (this.print_full_debug) {
 				reporting.printCurrentPosition(latest_buy_price, latest_sell_price, this.total_coins_owned, this.total_spent, this.total_sold, 
-					this.total_sell_transactions, this.total_buy_transactions, this.max_coins_ever_owned, this.max_value_ever_owned);
+					this.total_sell_transactions, this.total_buy_transactions, this.max_coins_ever_owned, this.max_value_ever_owned, this.money_in_bank);
 			}
 
 			// update chart data for each iteration of 10 mins
@@ -236,6 +242,8 @@ module.exports = {
 		
 
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
+		//console.log('END', this.total_coins_owned, this.total_sold, this.total_spent)
+
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 		var profit_percentage	= ((final_profit / this.max_value_ever_owned) * 100).toFixed(2)
 
@@ -255,23 +263,34 @@ module.exports = {
 
 
 
-	buyCoinSim: function(current_coin_price_buy, high_threshold) {
-
+	buyCoinSim: function(current_coin_price_buy, high_threshold, latest_sell_price) {
 
 		if (this.print_full_debug) {
 			reporting.debug('latest price is lower than -' + high_threshold + '% --- buy!<br />');
 		}
 
-		var buy_coin_result = tools.buyCoin(this.total_coins_owned, this.buy_sell_unit, this.buy_limit, current_coin_price_buy, this.print_full_debug)
+		var buy_coin_result = tools.buyCoin(this.total_coins_owned, this.buy_sell_unit, current_coin_price_buy, this.print_full_debug, latest_sell_price, 
+				this.total_spent, this.total_sold, this.money_in_bank)
+		
+		if (buy_coin_result.number_of_coins_to_buy === 0) {
+			return;
+		}
 
 		// update sim values
 		this.total_coins_owned 			+= buy_coin_result.number_of_coins_to_buy;
 		this.total_spent 				+= buy_coin_result.amount_spent_on_this_transaction;
-		this.total_buy_transactions++;
+		this.money_in_bank 				-= buy_coin_result.amount_spent_on_this_transaction;
 
+		//console.log('here', this.total_coins_owned, this.total_spent, this.money_in_bank )
+		
+		// if statement uneccessary since it returns earlier if 0 coins
+		// but just to be sure!
+		if (buy_coin_result.number_of_coins_to_buy > 0) {
+			this.total_buy_transactions++;
+		}
 
 		// update total owned (set before transaction - need to be updated)
-		var value_of_coins_owned_after_transaction = (this.total_coins_owned * current_coin_price_buy)
+		var value_of_coins_owned_after_transaction = (this.total_coins_owned * latest_sell_price)
 
 		// update value for max coins ever owned
 		this.max_coins_ever_owned = (this.total_coins_owned > this.max_coins_ever_owned) ? this.total_coins_owned : this.max_coins_ever_owned;
@@ -306,6 +325,7 @@ module.exports = {
 
 		this.total_coins_owned 	-= sell_coin_result.number_of_coins_to_sell;
 		this.total_sold			+= sell_coin_result.result_of_this_sale;
+		this.money_in_bank 		+= sell_coin_result.result_of_this_sale;
 		this.total_sell_transactions++;
 	},
 
