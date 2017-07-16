@@ -1,6 +1,7 @@
 var tools 		= require('./tools')
 var reporting 	= require('./reporting')
 
+var moment = require('moment-timezone');
 
 module.exports = {
 
@@ -82,10 +83,8 @@ module.exports = {
 		// NEW WAY
 		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
 		var start 				= new Date();
-		var time_per_test_min 	= 0.15;
-		var time_per_test_max 	= 0.16;
-		console.log("Running " + total_tests + " tests");
-		console.log("Should be about " + (time_per_test_min * total_tests).toFixed(2) + "-" + (time_per_test_max * total_tests).toFixed(2) + " seconds.")
+		var time_per_test 		= 0.17;
+		console.log("Running " + total_tests + " tests. Should be about " + moment().startOf('day').seconds((time_per_test * total_tests)).format('mm:ss') + " mins...")
 
 		// OLD WAY
 		// for (x=0; x < test_values.periods.length; x++) {
