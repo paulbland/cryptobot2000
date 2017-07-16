@@ -115,6 +115,7 @@ function step3(price_data, live_data_eth) {
 	var interval_in_minutes = 10;
 	var sell_all			= true; 
 	var buy_sell_percentage	= 7.5;
+	var reinvest_profit     = true;
 	//var buy_limit			= 2000;
 	//var buy_sell_unit		= (buy_limit * (buy_sell_percentage / 100)); // calculate
 	var buy_sell_unit		= (live_data_eth.totals.money_in_bank * (buy_sell_percentage / 100)); // calculate
@@ -183,13 +184,14 @@ function step3(price_data, live_data_eth) {
 		buy_sell_percentage	: buy_sell_percentage,
 		buy_sell_unit	 	: buy_sell_unit,
 		period	 			: period,
-		offset	 			: offset
+		offset	 			: offset,
+		reinvest_profit	 	: reinvest_profit
 	} 		
 
 	if (sell_or_buy === 'sell') {
 		sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, latest_sell_price)
 	} else if (sell_or_buy === 'buy') {
-		buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price)
+		buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price, reinvest_profit)
 	} else {
 		// Do nothing
 		// returns 'do_nothing'
@@ -274,11 +276,11 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 }
 
 
-function buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price, total_spent, total_sold) {
+function buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price, total_spent, total_sold, reinvest_profit) {
 	console.log('BUYING COIN FROM API!');
 
 	var buy_coin_result = tools.buyCoin(live_data_eth.totals.total_coins_owned, buy_sell_unit, latest_buy_price, false, 
-			live_data_eth.totals.total_spent, live_data_eth.totals.total_coins_sold_value, live_data_eth.totals.money_in_bank)
+			live_data_eth.totals.total_spent, live_data_eth.totals.total_coins_sold_value, live_data_eth.totals.money_in_bank, reinvest_profit)
 
 	// console.log("buy_coin_result");
 	// console.log(buy_coin_result);

@@ -39,6 +39,7 @@ module.exports = {
 	money_in_bank 			: 0,			// calculated	
 	sell_all				: true,			// false means sell just one unit
 	simulate_crash 			: false, 
+	reinvest_profit 		: false,
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
@@ -270,7 +271,7 @@ module.exports = {
 		}
 
 		var buy_coin_result = tools.buyCoin(this.total_coins_owned, this.buy_sell_unit, current_coin_price_buy, this.print_full_debug, latest_sell_price, 
-				this.total_spent, this.total_sold, this.money_in_bank)
+				this.total_spent, this.total_sold, this.money_in_bank, this.reinvest_profit)
 		
 		if (buy_coin_result.number_of_coins_to_buy === 0) {
 			return;

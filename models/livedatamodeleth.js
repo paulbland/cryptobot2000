@@ -17,7 +17,8 @@ var LiveDataSchema = new Schema({
 		buy_sell_percentage	: { type: Number, default: 0 },
 		buy_sell_unit	 	: { type: Number, default: 0 },
 		period	 	        : { type: Number, default: 0 },
-		offset	 	        : { type: Number, default: 0 }
+		offset	 	        : { type: Number, default: 0 },
+		reinvest_profit	 	: Boolean
     },
     totals: {
         total_coins_owned 	    : { type: Number, default: 0 },

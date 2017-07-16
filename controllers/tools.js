@@ -183,7 +183,7 @@ module.exports  = {
 
 
 
-	buyCoin: function(total_coins_owned, buy_sell_unit, current_coin_price_buy, print_full_debug, latest_sell_price, total_spent, total_sold, money_in_bank)  { 
+	buyCoin: function(total_coins_owned, buy_sell_unit, current_coin_price_buy, print_full_debug, latest_sell_price, total_spent, total_sold, money_in_bank, reinvest_profit)  { 
 
 		// expected number of coins to buy
 		var number_of_coins_to_buy 					= (buy_sell_unit / current_coin_price_buy);
@@ -202,14 +202,15 @@ module.exports  = {
 		// value i own right now (not including currently owned coins)
 		var profit = (total_spent - total_sold);
 
-		// THIS WILL SPEND PROFIT
-		if (money_in_bank < buy_sell_unit) {
-
-		// THIS WILL RETAIN PROFIT
-		//if ((money_in_bank - profit) < buy_sell_unit) {
-																						
-			 number_of_coins_to_buy 			= 0;
-			 amount_spent_on_this_transaction 	= 0;
+		if (reinvest_profit) {
+			var reached_limit = (money_in_bank < buy_sell_unit) 			// THIS WILL SPEND PROFIT
+		} else {
+			var reached_limit = ((money_in_bank - profit) < buy_sell_unit)	// THIS WILL RETAIN PROFIT
+		}
+		
+		if (reached_limit) {
+			number_of_coins_to_buy 				= 0;
+			amount_spent_on_this_transaction 	= 0;
 
 			transaction_notes += '***reached limit*** - setting number_of_coins_to_buy/amount_spent_on_this_transaction to 0';
 
@@ -217,7 +218,6 @@ module.exports  = {
 				reporting.debug('***reached limit!***<br />')
 				reporting.debug('---setting number_of_coins_to_buy and amount_spent_on_this_transaction to 0<br />');
 			}
-
 		}
 
 
