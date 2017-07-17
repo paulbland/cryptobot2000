@@ -14,5 +14,13 @@
 
     set sum = 21
 
+    15 mins.... 
+
 * test c
 
+    choosing p-5/o-16 (though theres lots of good ones)
+    
+    kinda ingoring terndslines
+
+    choosing low-16
+    high-12

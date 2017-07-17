@@ -81,7 +81,7 @@ module.exports = {
 		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
 		var start 				= new Date();
 		var time_per_test 		= 0.17;
-		console.log("Running " + total_tests + " tests. Should be about " + moment().startOf('day').seconds((time_per_test * total_tests)).format('hh:mm:ss') + " min/secs...")
+		console.log("Running " + total_tests + " tests. Should be about " + moment().startOf('day').seconds((time_per_test * total_tests)).format('mm:ss') + " min/secs...")
 
 		// OLD WAY
 		// for (x=0; x < test_values.periods.length; x++) {
@@ -105,7 +105,7 @@ module.exports = {
 		}
 
 		var execution_time = ((new Date() - start)/1000)
-		console.log('Took ' + moment().startOf('day').seconds((execution_time)).format('hh:mm:ss') + ' min/secs. (about ' + (execution_time / total_tests).toFixed(2) + ' seconds each)')
+		console.log('Took ' + moment().startOf('day').seconds((execution_time)).format('mm:ss') + ' min/secs. (about ' + (execution_time / total_tests).toFixed(2) + ' seconds each)')
 
 		
 
