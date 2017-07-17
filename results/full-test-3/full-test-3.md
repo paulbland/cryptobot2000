@@ -20,7 +20,7 @@
 
     choosing p-5/o-16 (though theres lots of good ones)
     
-    kinda ingoring terndslines
+    kinda ingoring trendlines
 
     choosing low-16
     high-12
