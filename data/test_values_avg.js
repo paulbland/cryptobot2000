@@ -5,20 +5,20 @@ module.exports = {
 	// high_values : [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25],
 
 	// range for wide testing 
-	//low_values 	: [0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
-	//high_values : [0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
+	low_values 	: [0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
+	high_values : [0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
 
 	// range for narrow testing 
-	low_values 	: [0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17],
-	high_values : [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18],
+	//low_values 	: [0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17],
+	//high_values : [0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18],
 
 	// fast fast fast
 	// low_values 	: [0.15],
 	// high_values : [0.15],
 
 
-	// test C --- JUST ONE PERIOD/OFFSET COMBO!
-	// THEY ALL HAVE DIFFERNET VALUES!
+	// NEW- TEST C --- JUST ONE PERIOD/OFFSET COMBO!
+	// THEY ALL HAVE DIFFERNET BES TLOW/LOGVALUES!
 
 	period_offset_combos: [
 
@@ -26,7 +26,7 @@ module.exports = {
 		 * TEST A - FIND BEST SUM
 		 * (checking 19-23)
 		 */ 
-		// // 19 
+		// 19 
 		// {period: 1, offset: 18},
 		// {period: 2, offset: 17},
 		// {period: 3, offset: 16},
