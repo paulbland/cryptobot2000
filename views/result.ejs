@@ -20,8 +20,14 @@
 
 		function drawChart(chart_tag) {
 			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'input'); // Implicit domain label col.
-			data.addColumn('number', 'result'); // Implicit series 1 data col.
+
+				// period offset used o be string. now just showing period. offset can be deduced!
+			//if (chart_tag === 'period-offset') {
+			//	data.addColumn('string', 'input');
+			//} else {
+				data.addColumn('number', 'input');
+			//}
+			data.addColumn('number', 'result'); 
 			
 			var thisData = [];
 			thisData['low'] 			= [<%- average_chart_data['low'] %>]
@@ -30,11 +36,19 @@
 			thisData['sum'] 			= [<%- average_chart_data['sum'] %>]
 
 			data.addRows(thisData[chart_tag]);
-
+			
 			var options = {
 				title: chart_tag,
-				curveType: 'function',
-				legend: { position: 'bottom' }
+				/*curveType: 'function',*/
+				legend: { position: 'bottom' },
+				hAxis: { gridlines: { count: 20 } },
+				vAxis: { gridlines: { count: 20 } },
+				trendlines: {
+					0: {
+						type: 'polynomial',
+						degree: 2
+					}
+				}
 			}; 
 
 			var chart = new google.visualization.LineChart(document.getElementById('average_chart_' + chart_tag));

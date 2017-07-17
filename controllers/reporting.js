@@ -72,7 +72,16 @@ module.exports  = {
 		if (typeof this.average_chart_data[this_key] === 'undefined') {
 			this.average_chart_data[this_key] = '';
 		}
-		this.average_chart_data[this_key] += '["' +  this_val + '",' + value + '],';
+
+		// period offset combo gets a string. others get a num
+		if (this_key === 'period-offset') {	
+			//just get period value for chart
+			this_val = this_val.substring(0, this_val.indexOf("-"))
+			this.average_chart_data[this_key] += '[' +  this_val + ',' + value + '],';
+			//this.average_chart_data[this_key] += '["' +  this_val + '",' + value + '],';
+		} else {
+			this.average_chart_data[this_key] += '[' +  this_val + ',' + value + '],';
+		}
 	},
 
     getFinalOutput: function() {
