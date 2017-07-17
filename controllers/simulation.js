@@ -105,7 +105,6 @@ module.exports = {
 		}
 
 		var execution_time = ((new Date() - start)/1000)
-		//console.log('Took ' + execution_time.toFixed(2) + ' seconds. (about ' + (execution_time / total_tests).toFixed(2) + ' seconds each)')
 		console.log('Took ' + moment().startOf('day').seconds((execution_time)).format('mm:ss') + ' min/secs. (about ' + (execution_time / total_tests).toFixed(2) + ' seconds each)')
 
 		
