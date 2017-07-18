@@ -18,7 +18,7 @@ module.exports = (function() {
 	    res.sendStatus(401);
 	    return;
 	  }
-	  if (user.name === 'coinbasebot' && user.pass === process.env.BASIC_AUTH_PW) {
+	  if (user.name === 'cryptobot2000' && user.pass === process.env.BASIC_AUTH_PW) {
 	    next();
 	  } else {
 	    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
