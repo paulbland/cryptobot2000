@@ -36,9 +36,9 @@ module.exports = {
 	 */
 	period_offset_combos: function() {
 		return [
-			{period: 7, offset: 13.5},
+			// {period: 7, offset: 13.5},
 		 	// {period: 7, offset: 14},
-			// {period: 9, offset: 12},
+			 {period: 9, offset: 12},    //<--- best value is in here! $1355
 			// {period: 6, offset: 13},
 			// {period: 8, offset: 11.5},
 			// {period: 9, offset: 11.5},

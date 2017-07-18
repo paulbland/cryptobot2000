@@ -19,6 +19,9 @@ module.exports = {
 	total_buy_transactions 	: null,
 	max_coins_ever_owned	: null,
 	max_value_ever_owned	: null,
+
+	// these are for full sim (rusn over entire thing)
+	max_result 				: 0,		// for entire group of sims
 	browser_output 			: '',
 	chart_data 				: '',
 	average_chart_data		: [],
@@ -125,6 +128,9 @@ module.exports = {
 			reporting.debug(x + ': ' + this_avg + '<br />')
 			reporting.updateAverageChartData(x, this_avg)
 		}
+
+		// print max result (ever)
+		reporting.debug('<br /><strong>max_result: $' + this.max_result.toFixed(2) + '</strong><br />')
 
 		this.browser_output 	= reporting.getFinalOutput()
 		this.chart_data 		= reporting.getFinalChartData()
@@ -259,6 +265,9 @@ module.exports = {
 
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 		var profit_percentage	= ((final_profit / this.max_value_ever_owned) * 100).toFixed(2)
+
+		// update the max profit ever
+		this.max_result = (final_profit > this.max_result) ? final_profit : this.max_result;
 
 		if (this.print_basic_debug) {
 			reporting.updateSummaryData(final_profit, this.max_value_ever_owned, invest_profit_ratio, profit_percentage)
