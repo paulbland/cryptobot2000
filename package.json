@@ -1,8 +1,8 @@
 {
-  "name": "coinbasebot",
+  "name": "cryptobot2000",
   "version": "1.0.0",
   "description": "a currency bot",
-  "repository": "https://git.heroku.com/coinbasebot.git",
+  "repository": "https://git.heroku.com/cryptobot2000.git",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
