@@ -5,8 +5,11 @@ module.exports = {
 	// high_values : [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25],
 
 	// TEST A - WIDE
-	low_values 	: [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18],
-	high_values : [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18],
+	low_values 	: [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19],
+	high_values : [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19],
+
+	low_values 	: [0.14, 0.15, 0.16],
+	high_values : [0.14, 0.15, 0.16],
 
 
 	/**
@@ -17,7 +20,7 @@ module.exports = {
 	 * e.g.
 	 * 19:
 	 *   {period: 1, offset: 18},
-	 *   {period: 2, offset: 17},
+	 *   {period: 2, offset: 17}, 
 	 *   {period: 3, offset: 16},
 	 *   {period: 4, offset: 15},
 	 *   ...
@@ -38,7 +41,7 @@ module.exports = {
 		//return [
 			// {period: 7, offset: 13.5},
 		 	// {period: 7, offset: 14},
-			// {period: 9, offset: 12},    //<--- best value is in here! $1355
+			// {period: 9, offset: 12},    
 			// {period: 6, offset: 13},
 			// {period: 8, offset: 11.5},
 			// {period: 9, offset: 11.5},
@@ -46,10 +49,11 @@ module.exports = {
 		//];
 		
 		var res = [];
-		var set = [18.5, 19, 19.5, 20, 20.5, 21, 21.5]	// [19, 19.5, 20, 20.5, 21], [19, 20, 21], [21]
-		var inc = 1; 									// 3, 2, 1, 0.5, 0.75
+		var set = [16, 17, 18, 19, 20, 21, 22, 23, 24]	// add halves for more precise
+		var inc = 2; 									// make 1 for more fine grained test // 3, 2, 1, 0.5, 0.75
+		var buffer = 4;
 		set.forEach(function(sum) {
-			for (i=inc; i<=sum; i+=inc) {
+			for (i=buffer; i<=(sum-buffer); i+=inc) {
 				res.push({period: i, offset: (sum-i)})
 			}
 		})
