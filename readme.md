@@ -1,4 +1,4 @@
-# coinbasebot
+# cryptobot2000
 
 
 	// this is great for 'peak' sim
