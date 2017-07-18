@@ -69,6 +69,7 @@ module.exports = {
 
 		if (this.buy_sell_method === 'avg') {
 			var test_values = require(__dirname + '/../data/test_values_avg');
+			//console.log(test_values.period_offset_combos())
 		} else if (this.buy_sell_method === 'peak') {
 			var test_values = require(__dirname + '/../data/test_values_peak');
 		} else {
@@ -78,9 +79,9 @@ module.exports = {
 		// OLD WAY 
 		// var total_tests 		= (test_values.periods.length * test_values.offsets.length * test_values.low_values.length * test_values.high_values.length);
 		// NEW WAY
-		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
+		var total_tests			= (test_values.period_offset_combos().length * test_values.low_values.length * test_values.high_values.length);
 		var start 				= new Date();
-		var time_per_test 		= 0.17;
+		var time_per_test 		= 0.21;
 		console.log("Running " + total_tests + " tests. Should be about " + moment().startOf('day').seconds((time_per_test * total_tests)).format('mm:ss') + " min/secs...")
 
 		// OLD WAY
@@ -95,10 +96,10 @@ module.exports = {
 		// }
 
 		// NEW WAY
-		for (x=0; x < test_values.period_offset_combos.length; x++) {
+		for (x=0; x < test_values.period_offset_combos().length; x++) {
 			for (y=0; y < test_values.low_values.length; y++) {
 				for (z=0; z < test_values.high_values.length; z++) {		
-					this.processDataSet(test_values.period_offset_combos[x].period, test_values.period_offset_combos[x].offset, 
+					this.processDataSet(test_values.period_offset_combos()[x].period, test_values.period_offset_combos()[x].offset, 
 							test_values.low_values[y], test_values.high_values[z], price_data)
 				}
 			}
@@ -181,6 +182,12 @@ module.exports = {
 		var values_per_period 		= tools.calculateValuesForGivenPeriod(hrs_in_period, this.interval_in_minutes)		//((hrs_in_period * 60) / interval_in_minutes); 	
 		var values_in_offset		= tools.calculateValuesForGivenPeriod(offset, this.interval_in_minutes)				//((offset * 60) / this.interval_in_minutes);
 		var total_iterations 		= (price_data.length - values_per_period - values_in_offset)
+
+
+		// NEW - ADD VALUES BEFORE LOOP TO FINAL GRAPH
+		for (i=0; i<=(values_per_period + values_in_offset); i++) {
+			reporting.updateChartData(price_data[i].datetime, price_data[i].value_buy, "", price_data[i].value_sell, "", 0);
+		}
 
 		// loop the data
 		for (i=0; i<=total_iterations; i++) {

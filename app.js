@@ -31,8 +31,9 @@ app.set('views',__dirname + '/views');
 
 
 
-// SET STATIC FILE DIRECTORY
+// SET STATIC FILE DIRECTORIES
 app.use(express.static('static'))
+app.use('/results', express.static('results'))
 
 
 

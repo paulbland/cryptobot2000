@@ -73,15 +73,19 @@ module.exports  = {
 			this.average_chart_data[this_key] = '';
 		}
 
+		// reverting to original - treat it as string to get exact value of chart...
+		
 		// period offset combo gets a string. others get a num
-		if (this_key === 'period-offset') {	
+		//if (this_key === 'period-offset') {	
 			//just get period value for chart
-			this_val = this_val.substring(0, this_val.indexOf("-"))
-			this.average_chart_data[this_key] += '[' +  this_val + ',' + value + '],';
-			//this.average_chart_data[this_key] += '["' +  this_val + '",' + value + '],';
-		} else {
-			this.average_chart_data[this_key] += '[' +  this_val + ',' + value + '],';
-		}
+			//this_val = this_val.substring(0, this_val.indexOf("-"))
+			//this.average_chart_data[this_key] += '[' +  this_val + ',' + value + '],';
+
+			// reverting to original
+			this.average_chart_data[this_key] += '["' +  this_val + '",' + value + '],';
+		//} else {
+		//	this.average_chart_data[this_key] += '[' +  this_val + ',' + value + '],';
+		//}
 	},
 
     getFinalOutput: function() {

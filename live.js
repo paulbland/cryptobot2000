@@ -28,8 +28,8 @@ var liveDataModelETH = require('./models/livedatamodeleth')
 var newliveDataRecordETH = liveDataModelETH();
 
 
-var really_buy_and_sell = false; //THIS IS IT
-var initial_investment = 2000;
+var really_buy_and_sell = false; // THIS IS IT!
+var initial_investment 	= 2000;
 
 
 console.log('running live.js!')
@@ -106,12 +106,12 @@ function step3(price_data, live_data_eth) {
 	//console.log('starting step 3...');
 
 	// hard code vars for live
-	var low_threshold 		= 0.16;
-	var high_threshold 		= 0.12;
+	var low_threshold 		= 0.15;
+	var high_threshold 		= 0.16;
 	var buy_sell_method		= 'avg';
 	var print_full_debug 	= false;
-	var period 				= 5; 
-	var offset 				= 16;
+	var period 				= 7; 
+	var offset 				= 13.5;
 	var interval_in_minutes = 10;
 	var sell_all			= true; 
 	var buy_sell_percentage	= 7.5;
