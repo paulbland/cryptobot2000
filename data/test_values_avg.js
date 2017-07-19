@@ -53,7 +53,7 @@ module.exports = {
 
 		var res = [];
 		var set = [14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20, 20.5, 21, 21.5, 22]	// add halves for more precise  *this can be smalelr - lets run test and see best values!
-		var inc = 1; 																					// make smaller for more fine grained tests (3, 2, 1, 0.5, 0.75...)
+		var inc = 1; 																					// make smaller for more fine grained tests (3, 2, 1, 0.5, 0.75...) cant go below 0.5?
 		var buffer = 4;
 		set.forEach(function(sum) {
 			for (i=buffer; i<=(sum-buffer); i+=inc) {
