@@ -1,0 +1,2789 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://localhost:5000/run-simulation?currency=ETH -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<title>cryptobot2000</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="./test-d-combo_files/styles.css">
+
+	<script type="text/javascript" src="./test-d-combo_files/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawCharts);
+
+		function drawCharts() {
+			drawChart('low')
+			drawChart('high')
+			drawChart('period-offset')
+			drawChart('sum')
+		}
+
+		function drawChart(chart_tag) {
+			var data = new google.visualization.DataTable();
+
+				// period offset used o be string. now just showing period. offset can be deduced!
+			//if (chart_tag === 'period-offset') {
+				data.addColumn('string', 'input');
+			//} else {
+			//	data.addColumn('number', 'input');
+			//}
+			data.addColumn('number', 'result'); 
+			
+			var thisData = [];
+			thisData['low'] 			= [["0.15",1103],]
+			thisData['high'] 			= [["0.15",1103],]
+			thisData['period-offset'] 	= [["1-17",1062],["1.125-16.875",1062],["1.25-16.75",1035],["1.375-16.625",1035],["1.5-16.5",1073],["1.625-16.375",1073],["1.75-16.25",1046],["1.875-16.125",1047],["2-16",1013],["2.125-15.875",1013],["2.25-15.75",903],["2.375-15.625",897],["2.5-15.5",897],["2.625-15.375",897],["2.75-15.25",883],["2.875-15.125",908],["3-15",931],["3.125-14.875",931],["3.25-14.75",916],["3.375-14.625",891],["3.5-14.5",941],["3.625-14.375",941],["3.75-14.25",941],["3.875-14.125",981],["4-14",981],["4.125-13.875",981],["4.25-13.75",981],["4.375-13.625",981],["4.5-13.5",1136],["4.625-13.375",1136],["4.75-13.25",1105],["4.875-13.125",1118],["5-13",1136],["5.125-12.875",1136],["5.25-12.75",1130],["5.375-12.625",1130],["5.5-12.5",1126],["5.625-12.375",1126],["5.75-12.25",1148],["5.875-12.125",1148],["6-12",1148],["6.125-11.875",1148],["6.25-11.75",1148],["6.375-11.625",1142],["6.5-11.5",1142],["6.625-11.375",1142],["6.75-11.25",1160],["6.875-11.125",1149],["7-11",1176],["7.125-10.875",1176],["7.25-10.75",1183],["7.375-10.625",1183],["7.5-10.5",1183],["7.625-10.375",1183],["7.75-10.25",1157],["7.875-10.125",1157],["8-10",1157],["8.125-9.875",1157],["8.25-9.75",1164],["8.375-9.625",1164],["8.5-9.5",1172],["8.625-9.375",1172],["8.75-9.25",1181],["8.875-9.125",1181],["9-9",1163],["9.125-8.875",1163],["9.25-8.75",1163],["9.375-8.625",768],["9.5-8.5",768],["9.625-8.375",768],["9.75-8.25",820],["9.875-8.125",820],["10-8",820],["10.125-7.875",820],["10.25-7.75",820],["10.375-7.625",876],["10.5-7.5",876],["10.625-7.375",876],["10.75-7.25",864],["10.875-7.125",864],["11-7",864],["11.125-6.875",864],["11.25-6.75",864],["11.375-6.625",848],["11.5-6.5",858],["11.625-6.375",858],["11.75-6.25",858],["11.875-6.125",858],["12-6",858],["12.125-5.875",858],["12.25-5.75",858],["12.375-5.625",858],["12.5-5.5",870],["12.625-5.375",870],["12.75-5.25",870],["12.875-5.125",839],["13-5",1521],["13.125-4.875",1521],["13.25-4.75",1588],["13.375-4.625",1560],["13.5-4.5",1533],["13.625-4.375",1533],["13.75-4.25",1506],["13.875-4.125",1478],["14-4",1478],["14.125-3.875",1478],["14.25-3.75",1478],["14.375-3.625",1478],["14.5-3.5",1478],["14.625-3.375",1478],["14.75-3.25",1406],["14.875-3.125",1406],["15-3",1375],["15.125-2.875",1375],["15.25-2.75",1316],["15.375-2.625",1316],["15.5-2.5",1316],["15.625-2.375",1316],["15.75-2.25",1316],["15.875-2.125",1316],["16-2",1316],["16.125-1.875",1316],["16.25-1.75",1279],["16.375-1.625",1246],["16.5-1.5",1251],["16.625-1.375",1251],["16.75-1.25",1161],["16.875-1.125",1161],["17-1",1011],]
+			thisData['sum'] 			= [["18",1011],]
+
+			data.addRows(thisData[chart_tag]);
+			
+			var options = {
+				title: chart_tag,
+				/*curveType: 'function',*/
+				legend: { position: 'bottom' },
+				hAxis: { 
+					gridlines: { count: 20 }
+				},
+				vAxis: { 
+					gridlines: { count: 20 },
+				},
+				/*trendlines: {
+					0: {
+						type: 'polynomial',
+						degree: 2
+					}
+				}*/
+			}; 
+
+			var chart = new google.visualization.LineChart(document.getElementById('average_chart_' + chart_tag));
+			chart.draw(data, options);
+		}
+</script><script type="text/javascript" charset="UTF-8" src="./test-d-combo_files/loader(1).js"></script>
+
+<link id="load-css-0" rel="stylesheet" type="text/css" href="./test-d-combo_files/tooltip.css"><link id="load-css-1" rel="stylesheet" type="text/css" href="./test-d-combo_files/util.css"><script type="text/javascript" charset="UTF-8" src="./test-d-combo_files/jsapi_compiled_format_module.js"></script><script type="text/javascript" charset="UTF-8" src="./test-d-combo_files/jsapi_compiled_default_module.js"></script><script type="text/javascript" charset="UTF-8" src="./test-d-combo_files/jsapi_compiled_ui_module.js"></script><script type="text/javascript" charset="UTF-8" src="./test-d-combo_files/jsapi_compiled_corechart_module.js"></script></head>
+<body>
+
+	<h1>ETH</h1>
+
+	<p><strong>Analyzing 3351 values (23.27 days)</strong><br>- sell_all: true<br>- buy_sell_method: 'avg'<br>- buy_sell_percentage: 7.5%<br>- simulate_crash: false<br>- reinvest_profit: false<br>- initial_investment: 2000<br><br><strong>average value of table:</strong><br>period-offset_1-17: 1062<br>sum_18: 1011<br>period-offset_1.125-16.875: 1062<br>period-offset_1.25-16.75: 1035<br>period-offset_1.375-16.625: 1035<br>period-offset_1.5-16.5: 1073<br>period-offset_1.625-16.375: 1073<br>period-offset_1.75-16.25: 1046<br>period-offset_1.875-16.125: 1047<br>period-offset_2-16: 1013<br>period-offset_2.125-15.875: 1013<br>period-offset_2.25-15.75: 903<br>period-offset_2.375-15.625: 897<br>period-offset_2.5-15.5: 897<br>period-offset_2.625-15.375: 897<br>period-offset_2.75-15.25: 883<br>period-offset_2.875-15.125: 908<br>period-offset_3-15: 931<br>period-offset_3.125-14.875: 931<br>period-offset_3.25-14.75: 916<br>period-offset_3.375-14.625: 891<br>period-offset_3.5-14.5: 941<br>period-offset_3.625-14.375: 941<br>period-offset_3.75-14.25: 941<br>period-offset_3.875-14.125: 981<br>period-offset_4-14: 981<br>period-offset_4.125-13.875: 981<br>period-offset_4.25-13.75: 981<br>period-offset_4.375-13.625: 981<br>period-offset_4.5-13.5: 1136<br>period-offset_4.625-13.375: 1136<br>period-offset_4.75-13.25: 1105<br>period-offset_4.875-13.125: 1118<br>period-offset_5-13: 1136<br>period-offset_5.125-12.875: 1136<br>period-offset_5.25-12.75: 1130<br>period-offset_5.375-12.625: 1130<br>period-offset_5.5-12.5: 1126<br>period-offset_5.625-12.375: 1126<br>period-offset_5.75-12.25: 1148<br>period-offset_5.875-12.125: 1148<br>period-offset_6-12: 1148<br>period-offset_6.125-11.875: 1148<br>period-offset_6.25-11.75: 1148<br>period-offset_6.375-11.625: 1142<br>period-offset_6.5-11.5: 1142<br>period-offset_6.625-11.375: 1142<br>period-offset_6.75-11.25: 1160<br>period-offset_6.875-11.125: 1149<br>period-offset_7-11: 1176<br>period-offset_7.125-10.875: 1176<br>period-offset_7.25-10.75: 1183<br>period-offset_7.375-10.625: 1183<br>period-offset_7.5-10.5: 1183<br>period-offset_7.625-10.375: 1183<br>period-offset_7.75-10.25: 1157<br>period-offset_7.875-10.125: 1157<br>period-offset_8-10: 1157<br>period-offset_8.125-9.875: 1157<br>period-offset_8.25-9.75: 1164<br>period-offset_8.375-9.625: 1164<br>period-offset_8.5-9.5: 1172<br>period-offset_8.625-9.375: 1172<br>period-offset_8.75-9.25: 1181<br>period-offset_8.875-9.125: 1181<br>period-offset_9-9: 1163<br>period-offset_9.125-8.875: 1163<br>period-offset_9.25-8.75: 1163<br>period-offset_9.375-8.625: 768<br>period-offset_9.5-8.5: 768<br>period-offset_9.625-8.375: 768<br>period-offset_9.75-8.25: 820<br>period-offset_9.875-8.125: 820<br>period-offset_10-8: 820<br>period-offset_10.125-7.875: 820<br>period-offset_10.25-7.75: 820<br>period-offset_10.375-7.625: 876<br>period-offset_10.5-7.5: 876<br>period-offset_10.625-7.375: 876<br>period-offset_10.75-7.25: 864<br>period-offset_10.875-7.125: 864<br>period-offset_11-7: 864<br>period-offset_11.125-6.875: 864<br>period-offset_11.25-6.75: 864<br>period-offset_11.375-6.625: 848<br>period-offset_11.5-6.5: 858<br>period-offset_11.625-6.375: 858<br>period-offset_11.75-6.25: 858<br>period-offset_11.875-6.125: 858<br>period-offset_12-6: 858<br>period-offset_12.125-5.875: 858<br>period-offset_12.25-5.75: 858<br>period-offset_12.375-5.625: 858<br>period-offset_12.5-5.5: 870<br>period-offset_12.625-5.375: 870<br>period-offset_12.75-5.25: 870<br>period-offset_12.875-5.125: 839<br>period-offset_13-5: 1521<br>period-offset_13.125-4.875: 1521<br>period-offset_13.25-4.75: 1588<br>period-offset_13.375-4.625: 1560<br>period-offset_13.5-4.5: 1533<br>period-offset_13.625-4.375: 1533<br>period-offset_13.75-4.25: 1506<br>period-offset_13.875-4.125: 1478<br>period-offset_14-4: 1478<br>period-offset_14.125-3.875: 1478<br>period-offset_14.25-3.75: 1478<br>period-offset_14.375-3.625: 1478<br>period-offset_14.5-3.5: 1478<br>period-offset_14.625-3.375: 1478<br>period-offset_14.75-3.25: 1406<br>period-offset_14.875-3.125: 1406<br>period-offset_15-3: 1375<br>period-offset_15.125-2.875: 1375<br>period-offset_15.25-2.75: 1316<br>period-offset_15.375-2.625: 1316<br>period-offset_15.5-2.5: 1316<br>period-offset_15.625-2.375: 1316<br>period-offset_15.75-2.25: 1316<br>period-offset_15.875-2.125: 1316<br>period-offset_16-2: 1316<br>period-offset_16.125-1.875: 1316<br>period-offset_16.25-1.75: 1279<br>period-offset_16.375-1.625: 1246<br>period-offset_16.5-1.5: 1251<br>period-offset_16.625-1.375: 1251<br>period-offset_16.75-1.25: 1161<br>period-offset_16.875-1.125: 1161<br>period-offset_17-1: 1011<br><br><strong>global averages:</strong><br>high_0.15: 1103<br>low_0.15: 1103<br><br><strong>max_result: <span style="color:limegreen">$1588.41</span></strong><br>- period: 13.25<br>- offset: 4.75<br>- low: 0.15<br>- high: 0.15<br></p>
+
+	<div id="average_chart_low" style="width: 45%; height: 400px; display: inline-block"><div style="position: relative;"><div dir="ltr" style="position: relative; width: 1007px; height: 400px;"><div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;" aria-label="A chart."><svg width="1007" height="400" aria-label="A chart." style="overflow: hidden;"><defs id="defs"><clippath id="_ABSTRACT_RENDERER_ID_0"><rect x="147" y="77" width="714" height="247"></rect></clippath></defs><rect x="0" y="0" width="1007" height="400" stroke="none" stroke-width="0" fill="#ffffff"></rect><g><text text-anchor="start" x="147" y="51.9" font-family="Arial" font-size="14" font-weight="bold" stroke="none" stroke-width="0" fill="#000000">low</text><rect x="147" y="40" width="714" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect></g><g><rect x="470" y="367" width="67" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><rect x="470" y="367" width="67" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="503" y="378.9" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#222222">result</text></g><path d="M470,374L498,374" stroke="#3366cc" stroke-width="2" fill-opacity="1" fill="none"></path></g></g><g><rect x="147" y="77" width="714" height="247" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g clip-path="url(http://localhost:5000/run-simulation?currency=ETH#_ABSTRACT_RENDERER_ID_0)"><g><rect x="147" y="323" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="310" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="297" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="284" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="271" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="258" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="245" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="232" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="219" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="206" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="194" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="181" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="168" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="155" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="142" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="129" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="116" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="103" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="90" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="77" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect></g><g><rect x="147" y="323" width="714" height="1" stroke="none" stroke-width="0" fill="#333333"></rect></g><g><g><circle cx="504" cy="204.4921052631579" r="2" stroke="none" stroke-width="0" fill="#3366cc"></circle></g></g></g><g></g><g><g><text text-anchor="middle" x="504" y="344.9" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#222222">0.15</text></g><g><text text-anchor="end" x="133" y="328.4" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">0</text></g><g><text text-anchor="end" x="133" y="302.5052631578947" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">240</text></g><g><text text-anchor="end" x="133" y="276.61052631578946" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">480</text></g><g><text text-anchor="end" x="133" y="250.71578947368423" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">720</text></g><g><text text-anchor="end" x="133" y="224.82105263157897" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">960</text></g><g><text text-anchor="end" x="133" y="198.92631578947368" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,200</text></g><g><text text-anchor="end" x="133" y="173.03157894736842" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,440</text></g><g><text text-anchor="end" x="133" y="147.13684210526316" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,680</text></g><g><text text-anchor="end" x="133" y="121.2421052631579" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,920</text></g><g><text text-anchor="end" x="133" y="95.34736842105264" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">2,160</text></g></g></g><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>input</th><th>result</th></tr></thead><tbody><tr><td>0.15</td><td>1,103</td></tr></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 410px; left: 1017px; white-space: nowrap; font-family: Arial; font-size: 14px;">result</div><div></div></div></div>
+	<div id="average_chart_high" style="width: 45%; height: 400px; display: inline-block"><div style="position: relative;"><div dir="ltr" style="position: relative; width: 1007px; height: 400px;"><div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;" aria-label="A chart."><svg width="1007" height="400" aria-label="A chart." style="overflow: hidden;"><defs id="defs"><clippath id="_ABSTRACT_RENDERER_ID_1"><rect x="147" y="77" width="714" height="247"></rect></clippath></defs><rect x="0" y="0" width="1007" height="400" stroke="none" stroke-width="0" fill="#ffffff"></rect><g><text text-anchor="start" x="147" y="51.9" font-family="Arial" font-size="14" font-weight="bold" stroke="none" stroke-width="0" fill="#000000">high</text><rect x="147" y="40" width="714" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect></g><g><rect x="470" y="367" width="67" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><rect x="470" y="367" width="67" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="503" y="378.9" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#222222">result</text></g><path d="M470,374L498,374" stroke="#3366cc" stroke-width="2" fill-opacity="1" fill="none"></path></g></g><g><rect x="147" y="77" width="714" height="247" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g clip-path="url(http://localhost:5000/run-simulation?currency=ETH#_ABSTRACT_RENDERER_ID_1)"><g><rect x="147" y="323" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="310" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="297" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="284" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="271" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="258" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="245" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="232" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="219" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="206" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="194" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="181" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="168" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="155" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="142" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="129" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="116" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="103" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="90" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="77" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect></g><g><rect x="147" y="323" width="714" height="1" stroke="none" stroke-width="0" fill="#333333"></rect></g><g><g><circle cx="504" cy="204.4921052631579" r="2" stroke="none" stroke-width="0" fill="#3366cc"></circle></g></g></g><g></g><g><g><text text-anchor="middle" x="504" y="344.9" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#222222">0.15</text></g><g><text text-anchor="end" x="133" y="328.4" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">0</text></g><g><text text-anchor="end" x="133" y="302.5052631578947" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">240</text></g><g><text text-anchor="end" x="133" y="276.61052631578946" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">480</text></g><g><text text-anchor="end" x="133" y="250.71578947368423" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">720</text></g><g><text text-anchor="end" x="133" y="224.82105263157897" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">960</text></g><g><text text-anchor="end" x="133" y="198.92631578947368" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,200</text></g><g><text text-anchor="end" x="133" y="173.03157894736842" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,440</text></g><g><text text-anchor="end" x="133" y="147.13684210526316" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,680</text></g><g><text text-anchor="end" x="133" y="121.2421052631579" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,920</text></g><g><text text-anchor="end" x="133" y="95.34736842105264" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">2,160</text></g></g></g><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>input</th><th>result</th></tr></thead><tbody><tr><td>0.15</td><td>1,103</td></tr></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 410px; left: 1017px; white-space: nowrap; font-family: Arial; font-size: 14px;">result</div><div></div></div></div>
+	<div id="average_chart_period-offset" style="width: 45%; height: 400px; display: inline-block"><div style="position: relative;"><div dir="ltr" style="position: relative; width: 1007px; height: 400px;"><div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;" aria-label="A chart."><svg width="1007" height="400" aria-label="A chart." style="overflow: hidden;"><defs id="defs"><clippath id="_ABSTRACT_RENDERER_ID_2"><rect x="147" y="77" width="714" height="247"></rect></clippath></defs><rect x="0" y="0" width="1007" height="400" stroke="none" stroke-width="0" fill="#ffffff"></rect><g><text text-anchor="start" x="147" y="51.9" font-family="Arial" font-size="14" font-weight="bold" stroke="none" stroke-width="0" fill="#000000">period-offset</text><rect x="147" y="40" width="714" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect></g><g><rect x="470" y="381" width="67" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><rect x="470" y="381" width="67" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="503" y="392.9" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#222222">result</text></g><path d="M470,388L498,388" stroke="#3366cc" stroke-width="2" fill-opacity="1" fill="none"></path></g></g><g><rect x="147" y="77" width="714" height="247" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g clip-path="url(http://localhost:5000/run-simulation?currency=ETH#_ABSTRACT_RENDERER_ID_2)"><g><rect x="147" y="323" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="310" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="297" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="284" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="271" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="258" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="245" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="232" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="219" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="206" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="194" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="181" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="168" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="155" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="142" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="129" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="116" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="103" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="90" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="77" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect></g><g><rect x="147" y="323" width="714" height="1" stroke="none" stroke-width="0" fill="#333333"></rect></g><g><path d="M150.26356589147287,185.99894736842106L155.7906976744186,185.99894736842106L161.31782945736435,189.49473684210525L166.84496124031008,189.49473684210525L172.37209302325581,184.57473684210527L177.89922480620154,184.57473684210527L183.4263565891473,188.07052631578946L188.95348837209303,187.94105263157894L194.48062015503876,192.34315789473683L200.0077519379845,192.34315789473683L205.53488372093022,206.58526315789473L211.06201550387595,207.3621052631579L216.58914728682169,207.3621052631579L222.11627906976744,207.3621052631579L227.64341085271317,209.17473684210526L233.17054263565893,205.9378947368421L238.69767441860466,202.95999999999998L244.2248062015504,202.95999999999998L249.75193798449612,204.9021052631579L255.27906976744185,208.13894736842104L260.8062015503876,201.66526315789474L266.3333333333333,201.66526315789474L271.8604651162791,201.66526315789474L277.38759689922483,196.48631578947368L282.91472868217056,196.48631578947368L288.4418604651163,196.48631578947368L293.968992248062,196.48631578947368L299.49612403100775,196.48631578947368L305.0232558139535,176.4178947368421L310.5503875968992,176.4178947368421L316.07751937984494,180.43157894736842L321.6046511627907,178.74842105263156L327.1317829457364,176.4178947368421L332.65891472868213,176.4178947368421L338.1860465116279,177.19473684210524L343.71317829457365,177.19473684210524L349.2403100775194,177.71263157894737L354.7674418604651,177.71263157894737L360.29457364341084,174.8642105263158L365.82170542635663,174.8642105263158L371.34883720930236,174.8642105263158L376.8759689922481,174.8642105263158L382.4031007751938,174.8642105263158L387.93023255813955,175.64105263157893L393.4573643410853,175.64105263157893L398.984496124031,175.64105263157893L404.51162790697674,173.31052631578947L410.0387596899225,174.73473684210526L415.5658914728682,171.23894736842104L421.09302325581393,171.23894736842104L426.6201550387597,170.33263157894737L432.14728682170545,170.33263157894737L437.6744186046512,170.33263157894737L443.2015503875969,170.33263157894737L448.72868217054264,173.69894736842105L454.25581395348837,173.69894736842105L459.7829457364341,173.69894736842105L465.31007751937983,173.69894736842105L470.83720930232556,172.79263157894735L476.36434108527135,172.79263157894735L481.8914728682171,171.75684210526316L487.4186046511628,171.75684210526316L492.94573643410854,170.59157894736842L498.47286821705427,170.59157894736842L504,172.92210526315787L509.52713178294573,172.92210526315787L515.0542635658915,172.92210526315787L520.5813953488372,224.06421052631578L526.1085271317829,224.06421052631578L531.6356589147288,224.06421052631578L537.1627906976744,217.33157894736843L542.6899224806202,217.33157894736843L548.2170542635658,217.33157894736843L553.7441860465117,217.33157894736843L559.2713178294573,217.33157894736843L564.7984496124031,210.08105263157893L570.3255813953488,210.08105263157893L575.8527131782946,210.08105263157893L581.3798449612403,211.63473684210527L586.9069767441861,211.63473684210527L592.4341085271318,211.63473684210527L597.9612403100775,211.63473684210527L603.4883720930233,211.63473684210527L609.015503875969,213.70631578947368L614.5426356589147,212.4115789473684L620.0697674418604,212.4115789473684L625.5968992248062,212.4115789473684L631.1240310077519,212.4115789473684L636.6511627906978,212.4115789473684L642.1782945736434,212.4115789473684L647.7054263565892,212.4115789473684L653.2325581395348,212.4115789473684L658.7596899224807,210.8578947368421L664.2868217054264,210.8578947368421L669.8139534883721,210.8578947368421L675.3410852713179,214.87157894736842L680.8682170542636,126.57052631578946L686.3953488372093,126.57052631578946L691.922480620155,117.8957894736842L697.4496124031008,121.52105263157893L702.9767441860465,125.01684210526315L708.5038759689922,125.01684210526315L714.031007751938,128.51263157894735L719.5581395348837,132.1378947368421L725.0852713178294,132.1378947368421L730.6124031007752,132.1378947368421L736.1395348837209,132.1378947368421L741.6666666666666,132.1378947368421L747.1937984496124,132.1378947368421L752.7209302325581,132.1378947368421L758.2480620155039,141.45999999999998L763.7751937984497,141.45999999999998L769.3023255813954,145.4736842105263L774.8294573643411,145.4736842105263L780.3565891472869,153.11263157894734L785.8837209302326,153.11263157894734L791.4108527131783,153.11263157894734L796.937984496124,153.11263157894734L802.4651162790698,153.11263157894734L807.9922480620155,153.11263157894734L813.5193798449612,153.11263157894734L819.046511627907,153.11263157894734L824.5736434108527,157.90315789473684L830.1007751937984,162.1757894736842L835.6279069767442,161.52842105263156L841.1550387596899,161.52842105263156L846.6821705426356,173.18105263157895L852.2093023255813,173.18105263157895L857.7364341085272,192.60210526315788" stroke="#3366cc" stroke-width="2" fill-opacity="1" fill="none"></path></g></g><g></g><g><g><text text-anchor="end" x="152.71356589147285" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 152.71356589147285 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">1-17</text></g><g><text text-anchor="end" x="185.8763565891473" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 185.8763565891473 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">1.75-16.25</text></g><g><text text-anchor="end" x="219.03914728682167" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 219.03914728682167 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">2.5-15.5</text></g><g><text text-anchor="end" x="252.2019379844961" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 252.2019379844961 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">3.25-14.75</text></g><g><text text-anchor="end" x="285.36472868217055" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 285.36472868217055 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">4-14</text></g><g><text text-anchor="end" x="318.52751937984493" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 318.52751937984493 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">4.75-13.25</text></g><g><text text-anchor="end" x="351.69031007751937" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 351.69031007751937 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">5.5-12.5</text></g><g><text text-anchor="end" x="384.8531007751938" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 384.8531007751938 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">6.25-11.75</text></g><g><text text-anchor="end" x="418.0158914728682" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 418.0158914728682 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">7-11</text></g><g><text text-anchor="end" x="451.17868217054263" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 451.17868217054263 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">7.75-10.25</text></g><g><text text-anchor="end" x="484.34147286821707" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 484.34147286821707 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">8.5-9.5</text></g><g><text text-anchor="end" x="517.5042635658915" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 517.5042635658915 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">9.25-8.75</text></g><g><text text-anchor="end" x="550.6670542635659" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 550.6670542635659 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">10-8</text></g><g><text text-anchor="end" x="583.8298449612404" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 583.8298449612404 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">10.75-7.25</text></g><g><text text-anchor="end" x="616.9926356589148" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 616.9926356589148 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">11.5-6.5</text></g><g><text text-anchor="end" x="650.1554263565893" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 650.1554263565893 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">12.25-5.75</text></g><g><text text-anchor="end" x="683.3182170542636" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 683.3182170542636 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">13-5</text></g><g><text text-anchor="end" x="716.481007751938" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 716.481007751938 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">13.75-4.25</text></g><g><text text-anchor="end" x="749.6437984496124" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 749.6437984496124 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">14.5-3.5</text></g><g><text text-anchor="end" x="782.8065891472869" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 782.8065891472869 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">15.25-2.75</text></g><g><text text-anchor="end" x="815.9693798449613" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 815.9693798449613 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">16-2</text></g><g><text text-anchor="end" x="849.1321705426357" y="340.57685781187706" font-family="Arial" font-size="14" transform="rotate(-30 849.1321705426357 340.57685781187706)" stroke="none" stroke-width="0" fill="#222222">16.75-1.25</text></g><g><text text-anchor="end" x="133" y="328.4" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">0</text></g><g><text text-anchor="end" x="133" y="302.5052631578947" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">200</text></g><g><text text-anchor="end" x="133" y="276.61052631578946" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">400</text></g><g><text text-anchor="end" x="133" y="250.71578947368423" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">600</text></g><g><text text-anchor="end" x="133" y="224.82105263157897" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">800</text></g><g><text text-anchor="end" x="133" y="198.92631578947368" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,000</text></g><g><text text-anchor="end" x="133" y="173.03157894736842" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,200</text></g><g><text text-anchor="end" x="133" y="147.13684210526316" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,400</text></g><g><text text-anchor="end" x="133" y="121.2421052631579" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,600</text></g><g><text text-anchor="end" x="133" y="95.34736842105264" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,800</text></g></g></g><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>input</th><th>result</th></tr></thead><tbody><tr><td>1-17</td><td>1,062</td></tr><tr><td>1.125-16.875</td><td>1,062</td></tr><tr><td>1.25-16.75</td><td>1,035</td></tr><tr><td>1.375-16.625</td><td>1,035</td></tr><tr><td>1.5-16.5</td><td>1,073</td></tr><tr><td>1.625-16.375</td><td>1,073</td></tr><tr><td>1.75-16.25</td><td>1,046</td></tr><tr><td>1.875-16.125</td><td>1,047</td></tr><tr><td>2-16</td><td>1,013</td></tr><tr><td>2.125-15.875</td><td>1,013</td></tr><tr><td>2.25-15.75</td><td>903</td></tr><tr><td>2.375-15.625</td><td>897</td></tr><tr><td>2.5-15.5</td><td>897</td></tr><tr><td>2.625-15.375</td><td>897</td></tr><tr><td>2.75-15.25</td><td>883</td></tr><tr><td>2.875-15.125</td><td>908</td></tr><tr><td>3-15</td><td>931</td></tr><tr><td>3.125-14.875</td><td>931</td></tr><tr><td>3.25-14.75</td><td>916</td></tr><tr><td>3.375-14.625</td><td>891</td></tr><tr><td>3.5-14.5</td><td>941</td></tr><tr><td>3.625-14.375</td><td>941</td></tr><tr><td>3.75-14.25</td><td>941</td></tr><tr><td>3.875-14.125</td><td>981</td></tr><tr><td>4-14</td><td>981</td></tr><tr><td>4.125-13.875</td><td>981</td></tr><tr><td>4.25-13.75</td><td>981</td></tr><tr><td>4.375-13.625</td><td>981</td></tr><tr><td>4.5-13.5</td><td>1,136</td></tr><tr><td>4.625-13.375</td><td>1,136</td></tr><tr><td>4.75-13.25</td><td>1,105</td></tr><tr><td>4.875-13.125</td><td>1,118</td></tr><tr><td>5-13</td><td>1,136</td></tr><tr><td>5.125-12.875</td><td>1,136</td></tr><tr><td>5.25-12.75</td><td>1,130</td></tr><tr><td>5.375-12.625</td><td>1,130</td></tr><tr><td>5.5-12.5</td><td>1,126</td></tr><tr><td>5.625-12.375</td><td>1,126</td></tr><tr><td>5.75-12.25</td><td>1,148</td></tr><tr><td>5.875-12.125</td><td>1,148</td></tr><tr><td>6-12</td><td>1,148</td></tr><tr><td>6.125-11.875</td><td>1,148</td></tr><tr><td>6.25-11.75</td><td>1,148</td></tr><tr><td>6.375-11.625</td><td>1,142</td></tr><tr><td>6.5-11.5</td><td>1,142</td></tr><tr><td>6.625-11.375</td><td>1,142</td></tr><tr><td>6.75-11.25</td><td>1,160</td></tr><tr><td>6.875-11.125</td><td>1,149</td></tr><tr><td>7-11</td><td>1,176</td></tr><tr><td>7.125-10.875</td><td>1,176</td></tr><tr><td>7.25-10.75</td><td>1,183</td></tr><tr><td>7.375-10.625</td><td>1,183</td></tr><tr><td>7.5-10.5</td><td>1,183</td></tr><tr><td>7.625-10.375</td><td>1,183</td></tr><tr><td>7.75-10.25</td><td>1,157</td></tr><tr><td>7.875-10.125</td><td>1,157</td></tr><tr><td>8-10</td><td>1,157</td></tr><tr><td>8.125-9.875</td><td>1,157</td></tr><tr><td>8.25-9.75</td><td>1,164</td></tr><tr><td>8.375-9.625</td><td>1,164</td></tr><tr><td>8.5-9.5</td><td>1,172</td></tr><tr><td>8.625-9.375</td><td>1,172</td></tr><tr><td>8.75-9.25</td><td>1,181</td></tr><tr><td>8.875-9.125</td><td>1,181</td></tr><tr><td>9-9</td><td>1,163</td></tr><tr><td>9.125-8.875</td><td>1,163</td></tr><tr><td>9.25-8.75</td><td>1,163</td></tr><tr><td>9.375-8.625</td><td>768</td></tr><tr><td>9.5-8.5</td><td>768</td></tr><tr><td>9.625-8.375</td><td>768</td></tr><tr><td>9.75-8.25</td><td>820</td></tr><tr><td>9.875-8.125</td><td>820</td></tr><tr><td>10-8</td><td>820</td></tr><tr><td>10.125-7.875</td><td>820</td></tr><tr><td>10.25-7.75</td><td>820</td></tr><tr><td>10.375-7.625</td><td>876</td></tr><tr><td>10.5-7.5</td><td>876</td></tr><tr><td>10.625-7.375</td><td>876</td></tr><tr><td>10.75-7.25</td><td>864</td></tr><tr><td>10.875-7.125</td><td>864</td></tr><tr><td>11-7</td><td>864</td></tr><tr><td>11.125-6.875</td><td>864</td></tr><tr><td>11.25-6.75</td><td>864</td></tr><tr><td>11.375-6.625</td><td>848</td></tr><tr><td>11.5-6.5</td><td>858</td></tr><tr><td>11.625-6.375</td><td>858</td></tr><tr><td>11.75-6.25</td><td>858</td></tr><tr><td>11.875-6.125</td><td>858</td></tr><tr><td>12-6</td><td>858</td></tr><tr><td>12.125-5.875</td><td>858</td></tr><tr><td>12.25-5.75</td><td>858</td></tr><tr><td>12.375-5.625</td><td>858</td></tr><tr><td>12.5-5.5</td><td>870</td></tr><tr><td>12.625-5.375</td><td>870</td></tr><tr><td>12.75-5.25</td><td>870</td></tr><tr><td>12.875-5.125</td><td>839</td></tr><tr><td>13-5</td><td>1,521</td></tr><tr><td>13.125-4.875</td><td>1,521</td></tr><tr><td>13.25-4.75</td><td>1,588</td></tr><tr><td>13.375-4.625</td><td>1,560</td></tr><tr><td>13.5-4.5</td><td>1,533</td></tr><tr><td>13.625-4.375</td><td>1,533</td></tr><tr><td>13.75-4.25</td><td>1,506</td></tr><tr><td>13.875-4.125</td><td>1,478</td></tr><tr><td>14-4</td><td>1,478</td></tr><tr><td>14.125-3.875</td><td>1,478</td></tr><tr><td>14.25-3.75</td><td>1,478</td></tr><tr><td>14.375-3.625</td><td>1,478</td></tr><tr><td>14.5-3.5</td><td>1,478</td></tr><tr><td>14.625-3.375</td><td>1,478</td></tr><tr><td>14.75-3.25</td><td>1,406</td></tr><tr><td>14.875-3.125</td><td>1,406</td></tr><tr><td>15-3</td><td>1,375</td></tr><tr><td>15.125-2.875</td><td>1,375</td></tr><tr><td>15.25-2.75</td><td>1,316</td></tr><tr><td>15.375-2.625</td><td>1,316</td></tr><tr><td>15.5-2.5</td><td>1,316</td></tr><tr><td>15.625-2.375</td><td>1,316</td></tr><tr><td>15.75-2.25</td><td>1,316</td></tr><tr><td>15.875-2.125</td><td>1,316</td></tr><tr><td>16-2</td><td>1,316</td></tr><tr><td>16.125-1.875</td><td>1,316</td></tr><tr><td>16.25-1.75</td><td>1,279</td></tr><tr><td>16.375-1.625</td><td>1,246</td></tr><tr><td>16.5-1.5</td><td>1,251</td></tr><tr><td>16.625-1.375</td><td>1,251</td></tr><tr><td>16.75-1.25</td><td>1,161</td></tr><tr><td>16.875-1.125</td><td>1,161</td></tr><tr><td>17-1</td><td>1,011</td></tr></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 410px; left: 1017px; white-space: nowrap; font-family: Arial; font-size: 14px;">result</div><div></div></div></div>
+	<div id="average_chart_sum" style="width: 45%; height: 400px; display: inline-block"><div style="position: relative;"><div dir="ltr" style="position: relative; width: 1007px; height: 400px;"><div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;" aria-label="A chart."><svg width="1007" height="400" aria-label="A chart." style="overflow: hidden;"><defs id="defs"><clippath id="_ABSTRACT_RENDERER_ID_3"><rect x="147" y="77" width="714" height="247"></rect></clippath></defs><rect x="0" y="0" width="1007" height="400" stroke="none" stroke-width="0" fill="#ffffff"></rect><g><text text-anchor="start" x="147" y="51.9" font-family="Arial" font-size="14" font-weight="bold" stroke="none" stroke-width="0" fill="#000000">sum</text><rect x="147" y="40" width="714" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect></g><g><rect x="470" y="367" width="67" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><rect x="470" y="367" width="67" height="14" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g><text text-anchor="start" x="503" y="378.9" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#222222">result</text></g><path d="M470,374L498,374" stroke="#3366cc" stroke-width="2" fill-opacity="1" fill="none"></path></g></g><g><rect x="147" y="77" width="714" height="247" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect><g clip-path="url(http://localhost:5000/run-simulation?currency=ETH#_ABSTRACT_RENDERER_ID_3)"><g><rect x="147" y="323" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="310" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="297" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="284" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="271" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="258" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="245" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="232" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="219" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="206" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="194" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="181" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="168" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="155" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="142" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="129" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="116" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="103" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="90" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect><rect x="147" y="77" width="714" height="1" stroke="none" stroke-width="0" fill="#cccccc"></rect></g><g><rect x="147" y="323" width="714" height="1" stroke="none" stroke-width="0" fill="#333333"></rect></g><g><g><circle cx="504" cy="214.41842105263157" r="2" stroke="none" stroke-width="0" fill="#3366cc"></circle></g></g></g><g></g><g><g><text text-anchor="middle" x="504" y="344.9" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#222222">18</text></g><g><text text-anchor="end" x="133" y="328.4" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">0</text></g><g><text text-anchor="end" x="133" y="302.5052631578947" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">240</text></g><g><text text-anchor="end" x="133" y="276.61052631578946" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">480</text></g><g><text text-anchor="end" x="133" y="250.71578947368423" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">720</text></g><g><text text-anchor="end" x="133" y="224.82105263157897" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">960</text></g><g><text text-anchor="end" x="133" y="198.92631578947368" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,200</text></g><g><text text-anchor="end" x="133" y="173.03157894736842" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,440</text></g><g><text text-anchor="end" x="133" y="147.13684210526316" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,680</text></g><g><text text-anchor="end" x="133" y="121.2421052631579" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">1,920</text></g><g><text text-anchor="end" x="133" y="95.34736842105264" font-family="Arial" font-size="14" stroke="none" stroke-width="0" fill="#444444">2,160</text></g></g></g><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>input</th><th>result</th></tr></thead><tbody><tr><td>18</td><td>1,011</td></tr></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 410px; left: 1017px; white-space: nowrap; font-family: Arial; font-size: 14px;">result</div><div></div></div></div>
+	<br>
+
+	
+		<strong>period-offset_1-17<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=1&amp;offset=17&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1061.90</a><br>				<span>($1953.34/54.36%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_1.125-16.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=1.125&amp;offset=16.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1061.90</a><br>				<span>($1953.34/54.36%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_1.25-16.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=1.25&amp;offset=16.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1034.98</a><br>				<span>($1964.04/52.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_1.375-16.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=1.375&amp;offset=16.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1034.98</a><br>				<span>($1964.04/52.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_1.5-16.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=1.5&amp;offset=16.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1072.54</a><br>				<span>($1964.04/54.61%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_1.625-16.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=1.625&amp;offset=16.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1072.54</a><br>				<span>($1964.04/54.61%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_1.75-16.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=1.75&amp;offset=16.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1046.38</a><br>				<span>($1992.51/52.52%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_1.875-16.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=1.875&amp;offset=16.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1046.68</a><br>				<span>($1978.93/52.89%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_2-16<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=2&amp;offset=16&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1012.96</a><br>				<span>($1969.37/51.44%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_2.125-15.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=2.125&amp;offset=15.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1012.96</a><br>				<span>($1969.37/51.44%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_2.25-15.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,115,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=2.25&amp;offset=15.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$902.79</a><br>				<span>($1969.37/45.84%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_2.375-15.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,114,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=2.375&amp;offset=15.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$897.45</a><br>				<span>($1969.37/45.57%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_2.5-15.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,114,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=2.5&amp;offset=15.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$897.45</a><br>				<span>($1969.37/45.57%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_2.625-15.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,114,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=2.625&amp;offset=15.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$897.45</a><br>				<span>($1969.37/45.57%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_2.75-15.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,113,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=2.75&amp;offset=15.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$883.33</a><br>				<span>($1969.37/44.85%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_2.875-15.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,116,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=2.875&amp;offset=15.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$908.25</a><br>				<span>($1969.37/46.12%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_3-15<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,119,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=3&amp;offset=15&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$930.90</a><br>				<span>($1969.37/47.27%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_3.125-14.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,119,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=3.125&amp;offset=14.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$930.90</a><br>				<span>($1969.37/47.27%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_3.25-14.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,117,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=3.25&amp;offset=14.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$915.70</a><br>				<span>($1969.37/46.50%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_3.375-14.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,114,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=3.375&amp;offset=14.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$891.18</a><br>				<span>($1969.37/45.25%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_3.5-14.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,120,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=3.5&amp;offset=14.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$941.03</a><br>				<span>($1969.37/47.78%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_3.625-14.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,120,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=3.625&amp;offset=14.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$941.03</a><br>				<span>($1969.37/47.78%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_3.75-14.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,120,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=3.75&amp;offset=14.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$941.03</a><br>				<span>($1969.37/47.78%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_3.875-14.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,125,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=3.875&amp;offset=14.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$980.51</a><br>				<span>($1969.37/49.79%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_4-14<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,125,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=4&amp;offset=14&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$980.51</a><br>				<span>($1969.37/49.79%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_4.125-13.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,125,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=4.125&amp;offset=13.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$980.51</a><br>				<span>($1969.37/49.79%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_4.25-13.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,125,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=4.25&amp;offset=13.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$980.51</a><br>				<span>($1969.37/49.79%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_4.375-13.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,125,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=4.375&amp;offset=13.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$980.51</a><br>				<span>($1969.37/49.79%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_4.5-13.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=4.5&amp;offset=13.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1135.52</a><br>				<span>($1993.20/56.97%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_4.625-13.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=4.625&amp;offset=13.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1135.52</a><br>				<span>($1993.20/56.97%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_4.75-13.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=4.75&amp;offset=13.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1105.23</a><br>				<span>($1964.64/56.26%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_4.875-13.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=4.875&amp;offset=13.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1118.21</a><br>				<span>($1953.85/57.23%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_5-13<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=5&amp;offset=13&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1136.49</a><br>				<span>($1953.85/58.17%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_5.125-12.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=5.125&amp;offset=12.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1136.49</a><br>				<span>($1953.85/58.17%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_5.25-12.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=5.25&amp;offset=12.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1130.04</a><br>				<span>($1953.85/57.84%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_5.375-12.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=5.375&amp;offset=12.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1130.04</a><br>				<span>($1953.85/57.84%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_5.5-12.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=5.5&amp;offset=12.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1125.93</a><br>				<span>($1953.85/57.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_5.625-12.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=5.625&amp;offset=12.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1125.93</a><br>				<span>($1953.85/57.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_5.75-12.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=5.75&amp;offset=12.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1148.42</a><br>				<span>($1938.55/59.24%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_5.875-12.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=5.875&amp;offset=12.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1148.42</a><br>				<span>($1938.55/59.24%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_6-12<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=6&amp;offset=12&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1148.42</a><br>				<span>($1938.55/59.24%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_6.125-11.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=6.125&amp;offset=11.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1148.42</a><br>				<span>($1938.55/59.24%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_6.25-11.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=6.25&amp;offset=11.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1148.42</a><br>				<span>($1938.55/59.24%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_6.375-11.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=6.375&amp;offset=11.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1142.49</a><br>				<span>($1938.55/58.94%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_6.5-11.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=6.5&amp;offset=11.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1142.49</a><br>				<span>($1938.55/58.94%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_6.625-11.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=6.625&amp;offset=11.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1142.49</a><br>				<span>($1938.55/58.94%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_6.75-11.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=6.75&amp;offset=11.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1160.23</a><br>				<span>($1976.46/58.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_6.875-11.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=6.875&amp;offset=11.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1149.39</a><br>				<span>($1976.46/58.15%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_7-11<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=7&amp;offset=11&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1175.63</a><br>				<span>($1921.74/61.18%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_7.125-10.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=7.125&amp;offset=10.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1175.63</a><br>				<span>($1921.74/61.18%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_7.25-10.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=7.25&amp;offset=10.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1182.83</a><br>				<span>($1921.74/61.55%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_7.375-10.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=7.375&amp;offset=10.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1182.83</a><br>				<span>($1921.74/61.55%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_7.5-10.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=7.5&amp;offset=10.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1182.83</a><br>				<span>($1921.74/61.55%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_7.625-10.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=7.625&amp;offset=10.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1182.83</a><br>				<span>($1921.74/61.55%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_7.75-10.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=7.75&amp;offset=10.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1156.91</a><br>				<span>($1906.80/60.67%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_7.875-10.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=7.875&amp;offset=10.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1156.91</a><br>				<span>($1906.80/60.67%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_8-10<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=8&amp;offset=10&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1156.91</a><br>				<span>($1906.80/60.67%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_8.125-9.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=8.125&amp;offset=9.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1156.91</a><br>				<span>($1906.80/60.67%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_8.25-9.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=8.25&amp;offset=9.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1163.79</a><br>				<span>($1906.41/61.05%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_8.375-9.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=8.375&amp;offset=9.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1163.79</a><br>				<span>($1906.41/61.05%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_8.5-9.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=8.5&amp;offset=9.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1172.14</a><br>				<span>($1912.57/61.29%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_8.625-9.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=8.625&amp;offset=9.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1172.14</a><br>				<span>($1912.57/61.29%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_8.75-9.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=8.75&amp;offset=9.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1180.68</a><br>				<span>($1918.87/61.53%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_8.875-9.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=8.875&amp;offset=9.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1180.68</a><br>				<span>($1918.87/61.53%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_9-9<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=9&amp;offset=9&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1162.96</a><br>				<span>($1918.87/60.61%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_9.125-8.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=9.125&amp;offset=8.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1162.96</a><br>				<span>($1918.87/60.61%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_9.25-8.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=9.25&amp;offset=8.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1162.96</a><br>				<span>($1918.87/60.61%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_9.375-8.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,98,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=9.375&amp;offset=8.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$767.56</a><br>				<span>($1969.41/38.97%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_9.5-8.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,98,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=9.5&amp;offset=8.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$767.56</a><br>				<span>($1969.41/38.97%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_9.625-8.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,98,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=9.625&amp;offset=8.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$767.56</a><br>				<span>($1969.41/38.97%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_9.75-8.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,104,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=9.75&amp;offset=8.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$819.74</a><br>				<span>($1976.15/41.48%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_9.875-8.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,104,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=9.875&amp;offset=8.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$819.74</a><br>				<span>($1976.15/41.48%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_10-8<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,104,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=10&amp;offset=8&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$819.74</a><br>				<span>($1976.15/41.48%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_10.125-7.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,104,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=10.125&amp;offset=7.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$819.74</a><br>				<span>($1976.15/41.48%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_10.25-7.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,104,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=10.25&amp;offset=7.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$819.74</a><br>				<span>($1976.15/41.48%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_10.375-7.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,112,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=10.375&amp;offset=7.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$876.09</a><br>				<span>($1967.45/44.53%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_10.5-7.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,112,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=10.5&amp;offset=7.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$876.09</a><br>				<span>($1967.45/44.53%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_10.625-7.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,112,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=10.625&amp;offset=7.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$876.09</a><br>				<span>($1967.45/44.53%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_10.75-7.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,110,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=10.75&amp;offset=7.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$863.71</a><br>				<span>($1967.45/43.90%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_10.875-7.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,110,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=10.875&amp;offset=7.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$863.71</a><br>				<span>($1967.45/43.90%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_11-7<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,110,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=11&amp;offset=7&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$863.71</a><br>				<span>($1967.45/43.90%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_11.125-6.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,110,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=11.125&amp;offset=6.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$863.71</a><br>				<span>($1967.45/43.90%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_11.25-6.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,110,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=11.25&amp;offset=6.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$863.71</a><br>				<span>($1967.45/43.90%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_11.375-6.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,108,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=11.375&amp;offset=6.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$847.58</a><br>				<span>($1967.45/43.08%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_11.5-6.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,109,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=11.5&amp;offset=6.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$858.45</a><br>				<span>($1967.45/43.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_11.625-6.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,109,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=11.625&amp;offset=6.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$858.45</a><br>				<span>($1967.45/43.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_11.75-6.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,109,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=11.75&amp;offset=6.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$858.45</a><br>				<span>($1967.45/43.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_11.875-6.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,109,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=11.875&amp;offset=6.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$858.45</a><br>				<span>($1967.45/43.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_12-6<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,109,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=12&amp;offset=6&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$858.45</a><br>				<span>($1967.45/43.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_12.125-5.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,109,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=12.125&amp;offset=5.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$858.45</a><br>				<span>($1967.45/43.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_12.25-5.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,109,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=12.25&amp;offset=5.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$858.45</a><br>				<span>($1967.45/43.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_12.375-5.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,109,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=12.375&amp;offset=5.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$858.45</a><br>				<span>($1967.45/43.63%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_12.5-5.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,111,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=12.5&amp;offset=5.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$870.04</a><br>				<span>($1975.92/44.03%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_12.625-5.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,111,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=12.625&amp;offset=5.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$870.04</a><br>				<span>($1975.92/44.03%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_12.75-5.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,111,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=12.75&amp;offset=5.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$870.04</a><br>				<span>($1975.92/44.03%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_12.875-5.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,107,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=12.875&amp;offset=5.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$838.83</a><br>				<span>($1875.54/44.72%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_13-5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=13&amp;offset=5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1520.94</a><br>				<span>($1875.54/81.09%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_13.125-4.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=13.125&amp;offset=4.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1520.94</a><br>				<span>($1875.54/81.09%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_13.25-4.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=13.25&amp;offset=4.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1588.41</a><br>				<span>($1986.90/79.94%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_13.375-4.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=13.375&amp;offset=4.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1559.91</a><br>				<span>($1896.21/82.26%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_13.5-4.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=13.5&amp;offset=4.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1533.34</a><br>				<span>($1896.21/80.86%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_13.625-4.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=13.625&amp;offset=4.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1533.34</a><br>				<span>($1896.21/80.86%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_13.75-4.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=13.75&amp;offset=4.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1506.17</a><br>				<span>($1896.21/79.43%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_13.875-4.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=13.875&amp;offset=4.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1477.81</a><br>				<span>($1896.21/77.93%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_14-4<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=14&amp;offset=4&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1477.81</a><br>				<span>($1896.21/77.93%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_14.125-3.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=14.125&amp;offset=3.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1477.81</a><br>				<span>($1896.21/77.93%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_14.25-3.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=14.25&amp;offset=3.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1477.81</a><br>				<span>($1896.21/77.93%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_14.375-3.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=14.375&amp;offset=3.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1477.81</a><br>				<span>($1896.21/77.93%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_14.5-3.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=14.5&amp;offset=3.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1477.81</a><br>				<span>($1896.21/77.93%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_14.625-3.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=14.625&amp;offset=3.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1477.81</a><br>				<span>($1896.21/77.93%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_14.75-3.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=14.75&amp;offset=3.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1405.63</a><br>				<span>($1738.33/80.86%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_14.875-3.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=14.875&amp;offset=3.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1405.63</a><br>				<span>($1738.33/80.86%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_15-3<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=15&amp;offset=3&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1374.84</a><br>				<span>($1738.33/79.09%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_15.125-2.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=15.125&amp;offset=2.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1374.84</a><br>				<span>($1738.33/79.09%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_15.25-2.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=15.25&amp;offset=2.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1315.94</a><br>				<span>($1738.33/75.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_15.375-2.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=15.375&amp;offset=2.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1315.94</a><br>				<span>($1738.33/75.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_15.5-2.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=15.5&amp;offset=2.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1315.94</a><br>				<span>($1738.33/75.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_15.625-2.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=15.625&amp;offset=2.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1315.94</a><br>				<span>($1738.33/75.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_15.75-2.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=15.75&amp;offset=2.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1315.94</a><br>				<span>($1738.33/75.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_15.875-2.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=15.875&amp;offset=2.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1315.94</a><br>				<span>($1738.33/75.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_16-2<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=16&amp;offset=2&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1315.94</a><br>				<span>($1738.33/75.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_16.125-1.875<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=16.125&amp;offset=1.875&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1315.94</a><br>				<span>($1738.33/75.70%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_16.25-1.75<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=16.25&amp;offset=1.75&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1278.54</a><br>				<span>($1624.40/78.71%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_16.375-1.625<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=16.375&amp;offset=1.625&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1245.76</a><br>				<span>($1624.40/76.69%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_16.5-1.5<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=16.5&amp;offset=1.5&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1251.27</a><br>				<span>($1624.40/77.03%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_16.625-1.375<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=16.625&amp;offset=1.375&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1251.27</a><br>				<span>($1624.40/77.03%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_16.75-1.25<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=16.75&amp;offset=1.25&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1161.04</a><br>				<span>($1478.35/78.54%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_16.875-1.125<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=16.875&amp;offset=1.125&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1161.04</a><br>				<span>($1478.35/78.54%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+	
+		<strong>period-offset_17-1<strong><br><br>
+		<table>
+			
+				<tbody><tr>
+					
+						 <th>↓high\low→</th> 
+					
+						 <th>0.15</th> 
+					
+				</tr>
+			
+				<tr>
+					
+						 <th>0.15</th> 
+					
+						 			<td style="background-color:rgb(0,128,0)">				<a href="http://localhost:5000/run-simulation-single?hrs_in_period=17&amp;offset=1&amp;low_threshold=0.15&amp;high_threshold=0.15&amp;currency=ETH" target="_blank">$1011.06</a><br>				<span>($1125.06/89.87%)</span>			</td>		 
+					
+				</tr>
+				
+		</tbody></table>
+		
+
+
+
+</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></body></html>
