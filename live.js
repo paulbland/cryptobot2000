@@ -132,8 +132,8 @@ function step3(price_data, live_data_eth) {
 	var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug)
 
 	// TESTING OVERRIDE
-	// sell_or_buy = 'sell'
-	// sell_or_buy = 'buy'
+	//sell_or_buy = 'sell'
+	//sell_or_buy = 'buy'
 
 	// console.log('price_data.length: ' + price_data.length)
 	// console.log('from_index: ' + from_index)
@@ -241,18 +241,17 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 		var client 			= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 		var myETHAccount 	= client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
 
-			//console.log(account);
-
 			var args = {
-				"amount"	: sell_coin_result.number_of_coins_to_sell,  //"0.001",
-				"currency" 	: "ETH"
+				"amount"			: sell_coin_result.number_of_coins_to_sell,  //"0.01",
+				"currency" 			: "ETH",
+				"payment_method" 	: process.env.USD_ACCOUNT_ID
 			};
 			account.sell(args, function(err, xfer) {
 				//console.log('selling done');
 
 				// store response in DB
-				newliveDataRecordETH.transaction.api_response_err 	= err;
-				newliveDataRecordETH.transaction.api_response_xfer 	= xfer;
+				newliveDataRecordETH.transaction.api_response_err 	= JSON.stringify(err, null, " ");
+				newliveDataRecordETH.transaction.api_response_xfer 	= JSON.stringify(xfer, null, " ");
 
 				finalStepSaveAndExit();
 			});
@@ -299,20 +298,33 @@ function buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price, total_spent,
 		// connect to coinbase and get my ETH account
 		console.log('connecting to api')
 		var client 			= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
-		var myETHAccount 	= client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
 
-			//console.log(account);
+
+		// THIS FOR ETH WALLET ID ONLY
+		// 		client.getAccounts({}, function(err, accounts) {
+		//  	 console.log(accounts);
+		// });
+
+		// FOR THIS USE PAYMETN METHOD ONLY
+		// client.getPaymentMethods({}, function(err, pms) {
+		//   console.log(pms);
+		// });
+
+		// hit up the API
+		var myETHAccount = client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
 
 			var args = {
-				"amount"	: sell_coin_result.number_of_coins_to_buy,  //"0.001",
-				"currency" 	: "ETH"
+				"amount"			: buy_coin_result.number_of_coins_to_buy, //0.01
+				"currency" 			: "ETH",
+				"payment_method" 	: process.env.USD_ACCOUNT_ID
 			};
+
 			account.buy(args, function(err, xfer) {
-				//console.log('selling done');
-				
+				//console.log('buy done');
+
 				// store response in DB
-				newliveDataRecordETH.transaction.api_response_err 	= err;
-				newliveDataRecordETH.transaction.api_response_xfer 	= xfer;
+				newliveDataRecordETH.transaction.api_response_err 	= JSON.stringify(err, null, " ");
+				newliveDataRecordETH.transaction.api_response_xfer 	= JSON.stringify(xfer, null, " ");
 
 				finalStepSaveAndExit();
 			});
@@ -321,9 +333,6 @@ function buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price, total_spent,
 	} else {
 		finalStepSaveAndExit();
 	}
-
-
-
 
 }
 
