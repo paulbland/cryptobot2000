@@ -5,13 +5,9 @@ module.exports = {
 	// high_values : [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25],
 
 	// TEST A - WIDE
-	low_values 	: [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19],
-	high_values : [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19],
-
-	low_values 	: [0.14, 0.15, 0.16],
-	high_values : [0.14, 0.15, 0.16],
-
-
+	low_values 	: [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
+	high_values : [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20],
+ 
 	/**
 	 * TEST A - FIND BEST SUM
 	 * 
@@ -45,12 +41,12 @@ module.exports = {
 			// {period: 6, offset: 13},
 			// {period: 8, offset: 11.5},
 			// {period: 9, offset: 11.5},
-			// {period: 4, offset: 17}
+			// {period: 4, offset: 17} 
 		//];
 		
 		var res = [];
-		var set = [16, 17, 18, 19, 20, 21, 22, 23, 24]	// add halves for more precise
-		var inc = 2; 									// make 1 for more fine grained test // 3, 2, 1, 0.5, 0.75
+		var set = [14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20, 20.5, 21, 21.5, 22]	// add halves for more precise  *this can be smalelr - lets run test and see best values!
+		var inc = 1; 																					// make smaller for more fine grained tests (3, 2, 1, 0.5, 0.75...)
 		var buffer = 4;
 		set.forEach(function(sum) {
 			for (i=buffer; i<=(sum-buffer); i+=inc) {
