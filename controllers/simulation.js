@@ -414,12 +414,12 @@ module.exports = {
 		// i dont have max value yet os lets just copy it in
 		// 256 is obviously max rgba num
 		// then set colors weighted to the total value
-		var max 		= 1000;
-		var min  		= -1000;
+		var max 		= 2000;
+		var min  		= -100;
 		var rgb_color 	= 0
 		var cell_color 	= ''
 		var cell_str 	= '';
-		var max_rgb_value = 128;//210; // use 210 because 255 is too hard to read on white screen
+		var max_rgb_value = 192;//128;//210; // use 210 because 255 is too hard to read on white screen
 
 
 		if (final_profit > 0) {
