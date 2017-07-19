@@ -58,8 +58,8 @@
 		<t2></t2>api_response_xfer: 
 		<% if (data[i].transaction.api_response_xfer != '') { %>
 			<span class="json-resp-wrapper">
-				<span style="color:blue;cursor:pointer">show ↓</span>
-				<div class="json-resp"><pre><%- data[i].transaction.api_response_xfer.replace('\n', '<br />') %></pre></div>
+				<span class="json-resp-link">show ↓</span>
+				<div class="json-resp"><pre><%- data[i].transaction.api_response_xfer %></pre></div>
 			</span>
 		<% } %><br />
 	
