@@ -36,3 +36,15 @@ t2 {
 	display: inline-block;
 	margin-right: 20px;
 }
+
+.json-resp-wrapper {
+	
+}
+	.json-resp-wrapper .json-resp {
+		display: none;
+		color: darkblue;
+		margin-left: 40px
+	}
+	.json-resp-wrapper:hover .json-resp {
+		display: block;
+	}
