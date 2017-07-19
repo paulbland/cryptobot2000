@@ -21,7 +21,7 @@ module.exports = {
 	max_value_ever_owned	: null,
 
 	// these are for full sim (rusn over entire thing)
-	max_result 				: {value:0},		// for entire group of sims
+	all_results 			: [],				// all data to print max at end
 	browser_output 			: '',
 	chart_data 				: '',
 	average_chart_data		: [],
@@ -84,7 +84,7 @@ module.exports = {
 		// NEW WAY
 		var total_tests			= (test_values.period_offset_combos().length * test_values.low_values.length * test_values.high_values.length);
 		var start 				= new Date();
-		var time_per_test 		= 0.19;
+		var time_per_test 		= 0.28;
 		console.log("Running " + total_tests + " tests. Should be about " + moment().startOf('day').seconds((time_per_test * total_tests)).format('H:mm:ss') + "...")
 
 		// OLD WAY
@@ -129,12 +129,8 @@ module.exports = {
 			reporting.updateAverageChartData(x, this_avg)
 		}
 
-		// print max result (ever)
-		reporting.debug('<br /><strong>max_result: <span style="color:limegreen">$' + this.max_result.value.toFixed(2) + '</span></strong><br />')
-		reporting.debug('- period: ' + this.max_result.period + '<br />')
-		reporting.debug('- offset: ' + this.max_result.offset + '<br />')
-		reporting.debug('- low: ' + this.max_result.low + '<br />')
-		reporting.debug('- high: ' + this.max_result.high + '<br />')
+		// print max results and averages
+		reporting.printMaxResults(this.all_results);
 
 		this.browser_output 	= reporting.getFinalOutput()
 		this.chart_data 		= reporting.getFinalChartData()
@@ -270,16 +266,15 @@ module.exports = {
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 		var profit_percentage	= ((final_profit / this.max_value_ever_owned) * 100).toFixed(2)
 
-		// update the max profit ever
-		if (final_profit > this.max_result.value) {
-			this.max_result = {
-				value 	: final_profit,
-				period 	: hrs_in_period,
-				offset 	: offset,
-				low 	: low_threshold,
-				high	: high_threshold
-			}
-		}
+		// put all results in array - to print max values later
+		// similar to what happens in compileTableData.... kinda.. that could read from this?
+		this.all_results.push({
+			value 	: final_profit,
+			period 	: hrs_in_period,
+			offset 	: offset,
+			low 	: low_threshold,
+			high	: high_threshold
+		})
 
 		if (this.print_basic_debug) {
 			reporting.updateSummaryData(final_profit, this.max_value_ever_owned, invest_profit_ratio, profit_percentage)
@@ -287,9 +282,6 @@ module.exports = {
 
 		if (this.print_table_data) {
 			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage);
-		}
-
-		if (this.print_table_data) {
 			this.compileGlobalAverages(hrs_in_period, offset, low_threshold, high_threshold, final_profit)
 		}
 	}, 
@@ -419,7 +411,7 @@ module.exports = {
 		var rgb_color 	= 0
 		var cell_color 	= ''
 		var cell_str 	= '';
-		var max_rgb_value = 192; //128;//210; // use 210 because 255 is too hard to read on white screen
+		var max_rgb_value = 128; // half 256
 
 
 		if (final_profit > 0) {

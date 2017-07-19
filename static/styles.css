@@ -4,37 +4,51 @@ body {
 	font-size: 12px;
 	padding: 10px;
 }
-table {
+table.main {
 	border-collapse: collapse;
 	margin: 0 0 15px;
 	width: 100%;
 }
-td, th {
+table.main td, 
+table.main th {
 	padding: 5px;
 	border: 1px solid black;
 	text-align: center;
-	
 }
-td {
+table.main td {
 	color: white;
 }
-th {
+table.main th {
 	background: #eee;
 }
-td a {
+table.main td a {
 	text-decoration: none;
 	color: white;
 }
-td a:hover, th a:hover {
+table.main td a:hover, th a:hover {
 	text-decoration: underline;
 }
-td span {
+table.main td span {
 	font-size: 9px;
 	color: #aaa;
 }
 t2 {
 	display: inline-block;
 	margin-right: 20px;
+}
+
+
+table.max {
+	border-collapse: collapse;
+}
+table.max td, 
+table.max th {
+	padding: 5px;
+	border: 1px solid lightgray;
+	text-align: center;
+}
+table.max th {
+	background: #eee;
 }
 
 .json-resp-wrapper .json-resp-link  {

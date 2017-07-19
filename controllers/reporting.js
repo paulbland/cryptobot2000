@@ -88,6 +88,70 @@ module.exports  = {
 		//}
 	},
 
+
+	printMaxResults: function(all_results) {
+
+		this.debug('<br /><strong>max 10 results and averages:</strong><br />')
+
+		all_results.sort(function(a, b) {
+    		return parseFloat(b.value) - parseFloat(a.value);
+		});
+
+		var show_top = 10;
+
+		var sums = {
+			period 	: 0,
+			offset 	: 0,
+			low 	: 0,
+			high 	: 0
+		};
+
+		this.debug('<table class="max">')
+		this.debug('<tr><th>rank</th><th>period</th><th>offset</th><th>low</th><th>high</th><th>value</th></tr>')
+		
+		for (i=0; i<show_top; i++) {
+			this.debug('<tr>')
+			this.debug('<th>'+(i+1)+'</th>')
+			this.debug('<td>'+all_results[i].period+'</td>')
+			this.debug('<td>'+all_results[i].offset+'</td>')
+			this.debug('<td>'+all_results[i].low+'</td>')
+			this.debug('<td>'+all_results[i].high+'</td>')
+			this.debug('<td><span style="color:rgb(0,'+(192-(i*10))+',0)"><strong>$' + all_results[i].value.toFixed(2) + '</strong></span></td>')
+			this.debug('</tr>')
+
+			// create sums for each value to calcualte averages
+			sums.period += all_results[i].period;
+			sums.offset += all_results[i].offset;
+			sums.low 	+= all_results[i].low;
+			sums.high	+= all_results[i].high;
+		}
+
+		// calculate averages
+		var avgs = {
+			period 	: (sums.period / show_top),
+			offset 	: (sums.offset / show_top),
+			low 	: (sums.low / show_top).toFixed(4),
+			high 	: (sums.high / show_top).toFixed(4)
+		};
+
+		// create avg link
+		var avg_link = "http://localhost:5000/run-simulation-single?hrs_in_period="+avgs.period+"&offset="+avgs.offset+"&low_threshold="+avgs.low+"&high_threshold="+avgs.high+"&currency=ETH";
+
+		// add averages
+		this.debug('<tr>')
+		this.debug('<th>averages:</th>')
+		this.debug('<th>'+avgs.period+'</th>')
+		this.debug('<th>'+avgs.offset+'</th>')
+		this.debug('<th>'+avgs.low+'</th>')
+		this.debug('<th>'+avgs.high+'</th>')
+		this.debug('<th><a href="'+avg_link+'" target="_blank">link →</a></th>')
+		this.debug('</tr>')
+
+		this.debug('</table>')
+	},
+
+
+
     getFinalOutput: function() {
         return this.browser_output;
     },
