@@ -134,8 +134,8 @@ module.exports  = {
 		var avgs = {
 			period 	: this.roundToPoint5(sums.period / limit),  
 			offset 	: this.roundToPoint5(sums.offset / limit),
-			low 	: (sums.low / limit).toFixed(4),
-			high 	: (sums.high / limit).toFixed(4)
+			low 	: (sums.low / limit).toFixed(3),
+			high 	: (sums.high / limit).toFixed(3)
 		};
 
 		// create avg link
@@ -154,6 +154,27 @@ module.exports  = {
 		this.debug('</table>')
 	},
 
+
+	printAverages: function(table_averages, global_averages, tools) {
+
+		// print table averages
+		this.debug('<strong>average value of table:</strong><br />')
+		for (x in table_averages) {
+			var this_avg = tools.getArrayAverage(table_averages[x]).toFixed(0)
+			this.debug(x + ': ' + this_avg + '<br />')
+			this.updateAverageChartData(x, this_avg)
+		}
+
+		// print global averages
+		this.debug('<br /><strong>global averages:</strong><br />')
+		for (x in global_averages) {
+			var this_avg = tools.getArrayAverage(global_averages[x]).toFixed(0)
+			this.debug(x + ': ' + this_avg + '<br />')
+			this.updateAverageChartData(x, this_avg)
+		}
+
+	},
+		
 	roundToPoint5: function(num) {
   		return (Math.round(num * 2) / 2);
 	},

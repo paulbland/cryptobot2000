@@ -72,7 +72,6 @@ module.exports = {
 
 		if (this.buy_sell_method === 'avg') {
 			var test_values = require(__dirname + '/../data/test_values_avg');
-			//console.log(test_values.period_offset_combos())
 		} else if (this.buy_sell_method === 'peak') {
 			var test_values = require(__dirname + '/../data/test_values_peak');
 		} else {
@@ -81,7 +80,6 @@ module.exports = {
 
 		// OLD WAY 
 		// var total_tests 		= (test_values.periods.length * test_values.offsets.length * test_values.low_values.length * test_values.high_values.length);
-		// NEW WAY
 		var total_tests			= (test_values.period_offset_combos().length * test_values.low_values.length * test_values.high_values.length);
 		var start 				= new Date();
 		var time_per_test 		= 0.19;
@@ -98,7 +96,6 @@ module.exports = {
 		// 	}
 		// }
 
-		// NEW WAY
 		for (x=0; x < test_values.period_offset_combos().length; x++) {
 			for (y=0; y < test_values.low_values.length; y++) {
 				for (z=0; z < test_values.high_values.length; z++) {		
@@ -111,25 +108,8 @@ module.exports = {
 		var execution_time = ((new Date() - start)/1000)
 		console.log('Took ' + moment().startOf('day').seconds((execution_time)).format('H:mm:ss') + '. (about ' + (execution_time / total_tests).toFixed(2) + ' seconds each)')
 
-		
-
-		// print table averages
-		reporting.debug('<strong>average value of table:</strong><br />')
-		for (x in this.table_averages) {
-			var this_avg = tools.getArrayAverage(this.table_averages[x]).toFixed(0)
-			reporting.debug(x + ': ' + this_avg + '<br />')
-			reporting.updateAverageChartData(x, this_avg)
-		}
-
-		// print global averages
-		reporting.debug('<br /><strong>global averages:</strong><br />')
-		for (x in this.global_averages) {
-			var this_avg = tools.getArrayAverage(this.global_averages[x]).toFixed(0)
-			reporting.debug(x + ': ' + this_avg + '<br />')
-			reporting.updateAverageChartData(x, this_avg)
-		}
-
-		// print max results and averages
+		// print all averages, max results and average of max results
+		reporting.printAverages(this.table_averages, this.global_averages, tools);
 		reporting.printMaxResults(this.all_results);
 
 		this.browser_output 	= reporting.getFinalOutput()
