@@ -254,12 +254,11 @@ module.exports  = {
 		return ((total_coins_owned * latest_sell_price) + (total_sold - total_spent));
 	},
 
-	getArrayAverage(arr) {
+	getArrayAverage: function(arr) {
 		var sum = arr.reduce(function add(a, b) {
     		return a + b;
 		}, 0);
 		return (sum / arr.length)
 	}
-
 
 }

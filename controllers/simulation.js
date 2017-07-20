@@ -84,7 +84,7 @@ module.exports = {
 		// NEW WAY
 		var total_tests			= (test_values.period_offset_combos().length * test_values.low_values.length * test_values.high_values.length);
 		var start 				= new Date();
-		var time_per_test 		= 0.28;
+		var time_per_test 		= 0.19;
 		console.log("Running " + total_tests + " tests. Should be about " + moment().startOf('day').seconds((time_per_test * total_tests)).format('H:mm:ss') + "...")
 
 		// OLD WAY

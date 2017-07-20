@@ -25,7 +25,8 @@ table.main td a {
 	text-decoration: none;
 	color: white;
 }
-table.main td a:hover, th a:hover {
+table.main td a:hover, 
+table.main th a:hover {
 	text-decoration: underline;
 }
 table.main td span {
@@ -50,6 +51,15 @@ table.max th {
 table.max th {
 	background: #eee;
 }
+table.max td a,
+table.max th a {
+	text-decoration: none;
+}
+table.max td a:hover, 
+table.max th a:hover {
+	text-decoration: underline;
+}
+
 
 .json-resp-wrapper .json-resp-link  {
 	color: blue;

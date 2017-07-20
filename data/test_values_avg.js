@@ -9,6 +9,10 @@ module.exports = {
 	low_values 	: [0.13, 0.14, 0.15, 0.16, 0.17],
 	high_values : [0.16, 0.17, 0.18, 0.19, 0.20, 0.21],
 
+	// add in halfies
+	low_values 	: [0.130, 0.135, 0.140, 0.145, 0.150, 0.155, 0.160, 0.165, 0.170],
+	high_values : [0.160, 0.165, 0.170, 0.175, 0.180, 0.185, 0.190, 0.195, 0.200, 0.205, 0.210],
+
 	/**
 	 * generates set of period/offset combos sums from buffer->(limit-buffer)
 	 * e.g. for 19, generates:

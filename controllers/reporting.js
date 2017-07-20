@@ -97,7 +97,7 @@ module.exports  = {
     		return parseFloat(b.value) - parseFloat(a.value);
 		});
 
-		var show_top = 10;
+		var limit = 10;
 
 		var sums = {
 			period 	: 0,
@@ -109,14 +109,17 @@ module.exports  = {
 		this.debug('<table class="max">')
 		this.debug('<tr><th>rank</th><th>period</th><th>offset</th><th>low</th><th>high</th><th>value</th></tr>')
 		
-		for (i=0; i<show_top; i++) {
+		for (i=0; i<limit; i++) {
+
+			var link = "/run-simulation-single?hrs_in_period="+all_results[i].period+"&offset="+all_results[i].offset+"&low_threshold="+all_results[i].low+"&high_threshold="+all_results[i].high+"&currency=ETH";
+
 			this.debug('<tr>')
 			this.debug('<th>'+(i+1)+'</th>')
 			this.debug('<td>'+all_results[i].period+'</td>')
 			this.debug('<td>'+all_results[i].offset+'</td>')
 			this.debug('<td>'+all_results[i].low+'</td>')
 			this.debug('<td>'+all_results[i].high+'</td>')
-			this.debug('<td><span style="color:rgb(0,'+(192-(i*10))+',0)"><strong>$' + all_results[i].value.toFixed(2) + '</strong></span></td>')
+			this.debug('<td><a href="'+link+'" target="_blank" style="color:rgb(0,'+(192-(i*10))+',0)"><strong>$' + all_results[i].value.toFixed(2) + '</strong></td>')
 			this.debug('</tr>')
 
 			// create sums for each value to calcualte averages
@@ -127,15 +130,16 @@ module.exports  = {
 		}
 
 		// calculate averages
+		// round offset and period to nearest 0.5 cos thats all i can handle at this point
 		var avgs = {
-			period 	: (sums.period / show_top),
-			offset 	: (sums.offset / show_top),
-			low 	: (sums.low / show_top).toFixed(4),
-			high 	: (sums.high / show_top).toFixed(4)
+			period 	: this.roundToPoint5(sums.period / limit),  
+			offset 	: this.roundToPoint5(sums.offset / limit),
+			low 	: (sums.low / limit).toFixed(4),
+			high 	: (sums.high / limit).toFixed(4)
 		};
 
 		// create avg link
-		var avg_link = "http://localhost:5000/run-simulation-single?hrs_in_period="+avgs.period+"&offset="+avgs.offset+"&low_threshold="+avgs.low+"&high_threshold="+avgs.high+"&currency=ETH";
+		var avg_link = "/run-simulation-single?hrs_in_period="+avgs.period+"&offset="+avgs.offset+"&low_threshold="+avgs.low+"&high_threshold="+avgs.high+"&currency=ETH";
 
 		// add averages
 		this.debug('<tr>')
@@ -150,7 +154,9 @@ module.exports  = {
 		this.debug('</table>')
 	},
 
-
+	roundToPoint5: function(num) {
+  		return (Math.round(num * 2) / 2);
+	},
 
     getFinalOutput: function() {
         return this.browser_output;
