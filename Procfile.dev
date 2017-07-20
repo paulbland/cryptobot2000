@@ -1,3 +1,6 @@
 web: nodemon app.js
 live: node live.js
 bot: node bot.js
+
+gdax-price-bot: node ./bots/gdax-price-bot.js
+gdax-get-price-history: node ./bots/gdax-get-price-history.js
