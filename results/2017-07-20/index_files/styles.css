@@ -1,0 +1,75 @@
+body {
+	font-family: Menlo, monospace;
+	font-weight: 400;
+	font-size: 12px;
+	padding: 10px;
+}
+table.main {
+	border-collapse: collapse;
+	margin: 0 0 15px;
+	width: 100%;
+}
+table.main td, 
+table.main th {
+	padding: 5px;
+	border: 1px solid black;
+	text-align: center;
+}
+table.main td {
+	color: white;
+}
+table.main th {
+	background: #eee;
+}
+table.main td a {
+	text-decoration: none;
+	color: white;
+}
+table.main td a:hover, 
+table.main th a:hover {
+	text-decoration: underline;
+}
+table.main td span {
+	font-size: 9px;
+	color: #aaa;
+}
+t2 {
+	display: inline-block;
+	margin-right: 20px;
+}
+
+
+table.max {
+	border-collapse: collapse;
+}
+table.max td, 
+table.max th {
+	padding: 5px;
+	border: 1px solid lightgray;
+	text-align: center;
+}
+table.max th {
+	background: #eee;
+}
+table.max td a,
+table.max th a {
+	text-decoration: none;
+}
+table.max td a:hover, 
+table.max th a:hover {
+	text-decoration: underline;
+}
+
+
+.json-resp-wrapper .json-resp-link  {
+	color: blue;
+	cursor: pointer;
+}
+.json-resp-wrapper .json-resp {
+	display: none;
+	color: darkblue;
+	margin-left: 40px
+}
+.json-resp-wrapper:hover .json-resp {
+	display: block;
+}
