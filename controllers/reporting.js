@@ -106,16 +106,18 @@ module.exports  = {
 			high 	: 0
 		};
 
-		this.debug('<table class="max">')
-		this.debug(`<tr>
-			<th>rank</th>
-			<th>period</th>
-			<th>offset</th>
-			<th>(sum)</th>
-			<th>low</th>
-			<th>high</th>
-			<th>value</th>
-		</tr>`)
+		this.debug(`
+			<table class="max">
+				<tr>
+					<th>rank</th>
+					<th>period</th>
+					<th>offset</th>
+					<th>(sum)</th>
+					<th>low</th>
+					<th>high</th>
+					<th>value</th>
+			</tr>
+		`)
 		
 		for (i=0; i<limit; i++) {
 
@@ -158,10 +160,14 @@ module.exports  = {
 		};
 
 		// create avg link
-		var avg_link = `/run-simulation-single?
-			hrs_in_period=${avgs.period}&offset=${avgs.offset}
-			&low_threshold=${avgs.low}&high_threshold=${avgs.high}
-			&currency=ETH`;
+		var avg_link = `
+			/run-simulation-single
+			?hrs_in_period=${avgs.period}
+			&offset=${avgs.offset}
+			&low_threshold=${avgs.low}
+			&high_threshold=${avgs.high}
+			&currency=ETH
+		`;
 
 		// add averages
 		this.debug('<tr>')

@@ -36,10 +36,10 @@
 				chartArea: {'width': '85%', 'height': '85%'},
 				vAxis: {
            			viewWindowMode:'explicit',
-            		viewWindow: {
-              			max: 350,
-             			min: 100
-            		}
+            		// viewWindow: {
+              		// 	max: 350,
+             		// 	min: 100
+            		// }
 				},
 				hAxis : { 
         			textStyle : {
@@ -58,7 +58,7 @@
 
 	<h1><%- currency %></h1>
 
-	<div id="curve_chart" style="width: 2000px; height: 1000px"></div>
+	<div id="curve_chart" style="width: 100%; height: 1000px"></div>
 
 	<p><%- summary_output %></p>
 	<p><%- data %></p>

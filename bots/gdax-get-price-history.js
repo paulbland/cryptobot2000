@@ -27,7 +27,7 @@ var publicClient;
 var PriceRecordModel;
 
 // num of days to get
-var days            = 26; //90
+var days            = 99; //26; //90
 var num_done        = 0;
 var all_my_prices   = []
 var granularity     = 600;   // granularity 300 = 5 mins. 600 = 10 mins
@@ -51,7 +51,7 @@ function getMyData(modelName, currency) {
     }
 }
 
-// i not visible inside setTtimeout
+// i not visible inside setTimeout
 function createHandler(i) {
     return function() { 
         getRates(i);
