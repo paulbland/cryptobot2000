@@ -1,5 +1,5 @@
 /**
- * this script will get last 90 days history for all currencies
+ * this script will get last x days history for all currencies
  */
 var mongoose 	= require('mongoose');
 var Gdax        = require('gdax');
@@ -13,7 +13,6 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-
 // Define a schema
 var Schema = mongoose.Schema;
 
@@ -24,52 +23,87 @@ var PriceRecordSchema = new Schema({
 });
 
 
+var publicClient;
+var PriceRecordModel;
+
+// num of days to get
+var days            = 26; //90
+var num_done        = 0;
+var all_my_prices   = []
+var granularity     = 600;   // granularity 300 = 5 mins. 600 = 10 mins
+var delay           = 2000;
+
+
+
 //getMyData('PriceRecordModelBTC', 'BTC')
 getMyData('PriceRecordModelETH', 'ETH')
 //getMyData('PriceRecordModelLTC', 'LTC')
 
-var publicClient;
-var PriceRecordModel
 
 function getMyData(modelName, currency) {
 
     publicClient        = new Gdax.PublicClient(currency+'-USD');
 	PriceRecordModel    = mongoose.model(modelName, PriceRecordSchema);
 
-    // num of days to get
-    var days            = 8; //90
-    var num_done        = 0;
-    var all_my_prices   = []
-
     // FOR EACH DAY 
     for (i=days; i>0; i--) {
+       setTimeout(createHandler(i), ((days - i) * delay));   
+    }
+}
 
-        var start   = moment().subtract(i, 'days');
-        var end     = moment().subtract((i - 1), 'days');
+// i not visible inside setTtimeout
+function createHandler(i) {
+    return function() { 
+        getRates(i);
+    };
+}
 
-        var vars = {
-            'granularity'  : 300,              // granularity = 5 mins
-            start          : start.toISOString(),
-            end            : end.toISOString()
+
+function getRates(i) {
+
+    //console.log(`running get rates on ${i}`);
+
+    // 144 a day
+
+    var start   = moment().subtract(i, 'days');
+    var end     = moment().subtract((i - 1), 'days').subtract(granularity, 'seconds');
+
+    var vars = {
+        'granularity'  : granularity,             
+        start          : start.toISOString(),
+        end            : end.toISOString()
+    }
+
+    // *** FOR FIRST DAY ONLY - TO MATCH EXISTING DATA ***
+    if (i===days) {
+        vars.start = '2017-06-25T20:55:38.463Z' 
+    }
+
+    // HIT API AND PUSH DATA
+    publicClient.getProductHistoricRates(vars, function(err, response, data) {
+
+        if (err) {
+            return handleError(err);
         }
 
-        // HIT API AND PUSH DATA
-        publicClient.getProductHistoricRates(vars, function(err, response, data) {
+        console.log(`got ${data.length} items for ${i}`)
+        // console.log(`first value for ${i}:`);
+        // console.log(moment(data[(data.length - 1)][0] * 1000).toISOString())        
+        // console.log(`last value for ${i}:`);
+        // console.log(moment(data[0][0] * 1000).toISOString())
+        // console.log('---')
 
-            if (err) {
-                return handleError(err);
-            }
+        data.forEach(function(item) {
+             all_my_prices.push(item)
+        })
 
-            data.forEach(function(item) {
-                 all_my_prices.push(item)
-            })
-            num_done++;       
-            
-            if (num_done === days) {
-                wrapThingsUp(all_my_prices)
-            }
-        });
-    }
+        num_done++;       
+        
+        if (num_done === days) {
+            wrapThingsUp(all_my_prices)
+        }
+    });
+
 }
 
 function wrapThingsUp(all_my_prices) {
@@ -86,8 +120,8 @@ function wrapThingsUp(all_my_prices) {
         // format:  [ time, low, high, open, close, volume ]
         my_objs.push({
             datetime     : moment(this_item[0] * 1000).toISOString(),
-            value_buy    : this_item[1],
-            value_sell   : this_item[2],
+            value_buy    : this_item[4], // using close for both
+            value_sell   : this_item[4], // using close for both
         })
     });
 

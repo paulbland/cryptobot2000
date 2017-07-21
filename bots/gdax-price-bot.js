@@ -1,6 +1,6 @@
 /**
- * this bot will be set to run every 5/10 minutes on the heroku scheduler
- * it sets both ask and buy price for each of the three currencies
+ * this bot will be set to run every x minutes on the heroku scheduler
+ * it sets both sell and buy price for each of the three currencies
  * 
  */
 var mongoose 	= require('mongoose');
@@ -41,8 +41,8 @@ function getMyData(modelName, currency) {
     publicClient.getProductTicker(function(err, response, data) {
 
         pr.datetime     = data.time;
-        pr.value_buy    = data.bid;
-        pr.value_sell   = data.ask;
+        pr.value_buy    = data.price; //bid ***** currently just getting last price !
+        pr.value_sell   = data.price; //ask
         
         pr.save(function (err) {
             if (err) {

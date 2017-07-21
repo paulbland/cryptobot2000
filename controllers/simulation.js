@@ -470,15 +470,6 @@ module.exports = {
 	
 
 
-	printGraphData: function(price_data) {
-		this.browser_output = '';
-		for (a=0; a < price_data.length; a++) {
-			this.browser_output += '"' + price_data[a].datetime + '",' + price_data[a].value_sell + ',' + price_data[a].value_buy + '<br />';
-		}
-	}
-
-
-
 
 
 }

@@ -3,13 +3,21 @@ var app 		= express();
 var fs 			= require('fs');
 var path    	= require('path');
 var mongoose 	= require('mongoose');
+var moment 		= require('moment-timezone');
 
 var simulation 	= require('./controllers/simulation')
 var tools 		= require('./controllers/tools')
 var basicAuth   = require('./controllers/auth');
 
 
-var moment = require('moment-timezone');
+
+// DATABASE
+mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});      // Set up default mongoose connection
+mongoose.Promise = global.Promise;                  						// fix promise thing
+//var db = mongoose.connection;                    						 	// Get the default connection
+//db.on('error', console.error.bind(console, 'MongoDB connection error:')); // Bind connection to error event (to get notification of connection errors)
+
+
 
 
 // THIS DIDNT WORK??
@@ -38,15 +46,6 @@ app.use('/results', express.static('results'))
 
 
 
-// DATABASE
-mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});          // Set up default mongoose connection
-mongoose.Promise = global.Promise;                  // fix promise thing
-//var db = mongoose.connection;                     // Get the default connection
-//db.on('error', console.error.bind(console, 'MongoDB connection error:')); // Bind connection to error event (to get notification of connection errors)
-
-
-
-
 // GET MODELS
 var PriceRecordModels = [];
 PriceRecordModels['BTC'] = require('./models/pricerecordmodelbtc')
@@ -68,13 +67,12 @@ app.get('/run-simulation', basicAuth, function(req, res) {
 
     if (typeof req.query.currency === 'undefined') {
         res.send('No currency vars present.')
-	}
-	
-	if (req.query.currency !== 'BTC' && req.query.currency !== 'ETH' && req.query.currency !== 'LTC') {
+	} else if (req.query.currency !== 'BTC' && req.query.currency !== 'ETH' && req.query.currency !== 'LTC') {
 		 res.send('Currency must be BTC ETH or LTC')
 	}
 
-    PriceRecordModels[req.query.currency].find({}, function(error, price_data) {
+    //PriceRecordModels[req.query.currency].find({}, function(error, price_data) {
+    PriceRecordModels[req.query.currency].find({}).sort('datetime').exec(function(error, price_data) {
    		if (error) {
             res.json(error);
         }
@@ -85,6 +83,7 @@ app.get('/run-simulation', basicAuth, function(req, res) {
 			}
 			
 			simulation.runFullSimulation(price_data, req.query.currency);
+
 			res.render('result', {
                 currency    : req.query.currency,       // BTC, ETH or LTC
 				data 		: simulation.browser_output,
@@ -102,11 +101,12 @@ app.get('/run-simulation', basicAuth, function(req, res) {
 app.get('/run-simulation-single', basicAuth, function(req, res) {
 
     if ((typeof req.query.hrs_in_period === 'undefined') || (typeof req.query.offset === 'undefined') || (typeof req.query.low_threshold === 'undefined') || 
-        (typeof req.query.high_threshold === 'undefined') || (typeof req.query.currency === 'undefined')) {
+    	(typeof req.query.high_threshold === 'undefined') || (typeof req.query.currency === 'undefined')) {
         res.send('get vars not present')
     }
 
-   	PriceRecordModels[req.query.currency].find({}, function(error, price_data) { 
+   	//PriceRecordModels[req.query.currency].find({}, function(error, price_data) { 
+   	PriceRecordModels[req.query.currency].find({}).sort('datetime').exec(function(error, price_data) { 
    		if (error) {
             res.json(error);
         }
@@ -118,7 +118,7 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
 			// }
 
             simulation.runSingleSimulation(parseFloat(req.query.hrs_in_period), parseFloat(req.query.offset), 
-                parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data);  
+                	parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data);  
 
 			res.render('result-single', {
                 currency        : req.query.currency,
@@ -156,51 +156,8 @@ app.get('/live-result', basicAuth, function(req, res) {
 })
 
 
-// 
-app.get('/print-graph-data', basicAuth, function(req, res) {
-	PriceRecordModelBTC.find({}, function(error, price_data) { 
-   		if (error) {
-            res.json(error);
-        }
-        else {
-    		simulation.printGraphData(price_data);
-			res.render('result', {
-				data: simulation.browser_output,
-				chart_data 	: simulation.chart_data
-			});
-        }
-	});
-})
-
-
-
-
-
-// Run the simulation once - with specifica parameters
-// app.get('/run-simulation-single-static', basicAuth, function(req, res) {
-
-// 	simulation.browser_output 	= '';
-// 	var price_data 				= require('./data/btc_data')    // 30 days of data (144*30 = 4320)
-
-//     simulation.runSingleSimulation(24, 24, 0.01, 0.06, price_data);
-// 	res.render('result', {
-// 		data : simulation.browser_output
-// 	});
-    
-// })
-
-
-
-
-// for creating random data. wont need this anymore probably
-// app.get('/create-data', basicAuth, function(req, res) {
-// 	tools.createRandomData();
-// })
 
 app.listen(process.env.PORT, function() { 
 	console.log('running on port: ' + process.env.PORT)
 })
-
-
-
 
