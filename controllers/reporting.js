@@ -97,7 +97,7 @@ module.exports  = {
     		return parseFloat(b.value) - parseFloat(a.value);
 		});
 
-		var limit = 10;
+		var limit = 20;
 
 		var sums = {
 			period 	: 0,
@@ -107,7 +107,15 @@ module.exports  = {
 		};
 
 		this.debug('<table class="max">')
-		this.debug('<tr><th>rank</th><th>period</th><th>offset</th><th>low</th><th>high</th><th>value</th></tr>')
+		this.debug(`<tr>
+			<th>rank</th>
+			<th>period</th>
+			<th>offset</th>
+			<th>(sum)</th>
+			<th>low</th>
+			<th>high</th>
+			<th>value</th>
+		</tr>`)
 		
 		for (i=0; i<limit; i++) {
 
@@ -117,9 +125,10 @@ module.exports  = {
 			this.debug('<th>'+(i+1)+'</th>')
 			this.debug('<td>'+all_results[i].period+'</td>')
 			this.debug('<td>'+all_results[i].offset+'</td>')
+			this.debug('<td>('+(all_results[i].period+all_results[i].offset)+')</td>')
 			this.debug('<td>'+all_results[i].low+'</td>')
 			this.debug('<td>'+all_results[i].high+'</td>')
-			this.debug('<td><a href="'+link+'" target="_blank" style="color:rgb(0,'+(192-(i*10))+',0)"><strong>$' + all_results[i].value.toFixed(2) + '</strong></td>')
+			this.debug('<td><a href="'+link+'" target="_blank" style="color:rgb(0,'+(192-(i*5))+',0)"><strong>$' + all_results[i].value.toFixed(2) + '</strong></td>')
 			this.debug('</tr>')
 
 			// create sums for each value to calcualte averages
@@ -127,31 +136,44 @@ module.exports  = {
 			sums.offset += all_results[i].offset;
 			sums.low 	+= all_results[i].low;
 			sums.high	+= all_results[i].high;
+
+			if ((i+1)===5 || (i+1)===10 || (i+1)===20) {
+				this.addAverages(sums, (i+1))
+			}
 		}
+
+		this.debug('</table>')
+	},
+
+
+	addAverages: function(sums, total) {
 
 		// calculate averages
 		// round offset and period to nearest 0.5 cos thats all i can handle at this point
 		var avgs = {
-			period 	: this.roundToPoint5(sums.period / limit),  
-			offset 	: this.roundToPoint5(sums.offset / limit),
-			low 	: (sums.low / limit).toFixed(3),
-			high 	: (sums.high / limit).toFixed(3)
+			period 	: this.roundToPoint5(sums.period / total),  
+			offset 	: this.roundToPoint5(sums.offset / total),
+			low 	: (sums.low / total).toFixed(3),
+			high 	: (sums.high / total).toFixed(3)
 		};
 
 		// create avg link
-		var avg_link = "/run-simulation-single?hrs_in_period="+avgs.period+"&offset="+avgs.offset+"&low_threshold="+avgs.low+"&high_threshold="+avgs.high+"&currency=ETH";
+		var avg_link = `/run-simulation-single?
+			hrs_in_period=${avgs.period}&offset=${avgs.offset}
+			&low_threshold=${avgs.low}&high_threshold=${avgs.high}
+			&currency=ETH`;
 
 		// add averages
 		this.debug('<tr>')
-		this.debug('<th>averages:</th>')
+		this.debug(`<th>top ${i+1} avg:</th>`)
 		this.debug('<th>'+avgs.period+'</th>')
 		this.debug('<th>'+avgs.offset+'</th>')
+		this.debug('<th></th>')
 		this.debug('<th>'+avgs.low+'</th>')
 		this.debug('<th>'+avgs.high+'</th>')
 		this.debug('<th><a href="'+avg_link+'" target="_blank">link →</a></th>')
 		this.debug('</tr>')
 
-		this.debug('</table>')
 	},
 
 

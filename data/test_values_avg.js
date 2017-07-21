@@ -18,7 +18,7 @@ module.exports = {
 	 *   {period: 19, offset: 0},
 	 */ 
 	period_offset_combos: function() {
-		//return [{period: 5, offset: 13.5},];
+		//return [{period: 2, offset: 15.5}];
 
 		var res = [];
 		var set = [16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20, 20.5, 21, 21.5, 22]	
