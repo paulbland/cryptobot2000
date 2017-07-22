@@ -4,15 +4,13 @@ var coinbase 	= require('coinbase');
 var app 		= express();
 
 
-
 // DATABASE
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 mongoose.Promise = global.Promise;
+var priceRecordModels = require('../models/pricerecordmodel')
 
 // Connect to Coinbase API
 var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
-
-var priceRecordModels = require('../models/pricerecordmodel')
 
 getMyData('BTC')
 getMyData('ETH')
@@ -20,12 +18,7 @@ getMyData('LTC')
 
 function getMyData(currency) {
 
-	// Compile model from schema
-
 	var pr = new priceRecordModels[currency];
-
-	//var PriceRecordModel = mongoose.model(modelName, PriceRecordSchema);
-	//var pr = new PriceRecordModel;
 
 	// Promise
 	var myPromise1 = function() {
