@@ -3,9 +3,9 @@ var reporting 	= require('./reporting')
 
 module.exports  = {
 
-	// section_c : 0,
-	// section_d : 0,
-	// section_e : 0,
+	timing_section_c : 0,
+	timing_section_d : 0,
+	timing_section_e : 0,
 
 	calculateAverage: function(data_to_be_tested) { 
 		var sum = 0;
@@ -64,9 +64,9 @@ module.exports  = {
 
 		if (buy_sell_method === 'avg') {
 			
-			//var start_c = new Date();
+			var start_c = new Date();
 			var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
-			//this.section_c += ((new Date() - start_c)/1000)
+			this.timing_section_c += ((new Date() - start_c))
 
 			var avg_plus_high_threshold 	= this.calculateAvgPlusHighThreshold(avg_for_period, high_threshold);
 			var avg_minus_low_threshold 	= this.calculateAvgMinusLowThreshold(avg_for_period, low_threshold)

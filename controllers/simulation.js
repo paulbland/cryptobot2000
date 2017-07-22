@@ -1,8 +1,8 @@
 var tools 		= require('./tools')
 var reporting 	= require('./reporting')
 
-var moment = require('moment-timezone');
-var numeral = require('numeral');
+var moment 		= require('moment-timezone');
+var numeral 	= require('numeral');
 
 module.exports = {
 
@@ -46,11 +46,11 @@ module.exports = {
 	crash_effect 			: 0,			// 0, 0.25, 0.5...
 	reinvest_profit 		: false,
 
-	start_date				: new Date('2017-06-25T20:55:38.626Z'),			// MATCH GDAX DATA TO COINBASE DATA
-	//start_date				: new Date('2017-06-12T00:00:00.000Z'),		// RECENT PEAK
+	//start_date				: new Date('2017-06-25T20:55:38.626Z'),			// MATCH GDAX DATA TO COINBASE DATA
+	start_date				: new Date('2017-06-12T00:00:00.000Z'),		// RECENT PEAK
 
-	// section_a : 0,
-	// section_b : 0,
+	timing_section_a : 0,
+	timing_section_b : 0,
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
@@ -116,11 +116,11 @@ module.exports = {
 		var execution_time = ((new Date() - start))
 		console.log('Took ' + moment().startOf('day').millisecond(execution_time).format('H:mm:ss') + '. (about ' + (execution_time / total_loops).toFixed(10) + ' ms each)')
 
-		// console.log('timing metric a: ' + moment().startOf('day').seconds(this.section_a).format('H:mm:ss') + ' as percentage ' + ((this.section_a/execution_time)*100).toFixed(2) + '%');
-		// console.log('timing metric b: ' + moment().startOf('day').seconds(this.section_b).format('H:mm:ss') + ' as percentage ' + ((this.section_b/execution_time)*100).toFixed(2) + '%');
-		// console.log('timing metric c: ' + moment().startOf('day').seconds(tools.section_c).format('H:mm:ss') + ' as percentage ' + ((tools.section_c/execution_time)*100).toFixed(2) + '%');
-		// console.log('timing metric d: ' + moment().startOf('day').seconds(tools.section_d).format('H:mm:ss') + ' as percentage ' + ((tools.section_d/execution_time)*100).toFixed(2) + '%');
-		// console.log('timing metric e: ' + moment().startOf('day').seconds(tools.section_e).format('H:mm:ss') + ' as percentage ' + ((tools.section_e/execution_time)*100).toFixed(2) + '%');
+		console.log('timing metric a: ' + moment().startOf('day').seconds(this.timing_section_a).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_a/execution_time)*100).toFixed(2) + '%');
+		console.log('timing metric b: ' + moment().startOf('day').seconds(this.timing_section_b).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_b/execution_time)*100).toFixed(2) + '%');
+		console.log('timing metric c: ' + moment().startOf('day').seconds(tools.timing_section_c).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_c/execution_time)*100).toFixed(2) + '%');
+		console.log('timing metric d: ' + moment().startOf('day').seconds(tools.timing_section_d).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_d/execution_time)*100).toFixed(2) + '%');
+		console.log('timing metric e: ' + moment().startOf('day').seconds(tools.timing_section_e).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_e/execution_time)*100).toFixed(2) + '%');
 						
 		// print all averages, max results and average of max results
 		reporting.printAverages(this.table_averages, this.global_averages, tools);
@@ -199,7 +199,7 @@ module.exports = {
 			reporting.updateChartData(price_data[i].datetime, price_data[i].value_buy, "", price_data[i].value_sell, "", 0);
 		}
 
-		//var start_a = new Date();
+		var start_a = new Date();
 
 		// loop the data
 		for (i=0; i<=total_iterations; i++) {
@@ -221,13 +221,13 @@ module.exports = {
 				reporting.debug('latest sell price: $' + latest_sell_price.toFixed(2) + '<br>');
 			} 
 
-			//var start_b = new Date();
+			var start_b = new Date();
 
 			// run the decide algorithm on just this part
 			var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, 
 					this.buy_sell_method, this.print_full_debug)
 
-			//this.section_b += ((new Date() - start_b)/1000)
+			this.timing_section_b += ((new Date() - start_b))
 
 			if (sell_or_buy === 'sell') {
 				this.sellCoinSim(latest_sell_price, high_threshold)
@@ -254,7 +254,7 @@ module.exports = {
 			}
 		}
 
-		//this.section_a += ((new Date() - start_a)/1000)
+		this.timing_section_a += ((new Date() - start_a))
 
 
 		// calculate final profit now set has been process

@@ -10,7 +10,7 @@ var tools 		= require('./controllers/tools')
 var basicAuth   = require('./controllers/auth');
 
 // DATABASE
-mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});      // Set up default mongoose connection
+mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});      // Set up default mongoose connection
 mongoose.Promise 	= global.Promise;                  					// fix promise thing
 PriceRecordModels 	= require('./models/pricerecordmodel') 
 
