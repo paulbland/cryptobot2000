@@ -1,6 +1,8 @@
 web: nodemon app.js
 live: node live.js
-bot: node bot.js
 
+coinbase-price-bot: node ./bots/coinbase-price-bot.js
 gdax-price-bot: node ./bots/gdax-price-bot.js
-gdax-get-price-history: node ./bots/gdax-get-price-history.js
+
+gdax-get-price-history: node ./scripts/gdax-get-price-history.js
+update-coinbase-data: node ./scripts/update-coinbase-data.js
