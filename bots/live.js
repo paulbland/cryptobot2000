@@ -8,25 +8,17 @@ var reporting 	= require('./controllers/reporting')
 
 
 
-
-
-
-
-
 // DATABASE
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 mongoose.Promise = global.Promise;
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 
 
 // get latest live data from dd
 var liveDataModelETH = require('./models/livedatamodeleth')
 
 // prep new item to be appended to live data recrod
-var newliveDataRecordETH = liveDataModelETH();
-
+var newliveDataRecordETH 	= liveDataModelETH();
+var priceRecordModels 		= require('./models/pricerecordmodel')
 
 var really_buy_and_sell = false; // THIS IS IT!
 var initial_investment 	= 2000;
@@ -40,19 +32,14 @@ step1();
 function step1() {
 	//console.log('starting step 1...');
 
-	// GET PRICE RECORDS
-	//var priceRecordModelBTC = require('./models/pricerecordmodelbtc')
-	var priceRecordModelETH = require('./models/pricerecordmodeleth')
-	//var priceRecordModelLTC = require('./models/pricerecordmodelltc')
-
-	priceRecordModelETH.find({}, function(error, price_data_eth) {
+	priceRecordModel['ETH'].find({}, function(error, price_data_eth) {
 		if (error) {
 			res.json(error);
 			console.log('error connecting to db');
 			process.exit(1);
 		}
 		else {
-			console.log('got priceRecordModelETH data');
+			console.log('got priceRecordModels - ETH data');
 			step2(price_data_eth);
 		}
 	});

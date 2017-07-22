@@ -98,7 +98,7 @@ module.exports = {
 		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
 		var total_loops			= (total_tests *  price_data.length)
 		var start 				= new Date();
-		var time_per_loop 		= 0.0098619099; //ms
+		var time_per_loop 		= 0.0115368879; //ms
 		var expected_time		= moment().startOf('day').millisecond(time_per_loop * total_loops).format('H:mm:ss')
 
 		console.log(`Running ${numeral(total_tests).format('0.0a')} tests (${numeral(total_loops).format('0a')} loops). Should be about ${expected_time}.`)

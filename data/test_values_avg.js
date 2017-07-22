@@ -1,14 +1,14 @@
 module.exports = {
 	
 	// ORIG
-	//low_values 				: genValues(0.125, 0.165, 0.005, 3),
-	//high_values 				: genValues(0.160, 0.210, 0.005, 3),
-	//period_offset_combos 		: genCombos(16, 21, 0.5, 1),
+	low_values 				: genValues(0.125, 0.165, 0.005, 3),
+	high_values 				: genValues(0.160, 0.210, 0.005, 3),
+	period_offset_combos 		: genCombos(16, 21, 0.5, 1),
 	
 	// GDAX
-	low_values 					: genValues(0.135, 0.175, 0.005, 3),
-	high_values 				: genValues(0.175, 0.220, 0.005, 3), 
-	period_offset_combos 		: genCombos(14, 21, 0.5, 1) 
+	// low_values 					: genValues(0.135, 0.175, 0.005, 3),
+	// high_values 				: genValues(0.175, 0.220, 0.005, 3), 
+	// period_offset_combos 		: genCombos(14, 21, 0.5, 1) 
 }
 
 //**still maybe not getting all values in loo?? test this */
@@ -34,7 +34,7 @@ function genValues(min, max, inc, prec) {
  *   {period: 19, offset: 0},
  */ 
 function genCombos(min, max, inc, prec) {
-	return [{period: 2, offset: 15.5}]
+	//return [{period: 2, offset: 15.5}]
 	var sums = genValues(min, max, inc, prec);
 	var res = [];
 	var inc = 1; 

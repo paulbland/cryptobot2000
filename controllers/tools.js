@@ -11,14 +11,12 @@ module.exports  = {
 		var sum = 0;
 		var len = data_to_be_tested.length
 		for (var j=0; j < len; j++) {
-			//var tmp = data_to_be_tested[j];
-			//sum += ((tmp.value_buy + tmp.value_sell) / 2);
 			sum += data_to_be_tested[j].value_avg;
 		}
-		return (sum/len); // orig was 24 hrs 'avg_for_24_hrs'
+		return (sum/len); 
 	},
 
-			
+	
 
 	// return highest sell price
 	// *****IT IS USING BUY PRICE! which should it be?

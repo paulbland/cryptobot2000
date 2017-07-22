@@ -9,15 +9,10 @@ var simulation 	= require('./controllers/simulation')
 var tools 		= require('./controllers/tools')
 var basicAuth   = require('./controllers/auth');
 
-
-
 // DATABASE
-mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});      // Set up default mongoose connection
-mongoose.Promise = global.Promise;                  						// fix promise thing
-//var db = mongoose.connection;                    						 	// Get the default connection
-//db.on('error', console.error.bind(console, 'MongoDB connection error:')); // Bind connection to error event (to get notification of connection errors)
-
-
+mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});      // Set up default mongoose connection
+mongoose.Promise 	= global.Promise;                  						// fix promise thing
+PriceRecordModels 	= require('./models/pricerecordmodel') 
 
 
 // THIS DIDNT WORK??
@@ -31,12 +26,9 @@ mongoose.Promise = global.Promise;                  						// fix promise thing
 // }
 
 
-
-
 // SET TEMPLATING
 app.set('view engine', 'ejs');
 app.set('views',__dirname + '/views');
-
 
 
 // SET STATIC FILE DIRECTORIES
@@ -44,17 +36,10 @@ app.use(express.static('static'))
 app.use('/results', express.static('results'))
 
 
-
-// GET MODELS
-PriceRecordModels = require('./models/pricerecordmodel') 
-
-
-
-// INDEX - nothing there
+// INDEX
 app.get('/', basicAuth, function(req, res) {
 	res.sendFile(path.join(__dirname+'/index.html'));
 })
-
 
 
 // run the simulation many time - with all combinations of parameters
@@ -124,7 +109,6 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
 })
 
 
-
 // just print whatevers in the live result table to the browser
 app.get('/live-result', basicAuth, function(req, res) {
 
@@ -136,20 +120,15 @@ app.get('/live-result', basicAuth, function(req, res) {
 			process.exit(1);
 		}
 		else {
-           // res.setHeader('Content-Type', 'application/json');
-           // res.send(JSON.stringify(live_data_eth, null, "  "));
 			res.render('live-result', {
 				data : live_data_eth,
-				moment: moment 
+				moment : moment 
 			});
 		}
 	});
-
 })
-
 
 
 app.listen(process.env.PORT, function() { 
 	console.log('running on port: ' + process.env.PORT)
 })
-

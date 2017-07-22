@@ -11,10 +11,9 @@ var PriceRecordSchema = new Schema({
 });
 
 // Compile model from schema
-var my_thing=[]
-my_thing['BTC'] = mongoose.model('PriceRecordModelBTC', PriceRecordSchema);
-my_thing['ETH'] = mongoose.model('PriceRecordModelETH', PriceRecordSchema);
-my_thing['LTC'] = mongoose.model('PriceRecordModelLTC', PriceRecordSchema);
+var priceRecordModels = []
+priceRecordModels['BTC'] = mongoose.model('PriceRecordModelBTC', PriceRecordSchema);
+priceRecordModels['ETH'] = mongoose.model('PriceRecordModelETH', PriceRecordSchema);
+priceRecordModels['LTC'] = mongoose.model('PriceRecordModelLTC', PriceRecordSchema);
 
-
-module.exports = my_thing;
+module.exports = priceRecordModels;
