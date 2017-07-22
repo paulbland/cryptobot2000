@@ -21,7 +21,7 @@ var Schema = mongoose.Schema;
 var PriceRecordSchema = new Schema({
     datetime	: Date,
     value_sell 	: Number,
-    value_buy 	: Number
+    value_buy 	: Number 
 });
 
 
@@ -43,6 +43,7 @@ function getMyData(modelName, currency) {
         pr.datetime     = data.time;
         pr.value_buy    = data.price; //bid ***** currently just getting last price !
         pr.value_sell   = data.price; //ask
+        pr.value_avg    = data.price; //no point in calcualting if they're the sema eh?
         
         pr.save(function (err) {
             if (err) {

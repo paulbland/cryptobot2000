@@ -5,33 +5,22 @@ var mongoose 	= require('mongoose');
 var Gdax        = require('gdax');
 var moment      = require('moment');
 
-
 // DATABASE
 mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 
 var publicClient
 var PriceRecordModels = require('../models/pricerecordmodel') 
 
-
 // num of days to get
-var days            = 2;//90; //26; 
+var days            = 90;
 var num_done        = 0;
 var all_my_prices   = []
 var granularity     = 600;   // granularity 300 = 5 mins. 600 = 10 mins
 var delay           = 2000;
 
 
-
-
-//getMyData(BTC')
-getMyData('ETH')
-//getMyData('LTC')
-
-
+getMyData('LTC') //BTC ETH LTC
 
 
 function getMyData(currency) {
@@ -43,6 +32,7 @@ function getMyData(currency) {
        setTimeout(createHandler(i, currency), ((days - i) * delay));   
     }
 }
+
 
 // i not visible inside setTimeout
 function createHandler(i, currency) {
@@ -114,8 +104,6 @@ function wrapThingsUp(all_my_prices, currency) {
     });
 
    
-
-
     PriceRecordModels[currency].create(my_objs, function(err) {
         if (err) {
             return handleError(err);
