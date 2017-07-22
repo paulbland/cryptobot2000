@@ -46,7 +46,8 @@ module.exports = {
 	crash_effect 			: 0.25,
 	reinvest_profit 		: false,
 
-	start_date				: new Date('2017-06-12T00:00:00.000Z'),	// RECENT PEAK
+	start_date				: new Date('2017-06-25T20:55:38.626Z'),			// MATCH GDAX DATA TO COINBASE DATA
+	//start_date				: new Date('2017-06-12T00:00:00.000Z'),		// RECENT PEAK
 
 	// section_a : 0,
 	// section_b : 0,
