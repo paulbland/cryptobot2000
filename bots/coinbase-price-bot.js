@@ -70,7 +70,7 @@ function getMyData(modelName, currency) {
 			pr.value_avg = ((pr.value_buy + pr.value_sell) / 2)
 			pr.save(function (err) {
 				if (err) return handleError(err);
-					console.log('saved ' + currency);
+					console.log('saved ' + currency + ' from Coinbase');
 			})
 		});
 
