@@ -32,14 +32,14 @@ step1();
 function step1() {
 	//console.log('starting step 1...');
 
-	priceRecordModel['ETH'].find({}, function(error, price_data_eth) {
+	priceRecordModels['ETH'].find({}, function(error, price_data_eth) {
 		if (error) {
 			res.json(error);
 			console.log('error connecting to db');
 			process.exit(1);
 		}
 		else {
-			console.log('got priceRecordModels - ETH data');
+			console.log('Got priceRecordModels - ETH data');
 			step2(price_data_eth);
 		}
 	});
@@ -58,7 +58,7 @@ function step2(price_data_eth) {
 			process.exit(1);
 		}
 		else {
-			console.log('got liveDataModelETH data');
+			console.log('Got liveDataModelETH data');
 			// if first time, created empty set
 			if (!live_data_eth) {
 				live_data_eth = {
@@ -284,7 +284,7 @@ function buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price, total_spent,
 
 		// connect to coinbase and get my ETH account
 		console.log('connecting to api')
-		var client 			= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
+		var client = new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 
 
 		// THIS FOR ETH WALLET ID ONLY
@@ -334,7 +334,7 @@ function finalStepSaveAndExit() {
 		if (err) {
 			console.log(err);
 		}
-		console.log('saved new liveDataModelETH');
+		console.log('Saved new liveDataModelETH record');
 		//process.exit();
 	})
 
