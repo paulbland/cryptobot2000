@@ -6,9 +6,14 @@ module.exports = {
 	period_offset_combos 	: genCombos(16, 21.5, 0.5, 1),
 	
 	// GDAX
-	// low_values 				: genValues(0.135, 0.170, 0.005, 3),
-	// high_values 			: genValues(0.170, 0.220, 0.005, 3), 
-	// period_offset_combos	: genCombos(15, 21, 0.5, 1) 
+	low_values 				: genValues(0.135, 0.170, 0.005, 3),
+	high_values 			: genValues(0.170, 0.220, 0.005, 3), 
+	period_offset_combos	: genCombos(15, 21, 0.5, 1),
+
+	// GDAX WITH CRASH - BEST TEST VARS
+	low_values 				: genValues(0.135, 0.230, 0.005, 3),
+	high_values 			: genValues(0.100, 0.150, 0.005, 3),  
+	period_offset_combos	: genCombos(16, 21, 0.5, 1) 
 }
 
 

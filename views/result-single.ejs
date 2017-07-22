@@ -12,17 +12,15 @@
 		google.charts.setOnLoadCallback(drawChart);
 
 		function drawChart() {
-			// var data = google.visualization.arrayToDataTable([
-			// 	<%- chart_data %>
-			// ]);
 
 			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'Date'); // Implicit domain label col.
-			data.addColumn('number', 'buy price '); // Implicit series 1 data col.
-			data.addColumn({type:'string', role:'annotation'}); // annotation role col.
-			data.addColumn('number', 'sell price '); // Implicit series 1 data col.
-			data.addColumn({type:'string', role:'annotation'}); // annotationText col.
-			data.addColumn('number', 'avg'); // annotationText col.
+
+			data.addColumn('string', 'Date'); 
+			data.addColumn('number', 'buy price '); 
+			data.addColumn({type:'string', role:'annotation'}); 
+			data.addColumn('number', 'sell price '); 
+			data.addColumn({type:'string', role:'annotation'}); 
+			data.addColumn('number', 'avg'); 
 
 			data.addRows([
 				<%- chart_data %>
