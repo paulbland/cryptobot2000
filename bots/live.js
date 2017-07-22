@@ -14,11 +14,11 @@ mongoose.Promise = global.Promise;
 
 
 // get latest live data from dd
-var liveDataModelETH = require('./models/livedatamodeleth')
+var liveDataModelETH = require('../models/livedatamodeleth')
 
 // prep new item to be appended to live data recrod
 var newliveDataRecordETH 	= liveDataModelETH();
-var priceRecordModels 		= require('./models/pricerecordmodel')
+var priceRecordModels 		= require('../models/pricerecordmodel')
 
 var really_buy_and_sell = false; // THIS IS IT!
 var initial_investment 	= 2000;
