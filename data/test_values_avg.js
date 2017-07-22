@@ -1,33 +1,25 @@
 module.exports = {
 	
 	// COINBASE
-	// low_values 				: genValues(0.125, 0.160, 0.005, 3),
+	// low_values 			: genValues(0.125, 0.160, 0.005, 3),
 	// high_values 			: genValues(0.160, 0.210, 0.005, 3),
-	// period_offset_combos 	: genCombos(16, 21.5, 0.5, 1),
+	// period_offset_combos : genCombos(16, 21.5, 0.5, 1),
 
-	// // COINBASE - BEST CRASH VARS
-	// low_values 				: genValues(0.140, 0.200, 0.005, 3),
+	// COINBASE / CRASH 
+	// low_values 			: genValues(0.140, 0.200, 0.005, 3),
 	// high_values 			: genValues(0.140, 0.200, 0.005, 3),
-	// period_offset_combos 	: genCombos(16, 24, 0.5, 1),
+	// period_offset_combos : genCombos(16, 24, 0.5, 1),
 	
 	// GDAX
 	// low_values 			: genValues(0.135, 0.170, 0.005, 3),
 	// high_values 			: genValues(0.170, 0.220, 0.005, 3), 
 	// period_offset_combos	: genCombos(15, 21, 0.5, 1),
 
-	// GDAX WITH CRASH - BEST TEST VARS
-	// low_values 				: genValues(0.135, 0.230, 0.005, 3),
-	// high_values 			: genValues(0.100, 0.150, 0.005, 3),  
-	// period_offset_combos	: genCombos(16, 21, 0.5, 1) ,
-
-
-	// GDAX = WITH CRASH - FAST (3 min)
-	low_values 				: genValues(0.140, 0.170, 0.005, 3),
-	high_values 			: genValues(0.120, 0.150, 0.005, 3),  
-	period_offset_combos	: genCombos(16, 21, 0.5, 1) 
-
+	// GDAX / CRASH 
+	low_values 				: genValues(0.135, 0.230, 0.01, 3),	//* changed was 0.005
+	high_values 			: genValues(0.100, 0.150, 0.01, 3),  //* changed was 0.005
+	period_offset_combos	: genCombos(16, 21, 0.5, 1),
 }
-
 
 function genValues(min, max, inc, prec) {
 	var arr = []

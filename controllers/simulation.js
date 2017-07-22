@@ -46,8 +46,9 @@ module.exports = {
 	crash_effect 			: 0,			// 0, 0.25, 0.5...
 	reinvest_profit 		: false,
 
-	//start_date				: new Date('2017-06-25T20:55:38.626Z'),			// MATCH GDAX DATA TO COINBASE DATA
-	start_date				: new Date('2017-06-12T00:00:00.000Z'),		// RECENT PEAK
+	//start_date			: new Date('2017-06-25T20:55:38.626Z'),		// MATCH GDAX DATA TO COINBASE DATA
+	//start_date			: new Date('2017-06-12T00:00:00.000Z'),		// RECENT PEAK
+	start_date				: new Date('2017-01-01T00:00:00.000Z'),		// BEGINNING OF TIME
 
 	timing_section_a : 0,
 	timing_section_b : 0,
