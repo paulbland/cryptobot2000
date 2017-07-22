@@ -44,6 +44,10 @@ module.exports = {
 	simulate_crash 			: false, 
 	reinvest_profit 		: false,
 
+	// section_a : 0,
+	// section_b : 0,
+
+
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
 		reporting.debug('<strong>Analyzing ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days)</strong><br />');
@@ -80,9 +84,9 @@ module.exports = {
 
 		// OLD WAY 
 		// var total_tests 		= (test_values.periods.length * test_values.offsets.length * test_values.low_values.length * test_values.high_values.length);
-		var total_tests			= (test_values.period_offset_combos().length * test_values.low_values.length * test_values.high_values.length);
+		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
 		var start 				= new Date();
-		var time_per_test 		= 0.13;
+		var time_per_test 		= 0.07;
 		console.log("Running " + total_tests + " tests. Should be about " + moment().startOf('day').seconds((time_per_test * total_tests)).format('H:mm:ss') + "...")
 
 		// OLD WAY
@@ -96,10 +100,10 @@ module.exports = {
 		// 	}
 		// }
 
-		for (x=0; x < test_values.period_offset_combos().length; x++) {
+		for (x=0; x < test_values.period_offset_combos.length; x++) {
 			for (y=0; y < test_values.low_values.length; y++) {
 				for (z=0; z < test_values.high_values.length; z++) {		
-					this.processDataSet(test_values.period_offset_combos()[x].period, test_values.period_offset_combos()[x].offset, 
+					this.processDataSet(test_values.period_offset_combos[x].period, test_values.period_offset_combos[x].offset, 
 							test_values.low_values[y], test_values.high_values[z], price_data)
 				}
 			}
@@ -108,6 +112,12 @@ module.exports = {
 		var execution_time = ((new Date() - start)/1000)
 		console.log('Took ' + moment().startOf('day').seconds(execution_time).format('H:mm:ss') + '. (about ' + (execution_time / total_tests).toFixed(2) + ' seconds each)')
 
+		// console.log('timing metric a: ' + moment().startOf('day').seconds(this.section_a).format('H:mm:ss') + ' as percentage ' + ((this.section_a/execution_time)*100).toFixed(2) + '%');
+		// console.log('timing metric b: ' + moment().startOf('day').seconds(this.section_b).format('H:mm:ss') + ' as percentage ' + ((this.section_b/execution_time)*100).toFixed(2) + '%');
+		// console.log('timing metric c: ' + moment().startOf('day').seconds(tools.section_c).format('H:mm:ss') + ' as percentage ' + ((tools.section_c/execution_time)*100).toFixed(2) + '%');
+		// console.log('timing metric d: ' + moment().startOf('day').seconds(tools.section_d).format('H:mm:ss') + ' as percentage ' + ((tools.section_d/execution_time)*100).toFixed(2) + '%');
+		// console.log('timing metric e: ' + moment().startOf('day').seconds(tools.section_e).format('H:mm:ss') + ' as percentage ' + ((tools.section_e/execution_time)*100).toFixed(2) + '%');
+						
 		// print all averages, max results and average of max results
 		reporting.printAverages(this.table_averages, this.global_averages, tools);
 		reporting.printMaxResults(this.all_results);
@@ -146,15 +156,9 @@ module.exports = {
 	 */
 	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
-		//console.log('START', hrs_in_period, offset, low_threshold, high_threshold, price_data.length)
-
-		
-
 		if (this.print_basic_debug) {
 			this.printLoopSummary(hrs_in_period, offset, low_threshold, high_threshold)
 		}
-
-	
 
 		// these vars are relative to the current single simulation, and will be reset for each run
 		this.total_coins_owned 		= 0;
@@ -171,18 +175,16 @@ module.exports = {
 		this.buy_sell_unit 			= (this.initial_investment * (this.buy_sell_percentage / 100));
 		// also option to set to money in bank ...
 
-
 		var values_per_period 		= tools.calculateValuesForGivenPeriod(hrs_in_period, this.interval_in_minutes)		//((hrs_in_period * 60) / interval_in_minutes); 	
 		var values_in_offset		= tools.calculateValuesForGivenPeriod(offset, this.interval_in_minutes)				//((offset * 60) / this.interval_in_minutes);
 		var total_iterations 		= (price_data.length - values_per_period - values_in_offset)
-
 
 		// NEW - ADD VALUES BEFORE LOOP TO FINAL GRAPH
 		for (i=0; i<=(values_per_period + values_in_offset); i++) {
 			reporting.updateChartData(price_data[i].datetime, price_data[i].value_buy, "", price_data[i].value_sell, "", 0);
 		}
 
-
+		//var start_a = new Date();
 
 		// loop the data
 		for (i=0; i<=total_iterations; i++) {
@@ -197,8 +199,6 @@ module.exports = {
 			var latest_sell_price 	= price_data[this_index].value_sell;	// this will be the currect price we're evaluating
 			var current_date	 	= price_data[this_index].datetime
 
-			var start_a = new Date();
-
 			if (this.print_full_debug) {
 				reporting.printLoopDebug(i, values_per_period, price_data, hrs_in_period, this_index, offset, values_in_offset);
 				reporting.debug('data collected at: ' + data_to_be_tested[data_to_be_tested.length-1].datetime + '<br />');// print result
@@ -206,9 +206,13 @@ module.exports = {
 				reporting.debug('latest sell price: $' + latest_sell_price.toFixed(2) + '<br>');
 			} 
 
+			//var start_b = new Date();
+
 			// run the decide algorithm on just this part
 			var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, 
-				this.buy_sell_method, this.print_full_debug)
+					this.buy_sell_method, this.print_full_debug)
+
+			//this.section_b += ((new Date() - start_b)/1000)
 
 			if (sell_or_buy === 'sell') {
 				this.sellCoinSim(latest_sell_price, high_threshold)
@@ -235,6 +239,7 @@ module.exports = {
 			}
 		}
 
+		//this.section_a += ((new Date() - start_a)/1000)
 
 
 		// calculate final profit now set has been process

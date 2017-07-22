@@ -97,7 +97,7 @@ module.exports  = {
     		return parseFloat(b.value) - parseFloat(a.value);
 		});
 
-		var limit = 1;
+		var limit = 20;
 
 		// for really short tests if im doing fewer than 20 combos, need this
 		if (limit > all_results.length) {

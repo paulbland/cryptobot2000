@@ -24,7 +24,8 @@ var Schema = mongoose.Schema;
 var PriceRecordSchema = new Schema({
     datetime	: Date,
     value_sell 	: Number,
-    value_buy 	: Number
+    value_buy 	: Number,
+    value_avg 	: Number
 });
 
 

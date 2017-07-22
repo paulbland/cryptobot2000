@@ -3,18 +3,22 @@ var reporting 	= require('./reporting')
 
 module.exports  = {
 
+	// section_c : 0,
+	// section_d : 0,
+	// section_e : 0,
+
 	calculateAverage: function(data_to_be_tested) {
 		var sum = 0;
-
-		for (var j=0; j < data_to_be_tested.length; j++) {
-			var tmp = data_to_be_tested.slice(j, (j+1))
-			sum += ((tmp.value_buy + tmp.value_sell) / 2);
+		var len = data_to_be_tested.length
+		for (var j=0; j < len; j++) {
+			//var tmp = data_to_be_tested[j];
+			//sum += ((tmp.value_buy + tmp.value_sell) / 2);
+			sum += data_to_be_tested[j].value_avg;
 		}
-
-		return (sum/data_to_be_tested.length).toFixed(2); // orig was 24 hrs 'avg_for_24_hrs'
+		return (sum/len); // orig was 24 hrs 'avg_for_24_hrs'
 	},
 
-
+			
 
 	// return highest sell price
 	// *****IT IS USING BUY PRICE! which should it be?
@@ -61,8 +65,11 @@ module.exports  = {
 	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug) {
 
 		if (buy_sell_method === 'avg') {
-
+			
+			//var start_c = new Date();
 			var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
+			//this.section_c += ((new Date() - start_c)/1000)
+
 			var avg_plus_high_threshold 	= this.calculateAvgPlusHighThreshold(avg_for_period, high_threshold);
 			var avg_minus_low_threshold 	= this.calculateAvgMinusLowThreshold(avg_for_period, low_threshold)
 
@@ -70,7 +77,7 @@ module.exports  = {
 			var buy 	= (latest_buy_price < avg_minus_low_threshold) ? true : false;
 
 			if (print_full_debug) {
-				reporting.debug('avg_for_period: $' + avg_for_period + '<br>');// print avg result to browser
+				reporting.debug('avg_for_period: $' + avg_for_period.toFixed(2) + '<br>');// print avg result to browser
 				reporting.debug('(avg price plus high threshold ('+high_threshold+'%) is $' + avg_plus_high_threshold.toFixed(2) + ')<br />');
 				reporting.debug('(avg price minus low threshold ('+low_threshold+'%) is $' + avg_minus_low_threshold.toFixed(2) + ')<br />');
 			}

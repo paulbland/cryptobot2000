@@ -19,7 +19,8 @@ var Schema = mongoose.Schema;
 var PriceRecordSchema = new Schema({
     datetime	: Date,
     value_sell 	: Number,
-    value_buy 	: Number
+    value_buy 	: Number,
+    value_avg 	: Number
 });
 
 
@@ -122,6 +123,7 @@ function wrapThingsUp(all_my_prices) {
             datetime     : moment(this_item[0] * 1000).toISOString(),
             value_buy    : this_item[4], // using close for both
             value_sell   : this_item[4], // using close for both
+            value_avg    : this_item[4] // could average them but whats the point? if i ever chagne the values then average them
         })
     });
 
