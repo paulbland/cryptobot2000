@@ -3,13 +3,14 @@ var reporting 	= require('./reporting')
 
 module.exports  = {
 
-
 	calculateAverage: function(data_to_be_tested) {
 		var sum = 0;
 
-		for (j=0; j < data_to_be_tested.length; j++) {
-			sum += ((data_to_be_tested[j].value_buy + data_to_be_tested[j].value_sell) / 2);
+		for (var j=0; j < data_to_be_tested.length; j++) {
+			var tmp = data_to_be_tested.slice(j, (j+1))
+			sum += ((tmp.value_buy + tmp.value_sell) / 2);
 		}
+
 		return (sum/data_to_be_tested.length).toFixed(2); // orig was 24 hrs 'avg_for_24_hrs'
 	},
 
@@ -59,15 +60,11 @@ module.exports  = {
 	*/
 	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug) {
 
-		var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
-		var avg_plus_high_threshold 	= this.calculateAvgPlusHighThreshold(avg_for_period, high_threshold);
-		var avg_minus_low_threshold 	= this.calculateAvgMinusLowThreshold(avg_for_period, low_threshold)
-		var high_for_period 			= this.calculateHigh(data_to_be_tested)						// get avg for period
-		var low_for_period 				= this.calculateLow(data_to_be_tested)						// get avg for period
-		var high_minus_high_threshold 	= (high_for_period * (1 - high_threshold)).toFixed(2);
-		var low_plus_low_threshold 		= (low_for_period * (1 + low_threshold)).toFixed(2);
-	
 		if (buy_sell_method === 'avg') {
+
+			var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
+			var avg_plus_high_threshold 	= this.calculateAvgPlusHighThreshold(avg_for_period, high_threshold);
+			var avg_minus_low_threshold 	= this.calculateAvgMinusLowThreshold(avg_for_period, low_threshold)
 
 			var sell 	= (latest_sell_price > avg_plus_high_threshold) ? true : false;
 			var buy 	= (latest_buy_price < avg_minus_low_threshold) ? true : false;
@@ -79,6 +76,11 @@ module.exports  = {
 			}
 
 		} else if (buy_sell_method === 'peak') {
+
+			var high_for_period 			= this.calculateHigh(data_to_be_tested)						// get avg for period
+			var low_for_period 				= this.calculateLow(data_to_be_tested)						// get avg for period
+			var high_minus_high_threshold 	= (high_for_period * (1 - high_threshold)).toFixed(2);
+			var low_plus_low_threshold 		= (low_for_period * (1 + low_threshold)).toFixed(2);
 
 			var sell 	= (latest_sell_price > high_minus_high_threshold) ? true : false;
 			var buy 	= (latest_buy_price < low_plus_low_threshold) ? true : false;
