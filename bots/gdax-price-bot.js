@@ -26,7 +26,7 @@ function getMyData(currency) {
         pr.datetime     = data.time;
         pr.value_buy    = data.price; //bid ***** currently just getting last price !
         pr.value_sell   = data.price; //ask
-        pr.value_avg    = data.price; //no point in calcualting if they're the sema eh?
+        pr.value_avg    = data.price; //no point in calculating if they're the same, eh?
         
         pr.save(function (err) {
             if (err) {

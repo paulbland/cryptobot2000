@@ -24,7 +24,7 @@ var really_buy_and_sell = false; // THIS IS IT!
 var initial_investment 	= 2000;
 
 
-console.log('running live.js!')
+//console.log('running live.js!')
 step1();
 
 
@@ -39,7 +39,7 @@ function step1() {
 			process.exit(1);
 		}
 		else {
-			console.log('Got priceRecordModels - ETH data');
+			//console.log('Got priceRecordModels - ETH data');
 			step2(price_data_eth);
 		}
 	});
@@ -58,7 +58,7 @@ function step2(price_data_eth) {
 			process.exit(1);
 		}
 		else {
-			console.log('Got liveDataModelETH data');
+			//console.log('Got liveDataModelETH data');
 			// if first time, created empty set
 			if (!live_data_eth) {
 				live_data_eth = {
@@ -224,7 +224,7 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 	if (really_buy_and_sell) {
 
 		// connect to coinbase and get my ETH account
-		console.log('connecting to api')
+		//console.log('connecting to api')
 		var client 			= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 		var myETHAccount 	= client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
 
@@ -234,7 +234,7 @@ function sellCoinAPI(high_threshold, sell_all, live_data_eth, buy_sell_unit, lat
 				"payment_method" 	: process.env.USD_ACCOUNT_ID
 			};
 			account.sell(args, function(err, xfer) {
-				//console.log('selling done');
+				console.log('selling from api - done');
 
 				// store response in DB
 				newliveDataRecordETH.transaction.api_response_err 	= JSON.stringify(err, null, " ");
@@ -283,7 +283,7 @@ function buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price, total_spent,
 	if (really_buy_and_sell) {
 
 		// connect to coinbase and get my ETH account
-		console.log('connecting to api')
+		//console.log('connecting to api')
 		var client = new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 
 
@@ -307,7 +307,7 @@ function buyCoinAPI(live_data_eth, buy_sell_unit, latest_buy_price, total_spent,
 			};
 
 			account.buy(args, function(err, xfer) {
-				//console.log('buy done');
+				console.log('buying from api -  done');
 
 				// store response in DB
 				newliveDataRecordETH.transaction.api_response_err 	= JSON.stringify(err, null, " ");

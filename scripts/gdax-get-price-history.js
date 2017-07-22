@@ -99,7 +99,7 @@ function wrapThingsUp(all_my_prices, currency) {
             datetime     : moment(this_item[0] * 1000).toISOString(),
             value_buy    : this_item[4], // using close for both
             value_sell   : this_item[4], // using close for both
-            value_avg    : this_item[4] // could average them but whats the point? if i ever chagne the values then average them
+            value_avg    : this_item[4] // could average them but whats the point? if i ever change the values then average them
         })
     });
 
