@@ -5,44 +5,27 @@ var app 		= express();
 
 
 
-
 // DATABASE
-
-// Set up default mongoose connection
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
-
-// Get the default connection
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
-
-// Bind connection to error event (to get notification of connection errors)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-// Define a schema
-var Schema = mongoose.Schema;
-
-var PriceRecordSchema = new Schema({
-    datetime	: Date,
-    value_sell 	: Number,
-    value_buy 	: Number,
-    value_avg 	: Number
-});
-
-
 
 // Connect to Coinbase API
 var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 
-getMyData('PriceRecordModelBTC', 'BTC')
-getMyData('PriceRecordModelETH', 'ETH')
-getMyData('PriceRecordModelLTC', 'LTC')
+var priceRecordModels = require('../models/pricerecordmodel')
 
+getMyData('BTC')
+getMyData('ETH')
+getMyData('LTC')
 
-function getMyData(modelName, currency) {
+function getMyData(currency) {
 
 	// Compile model from schema
-	var PriceRecordModel = mongoose.model(modelName, PriceRecordSchema);
-	var pr = new PriceRecordModel;
+
+	var pr = new priceRecordModels[currency];
+
+	//var PriceRecordModel = mongoose.model(modelName, PriceRecordSchema);
+	//var pr = new PriceRecordModel;
 
 	// Promise
 	var myPromise1 = function() {

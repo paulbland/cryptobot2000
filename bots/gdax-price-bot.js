@@ -6,37 +6,20 @@
 var mongoose 	= require('mongoose');
 var Gdax        = require('gdax');
 
-
 // DATABASE
 mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+var priceRecordModels = require('../models/pricerecordmodel')
 
+getMyData('BTC')
+getMyData('ETH')
+getMyData('LTC')
 
-// Define a schema
-var Schema = mongoose.Schema;
+function getMyData(currency) {
 
-var PriceRecordSchema = new Schema({
-    datetime	: Date,
-    value_sell 	: Number,
-    value_buy 	: Number 
-});
-
-
-getMyData('PriceRecordModelBTC', 'BTC')
-getMyData('PriceRecordModelETH', 'ETH')
-getMyData('PriceRecordModelLTC', 'LTC')
-
-
-function getMyData(modelName, currency) {
-
-    var publicClient = new Gdax.PublicClient(currency+'-USD');
-
-	// Compile model from schema
-	var PriceRecordModel = mongoose.model(modelName, PriceRecordSchema);
-	var pr = new PriceRecordModel;
+    var publicClient    = new Gdax.PublicClient(currency+'-USD');
+    var pr              = new priceRecordModels[currency];
 
     publicClient.getProductTicker(function(err, response, data) {
 
