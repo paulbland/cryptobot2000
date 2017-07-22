@@ -3,8 +3,8 @@ var mongoose 	= require('mongoose');
 var coinbase 	= require('coinbase');
 var app 		= express();
 
-var tools 		= require('./controllers/tools')
-var reporting 	= require('./controllers/reporting')
+var tools 		= require('../controllers/tools')
+var reporting 	= require('../controllers/reporting')
 
 
 

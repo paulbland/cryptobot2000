@@ -1,7 +1,7 @@
 module.exports = {
 	
 	// ORIG
-	low_values 				: genValues(0.125, 0.165, 0.005, 3),
+	low_values 					: genValues(0.125, 0.165, 0.005, 3),
 	high_values 				: genValues(0.160, 0.210, 0.005, 3),
 	period_offset_combos 		: genCombos(16, 21, 0.5, 1),
 	
