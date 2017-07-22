@@ -202,6 +202,9 @@ module.exports = {
 
 		var start_a = new Date();
 
+		tools.sum = 0;
+		tools.sum_last = 0;
+
 		// loop the data
 		for (i=0; i<=total_iterations; i++) {
 			
