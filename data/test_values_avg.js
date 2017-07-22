@@ -1,14 +1,14 @@
 module.exports = {
 	
 	// COINBASE
-	// low_values 				: genValues(0.125, 0.160, 0.005, 3),
-	// high_values 			: genValues(0.160, 0.210, 0.005, 3),
-	// period_offset_combos 	: genCombos(16, 21.5, 0.5, 1),
+	low_values 				: genValues(0.125, 0.160, 0.005, 3),
+	high_values 			: genValues(0.160, 0.210, 0.005, 3),
+	period_offset_combos 	: genCombos(16, 21.5, 0.5, 1),
 	
 	// GDAX
-	low_values 				: genValues(0.135, 0.170, 0.005, 3),
-	high_values 			: genValues(0.170, 0.220, 0.005, 3), 
-	period_offset_combos	: genCombos(15, 21, 0.5, 1) 
+	// low_values 				: genValues(0.135, 0.170, 0.005, 3),
+	// high_values 			: genValues(0.170, 0.220, 0.005, 3), 
+	// period_offset_combos	: genCombos(15, 21, 0.5, 1) 
 }
 
 
