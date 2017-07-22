@@ -1,24 +1,20 @@
 module.exports = {
 	
 	// COINBASE
-	// low_values 					: genValues(0.125, 0.160, 0.005, 3),
-	// high_values 				: genValues(0.160, 0.210, 0.005, 3),
-	// period_offset_combos 		: genCombos(16, 21.5, 0.5, 1),
+	// low_values 				: genValues(0.125, 0.160, 0.005, 3),
+	// high_values 			: genValues(0.160, 0.210, 0.005, 3),
+	// period_offset_combos 	: genCombos(16, 21.5, 0.5, 1),
 	
 	// GDAX
-	low_values 					: genValues(0.135, 0.170, 0.005, 3),
-	high_values 				: genValues(0.170, 0.220, 0.005, 3), 
-	period_offset_combos 		: genCombos(15, 21, 0.5, 1) 
+	low_values 				: genValues(0.135, 0.170, 0.005, 3),
+	high_values 			: genValues(0.170, 0.220, 0.005, 3), 
+	period_offset_combos	: genCombos(15, 21, 0.5, 1) 
 }
-
-//**still maybe not getting all values in loo?? test this */
-
 
 
 function genValues(min, max, inc, prec) {
 	var arr = []
 	for (i=min; i<=max; i+=inc) {
-		// getting weird things in push AND in loop rules. need to do this to i
 		i = parseFloat(i.toFixed(prec))
 		arr.push(i)
 	}

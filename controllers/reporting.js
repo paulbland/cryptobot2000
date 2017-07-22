@@ -121,22 +121,33 @@ module.exports  = {
 					<th>low</th>
 					<th>high</th>
 					<th>value</th>
+					<th>profit</th>
 			</tr>
 		`)
 		
 		for (i=0; i<limit; i++) {
 
-			var link = "/run-simulation-single?hrs_in_period="+all_results[i].period+"&offset="+all_results[i].offset+"&low_threshold="+all_results[i].low+"&high_threshold="+all_results[i].high+"&currency=ETH";
+			var link = `
+				/run-simulation-single
+				?hrs_in_period=${all_results[i].period}
+				&offset=${all_results[i].offset}
+				&low_threshold=${all_results[i].low}
+				&high_threshold=${all_results[i].high}
+				&currency=ETH
+			`;
 
-			this.debug('<tr>')
-			this.debug('<th>'+(i+1)+'</th>')
-			this.debug('<td>'+all_results[i].period+'</td>')
-			this.debug('<td>'+all_results[i].offset+'</td>')
-			this.debug('<td>('+(all_results[i].period+all_results[i].offset)+')</td>')
-			this.debug('<td>'+all_results[i].low+'</td>')
-			this.debug('<td>'+all_results[i].high+'</td>')
-			this.debug('<td><a href="'+link+'" target="_blank" style="color:rgb(0,'+(192-(i*5))+',0)"><strong>$' + all_results[i].value.toFixed(2) + '</strong></td>')
-			this.debug('</tr>')
+			this.debug(`
+				<tr>
+					<th>${(i+1)}</th>
+					<td>${all_results[i].period}</td>
+					<td>${all_results[i].offset}</td>
+					<td>(${(all_results[i].period+all_results[i].offset)})</td>
+					<td>${all_results[i].low}</td>
+					<td>${all_results[i].high}</td>
+					<td><a href="${link}" target="_blank" style="color:rgb(0,${(192-(i*5))},0)"><strong>$${all_results[i].value.toFixed(2)}</strong></td>
+					<td>${all_results[i].profit}%</td>
+				</tr>
+			`);
 
 			// create sums for each value to calcualte averages
 			sums.period += all_results[i].period;
@@ -149,7 +160,7 @@ module.exports  = {
 			}
 		}
 
-		this.debug('</table>')
+		this.debug(`</table>`)
 	},
 
 
@@ -175,16 +186,18 @@ module.exports  = {
 		`;
 
 		// add averages
-		this.debug('<tr>')
-		this.debug(`<th>top ${i+1} avg:</th>`)
-		this.debug('<th>'+avgs.period+'</th>')
-		this.debug('<th>'+avgs.offset+'</th>')
-		this.debug('<th></th>')
-		this.debug('<th>'+avgs.low+'</th>')
-		this.debug('<th>'+avgs.high+'</th>')
-		this.debug('<th><a href="'+avg_link+'" target="_blank">link →</a></th>')
-		this.debug('</tr>')
-
+		this.debug(`
+			<tr>
+				<th>top ${i+1} avg:</th>
+				<th>${avgs.period}</th>
+				<th>${avgs.offset}</th>
+				<th>${avgs.period + avgs.offset}</th>
+				<th>${avgs.low}</th>
+				<th>${avgs.high}</th>
+				<th><a href="${avg_link}" target="_blank">link →</a></th>
+				<th></th>
+			</tr>
+		`);
 	},
 
 

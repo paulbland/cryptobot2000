@@ -42,8 +42,8 @@ module.exports = {
 	buy_sell_unit 			: 0,			// calculated now!
 	money_in_bank 			: 0,			// calculated	
 	sell_all				: true,			// false means sell just one unit
-	simulate_crash 			: false, 
-	crash_effect 			: 0.25,
+	simulate_crash 			: true, 
+	crash_effect 			: 0,			// 0, 0.25, 0.5...
 	reinvest_profit 		: false,
 
 	start_date				: new Date('2017-06-25T20:55:38.626Z'),			// MATCH GDAX DATA TO COINBASE DATA
@@ -99,7 +99,7 @@ module.exports = {
 		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
 		var total_loops			= (total_tests *  price_data.length)
 		var start 				= new Date();
-		var time_per_loop 		= 0.0117802181; //ms
+		var time_per_loop 		= 0.0114856106; //ms
 		var expected_time		= moment().startOf('day').millisecond(time_per_loop * total_loops).format('H:mm:ss')
 
 		console.log(`Running ${numeral(total_tests).format('0.0a')} tests (${numeral(total_loops).format('0a')} loops). Should be about ${expected_time}.`)
@@ -278,7 +278,8 @@ module.exports = {
 			period 	: hrs_in_period,
 			offset 	: offset,
 			low 	: low_threshold,
-			high	: high_threshold
+			high	: high_threshold,
+			profit 	: profit_percentage
 		})
 
 		if (this.print_basic_debug) {
