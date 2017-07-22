@@ -22,7 +22,8 @@
     "gdax": "^0.4.2",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
-    "mongoose": "^4.11.3"
+    "mongoose": "^4.11.3",
+    "numeral": "^2.0.6"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

@@ -2,6 +2,7 @@ var tools 		= require('./tools')
 var reporting 	= require('./reporting')
 
 var moment = require('moment-timezone');
+var numeral = require('numeral');
 
 module.exports = {
 
@@ -42,11 +43,13 @@ module.exports = {
 	money_in_bank 			: 0,			// calculated	
 	sell_all				: true,			// false means sell just one unit
 	simulate_crash 			: false, 
+	crash_effect 			: 0.25,
 	reinvest_profit 		: false,
+
+	start_date				: new Date('2017-06-12T00:00:00.000Z'),	// RECENT PEAK
 
 	// section_a : 0,
 	// section_b : 0,
-
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
@@ -56,7 +59,8 @@ module.exports = {
 		reporting.debug('- buy_sell_percentage: ' + this.buy_sell_percentage+'%<br />');
 		reporting.debug('- simulate_crash: ' + this.simulate_crash+'<br />');
 		reporting.debug('- reinvest_profit: ' + this.reinvest_profit+'<br />');
-		reporting.debug('- initial_investment: ' + this.initial_investment+'<br /><br />');
+		reporting.debug('- initial_investment: ' + this.initial_investment+'<br />');
+		reporting.debug('- start_date: ' + this.start_date+'<br /><br />');
 	},
 
 
@@ -72,6 +76,14 @@ module.exports = {
 		
 		reporting.resetOutput(); 
 
+		// truncate data based on a start time
+		if (this.start_date) {
+			var start_date = this.start_date;
+			price_data = price_data.filter(function (item) {
+				return item.datetime > start_date;
+			})
+		}
+
 		this.printSummary(price_data); 
 
 		if (this.buy_sell_method === 'avg') {
@@ -82,23 +94,14 @@ module.exports = {
 			return; 
 		}
 
-		// OLD WAY 
-		// var total_tests 		= (test_values.periods.length * test_values.offsets.length * test_values.low_values.length * test_values.high_values.length);
+		// TIMING DATA
 		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
+		var total_loops			= (total_tests *  price_data.length)
 		var start 				= new Date();
-		var time_per_test 		= 0.07;
-		console.log("Running " + total_tests + " tests. Should be about " + moment().startOf('day').seconds((time_per_test * total_tests)).format('H:mm:ss') + "...")
+		var time_per_loop 		= 0.0098619099; //ms
+		var expected_time		= moment().startOf('day').millisecond(time_per_loop * total_loops).format('H:mm:ss')
 
-		// OLD WAY
-		// for (x=0; x < test_values.periods.length; x++) {
-		// 	for (q=0; q < test_values.offsets.length; q++) {
-		// 		for (y=0; y < test_values.low_values.length; y++) {
-		// 			for (z=0; z < test_values.high_values.length; z++) {		
-		// 				this.processDataSet(test_values.periods[x], test_values.offsets[q], test_values.low_values[y], test_values.high_values[z], price_data)
-		// 			}
-		// 		}
-		// 	}
-		// }
+		console.log(`Running ${numeral(total_tests).format('0.0a')} tests (${numeral(total_loops).format('0a')} loops). Should be about ${expected_time}.`)
 
 		for (x=0; x < test_values.period_offset_combos.length; x++) {
 			for (y=0; y < test_values.low_values.length; y++) {
@@ -109,8 +112,8 @@ module.exports = {
 			}
 		}
 
-		var execution_time = ((new Date() - start)/1000)
-		console.log('Took ' + moment().startOf('day').seconds(execution_time).format('H:mm:ss') + '. (about ' + (execution_time / total_tests).toFixed(2) + ' seconds each)')
+		var execution_time = ((new Date() - start))
+		console.log('Took ' + moment().startOf('day').millisecond(execution_time).format('H:mm:ss') + '. (about ' + (execution_time / total_loops).toFixed(10) + ' ms each)')
 
 		// console.log('timing metric a: ' + moment().startOf('day').seconds(this.section_a).format('H:mm:ss') + ' as percentage ' + ((this.section_a/execution_time)*100).toFixed(2) + '%');
 		// console.log('timing metric b: ' + moment().startOf('day').seconds(this.section_b).format('H:mm:ss') + ' as percentage ' + ((this.section_b/execution_time)*100).toFixed(2) + '%');
@@ -127,6 +130,8 @@ module.exports = {
 		this.average_chart_data = reporting.getAverageChartData()
 	},
 
+	
+
 
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
 
@@ -136,6 +141,15 @@ module.exports = {
 		this.print_basic_debug 	= true;
 		this.print_full_debug 	= true; //usually true
 		this.print_chart_data	= true;
+
+		// truncate data based on a start time
+		if (this.start_date) {
+			var start_date = this.start_date;
+			price_data = price_data.filter(function (item) {
+				return item.datetime > start_date;
+			})
+		}
+
 		this.printSummary(price_data);
 		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
 
@@ -245,15 +259,10 @@ module.exports = {
 		// calculate final profit now set has been process
 		var final_sell_price 	= price_data[(price_data.length - 1)].value_sell;
 		
-		// set final sell to 25%
+		// simulates crash to a set amount
 		if (this.simulate_crash) {
-			//final_sell_price *= 0.25;
-			final_sell_price *= 0.5;
-			// changed: now crashes to period average. the crash thing was misleading
-			//final_sell_price = tools.calculateAverage(data_to_be_tested)
+			final_sell_price *= this.crash_effect;
 		}
-
-		
 
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
 		//console.log('END', this.total_coins_owned, this.total_sold, this.total_spent)

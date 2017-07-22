@@ -13,22 +13,12 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-// Define a schema
-var Schema = mongoose.Schema;
+var publicClient
+var PriceRecordModels = require('../models/pricerecordmodel') 
 
-var PriceRecordSchema = new Schema({
-    datetime	: Date,
-    value_sell 	: Number,
-    value_buy 	: Number,
-    value_avg 	: Number
-});
-
-
-var publicClient;
-var PriceRecordModel;
 
 // num of days to get
-var days            = 90; //26; 
+var days            = 2;//90; //26; 
 var num_done        = 0;
 var all_my_prices   = []
 var granularity     = 600;   // granularity 300 = 5 mins. 600 = 10 mins
@@ -36,34 +26,35 @@ var delay           = 2000;
 
 
 
-//getMyData('PriceRecordModelBTC', 'BTC')
-getMyData('PriceRecordModelETH', 'ETH')
-//getMyData('PriceRecordModelLTC', 'LTC')
+
+//getMyData(BTC')
+getMyData('ETH')
+//getMyData('LTC')
 
 
-function getMyData(modelName, currency) {
 
-    publicClient        = new Gdax.PublicClient(currency+'-USD');
-	PriceRecordModel    = mongoose.model(modelName, PriceRecordSchema);
 
+function getMyData(currency) {
+
+    publicClient = new Gdax.PublicClient(currency+'-USD');
+    
     // FOR EACH DAY 
     for (i=days; i>0; i--) {
-       setTimeout(createHandler(i), ((days - i) * delay));   
+       setTimeout(createHandler(i, currency), ((days - i) * delay));   
     }
 }
 
 // i not visible inside setTimeout
-function createHandler(i) {
+function createHandler(i, currency) {
     return function() { 
-        getRates(i);
+        getRates(i, currency);
     };
 }
 
 
-function getRates(i) {
+function getRates(i, currency) {
 
     //console.log(`running get rates on ${i}`);
-
     // 144 a day
 
     var start   = moment().subtract(i, 'days');
@@ -73,11 +64,6 @@ function getRates(i) {
         'granularity'  : granularity,             
         start          : start.toISOString(),
         end            : end.toISOString()
-    }
-
-    // *** FOR FIRST DAY ONLY - TO MATCH EXISTING DATA ***
-    if (i===days) {
-        vars.start = '2017-06-25T20:55:38.463Z' 
     }
 
     // HIT API AND PUSH DATA
@@ -101,13 +87,13 @@ function getRates(i) {
         num_done++;       
         
         if (num_done === days) {
-            wrapThingsUp(all_my_prices)
+            wrapThingsUp(all_my_prices, currency)
         }
     });
 
 }
 
-function wrapThingsUp(all_my_prices) {
+function wrapThingsUp(all_my_prices, currency) {
 
     var my_objs = []
 
@@ -127,7 +113,10 @@ function wrapThingsUp(all_my_prices) {
         })
     });
 
-    PriceRecordModel.create(my_objs, function(err) {
+   
+
+
+    PriceRecordModels[currency].create(my_objs, function(err) {
         if (err) {
             return handleError(err);
         }

@@ -70,7 +70,6 @@ function getMyData(modelName, currency) {
 			pr.save(function (err) {
 				if (err) return handleError(err);
 					console.log('saved ' + currency);
-					//process.exit()
 			})
 		});
 
