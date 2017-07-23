@@ -26,4 +26,5 @@
   * **avg top 5**
   * avg top 10
   * avg top 20
-  * overall peak data (doesnt do as well...)
+  * overall peak data (doesn't do as well...)
+

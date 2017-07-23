@@ -201,23 +201,24 @@ module.exports  = {
 	},
 
 
-	printAverages: function(table_averages, global_averages, tools) {
+	printAverages: function(table_averages, tools) {
 
 		// print table averages
 		this.debug('<strong>average value of table:</strong><br />')
-		for (x in table_averages) {
-			var this_avg = tools.getArrayAverage(table_averages[x]).toFixed(0)
-			this.debug(x + ': ' + this_avg + '<br />')
-			this.updateAverageChartData(x, this_avg)
+		for (item in table_averages) {
+			var this_avg = tools.getArrayAverage(table_averages[item]).toFixed(0)
+			this.debug(item + ': ' + this_avg + '<br />')
+			this.updateAverageChartData(item, this_avg)
 		}
 
-		// print global averages
-		this.debug('<br /><strong>global averages:</strong><br />')
-		for (x in global_averages) {
-			var this_avg = tools.getArrayAverage(global_averages[x]).toFixed(0)
-			this.debug(x + ': ' + this_avg + '<br />')
-			this.updateAverageChartData(x, this_avg)
-		}
+
+		// // print global averages
+		// this.debug('<br /><strong>global averages:</strong><br />')
+		// for (x in global_averages) {
+		// 	var this_avg = tools.getArrayAverage(global_averages[x]).toFixed(0)
+		// 	this.debug(x + ': ' + this_avg + '<br />')
+		// 	this.updateAverageChartData(x, this_avg)
+		// }
 
 	},
 		

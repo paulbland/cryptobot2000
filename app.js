@@ -34,6 +34,11 @@ app.get('/', basicAuth, function(req, res) {
 // run the simulation many time - with all combinations of parameters
 app.get('/run-simulation', basicAuth, function(req, res) {	
 
+	// const v8 = require('v8'); 
+	// console.log(v8.getHeapSpaceStatistics())
+	// console.log(v8.getHeapStatistics())
+	// process.exit();
+
     if (typeof req.query.currency === 'undefined') {
         res.send('No currency vars present.')
 	} else if (req.query.currency !== 'BTC' && req.query.currency !== 'ETH' && req.query.currency !== 'LTC') {

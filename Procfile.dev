@@ -1,5 +1,5 @@
 # WEB
-web: nodemon app.js
+web: nodemon --max_old_space_size=4096 app.js
 
 # BOTS
 live: node ./bots/live.js

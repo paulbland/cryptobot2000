@@ -46,9 +46,10 @@ module.exports = {
 	crash_effect 			: 0,			// 0, 0.25, 0.5...
 	reinvest_profit 		: false,
 
-	//start_date			: new Date('2017-06-25T20:55:38.626Z'),		// MATCH GDAX DATA TO COINBASE DATA
+	//start_date			: new Date('2017-06-25T20:55:38.626Z'),		// MATCH GDAX DATA TO COINBASE DATA (Started June 26)
 	//start_date			: new Date('2017-06-12T00:00:00.000Z'),		// RECENT PEAK
-	start_date				: new Date('2017-01-01T00:00:00.000Z'),		// BEGINNING OF TIME
+	//start_date			: new Date('2017-01-01T00:00:00.000Z'),		// BEGINNING OF TIME (I currently just have 90 days)
+	start_date				: moment().subtract(30, 'days'),  			// LAST 30 DAYS
 
 	timing_section_a : 0,
 	timing_section_b : 0,
@@ -70,7 +71,7 @@ module.exports = {
 
 		this.table_data 		= {};
 		this.table_averages 	= {};
-		this.global_averages 	= {};
+		//this.global_averages 	= {};
 		this.print_basic_debug 	= false; 
 		this.print_full_debug 	= false; 
 		this.print_table_data 	= true;	
@@ -100,7 +101,7 @@ module.exports = {
 		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
 		var total_loops			= (total_tests *  price_data.length)
 		var start 				= new Date();
-		var time_per_loop 		= 0.0020432978; //ms
+		var time_per_loop 		= 0.0016874719; //ms
 		var expected_time		= moment().startOf('day').millisecond(time_per_loop * total_loops).format('H:mm:ss')
 
 		console.log(`Running ${numeral(total_tests).format('0.0a')} tests (${numeral(total_loops).format('0a')} loops). Should be about ${expected_time}.`)
@@ -124,7 +125,7 @@ module.exports = {
 		// console.log('timing metric e: ' + moment().startOf('day').seconds(tools.timing_section_e).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_e/execution_time)*100).toFixed(2) + '%');
 						
 		// print all averages, max results and average of max results
-		reporting.printAverages(this.table_averages, this.global_averages, tools);
+		reporting.printAverages(this.table_averages, tools);
 		reporting.printMaxResults(this.all_results);
 
 		this.browser_output 	= reporting.getFinalOutput()
@@ -196,8 +197,10 @@ module.exports = {
 		var total_iterations 		= (price_data.length - values_per_period - values_in_offset)
 
 		// NEW - ADD VALUES BEFORE LOOP TO FINAL GRAPH
-		for (i=0; i<=(values_per_period + values_in_offset); i++) {
-			reporting.updateChartData(price_data[i].datetime, price_data[i].value_buy, "", price_data[i].value_sell, "", 0);
+		if (this.print_chart_data) {
+			for (i=0; i<=(values_per_period + values_in_offset); i++) {
+				reporting.updateChartData(price_data[i].datetime, price_data[i].value_buy, "", price_data[i].value_sell, "", 0);
+			}
 		}
 
 		//var start_a = new Date();
@@ -292,7 +295,7 @@ module.exports = {
 
 		if (this.print_table_data) {
 			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage);
-			this.compileGlobalAverages(hrs_in_period, offset, low_threshold, high_threshold, final_profit)
+			//this.compileGlobalAverages(hrs_in_period, offset, low_threshold, high_threshold, final_profit)
 		}
 	}, 
 
@@ -382,21 +385,27 @@ module.exports = {
 
 
 
-	compileTableData: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage) {
-		//console.log('running with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
+	compileTableData: function(period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage) {
+		//console.log('running with', period, offset, low_threshold, high_threshold, final_profit)
 
 
-		//var array_key 	= 'period_' + hrs_in_period + '_offset_' + offset;
-		var array_key 	= 'period-offset_' + hrs_in_period + '-' + offset;
-		var row_key 	= 'row_' + high_threshold;
-		var cell_link 	= '/run-simulation-single?hrs_in_period='+hrs_in_period+'&offset='+offset+'&low_threshold='+low_threshold+'&high_threshold='+high_threshold+'&currency='+this.currency;
+		var array_key 	= `period-offset_${period}-${offset}`;
+		var row_key 	= `row_${high_threshold}`;
+		var cell_link 	= `
+			/run-simulation-single
+			?hrs_in_period=${period}
+			&offset=${offset}
+			&low_threshold=${low_threshold}
+			&high_threshold=${high_threshold}
+			&currency=${this.currency}
+		`;
 
 		if (typeof this.table_data[array_key] === 'undefined') {
 			this.table_data[array_key] = {
 				header_row 	: ['<th>↓high\\low→</th>']
 			}
 			this.table_averages[array_key] = [];
-			this.table_averages['sum_' + (hrs_in_period + offset)] = [];
+			this.table_averages['sum_' + (period + offset)] = [];
 		}
 
 		// adds for every loop. this prevents that. not elegant...
@@ -417,12 +426,11 @@ module.exports = {
 		// 256 is obviously max rgba num
 		// then set colors weighted to the total value
 		var max 		= 2000;
-		var min  		= -100;
-		var rgb_color 	= 0
-		var cell_color 	= ''
+		var min  		= -2000;
+		var rgb_color 	= 0;
+		var cell_color 	= '';
 		var cell_str 	= '';
 		var max_rgb_value = 128; // half 256
-
 
 		if (final_profit > 0) {
 
@@ -440,21 +448,33 @@ module.exports = {
 			cell_color = '#ccc';
 		}
 
-		cell_str += '\
-			<td style="background-color:' + cell_color + '">\
-				<a href="' + cell_link + '" target="_blank">$' + final_profit.toFixed(2) + '</a><br />\
-				<span>($' + this.max_value_ever_owned.toFixed(2) + '\/'+profit_percentage + '%)</span>\
-			</td>\
-		';
-
-		// used to show a ratio. now shows % earnt
-		//<span>($'+this.max_value_ever_owned.toFixed(2)+'\/'+invest_profit_ratio+')</span>\
+		cell_str += `
+			<td style="background-color:${cell_color}">
+				<a href="${cell_link}" target="_blank">$${final_profit.toFixed(2)}</a><br />
+				<span>($${this.max_value_ever_owned.toFixed(2)}\/${profit_percentage}%)</span>
+			</td>
+		`;
 
 		this.table_data[array_key][row_key].push(cell_str)
 
 		// create array of final profity values (print average later)
 		this.table_averages[array_key].push(final_profit)
-		this.table_averages['sum_' + (hrs_in_period + offset)].push(final_profit)
+		this.table_averages['sum_' + (period + offset)].push(final_profit)
+
+
+		// compile averages for low and high
+		var high_key 	= 'high_' + high_threshold;
+		var low_key 	= 'low_' + low_threshold;
+
+		if (typeof this.table_averages[high_key] === 'undefined') {
+			this.table_averages[high_key] = []
+		}
+		if (typeof this.table_averages[low_key] === 'undefined') {
+			this.table_averages[low_key] = []
+		}
+		
+		this.table_averages[high_key].push(final_profit)
+		this.table_averages[low_key].push(final_profit)
 	
 		// this.table_data['x_y'] = {
 		// 		"header_row" : ['', 0.05, 0.4, 0.7],
@@ -468,34 +488,21 @@ module.exports = {
 
 
 	
-	compileGlobalAverages: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit) {
-		//console.log('running compileGlobalAverages with', hrs_in_period, offset, low_threshold, high_threshold, final_profit)
+	// compileGlobalAverages: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit) {
 
-		// note - commenting out period and offset as they are now both judged only together
+	// 	var high_key 	= 'high_' + high_threshold;
+	// 	var low_key 	= 'low_' + low_threshold;
 
-		//var period_key 	= 'period_' + hrs_in_period;
-		//var offset_key	= 'offset_' + offset;
-		var high_key 	= 'high_' + high_threshold;
-		var low_key 	= 'low_' + low_threshold;
+	// 	if (typeof this.global_averages[high_key] === 'undefined') {
+	// 		this.global_averages[high_key] = []
+	// 	}
+	// 	if (typeof this.global_averages[low_key] === 'undefined') {
+	// 		this.global_averages[low_key] = []
+	// 	}
 
-		// if (typeof this.global_averages[period_key] === 'undefined') {
-		// 	this.global_averages[period_key] = []
-		// }
-		// if (typeof this.global_averages[offset_key] === 'undefined') {
-		// 	this.global_averages[offset_key] = []
-		// }
-		if (typeof this.global_averages[high_key] === 'undefined') {
-			this.global_averages[high_key] = []
-		}
-		if (typeof this.global_averages[low_key] === 'undefined') {
-			this.global_averages[low_key] = []
-		}
-
-		//this.global_averages[period_key].push(final_profit)
-		//this.global_averages[offset_key].push(final_profit)
-		this.global_averages[high_key].push(final_profit)
-		this.global_averages[low_key].push(final_profit)
-	},
+	// 	this.global_averages[high_key].push(final_profit)
+	// 	this.global_averages[low_key].push(final_profit)
+	// },
 
 	
 
