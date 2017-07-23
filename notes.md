@@ -5,15 +5,13 @@
   * coinbase
   * **gdax**
 
-  = shoudl use gdax, but what can i learn from different buy/sell prices?
-  = what if i use gdax and amek acutaly prucase price slightly higher/lower?
+  = should use gdax, but what can i learn from different buy/sell prices?
+  = what if i use gdax and make actual purchase price slightly higher/lower?
 
 # 2 period:
-  * last 30 days
+  * **last 30 days**
   * since peak (40 days)
-  * **since movement (90 days)**
-
-  = really thinking abotut just always looking at last 30 days
+  * since movement (90 days)
 
 # 3 crash:
   * **with crash**

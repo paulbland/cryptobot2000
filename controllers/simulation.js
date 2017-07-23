@@ -457,7 +457,7 @@ module.exports = {
 
 		this.table_data[array_key][row_key].push(cell_str)
 
-		// create array of final profity values (print average later)
+		// create array of final profit values (print average later)
 		this.table_averages[array_key].push(final_profit)
 		this.table_averages['sum_' + (period + offset)].push(final_profit)
 

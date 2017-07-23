@@ -15,15 +15,19 @@ module.exports = {
 	// high_values 			: genValues(0.170, 0.220, 0.005, 3), 
 	// period_offset_combos	: genCombos(15, 21, 0.5, 1),
 
-	// GDAX / CRASH (30 days)
-	// low_values 				: genValues(0.140, 0.210, 0.005, 3),
+	// GDAX / CRASH
+	// low_values 			: genValues(0.140, 0.210, 0.005, 3),
 	// high_values 			: genValues(0.100, 0.210, 0.005, 3), 
-	// period_offset_combos	: genCombos(18, 23, 0.5, 1)
+	// period_offset_combos	: genCombos(18, 23, 0.5, 1),
 
+	// EVERYTHING FROM 4 ABOVE!! (18 mins) 
+	// Running 156.2k tests (673m loops). Should be about 0:18:55.
+	low_values 				: genValues(0.125, 0.210, 0.005, 3),
+	high_values 			: genValues(0.100, 0.220, 0.005, 3), 
+	period_offset_combos	: genCombos(15, 24, 0.5, 1)
 
-	low_values 				: genValues(0.140, 0.210, 0.005, 3),
-	high_values 			: genValues(0.100, 0.100, 0.005, 3), 
-	period_offset_combos	: genCombos(18, 18, 0.5, 1)
+	// then maybe -- everything that gets in to top ten?? for all 4 of them (reduced set.. just to see)
+
 }	
 
 function genValues(min, max, inc, prec) {

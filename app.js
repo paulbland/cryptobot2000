@@ -34,11 +34,6 @@ app.get('/', basicAuth, function(req, res) {
 // run the simulation many time - with all combinations of parameters
 app.get('/run-simulation', basicAuth, function(req, res) {	
 
-	// const v8 = require('v8'); 
-	// console.log(v8.getHeapSpaceStatistics())
-	// console.log(v8.getHeapStatistics())
-	// process.exit();
-
     if (typeof req.query.currency === 'undefined') {
         res.send('No currency vars present.')
 	} else if (req.query.currency !== 'BTC' && req.query.currency !== 'ETH' && req.query.currency !== 'LTC') {
@@ -50,10 +45,7 @@ app.get('/run-simulation', basicAuth, function(req, res) {
             res.json(error);
         }
         else {
-			if (req.query.reverse === 'true') {
-				price_data = price_data.reverse()
-			}
-
+			
 			simulation.runFullSimulation(price_data, req.query.currency);
 
 			res.render('result', {
@@ -82,11 +74,6 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
             res.json(error);
         }
         else {
-
-			// need to add this to cell link before it works...! and the data isnt there....
-			// if (req.query.reverse === 'true') {
-			// 	price_data = price_data.reverse()
-			// }
 
             simulation.runSingleSimulation(parseFloat(req.query.hrs_in_period), parseFloat(req.query.offset), 
                 	parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data);  
