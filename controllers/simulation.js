@@ -49,7 +49,7 @@ module.exports = {
 	//start_date			: new Date('2017-06-25T20:55:38.626Z'),		// MATCH GDAX DATA TO COINBASE DATA (Started June 26)
 	//start_date			: new Date('2017-06-12T00:00:00.000Z'),		// RECENT PEAK
 	//start_date			: new Date('2017-01-01T00:00:00.000Z'),		// BEGINNING OF TIME (I currently just have 90 days)
-	start_date				: moment().subtract(30, 'days'),  			// LAST 30 DAYS
+	start_date				: moment().subtract(15, 'days'),  			// LAST x DAYS
 
 	timing_section_a : 0,
 	timing_section_b : 0,

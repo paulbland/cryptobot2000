@@ -1,32 +1,14 @@
 module.exports = {
 	
-	// COINBASE
-	// low_values 			: genValues(0.125, 0.160, 0.005, 3),
-	// high_values 			: genValues(0.160, 0.210, 0.005, 3),
-	// period_offset_combos : genCombos(16, 21.5, 0.5, 1),
-
-	// COINBASE / CRASH 
-	// low_values 			: genValues(0.140, 0.200, 0.005, 3),
-	// high_values 			: genValues(0.140, 0.200, 0.005, 3),
-	// period_offset_combos : genCombos(16, 24, 0.5, 1),
-	
-	// GDAX
-	// low_values 			: genValues(0.135, 0.170, 0.005, 3),
-	// high_values 			: genValues(0.170, 0.220, 0.005, 3), 
-	// period_offset_combos	: genCombos(15, 21, 0.5, 1),
-
-	// GDAX / CRASH
-	// low_values 			: genValues(0.140, 0.210, 0.005, 3),
-	// high_values 			: genValues(0.100, 0.210, 0.005, 3), 
-	// period_offset_combos	: genCombos(18, 23, 0.5, 1),
-
-	// EVERYTHING FROM 4 ABOVE!! (18 mins) 
-	// Running 156.2k tests (673m loops). Should be about 0:18:55.
+	// WIDE (~16 mins for 30 days)
 	low_values 				: genValues(0.125, 0.210, 0.005, 3),
 	high_values 			: genValues(0.100, 0.220, 0.005, 3), 
-	period_offset_combos	: genCombos(15, 24, 0.5, 1)
+	period_offset_combos	: genCombos(15, 24, 0.5, 1),
 
-	// then maybe -- everything that gets in to top ten?? for all 4 of them (reduced set.. just to see)
+	// EVERYTHING FROM TOP 20s (FROM ABOVE) ONLY + 1 unit (0.5 or 0.005)
+	low_values 				: genValues(0.130, 0.165, 0.005, 3),
+	high_values 			: genValues(0.160, 0.225, 0.005, 3), 
+	period_offset_combos	: genCombos(16.5, 19, 0.5, 1)
 
 }	
 
