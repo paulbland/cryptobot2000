@@ -100,7 +100,7 @@ module.exports = {
 		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
 		var total_loops			= (total_tests *  price_data.length)
 		var start 				= new Date();
-		var time_per_loop 		= 0.0114856106; //ms
+		var time_per_loop 		= 0.0020432978; //ms
 		var expected_time		= moment().startOf('day').millisecond(time_per_loop * total_loops).format('H:mm:ss')
 
 		console.log(`Running ${numeral(total_tests).format('0.0a')} tests (${numeral(total_loops).format('0a')} loops). Should be about ${expected_time}.`)
@@ -117,11 +117,11 @@ module.exports = {
 		var execution_time = ((new Date() - start))
 		console.log('Took ' + moment().startOf('day').millisecond(execution_time).format('H:mm:ss') + '. (about ' + (execution_time / total_loops).toFixed(10) + ' ms each)')
 
-		console.log('timing metric a: ' + moment().startOf('day').seconds(this.timing_section_a).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_a/execution_time)*100).toFixed(2) + '%');
-		console.log('timing metric b: ' + moment().startOf('day').seconds(this.timing_section_b).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_b/execution_time)*100).toFixed(2) + '%');
-		console.log('timing metric c: ' + moment().startOf('day').seconds(tools.timing_section_c).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_c/execution_time)*100).toFixed(2) + '%');
-		console.log('timing metric d: ' + moment().startOf('day').seconds(tools.timing_section_d).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_d/execution_time)*100).toFixed(2) + '%');
-		console.log('timing metric e: ' + moment().startOf('day').seconds(tools.timing_section_e).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_e/execution_time)*100).toFixed(2) + '%');
+		// console.log('timing metric a: ' + moment().startOf('day').seconds(this.timing_section_a).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_a/execution_time)*100).toFixed(2) + '%');
+		// console.log('timing metric b: ' + moment().startOf('day').seconds(this.timing_section_b).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_b/execution_time)*100).toFixed(2) + '%');
+		// console.log('timing metric c: ' + moment().startOf('day').seconds(tools.timing_section_c).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_c/execution_time)*100).toFixed(2) + '%');
+		// console.log('timing metric d: ' + moment().startOf('day').seconds(tools.timing_section_d).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_d/execution_time)*100).toFixed(2) + '%');
+		// console.log('timing metric e: ' + moment().startOf('day').seconds(tools.timing_section_e).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_e/execution_time)*100).toFixed(2) + '%');
 						
 		// print all averages, max results and average of max results
 		reporting.printAverages(this.table_averages, this.global_averages, tools);
@@ -200,7 +200,7 @@ module.exports = {
 			reporting.updateChartData(price_data[i].datetime, price_data[i].value_buy, "", price_data[i].value_sell, "", 0);
 		}
 
-		var start_a = new Date();
+		//var start_a = new Date();
 
 		tools.sum = 0;
 		tools.sum_last = 0;
@@ -225,13 +225,13 @@ module.exports = {
 				reporting.debug('latest sell price: $' + latest_sell_price.toFixed(2) + '<br>');
 			} 
 
-			var start_b = new Date();
+			//var start_b = new Date();
 
 			// run the decide algorithm on just this part
 			var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, 
 					this.buy_sell_method, this.print_full_debug)
 
-			this.timing_section_b += ((new Date() - start_b))
+			//this.timing_section_b += ((new Date() - start_b))
 
 			if (sell_or_buy === 'sell') {
 				this.sellCoinSim(latest_sell_price, high_threshold)
@@ -258,7 +258,7 @@ module.exports = {
 			}
 		}
 
-		this.timing_section_a += ((new Date() - start_a))
+		//this.timing_section_a += ((new Date() - start_a))
 
 
 		// calculate final profit now set has been process

@@ -4,7 +4,7 @@
  * might have to run again after i fix bot.js
  */
 
-var mongoose 	= require('mongoose');
+var mongoose = require('mongoose');
 
 // DATABASE
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});

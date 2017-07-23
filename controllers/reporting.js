@@ -194,8 +194,8 @@ module.exports  = {
 				<th>${avgs.period + avgs.offset}</th>
 				<th>${avgs.low}</th>
 				<th>${avgs.high}</th>
-				<th><a href="${avg_link}" target="_blank">link →</a></th>
 				<th></th>
+				<th><a href="${avg_link}" target="_blank">link →</a></th>
 			</tr>
 		`);
 	},

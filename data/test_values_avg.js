@@ -15,11 +15,11 @@ module.exports = {
 	// high_values 			: genValues(0.170, 0.220, 0.005, 3), 
 	// period_offset_combos	: genCombos(15, 21, 0.5, 1),
 
-	// GDAX / CRASH 
-	low_values 				: genValues(0.135, 0.230, 0.01, 3),	//* changed was 0.005
-	high_values 			: genValues(0.100, 0.150, 0.01, 3),  //* changed was 0.005
-	period_offset_combos	: genCombos(16, 21, 0.5, 1),
-}
+	// GDAX / CRASH / 90 DAYS
+	low_values 				: genValues(0.130, 0.230, 0.010, 3),	//*** changed inc was 0.005
+	high_values 			: genValues(0.160, 0.220, 0.010, 3),  	//*** changed inc was 0.005
+	period_offset_combos	: genCombos(14, 24, 1, 1)				//*** changed inc was 0.5 
+}	
 
 function genValues(min, max, inc, prec) {
 	var arr = []

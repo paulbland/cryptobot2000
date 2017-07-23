@@ -6,22 +6,24 @@ module.exports  = {
 	timing_section_c : 0,
 	timing_section_d : 0,
 	timing_section_e : 0,
+	
+	calculateAverage: function(data_to_be_tested) { 
+		var sum = 0;
+		var len = data_to_be_tested.length
+		for (var j=0; j < len; j++) {
+			sum += data_to_be_tested[j].value_avg;
+		}
+		return (sum/len);
+
+	},
+
 
 	sum_last : 0,
 	sum : 0,
-
-	calculateAverage: function(data_to_be_tested) { 
+	calculateAverageNew: function(data_to_be_tested) { 
 		
-		
-		// OLD WAY - SLOWER
-		// var sum = 0;
-		// var len = data_to_be_tested.length
-		// for (var j=0; j < len; j++) {
-		// 	sum += data_to_be_tested[j].value_avg;
-		// }
-		// return (sum/len);
-		
-		//NEW WAY - FASTER
+		// NEW WAY - FASTER
+		// BUT CAN ONLY BE USED IN CINTEXT OF SIM LOOP
 		var len = data_to_be_tested.length
 
 		if (this.sum === 0) {
@@ -85,14 +87,14 @@ module.exports  = {
 
 		if (buy_sell_method === 'avg') {
 			
-			var start_c = new Date();
-			var avg_for_period 				= this.calculateAverage(data_to_be_tested)						// get avg for period
-			this.timing_section_c += ((new Date() - start_c))
+			//var start_c = new Date();
+			var avg_for_period 				= this.calculateAverageNew(data_to_be_tested)						// get avg for period
+			//this.timing_section_c += ((new Date() - start_c))
 
-			var start_d = new Date();
+			//var start_d = new Date();
 			var avg_plus_high_threshold 	= this.calculateAvgPlusHighThreshold(avg_for_period, high_threshold);
 			var avg_minus_low_threshold 	= this.calculateAvgMinusLowThreshold(avg_for_period, low_threshold)
-			this.timing_section_d += ((new Date() - start_d))
+			//this.timing_section_d += ((new Date() - start_d))
 
 			var sell 	= (latest_sell_price > avg_plus_high_threshold) ? true : false;
 			var buy 	= (latest_buy_price < avg_minus_low_threshold) ? true : false;
