@@ -11,18 +11,17 @@ var reporting 	= require('../controllers/reporting')
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 
-// get latest live data from dd
+// get models
 var liveDataModelETH 		= require('../models/livedatamodeleth')
+var priceRecordModels 		= require('../models/pricerecordmodel')
 
 // prep new item to be appended to live data recrod
 var newLiveData 			= liveDataModelETH();
-var priceRecordModels 		= require('../models/pricerecordmodel')
-
-var really_buy_and_sell 	= false; // THIS IS IT!
-var initial_investment 		= 2000;
-
 
 module.exports = {
+
+	really_buy_and_sell : false, // THIS IS IT!
+	initial_investment  : 2000,
 
 	run: function() {
 		this.step1();
@@ -66,7 +65,7 @@ module.exports = {
 							total_spent             : 0,
 							current_value_of_coins_owned : 0,
 							current_position        : 0,
-							money_in_bank 	        : initial_investment
+							money_in_bank 	        : self.initial_investment
 						},
 						latest_sell_price      	 	: 0, 
 						latest_buy_price        	: 0,
@@ -96,7 +95,7 @@ module.exports = {
 		var sell_all			= true; 
 		var buy_sell_percentage	= 7.5;
 		var reinvest_profit     = false;
-		var buy_sell_unit		= (initial_investment * (buy_sell_percentage / 100)); // calculate
+		var buy_sell_unit		= (this.initial_investment * (buy_sell_percentage / 100)); // calculate
 		//var buy_sell_unit		= (lastLiveData.totals.money_in_bank * (buy_sell_percentage / 100)); // calculate
 
 		var values_per_period 	= tools.calculateValuesForGivenPeriod(period, interval_in_minutes)			
@@ -214,7 +213,7 @@ module.exports = {
 		}
 
 
-		if (really_buy_and_sell) {
+		if (this.really_buy_and_sell) {
 			var self = this;
 
 			// connect to coinbase and get my ETH account
@@ -267,7 +266,7 @@ module.exports = {
 
 
 
-		if (really_buy_and_sell) {
+		if (this.really_buy_and_sell) {
 			var self = this;
 
 			// connect to coinbase and get my ETH account
