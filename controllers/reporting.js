@@ -65,7 +65,7 @@ module.exports  = {
 	
 	printMaxResultTable: function(all_results, days) {
 
-		this.debug('<br /><strong>max 10 results and averages:</strong><br />')
+		this.debug(`<br /><strong>max 10 results and averages:</strong><br />`)
 
 		all_results.sort(function(a, b) {
     		return parseFloat(b.value) - parseFloat(a.value);
@@ -96,7 +96,7 @@ module.exports  = {
 					<th>high</th>
 					<th>value</th>
 					<th>profit</th>
-			</tr>
+				</tr>
 		`)
 		
 		for (i=0; i<limit; i++) {
@@ -131,11 +131,11 @@ module.exports  = {
 			sums.high	+= all_results[i].high;
 
 			if ((i+1)===5 || (i+1)===10 || (i+1)===20) {
-				this.addAverages(sums, (i+1))
+				this.addAverages(sums, (i+1));
 			}
 		}
 
-		this.debug(`</table>`)
+		this.debug(`</table>`);
 	},
 
 
