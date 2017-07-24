@@ -63,19 +63,6 @@ module.exports  = {
 		this.summary_output += 'percentage earnt: ' + profit_percentage + '%<br /><br />';
 	},
 	
-	updateAverageChartData: function(key, value) {
-		// array as text
-		var this_key = key.substr(0, key.indexOf('_'));
-		var this_val = key.substr((key.indexOf('_') + 1));
-
-		if (typeof this.average_chart_data[this_key] === 'undefined') {
-			this.average_chart_data[this_key] = '';
-		}
-
-		this.average_chart_data[this_key] += '["' +  this_val + '",' + value + '],';
-	},
-
-
 	printMaxResultTable: function(all_results, days) {
 
 		this.debug('<br /><strong>max 10 results and averages:</strong><br />')
@@ -188,26 +175,28 @@ module.exports  = {
 		`);
 	},
 
-
-	printAverages: function(table_averages, tools) {
-
-		// print table averages
+	// print the raw average data to the screen
+	printAveragesList: function(table_averages, tools) {
 		this.debug('<strong>average value of table:</strong><br />')
 		for (item in table_averages) {
 			var this_avg = tools.getArrayAverage(table_averages[item]).toFixed(0)
 			this.debug(item + ': ' + this_avg + '<br />')
-			this.updateAverageChartData(item, this_avg)
 		}
+	},
 
+	// put average data in array format for printing charts
+	compileAverageChartData: function(table_averages, tools) {
+		for (item in table_averages) {
 
-		// // print global averages
-		// this.debug('<br /><strong>global averages:</strong><br />')
-		// for (x in global_averages) {
-		// 	var this_avg = tools.getArrayAverage(global_averages[x]).toFixed(0)
-		// 	this.debug(x + ': ' + this_avg + '<br />')
-		// 	this.updateAverageChartData(x, this_avg)
-		// }
+			var this_avg = tools.getArrayAverage(table_averages[item]).toFixed(0)			
+			var this_key = item.substr(0, item.indexOf('_'));
+			var this_val = item.substr((item.indexOf('_') + 1));
 
+			if (typeof this.average_chart_data[this_key] === 'undefined') {
+				this.average_chart_data[this_key] = '';
+			}
+			this.average_chart_data[this_key] += '["' +  this_val + '",' + this_avg + '],';
+		}
 	},
 		
 	roundToPoint5: function(num) {

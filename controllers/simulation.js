@@ -33,8 +33,9 @@ module.exports = {
 	print_full_debug		: null,
 	print_basic_debug 		: null,
 	print_chart_data		: false,
-	print_table_data		: false,	
-	print_average_data		: false,	
+	print_table_data		: false,		// full list of tables
+	print_average_data		: false,		// list and 4 charts - default not showing
+	print_average_lists		: false,
 
 	// algorthim differences that arent looped
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
@@ -72,14 +73,15 @@ module.exports = {
 	runFullSimulation: function(price_data, currency, days) {
 		reporting.resetOutput(); 
 
-		this.table_data 		= {};
-		this.table_averages 	= {};
-		this.print_basic_debug 	= false; 
-		this.print_full_debug 	= false; 
-		this.print_table_data 	= false;  	// usually true - hiding all data tables
-		this.print_average_data = true;		// lists and 4 average charts
-		this.currency 			= currency;
-		this.days 				= days;		// save here so i can pass to sim single
+		this.table_data 			= {};
+		this.table_averages 		= {};
+		this.print_basic_debug 		= false; 
+		this.print_full_debug 		= false; 
+		this.print_table_data 		= false;  	// usually true - hiding all data tables
+		this.print_average_data 	= true;		// lists and 4 average charts
+		this.print_average_lists	= false; 	// usually true. just hising for now
+		this.currency 				= currency;
+		this.days 					= days;		// save here so i can pass to sim single
 
 		this.start_date = moment().subtract(days, 'days')	// Set start date from days param
 		price_data = this.setStartEndDates(price_data);		// trucate price data based on start date
@@ -123,11 +125,14 @@ module.exports = {
 		this.printSummary(price_data); 
 
 		// all averages, max results and average of max results
-		reporting.printAverages(this.table_averages, tools);
+		if (this.print_average_lists) {
+			reporting.printAveragesList(this.table_averages, tools);
+		}
+
+		reporting.compileAverageChartData(this.table_averages, tools);
 		reporting.printMaxResultTable(this.all_results, this.days);
 
 		this.browser_output 	= reporting.getFinalOutput()
-		//this.chart_data 		= reporting.getFinalChartData()
 		this.average_chart_data = reporting.getAverageChartData()
 	},
 
@@ -416,13 +421,7 @@ module.exports = {
 			this.table_data[array_key][row_key] = ['<th>'+high_threshold+'</th>']
 		}
 
-		// set color value from 0-255 based on value of final profit (from 0-500)
-
-		// ok heres the fun part
-		// convert final_product to 0->255
-		// i dont have max value yet os lets just copy it in
-		// 256 is obviously max rgba num
-		// then set colors weighted to the total value
+		// set color value from 0-255 based on value of final profit
 		var max 		= 2000;
 		var min  		= -2000;
 		var rgb_color 	= 0;
@@ -490,7 +489,6 @@ module.exports = {
 		
 		this.table_averages[high_key].push(final_profit)
 		this.table_averages[low_key].push(final_profit)
-	
 
 	},
 
