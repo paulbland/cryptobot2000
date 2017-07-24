@@ -34,6 +34,7 @@ module.exports = {
 	print_basic_debug 		: null,
 	print_chart_data		: false,
 	print_table_data		: false,	
+	print_average_data		: false,	
 
 	// algorthim differences that arent looped
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
@@ -75,7 +76,8 @@ module.exports = {
 		this.table_averages 	= {};
 		this.print_basic_debug 	= false; 
 		this.print_full_debug 	= false; 
-		this.print_table_data 	= true;	
+		this.print_table_data 	= false;  	// usually true - hiding all data tables
+		this.print_average_data = true;		// lists and 4 average charts
 		this.currency 			= currency;
 		this.days 				= days;		// save here so i can pass to sim single
 
@@ -262,7 +264,6 @@ module.exports = {
 
 		//this.timing_section_a += ((new Date() - start_a))
 
-
 		// calculate final profit now set has been process
 		var final_sell_price 	= price_data[(price_data.length - 1)].value_sell;
 		
@@ -292,6 +293,10 @@ module.exports = {
 
 		if (this.print_table_data) {
 			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage);
+		}
+		
+		if (this.print_average_data) {
+			this.compileAverageData(hrs_in_period, offset, low_threshold, high_threshold, final_profit);
 		}
 	}, 
 
@@ -382,8 +387,6 @@ module.exports = {
 
 
 	compileTableData: function(period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage) {
-		//console.log('running with', period, offset, low_threshold, high_threshold, final_profit)
-
 
 		var array_key 	= `period-offset_${period}-${offset}`;
 		var row_key 	= `row_${high_threshold}`;
@@ -401,8 +404,6 @@ module.exports = {
 			this.table_data[array_key] = {
 				header_row 	: ['<th>↓high\\low→</th>']
 			}
-			this.table_averages[array_key] = [];
-			this.table_averages['sum_' + (period + offset)] = [];
 		}
 
 		// adds for every loop. this prevents that. not elegant...
@@ -454,10 +455,27 @@ module.exports = {
 
 		this.table_data[array_key][row_key].push(cell_str)
 
+		// table format for reference
+		// this.table_data['x_y'] = {
+		// 		"header_row" : ['', 0.05, 0.4, 0.7],
+		// 		"row_0.05" : [34,234,454]
+		//		"row_0.06" : [34,234,454]
+	},
+
+
+
+	compileAverageData: function(period, offset, low_threshold, high_threshold, final_profit) {
+
+		var array_key 	= `period-offset_${period}-${offset}`;
+
+		if (typeof this.table_averages[array_key] === 'undefined') {
+			this.table_averages[array_key] = [];
+			this.table_averages['sum_' + (period + offset)] = [];
+		}
+
 		// create array of final profit values (print average later)
 		this.table_averages[array_key].push(final_profit)
 		this.table_averages['sum_' + (period + offset)].push(final_profit)
-
 
 		// compile averages for low and high
 		var high_key 	= 'high_' + high_threshold;
@@ -473,11 +491,6 @@ module.exports = {
 		this.table_averages[high_key].push(final_profit)
 		this.table_averages[low_key].push(final_profit)
 	
-		// this.table_data['x_y'] = {
-		// 		"header_row" : ['', 0.05, 0.4, 0.7],
-		// 		"row_0.05" : [34,234,454]
-		//		"row_0.06" : [34,234,454]
-
 
 	},
 

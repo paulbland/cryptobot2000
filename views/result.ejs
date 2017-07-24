@@ -19,14 +19,9 @@
 		}
 
 		function drawChart(chart_tag) {
-			var data = new google.visualization.DataTable();
 
-				// period offset used o be string. now just showing period. offset can be deduced!
-			//if (chart_tag === 'period-offset') {
-				data.addColumn('string', 'input');
-			//} else {
-			//	data.addColumn('number', 'input');
-			//}
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'input');
 			data.addColumn('number', 'result'); 
 			
 			var thisData = [];
