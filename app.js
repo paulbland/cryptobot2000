@@ -33,7 +33,7 @@ app.get('/run-simulation', basicAuth, function(req, res) {
     if (typeof req.query.currency === 'undefined') {
         res.send('No currency vars present.')
 	} else if (req.query.currency !== 'BTC' && req.query.currency !== 'ETH' && req.query.currency !== 'LTC') {
-		 res.send('Currency must be BTC ETH or LTC')
+		res.send('Currency must be BTC ETH or LTC')
 	} else if (typeof req.query.days === 'undefined') {
         res.send('No days var present.')
 	}

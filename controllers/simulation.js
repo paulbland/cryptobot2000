@@ -69,19 +69,17 @@ module.exports = {
 		`);
 	},
 
-
 	setStartDate: function(days, price_data) {
 		this.days 		= days;								// save here so i can pass to sim single
 		this.start_date = moment().subtract(days, 'days')	// Set start date from days param
-		var start_date	= this.start_date;
-
+		
 		// truncate data based on a start time
+		var start_date	= this.start_date;
 		price_data = price_data.filter(function (item) {
 			return item.datetime > start_date;
 		})
 		return price_data;
 	},
-
 
 	runFullSimulation: function(price_data, currency, days) {
 		reporting.resetOutput(); 
@@ -390,6 +388,7 @@ module.exports = {
 
 		var array_key 	= `period-offset_${period}-${offset}`;
 		var row_key 	= `row_${high_threshold}`;
+		
 		var cell_link 	= `
 			/run-simulation-single
 			?hrs_in_period=${period}
@@ -449,7 +448,8 @@ module.exports = {
 
 		this.table_data[array_key][row_key].push(cell_str)
 
-		// table format for reference
+		// table format for reference:
+		//
 		// this.table_data['x_y'] = {
 		// 		"header_row" : ['', 0.05, 0.4, 0.7],
 		// 		"row_0.05" : [34,234,454]
@@ -484,7 +484,6 @@ module.exports = {
 		
 		this.table_averages[high_key].push(final_profit)
 		this.table_averages[low_key].push(final_profit)
-
 	},
 
 
