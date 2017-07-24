@@ -1,9 +1,9 @@
 module.exports = {
 	
 	// WIDE (~16 mins for 30 days)
-	low_values 				: genValues(0.125, 0.210, 0.005, 3),
-	high_values 			: genValues(0.100, 0.220, 0.005, 3), 
-	period_offset_combos	: genCombos(15, 24, 0.5, 1),
+	// low_values 			: genValues(0.125, 0.210, 0.005, 3),
+	// high_values 			: genValues(0.100, 0.220, 0.005, 3), 
+	// period_offset_combos	: genCombos(15, 24, 0.5, 1),
 
 	// EVERYTHING FROM TOP 20s (FROM ABOVE) ONLY + 1 unit (0.5 or 0.005)
 	low_values 				: genValues(0.130, 0.165, 0.005, 3),

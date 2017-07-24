@@ -39,7 +39,7 @@ module.exports = {
 	buy_sell_method			: 'avg',		// 'avg' or 'peak'
 	buy_sell_percentage 	: 7.5,
 	initial_investment		: 2000,
-	buy_sell_unit 			: 0,			// calculated now!
+	buy_sell_unit 			: 0,			// calculated
 	money_in_bank 			: 0,			// calculated	
 	sell_all				: true,			// false means sell just one unit
 	simulate_crash 			: true, 
@@ -49,7 +49,7 @@ module.exports = {
 	//start_date			: new Date('2017-06-25T20:55:38.626Z'),		// MATCH GDAX DATA TO COINBASE DATA (Started June 26)
 	//start_date			: new Date('2017-06-12T00:00:00.000Z'),		// RECENT PEAK
 	//start_date			: new Date('2017-01-01T00:00:00.000Z'),		// BEGINNING OF TIME (I currently just have 90 days)
-	start_date				: moment().subtract(15, 'days'),  			// LAST x DAYS
+	start_date				: moment().subtract(90, 'days'),  			// LAST x DAYS
 
 	timing_section_a : 0,
 	timing_section_b : 0,
