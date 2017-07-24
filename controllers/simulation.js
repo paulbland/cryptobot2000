@@ -79,13 +79,8 @@ module.exports = {
 		
 		reporting.resetOutput(); 
 
-		// truncate data based on a start time
-		if (this.start_date) {
-			var start_date = this.start_date;
-			price_data = price_data.filter(function (item) {
-				return item.datetime > start_date;
-			})
-		}
+		// set start and end dates of price data
+		price_data = this.setStartEndDates(price_data);
 
 		this.printSummary(price_data); 
 
@@ -142,16 +137,10 @@ module.exports = {
 		
 		this.table_data 		= {};
 		this.print_basic_debug 	= true;
-		this.print_full_debug 	= true; //usually true
+		this.print_full_debug 	= true; //usually true for single sim
 		this.print_chart_data	= true;
 
-		// truncate data based on a start time
-		if (this.start_date) {
-			var start_date = this.start_date;
-			price_data = price_data.filter(function (item) {
-				return item.datetime > start_date;
-			})
-		}
+		price_data = this.setStartEndDates(price_data);
 
 		this.printSummary(price_data);
 		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
@@ -164,7 +153,16 @@ module.exports = {
 
 
 
-
+	setStartEndDates: function(price_data) {
+		// truncate data based on a start time
+		if (this.start_date) {
+			var start_date = this.start_date;
+			price_data = price_data.filter(function (item) {
+				return item.datetime > start_date;
+			})
+		} 
+		return price_data;
+	},
 
 	
 	/**
