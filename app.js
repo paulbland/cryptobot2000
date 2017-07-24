@@ -10,7 +10,7 @@ var tools 		= require('./controllers/tools')
 var basicAuth   = require('./controllers/auth');
 
 // DATABASE
-mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});      // Set up default mongoose connection
+mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});  // Set up default mongoose connection
 mongoose.Promise 	= global.Promise;                  					// fix promise thing
 PriceRecordModels 	= require('./models/pricerecordmodel') 
 
@@ -77,14 +77,16 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
             res.json(error);
         }
         else {
-            simulation.runSingleSimulation(parseFloat(req.query.hrs_in_period), parseFloat(req.query.offset), 
-                	parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data, days);  
+            simulation.runSingleSimulation( 
+				parseFloat(req.query.hrs_in_period), parseFloat(req.query.offset), 
+				parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), 
+				price_data, req.query.days
+			);  
 
 			res.render('result-single', {
                 currency        : req.query.currency,
 				data 		    : simulation.browser_output,
 				chart_data 	    : simulation.chart_data,
-                table_data      : '',
                 summary_output  : simulation.summary_output
 			});
         }

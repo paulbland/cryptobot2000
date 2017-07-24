@@ -82,8 +82,6 @@ module.exports = {
 		this.start_date = moment().subtract(days, 'days')	// Set start date from days param
 		price_data = this.setStartEndDates(price_data);		// trucate price data based on start date
 
-		
-
 		if (this.buy_sell_method === 'avg') {
 			var test_values = require(__dirname + '/../data/test_values_avg');
 		} else if (this.buy_sell_method === 'peak') {
@@ -124,7 +122,7 @@ module.exports = {
 
 		// all averages, max results and average of max results
 		reporting.printAverages(this.table_averages, tools);
-		reporting.printMaxResultTable(this.all_results);
+		reporting.printMaxResultTable(this.all_results, this.days);
 
 		this.browser_output 	= reporting.getFinalOutput()
 		//this.chart_data 		= reporting.getFinalChartData()
@@ -143,10 +141,9 @@ module.exports = {
 		this.print_full_debug 	= true; //usually true for single sim
 		this.print_chart_data	= true;
 
-		this.days = days;		// save here but may not really need to
-		this.start_date = moment().subtract(days, 'days')
-
-		price_data = this.setStartEndDates(price_data);
+		this.days 				= days;		// save here but may not really need to?
+		this.start_date 		= moment().subtract(days, 'days')
+		price_data 				= this.setStartEndDates(price_data);
 
 		this.printSummary(price_data);
 		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
@@ -182,23 +179,21 @@ module.exports = {
 		}
 
 		// these vars are relative to the current single simulation, and will be reset for each run
-		this.total_coins_owned 		= 0;
-		this.total_spent			= 0;
-		this.total_sold				= 0;
-		this.total_sell_transactions= 0;
-		this.total_buy_transactions	= 0;
-		this.max_coins_ever_owned 	= 0;
-		this.max_value_ever_owned 	= 0;
+		this.total_coins_owned 			= 0;
+		this.total_spent				= 0;
+		this.total_sold					= 0;
+		this.total_sell_transactions	= 0;
+		this.total_buy_transactions		= 0;
+		this.max_coins_ever_owned 		= 0;
+		this.max_value_ever_owned 		= 0;
 
-		// new - always start with initl investment
-		this.money_in_bank 			= this.initial_investment;
-		// set buy/sell unit to a percentage of init investment
-		this.buy_sell_unit 			= (this.initial_investment * (this.buy_sell_percentage / 100));
+		this.money_in_bank 				= this.initial_investment;															// new - always start with initl investment
+		this.buy_sell_unit 				= (this.initial_investment * (this.buy_sell_percentage / 100)); 					// set buy/sell unit to a percentage of init investment
 		// also option to set to money in bank ...
 
-		var values_per_period 		= tools.calculateValuesForGivenPeriod(hrs_in_period, this.interval_in_minutes)		//((hrs_in_period * 60) / interval_in_minutes); 	
-		var values_in_offset		= tools.calculateValuesForGivenPeriod(offset, this.interval_in_minutes)				//((offset * 60) / this.interval_in_minutes);
-		var total_iterations 		= (price_data.length - values_per_period - values_in_offset)
+		var values_per_period 			= tools.calculateValuesForGivenPeriod(hrs_in_period, this.interval_in_minutes)		//((hrs_in_period * 60) / interval_in_minutes); 	
+		var values_in_offset			= tools.calculateValuesForGivenPeriod(offset, this.interval_in_minutes)				//((offset * 60) / this.interval_in_minutes);
+		var total_iterations 			= (price_data.length - values_per_period - values_in_offset)
 
 		// NEW - ADD VALUES BEFORE LOOP TO FINAL GRAPH
 		if (this.print_chart_data) {
@@ -277,8 +272,6 @@ module.exports = {
 		}
 
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
-		//console.log('END', this.total_coins_owned, this.total_sold, this.total_spent)
-
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 		var profit_percentage	= ((final_profit / this.max_value_ever_owned) * 100).toFixed(2)
 
@@ -299,7 +292,6 @@ module.exports = {
 
 		if (this.print_table_data) {
 			this.compileTableData(hrs_in_period, offset, low_threshold, high_threshold, final_profit, invest_profit_ratio, profit_percentage);
-			//this.compileGlobalAverages(hrs_in_period, offset, low_threshold, high_threshold, final_profit)
 		}
 	}, 
 

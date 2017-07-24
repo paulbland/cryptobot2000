@@ -88,7 +88,7 @@ module.exports  = {
 	},
 
 
-	printMaxResultTable: function(all_results) {
+	printMaxResultTable: function(all_results, days) {
 
 		this.debug('<br /><strong>max 10 results and averages:</strong><br />')
 
@@ -133,6 +133,7 @@ module.exports  = {
 				&low_threshold=${all_results[i].low}
 				&high_threshold=${all_results[i].high}
 				&currency=ETH
+				&days=${days}
 			`;
 
 			this.debug(`
