@@ -14,24 +14,20 @@ mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});  // Set u
 mongoose.Promise 	= global.Promise;                  					// fix promise thing
 PriceRecordModels 	= require('./models/pricerecordmodel') 
 
-
 // SET TEMPLATING
 app.set('view engine', 'ejs');
 app.set('views',__dirname + '/views'); 
 
-
 // SET STATIC FILE DIRECTORIES
 app.use(express.static('static'))
 app.use('/results', express.static('results'))
-
 
 // INDEX
 app.get('/', basicAuth, function(req, res) {
 	res.sendFile(path.join(__dirname+'/index.html'));
 })
 
-
-// run the simulation many time - with all combinations of parameters
+// FULL SIMULATION
 app.get('/run-simulation', basicAuth, function(req, res) {	
 
     if (typeof req.query.currency === 'undefined') {
@@ -60,9 +56,7 @@ app.get('/run-simulation', basicAuth, function(req, res) {
 	});
 })
 
-
-
-// Run the simulation once - with specifica parameters
+// SINGLE SIMULATION
 app.get('/run-simulation-single', basicAuth, function(req, res) {
 
     if ((typeof req.query.hrs_in_period === 'undefined') || (typeof req.query.offset === 'undefined') || (typeof req.query.low_threshold === 'undefined') || 
@@ -93,8 +87,7 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
 	});
 })
 
-
-// just print whatevers in the live result table to the browser
+// LIVE RESULTS
 app.get('/live-result', basicAuth, function(req, res) {
 
     var liveDataModelETH = require('./models/livedatamodeleth')
@@ -112,7 +105,6 @@ app.get('/live-result', basicAuth, function(req, res) {
 		}
 	});
 })
-
 
 app.listen(process.env.PORT, function() { 
 	console.log('running on port: ' + process.env.PORT)
