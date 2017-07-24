@@ -45,44 +45,44 @@ module.exports = {
 	simulate_crash 			: false, 
 	crash_effect 			: 0,			// 0, 0.25, 0.5...
 	reinvest_profit 		: false,
+	start_date				: null, 		// must be set in sim from days value
+	days 					: 0,			// passed in. converted to start date in sim
 
-	//start_date			: new Date('2017-06-25T20:55:38.626Z'),		// MATCH GDAX DATA TO COINBASE DATA (Started June 26)
-	//start_date			: new Date('2017-06-12T00:00:00.000Z'),		// RECENT PEAK
-	//start_date			: new Date('2017-01-01T00:00:00.000Z'),		// BEGINNING OF TIME (I currently just have 90 days)
-	start_date				: moment().subtract(15, 'days'),  			// LAST x DAYS
-
-	timing_section_a : 0,
-	timing_section_b : 0,
+	// timing metrics
+	timing_section_a 		: 0,
+	timing_section_b 		: 0,
 
 	printSummary: function(price_data) {
 		var days_in_records = ((price_data.length / 24 / 60) * this.interval_in_minutes);
-		reporting.debug('<strong>Analyzing ' + price_data.length + ' values (' + days_in_records.toFixed(2) + ' days)</strong><br />');
-		reporting.debug('- sell_all: ' + this.sell_all+'<br />');
-		reporting.debug('- buy_sell_method: \'' + this.buy_sell_method+'\'<br />');
-		reporting.debug('- buy_sell_percentage: ' + this.buy_sell_percentage+'%<br />');
-		reporting.debug('- simulate_crash: ' + this.simulate_crash+'<br />');
-		reporting.debug('- reinvest_profit: ' + this.reinvest_profit+'<br />');
-		reporting.debug('- initial_investment: ' + this.initial_investment+'<br />');
-		reporting.debug('- start_date: ' + this.start_date+'<br /><br />');
+		reporting.debug(`
+			<strong>Analyzing ${price_data.length} values (${days_in_records.toFixed(2)} days)</strong><br />
+			- sell_all: ${this.sell_all}<br />
+			- buy_sell_method: '${this.buy_sell_method}'<br />
+			- buy_sell_percentage: ${this.buy_sell_percentage}%<br />
+			- simulate_crash:  ${this.simulate_crash}<br />
+			- reinvest_profit:  ${this.reinvest_profit}<br />
+			- initial_investment: $${this.initial_investment}<br />
+			- days: ${this.days}<br />
+			- start_date: ${this.start_date.format()}<br /><br />
+		`);
 	},
 
 
-	runFullSimulation: function(price_data, currency) {
+	runFullSimulation: function(price_data, currency, days) {
+		reporting.resetOutput(); 
 
 		this.table_data 		= {};
 		this.table_averages 	= {};
-		//this.global_averages 	= {};
 		this.print_basic_debug 	= false; 
 		this.print_full_debug 	= false; 
 		this.print_table_data 	= true;	
 		this.currency 			= currency;
+		this.days 				= days;		// save here so i can pass to sim single
+
+		this.start_date = moment().subtract(days, 'days')	// Set start date from days param
+		price_data = this.setStartEndDates(price_data);		// trucate price data based on start date
+
 		
-		reporting.resetOutput(); 
-
-		// set start and end dates of price data
-		price_data = this.setStartEndDates(price_data);
-
-		this.printSummary(price_data); 
 
 		if (this.buy_sell_method === 'avg') {
 			var test_values = require(__dirname + '/../data/test_values_avg');
@@ -119,7 +119,10 @@ module.exports = {
 		// console.log('timing metric d: ' + moment().startOf('day').seconds(tools.timing_section_d).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_d/execution_time)*100).toFixed(2) + '%');
 		// console.log('timing metric e: ' + moment().startOf('day').seconds(tools.timing_section_e).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_e/execution_time)*100).toFixed(2) + '%');
 						
-		// print all averages, max results and average of max results
+		// print summary 
+		this.printSummary(price_data); 
+		
+		// all averages, max results and average of max results
 		reporting.printAverages(this.table_averages, tools);
 		reporting.printMaxResults(this.all_results);
 
@@ -131,7 +134,7 @@ module.exports = {
 	
 
 
-	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
+	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data, days) {
 
 		reporting.resetOutput();
 		
@@ -139,6 +142,9 @@ module.exports = {
 		this.print_basic_debug 	= true;
 		this.print_full_debug 	= true; //usually true for single sim
 		this.print_chart_data	= true;
+
+		this.days = days;		// save here but may not really need to
+		this.start_date = moment().subtract(days, 'days')
 
 		price_data = this.setStartEndDates(price_data);
 
@@ -396,6 +402,7 @@ module.exports = {
 			&low_threshold=${low_threshold}
 			&high_threshold=${high_threshold}
 			&currency=${this.currency}
+			&days=${this.days}
 		`;
 
 		if (typeof this.table_data[array_key] === 'undefined') {
@@ -481,30 +488,6 @@ module.exports = {
 
 
 	},
-
-
-
-
-	
-	// compileGlobalAverages: function(hrs_in_period, offset, low_threshold, high_threshold, final_profit) {
-
-	// 	var high_key 	= 'high_' + high_threshold;
-	// 	var low_key 	= 'low_' + low_threshold;
-
-	// 	if (typeof this.global_averages[high_key] === 'undefined') {
-	// 		this.global_averages[high_key] = []
-	// 	}
-	// 	if (typeof this.global_averages[low_key] === 'undefined') {
-	// 		this.global_averages[low_key] = []
-	// 	}
-
-	// 	this.global_averages[high_key].push(final_profit)
-	// 	this.global_averages[low_key].push(final_profit)
-	// },
-
-	
-
-
 
 
 }

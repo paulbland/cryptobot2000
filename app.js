@@ -38,6 +38,8 @@ app.get('/run-simulation', basicAuth, function(req, res) {
         res.send('No currency vars present.')
 	} else if (req.query.currency !== 'BTC' && req.query.currency !== 'ETH' && req.query.currency !== 'LTC') {
 		 res.send('Currency must be BTC ETH or LTC')
+	} else if (typeof req.query.days === 'undefined') {
+        res.send('No days var present.')
 	}
 
     PriceRecordModels[req.query.currency].find({}).sort('datetime').exec(function(error, price_data) {
@@ -45,8 +47,7 @@ app.get('/run-simulation', basicAuth, function(req, res) {
             res.json(error);
         }
         else {
-			
-			simulation.runFullSimulation(price_data, req.query.currency);
+			simulation.runFullSimulation(price_data, req.query.currency, req.query.days);
 
 			res.render('result', {
                 currency    : req.query.currency,       // BTC, ETH or LTC
@@ -67,16 +68,17 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
     if ((typeof req.query.hrs_in_period === 'undefined') || (typeof req.query.offset === 'undefined') || (typeof req.query.low_threshold === 'undefined') || 
     	(typeof req.query.high_threshold === 'undefined') || (typeof req.query.currency === 'undefined')) {
         res.send('get vars not present')
-    }
+    } else if (typeof req.query.days === 'undefined') {
+        res.send('No days var present.')
+	}
 
    	PriceRecordModels[req.query.currency].find({}).sort('datetime').exec(function(error, price_data) { 
    		if (error) {
             res.json(error);
         }
         else {
-
             simulation.runSingleSimulation(parseFloat(req.query.hrs_in_period), parseFloat(req.query.offset), 
-                	parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data);  
+                	parseFloat(req.query.low_threshold), parseFloat(req.query.high_threshold), price_data, days);  
 
 			res.render('result-single', {
                 currency        : req.query.currency,
