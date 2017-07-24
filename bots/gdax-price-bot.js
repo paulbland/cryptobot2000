@@ -12,28 +12,32 @@ mongoose.Promise = global.Promise;
 
 var priceRecordModels = require('../models/pricerecordmodel')
 
-getMyData('BTC')
-getMyData('ETH')
-getMyData('LTC')
+module.exports = {
 
-function getMyData(currency) {
+    run: function() {
+        this.getMyData('BTC')
+        this.getMyData('ETH')
+        this.getMyData('LTC')
+    },
 
-    var publicClient    = new Gdax.PublicClient(currency+'-USD');
-    var pr              = new priceRecordModels[currency];
+    getMyData: function(currency) {
 
-    publicClient.getProductTicker(function(err, response, data) {
+        var publicClient    = new Gdax.PublicClient(currency+'-USD');
+        var pr              = new priceRecordModels[currency];
 
-        pr.datetime     = data.time;
-        pr.value_buy    = data.price; //bid ***** currently just getting last price !
-        pr.value_sell   = data.price; //ask
-        pr.value_avg    = data.price; //no point in calculating if they're the same, eh?
-        
-        pr.save(function (err) {
-            if (err) {
-                return handleError(err);
-            }
-            console.log('Saved ' + currency + ' from GDAX');
+        publicClient.getProductTicker(function(err, response, data) {
+
+            pr.datetime     = data.time;
+            pr.value_buy    = data.price; //bid ***** currently just getting last price !
+            pr.value_sell   = data.price; //ask
+            pr.value_avg    = data.price; //no point in calculating if they're the same, eh?
+            
+            pr.save(function (err) {
+                if (err) {
+                    return handleError(err);
+                }
+                console.log('Saved ' + currency + ' from GDAX');
+            });
         });
-    });
-
+    }
 }
