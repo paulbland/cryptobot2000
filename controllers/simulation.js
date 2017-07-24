@@ -22,7 +22,7 @@ module.exports = {
 	max_value_ever_owned	: null,
 
 	// these are for full sim (rusn over entire thing)
-	all_results 			: [],				// all data to print max at end
+	all_results 			: [],			// all data to print max at end
 	browser_output 			: '',
 	chart_data 				: '',
 	average_chart_data		: [],
@@ -388,7 +388,7 @@ module.exports = {
 
 		var array_key 	= `period-offset_${period}-${offset}`;
 		var row_key 	= `row_${high_threshold}`;
-		
+
 		var cell_link 	= `
 			/run-simulation-single
 			?hrs_in_period=${period}
@@ -424,17 +424,13 @@ module.exports = {
 		var max_rgb_value = 128; // half 256
 
 		if (final_profit > 0) {
-
 			rgb_color 	= Math.floor(final_profit * (max_rgb_value / max));
 			rgb_color 	= (rgb_color > max_rgb_value) ? max_rgb_value : rgb_color;
 			cell_color 	= 'rgb(0,'+rgb_color+',0)';
-
 		} else if (final_profit < 0) {
-
 			rgb_color 	= Math.floor(final_profit * (max_rgb_value / min));
 			rgb_color 	= (rgb_color > max_rgb_value) ? max_rgb_value : rgb_color;
 			cell_color 	= 'rgb('+rgb_color+',0,0)';
-
 		} else if (final_profit === 0) {
 			cell_color = '#ccc';
 		}
