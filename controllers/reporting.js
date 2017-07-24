@@ -185,7 +185,7 @@ module.exports  = {
 	},
 
 	// put average data in array format for printing charts
-	compileAverageChartData: function(table_averages, tools) {
+	compileGlobalAverageChartData: function(table_averages, tools) {
 		for (item in table_averages) {
 
 			var this_avg = tools.getArrayAverage(table_averages[item]).toFixed(0)			

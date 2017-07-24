@@ -138,7 +138,8 @@ module.exports = {
 			reporting.printGlobalAveragesList(this.table_averages, tools);
 		}
 
-		reporting.compileAverageChartData(this.table_averages, tools);
+		reporting.compileGlobalAverageChartData(this.table_averages, tools);
+		
 		reporting.printMaxResultTable(this.all_results, this.days);
 
 		this.browser_output 	= reporting.getFinalOutput()
