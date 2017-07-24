@@ -15,9 +15,10 @@ var priceRecordModels = require('../models/pricerecordmodel')
 module.exports = {
 
     run: function() {
-        this.getMyData('BTC')
-        this.getMyData('ETH')
-        this.getMyData('LTC')
+        console.log('gdax running');
+        // this.getMyData('BTC')
+        // this.getMyData('ETH')
+        // this.getMyData('LTC')
     },
 
     getMyData: function(currency) {
