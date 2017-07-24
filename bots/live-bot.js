@@ -8,7 +8,7 @@ var reporting 	= require('../controllers/reporting')
 
 
 // DATABASE
-mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
+mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 
 // get models
