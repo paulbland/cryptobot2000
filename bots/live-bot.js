@@ -1,7 +1,5 @@
-var express 	= require('express');
 var mongoose 	= require('mongoose');
 var coinbase 	= require('coinbase');
-var app 		= express();
 
 var tools 		= require('../controllers/tools')
 var reporting 	= require('../controllers/reporting')
@@ -12,11 +10,11 @@ mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 
 // get models
-var liveDataModelETH 		= require('../models/livedatamodeleth')
+var liveDataModels 			= require('../models/livedatamodel')
 var priceRecordModels 		= require('../models/pricerecordmodel')
 
 // prep new item to be appended to live data recrod
-var newLiveData 			= liveDataModelETH();
+var newLiveData 			= new liveDataModels['ETH'];
 
 module.exports = {
 
@@ -46,7 +44,7 @@ module.exports = {
 	step2: function(price_data_eth) {
 		var self = this;
 		// get latest 
-		liveDataModelETH.findOne({}).sort('-datetime_updated').exec(function(error, lastLiveData) {
+		liveDataModels['ETH'].findOne({}).sort('-datetime_updated').exec(function(error, lastLiveData) {
 			if (error) {
 				res.json(error);
 				console.log('error connecting to db');

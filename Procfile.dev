@@ -8,3 +8,4 @@ update-coinbase-data: node ./scripts/update-coinbase-data.js
 
 # TEST (will be run from clock)
 sim-bot: node ./bots/sim-bot.js
+
