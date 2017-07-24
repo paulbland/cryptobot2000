@@ -12,17 +12,25 @@ PriceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_da
         res.json(error);
     }
     else {
-        simulation.runFullSimulation(price_data, 'ETH', 15);
+        
+        // run this 6 times
+        // will run syncronously by default. so thats grea
+        //though resutsl will chage to gotte get gets reuslts after each one
+        //var results = {}
+        //results['15_days'] = simulation.runFullSimulation(price_data, 'ETH', 15);
+        //results['30_days'] = simulation.runFullSimulation(price_data, 'ETH', 30);
+        //.....
+        /// or something....
 
-        // sort all results (this is a cut and paste)
+        // sort all results (this is a cut and paste) -- maybe try not to do it twice.
         simulation.all_results.sort(function(a, b) {
     		return parseFloat(b.value) - parseFloat(a.value);
         });
         
         console.log('top 10')
         console.log(simulation.all_results.slice(0, 10))
-
-        process.exit();
+        console.log('Exiting...')
+        
     }
 });
 
