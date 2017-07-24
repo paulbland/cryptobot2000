@@ -15,10 +15,9 @@ var priceRecordModels = require('../models/pricerecordmodel')
 module.exports = {
 
     run: function() {
-        console.log('test')
-        // this.getMyData('BTC')
-        // this.getMyData('ETH')
-        // this.getMyData('LTC')
+        this.getMyData('BTC')
+        this.getMyData('ETH')
+        this.getMyData('LTC')
     },
 
     getMyData: function(currency) {
