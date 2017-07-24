@@ -88,7 +88,7 @@ module.exports  = {
 	},
 
 
-	printMaxResults: function(all_results) {
+	printMaxResultTable: function(all_results) {
 
 		this.debug('<br /><strong>max 10 results and averages:</strong><br />')
 

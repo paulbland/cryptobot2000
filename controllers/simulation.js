@@ -121,13 +121,13 @@ module.exports = {
 						
 		// print summary 
 		this.printSummary(price_data); 
-		
+
 		// all averages, max results and average of max results
 		reporting.printAverages(this.table_averages, tools);
-		reporting.printMaxResults(this.all_results);
+		reporting.printMaxResultTable(this.all_results);
 
 		this.browser_output 	= reporting.getFinalOutput()
-		this.chart_data 		= reporting.getFinalChartData()
+		//this.chart_data 		= reporting.getFinalChartData()
 		this.average_chart_data = reporting.getAverageChartData()
 	},
 
