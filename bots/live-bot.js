@@ -7,7 +7,6 @@ var tools 		= require('../controllers/tools')
 var reporting 	= require('../controllers/reporting')
 
 
-
 // DATABASE
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 mongoose.Promise = global.Promise;
@@ -113,8 +112,8 @@ module.exports = {
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug)
 
 		// TESTING OVERRIDE
-		//sell_or_buy = 'sell'
-		//sell_or_buy = 'buy'
+		// sell_or_buy = 'sell'
+		// sell_or_buy = 'buy'
 
 		// console.log('price_data.length: ' + price_data.length)
 		// console.log('from_index: ' + from_index)
@@ -136,20 +135,20 @@ module.exports = {
 		newLiveData.totals.total_sell_transactions 		= lastLiveData.totals.total_sell_transactions;		// total - carried over
 		newLiveData.totals.total_buy_transactions 		= lastLiveData.totals.total_buy_transactions;		// total - carried over
 		newLiveData.totals.total_spent					= lastLiveData.totals.total_spent;					// total - carried over
-		newLiveData.totals.current_value_of_coins_owned	= lastLiveData.totals.current_value_of_coins_owned;// total - carried over
-		newLiveData.totals.current_position				= lastLiveData.totals.current_position;			// total - carried over
-		newLiveData.totals.money_in_bank					= lastLiveData.totals.money_in_bank;				// total - carried over
+		newLiveData.totals.current_value_of_coins_owned	= lastLiveData.totals.current_value_of_coins_owned;	// total - carried over
+		newLiveData.totals.current_position				= lastLiveData.totals.current_position;				// total - carried over
+		newLiveData.totals.money_in_bank				= lastLiveData.totals.money_in_bank;				// total - carried over
 
 		newLiveData.transaction.transaction_notes		= '';										// transaction - reset
 		newLiveData.transaction.number_of_coins_to_sell	= 0;										// transaction - reset // sell only
 		newLiveData.transaction.result_of_this_sale		= 0;										// transaction - reset // sell only
 		newLiveData.transaction.number_of_coins_to_buy	= 0;										// transaction - reset // buy only
-		newLiveData.transaction.amount_spent_on_this_transaction = 0;									// transaction - reset // buy only
-		newLiveData.transaction.api_response_err			= '';										// transaction - reset
+		newLiveData.transaction.amount_spent_on_this_transaction = 0;								// transaction - reset // buy only
+		newLiveData.transaction.api_response_err		= '';										// transaction - reset
 		newLiveData.transaction.api_response_xfer		= '';										// transaction - reset
 		
-		var avg_for_period 			= tools.calculateAverage(data_to_be_tested) 
-		newLiveData.avg_for_period 			= avg_for_period														// current iteration - set here only
+		var avg_for_period 						= tools.calculateAverage(data_to_be_tested) 
+		newLiveData.avg_for_period 				= avg_for_period														// current iteration - set here only
 		newLiveData.avg_plus_high_threshold 	= tools.calculateAvgPlusHighThreshold(avg_for_period, high_threshold); 	// current iteration - set here only
 		newLiveData.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, low_threshold); 	// current iteration - set here only
 
@@ -275,7 +274,6 @@ module.exports = {
 			//console.log('connecting to api')
 			var client = new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 
-
 			// THIS FOR ETH WALLET ID ONLY
 			// 		client.getAccounts({}, function(err, accounts) {
 			//  	 console.log(accounts);
@@ -304,12 +302,10 @@ module.exports = {
 
 					self.finalStepSaveAndExit();
 				});
-
 			});
 		} else {
 			this.finalStepSaveAndExit();
 		}
-
 	},
 
 
@@ -323,7 +319,7 @@ module.exports = {
 			if (err) {
 				console.log(err);
 			}
-			console.log('Saved new liveDataModelETH record');
+			console.log('Saved newLiveData (ETH) record');
 			//process.exit();
 		})
 
