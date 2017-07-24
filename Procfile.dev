@@ -3,8 +3,8 @@ web: nodemon --max_old_space_size=4096 app.js
 
 # BOTS
 live: node ./bots/live.js
-coinbase-price-bot: node ./bots/coinbase-price-bot.js
-gdax-price-bot: node ./bots/gdax-price-bot.js
+#coinbase-price-bot: node ./bots/coinbase-price-bot.js
+#gdax-price-bot: node ./bots/gdax-price-bot.js
 
 # SCRIPTS
 gdax-get-price-history: node ./scripts/gdax-get-price-history.js
