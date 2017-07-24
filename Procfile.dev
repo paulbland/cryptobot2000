@@ -4,3 +4,7 @@ web: nodemon --max_old_space_size=4096 app.js
 # SCRIPTS
 gdax-get-price-history: node ./scripts/gdax-get-price-history.js
 update-coinbase-data: node ./scripts/update-coinbase-data.js
+
+
+# TEST (will be run from clock)
+sim-bot: node ./bots/sim-bot.js
