@@ -1,8 +1,8 @@
 var CronJob             = require('cron').CronJob;
 
-var gdaxPriceBot        = require('./gdax-price-bot.js')
-var coinbasePriceBot    = require('./coinbase-price-bot.js')
-var liveBot             = require('./live-bot.js')
+var gdaxPriceBot        = require('./bots/gdax-price-bot.js')
+var coinbasePriceBot    = require('./bots/coinbase-price-bot.js')
+var liveBot             = require('./bots/live-bot.js')
 
 // Every 10 min (starting at :00)
 new CronJob('*/10 * * * *', function() {
