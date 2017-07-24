@@ -5,7 +5,7 @@ module.exports = {
 	// high_values 			: genValues(0.100, 0.220, 0.005, 3), 
 	// period_offset_combos	: genCombos(15, 24, 0.5, 1),
 
-	// EVERYTHING FROM TOP 20s (FROM ABOVE) ONLY + 1 unit (0.5 or 0.005)
+	// EVERYTHING FROM JUST TOP 20 (FROM TESTS ABOVE) (+ 1 unit (0.5 or 0.005) either side)
 	low_values 				: genValues(0.130, 0.165, 0.005, 3),
 	high_values 			: genValues(0.160, 0.225, 0.005, 3), 
 	period_offset_combos	: genCombos(16.5, 19, 0.5, 1)
