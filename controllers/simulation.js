@@ -70,6 +70,19 @@ module.exports = {
 	},
 
 
+	setStartDate: function(days, price_data) {
+		this.days 		= days;								// save here so i can pass to sim single
+		this.start_date = moment().subtract(days, 'days')	// Set start date from days param
+		var start_date	= this.start_date;
+
+		// truncate data based on a start time
+		price_data = price_data.filter(function (item) {
+			return item.datetime > start_date;
+		})
+		return price_data;
+	},
+
+
 	runFullSimulation: function(price_data, currency, days) {
 		reporting.resetOutput(); 
 
@@ -81,10 +94,8 @@ module.exports = {
 		this.print_average_data 	= true;		// lists and 4 average charts
 		this.print_average_lists	= false; 	// usually true. just hising for now
 		this.currency 				= currency;
-		this.days 					= days;		// save here so i can pass to sim single
 
-		this.start_date = moment().subtract(days, 'days')	// Set start date from days param
-		price_data = this.setStartEndDates(price_data);		// trucate price data based on start date
+		price_data = this.setStartDate(days, price_data)
 
 		if (this.buy_sell_method === 'avg') {
 			var test_values = require(__dirname + '/../data/test_values_avg');
@@ -140,7 +151,6 @@ module.exports = {
 
 
 	runSingleSimulation: function(hrs_in_period, offset, low_threshold, high_threshold, price_data, days) {
-
 		reporting.resetOutput();
 		
 		this.table_data 		= {};
@@ -148,9 +158,7 @@ module.exports = {
 		this.print_full_debug 	= true; //usually true for single sim
 		this.print_chart_data	= true;
 
-		this.days 				= days;		// save here but may not really need to?
-		this.start_date 		= moment().subtract(days, 'days')
-		price_data 				= this.setStartEndDates(price_data);
+		price_data = this.setStartDate(days, price_data)
 
 		this.printSummary(price_data);
 		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
@@ -162,19 +170,6 @@ module.exports = {
 	},
 
 
-
-	setStartEndDates: function(price_data) {
-		// truncate data based on a start time
-		if (this.start_date) {
-			var start_date = this.start_date;
-			price_data = price_data.filter(function (item) {
-				return item.datetime > start_date;
-			})
-		} 
-		return price_data;
-	},
-
-	
 	/**
 	 * essentially a single simulation
 	 * 
