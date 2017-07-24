@@ -176,7 +176,7 @@ module.exports  = {
 	},
 
 	// print the raw average data to the screen
-	printAveragesList: function(table_averages, tools) {
+	printGlobalAveragesList: function(table_averages, tools) {
 		this.debug('<strong>average value of table:</strong><br />')
 		for (item in table_averages) {
 			var this_avg = tools.getArrayAverage(table_averages[item]).toFixed(0)

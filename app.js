@@ -48,7 +48,6 @@ app.get('/run-simulation', basicAuth, function(req, res) {
 			res.render('result', {
                 currency    : req.query.currency,       // BTC, ETH or LTC
 				data 		: simulation.browser_output,
-                chart_data  : simulation.chart_data,
 				table_data  : simulation.table_data,
 				average_chart_data : simulation.average_chart_data 
 			});

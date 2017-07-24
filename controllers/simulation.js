@@ -135,7 +135,7 @@ module.exports = {
 
 		// all averages, max results and average of max results
 		if (this.print_average_lists) {
-			reporting.printAveragesList(this.table_averages, tools);
+			reporting.printGlobalAveragesList(this.table_averages, tools);
 		}
 
 		reporting.compileAverageChartData(this.table_averages, tools);
