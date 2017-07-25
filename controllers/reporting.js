@@ -63,28 +63,9 @@ module.exports  = {
 		this.summary_output += 'percentage earnt: ' + profit_percentage + '%<br /><br />';
 	},
 	
-	printMaxResultTable: function(all_results, days) {
+	printMaxResultTable: function(max_results, max_results_avg, days) {
 
 		this.debug(`<br /><strong>max 10 results and averages:</strong><br />`)
-
-		all_results.sort(function(a, b) {
-    		return parseFloat(b.value) - parseFloat(a.value);
-		});
-
-		var limit = 20;
-
-		// for really short tests if im doing fewer than 20 combos, need this
-		if (limit > all_results.length) {
-			limit = all_results.length
-		}
-
-		var sums = {
-			period 	: 0,
-			offset 	: 0,
-			low 	: 0,
-			high 	: 0
-		};
-
 		this.debug(`
 			<table class="max">
 				<tr>
@@ -99,76 +80,42 @@ module.exports  = {
 				</tr>
 		`)
 		
-		for (i=0; i<limit; i++) {
+		for (i=0; i<max_results.length; i++) {
 
-			var link = `
-				/run-simulation-single
-				?hrs_in_period=${all_results[i].period}
-				&offset=${all_results[i].offset}
-				&low_threshold=${all_results[i].low}
-				&high_threshold=${all_results[i].high}
-				&currency=ETH
-				&days=${days}
-			`;
+			var link = this.createLink(max_results[i].period, max_results[i].offset, 
+					max_results[i].low, max_results[i].high, 'ETH', days)
 
 			this.debug(`
 				<tr>
 					<th>${(i+1)}</th>
-					<td>${all_results[i].period}</td>
-					<td>${all_results[i].offset}</td>
-					<td>(${(all_results[i].period+all_results[i].offset)})</td>
-					<td>${all_results[i].low}</td>
-					<td>${all_results[i].high}</td>
-					<td><a href="${link}" target="_blank" style="color:rgb(0,${(192-(i*5))},0)"><strong>$${all_results[i].value.toFixed(2)}</strong></td>
-					<td>${all_results[i].profit}%</td>
+					<td>${max_results[i].period}</td>
+					<td>${max_results[i].offset}</td>
+					<td>(${(max_results[i].period+max_results[i].offset)})</td>
+					<td>${max_results[i].low}</td>
+					<td>${max_results[i].high}</td>
+					<td><a href="${link}" target="_blank" style="color:rgb(0,${(192-(i*5))},0)"><strong>$${max_results[i].value.toFixed(2)}</strong></td>
+					<td>${max_results[i].profit}%</td>
 				</tr>
 			`);
 
-			// create sums for each value to calcualte averages
-			sums.period += all_results[i].period;
-			sums.offset += all_results[i].offset;
-			sums.low 	+= all_results[i].low;
-			sums.high	+= all_results[i].high;
-
 			if ((i+1)===5 || (i+1)===10 || (i+1)===20) {
-				this.addAverages(sums, (i+1));
+				this.addAverageRow(max_results_avg[i], days);
 			}
 		}
-
 		this.debug(`</table>`);
 	},
 
 
-	addAverages: function(sums, total) {
-
-		// calculate averages
-		// round offset and period to nearest 0.5 cos thats all i can handle at this point
-		var avgs = {
-			period 	: this.roundToPoint5(sums.period / total),  
-			offset 	: this.roundToPoint5(sums.offset / total),
-			low 	: (sums.low / total).toFixed(3),
-			high 	: (sums.high / total).toFixed(3)
-		};
-
-		// create avg link
-		var avg_link = `
-			/run-simulation-single
-			?hrs_in_period=${avgs.period}
-			&offset=${avgs.offset}
-			&low_threshold=${avgs.low}
-			&high_threshold=${avgs.high}
-			&currency=ETH
-		`;
-
-		// add averages
+	addAverageRow: function(avg_item, days) {
+		var avg_link = this.createLink(avg_item.period, avg_item.offset, avg_item.low, avg_item.high, 'ETH', days)
 		this.debug(`
 			<tr>
 				<th>top ${i+1} avg:</th>
-				<th>${avgs.period}</th>
-				<th>${avgs.offset}</th>
-				<th>${avgs.period + avgs.offset}</th>
-				<th>${avgs.low}</th>
-				<th>${avgs.high}</th>
+				<th>${avg_item.period}</th>
+				<th>${avg_item.offset}</th>
+				<th>${avg_item.period + avg_item.offset}</th>
+				<th>${avg_item.low}</th>
+				<th>${avg_item.high}</th>
 				<th></th>
 				<th><a href="${avg_link}" target="_blank">link →</a></th>
 			</tr>
@@ -197,6 +144,18 @@ module.exports  = {
 			}
 			this.average_chart_data[this_key] += '["' +  this_val + '",' + this_avg + '],';
 		}
+	},
+
+	createLink: function(period, offset, low, high, currency, days) {
+		return `
+			/run-simulation-single
+			?hrs_in_period=${period}
+			&offset=${offset}
+			&low_threshold=${low}
+			&high_threshold=${high}
+			&currency=${currency}
+			&days=${days}
+		`;
 	},
 		
 	roundToPoint5: function(num) {

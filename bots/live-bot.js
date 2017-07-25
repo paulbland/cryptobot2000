@@ -20,7 +20,9 @@ module.exports = {
 
 	dbConnect: function() {
 		var self    = this;
-        var promise = mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
+        var promise = mongoose.connect(process.env.MONGODB_URI_NEW, {
+			useMongoClient: true
+		});
 
         promise.then(function(db) {
 			console.log(`Running: live-bot.js (database: ${db.db.s.databaseName})`)

@@ -1,39 +1,51 @@
-var simulation 	= require('../controllers/simulation')
-var mongoose 	= require('mongoose');
+var mongoose 	        = require('mongoose');
+var simulation 	        = require('../controllers/simulation')
+var priceRecordModels   = require('../models/pricerecordmodel') 
 
-// DATABASE
-mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});  // Set up default mongoose connection
-mongoose.Promise 	= global.Promise;                  					// fix promise thing
+mongoose.Promise 	    = global.Promise;
 
-PriceRecordModels 	= require('../models/pricerecordmodel') 
+module.exports = {
 
-PriceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_data) {
-    if (error) {
-        res.json(error);
-    }
-    else {
-        
-        // run this 6 times
-        // will run syncronously by default. so thats grea
-        //though resutsl will chage to gotte get gets reuslts after each one
-        //var results = {}
-        //results['15_days'] = simulation.runFullSimulation(price_data, 'ETH', 15);
-        //results['30_days'] = simulation.runFullSimulation(price_data, 'ETH', 30);
-        //.....
-        /// or something....
+    run: function() {
+        this.dbConnect();
+    },
 
-        // sort all results (this is a cut and paste) -- maybe try not to do it twice.
-        simulation.all_results.sort(function(a, b) {
-    		return parseFloat(b.value) - parseFloat(a.value);
+    dbConnect: function() {
+        var self    = this;
+        var promise = mongoose.connect(process.env.MONGODB_URI_NEW, {
+			useMongoClient: true
+		});
+
+        promise.then(function(db) {
+			console.log(`Running: sim-bot.js (database: ${db.db.s.databaseName})`)
+            self.okRunTheThing()
+            /* Use `db`, for instance `db.model()` */
+         });
+    },
+
+    okRunTheThing: function() {
+
+        // get price data for sim
+        priceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_data) {
+            if (error) {
+                res.json(error);
+            }
+            else {
+
+                var results = {}
+
+                // for each period we're looking at
+                results['15_days'] = simulation.runFullSimulation(price_data, 'ETH', 15, 'json');
+                //results['30_days'] = simulation.runFullSimulation(price_data, 'ETH', 30, 'json');
+ 
+                console.log('top 20 - results (max and avg) is')
+                console.log(results['15_days']['max_results'])
+                console.log(results['15_days']['max_results_avg'])
+                
+            }
         });
-        
-        console.log('top 10')
-        console.log(simulation.all_results.slice(0, 10))
-        console.log('Exiting...')
-        
-    }
-});
 
-/**
- * run with: `heroku local sim-bot -f Procfile.dev`
- */
+    }
+
+
+}

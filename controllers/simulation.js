@@ -23,6 +23,8 @@ module.exports = {
 
 	// these are for full sim (rusn over entire thing)
 	all_results 			: [],			// all data to print max at end
+	max_results 			: [], 		// top 20
+	max_results_avg 		: [], 		// top 20 - avg
 	browser_output 			: '',
 	chart_data 				: '',
 	average_chart_data		: [],
@@ -81,7 +83,7 @@ module.exports = {
 		return price_data;
 	},
 
-	runFullSimulation: function(price_data, currency, days) {
+	runFullSimulation: function(price_data, currency, days, output) {
 		reporting.resetOutput(); 
 
 		this.table_data 			= {};
@@ -129,23 +131,91 @@ module.exports = {
 		// console.log('timing metric c: ' + moment().startOf('day').seconds(tools.timing_section_c).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_c/execution_time)*100).toFixed(2) + '%');
 		// console.log('timing metric d: ' + moment().startOf('day').seconds(tools.timing_section_d).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_d/execution_time)*100).toFixed(2) + '%');
 		// console.log('timing metric e: ' + moment().startOf('day').seconds(tools.timing_section_e).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_e/execution_time)*100).toFixed(2) + '%');
-						
-		// print summary 
-		this.printSummary(price_data); 
+		
+		// get just best results from all  (sort and slice)
+		this.max_results 		= this.compileMaxResults(this.all_results)
+		this.max_results_avg 	= this.compileMaxResultsAverages(this.max_results)
+		
 
-		// all averages, max results and average of max results
-		if (this.print_average_lists) {
-			reporting.printGlobalAveragesList(this.table_averages, tools);
+		if (output==='json') {
+
+			return {
+				max_results 	: this.max_results,
+				max_results_avg : this.max_results_avg
+			}
+
+		} else if (output==='browser') {
+
+			this.printSummary(price_data); 
+
+			// all averages, max results and average of max results
+			if (this.print_average_lists) {
+				reporting.printGlobalAveragesList(this.table_averages, tools);
+			}
+			reporting.compileGlobalAverageChartData(this.table_averages, tools);
+
+			reporting.printMaxResultTable(this.max_results, this.max_results_avg, this.days);
+
+			this.browser_output 	= reporting.getFinalOutput()
+			this.average_chart_data = reporting.getAverageChartData()
 		}
 
-		reporting.compileGlobalAverageChartData(this.table_averages, tools);
 		
-		reporting.printMaxResultTable(this.all_results, this.days);
-
-		this.browser_output 	= reporting.getFinalOutput()
-		this.average_chart_data = reporting.getAverageChartData()
 	},
 
+	// jsut gets top 20
+	compileMaxResults: function(result_set) {
+
+		var limit = 20;
+
+		result_set.sort(function(a, b) {
+    		return parseFloat(b.value) - parseFloat(a.value);
+		});
+
+		// for really short tests if im doing fewer than 20 combos, need this
+		if (limit > result_set.length) {
+			limit = result_set.length
+		}
+
+		return result_set.slice(0, limit);
+	},
+
+
+
+	compileMaxResultsAverages: function(result_set) {
+
+		var results = [];
+		
+		var sums 	= {
+			period 	: 0,
+			offset 	: 0,
+			low 	: 0,
+			high 	: 0
+		};
+
+		for (i=0; i<result_set.length; i++) {
+			// create sums for each value to calcualte averages
+			sums.period += result_set[i].period;
+			sums.offset += result_set[i].offset;
+			sums.low 	+= result_set[i].low;
+			sums.high	+= result_set[i].high;
+
+			var total 	= (i+1)
+
+			// calculate averages
+			// round offset and period to nearest 0.5 cos thats all i can handle at this point
+			var avgs = {
+				rank    : `top_${total}_avg`,
+				period 	: reporting.roundToPoint5(sums.period / total),  
+				offset 	: reporting.roundToPoint5(sums.offset / total),
+				low 	: (sums.low / total).toFixed(3),
+				high 	: (sums.high / total).toFixed(3)
+			};
+			results.push(avgs)
+		}
+
+		return results;
+	},
 	
 
 

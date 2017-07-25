@@ -43,7 +43,7 @@ app.get('/run-simulation', basicAuth, function(req, res) {
             res.json(error);
         }
         else {
-			simulation.runFullSimulation(price_data, req.query.currency, req.query.days);
+			simulation.runFullSimulation(price_data, req.query.currency, req.query.days, 'browser');
 
 			res.render('result', {
                 currency    : req.query.currency,       // BTC, ETH or LTC

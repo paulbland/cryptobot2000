@@ -258,4 +258,6 @@ module.exports  = {
 		return (sum / arr.length)
 	}
 
+	
+
 }

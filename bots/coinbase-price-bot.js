@@ -1,7 +1,6 @@
 /**
  * this bot ...
  * 
- * 
  */
 var mongoose 			= require('mongoose');
 var coinbase 			= require('coinbase');
@@ -18,7 +17,9 @@ module.exports = {
 
     dbConnect: function() {
         var self    = this;
-        var promise = mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
+        var promise = mongoose.connect(process.env.MONGODB_URI, {
+			useMongoClient: true
+		});
 
         promise.then(function(db) {
 			console.log(`Running: coinbase-price-bot.js (database: ${db.db.s.databaseName})`)
