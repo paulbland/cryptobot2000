@@ -132,50 +132,38 @@ module.exports = {
 		// console.log('timing metric d: ' + moment().startOf('day').seconds(tools.timing_section_d).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_d/execution_time)*100).toFixed(2) + '%');
 		// console.log('timing metric e: ' + moment().startOf('day').seconds(tools.timing_section_e).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_e/execution_time)*100).toFixed(2) + '%');
 		
-		// get just best results from all  (sort and slice)
-		this.max_results 		= this.compileMaxResults(this.all_results)
+		// get just best results from all (sort and slice)
+		this.max_results 		= this.compileMaxResults(this.all_results, 20)
 		this.max_results_avg 	= this.compileMaxResultsAverages(this.max_results)
 		
-
 		if (output==='json') {
-
 			return {
 				max_results 	: this.max_results,
 				max_results_avg : this.max_results_avg
 			}
-
 		} else if (output==='browser') {
-
 			this.printSummary(price_data); 
-
-			// all averages, max results and average of max results
 			if (this.print_average_lists) {
 				reporting.printGlobalAveragesList(this.table_averages, tools);
 			}
 			reporting.compileGlobalAverageChartData(this.table_averages, tools);
-
 			reporting.printMaxResultTable(this.max_results, this.max_results_avg, this.days);
-
 			this.browser_output 	= reporting.getFinalOutput()
 			this.average_chart_data = reporting.getAverageChartData()
-		}
-
-		
+		}		
 	},
 
 	// jsut gets top 20
-	compileMaxResults: function(result_set) {
-
-		var limit = 20;
-
-		result_set.sort(function(a, b) {
-    		return parseFloat(b.value) - parseFloat(a.value);
-		});
+	compileMaxResults: function(result_set, limit) {
 
 		// for really short tests if im doing fewer than 20 combos, need this
 		if (limit > result_set.length) {
 			limit = result_set.length
 		}
+
+		result_set.sort(function(a, b) {
+    		return parseFloat(b.value) - parseFloat(a.value);
+		});
 
 		return result_set.slice(0, limit);
 	},
@@ -185,7 +173,7 @@ module.exports = {
 	compileMaxResultsAverages: function(result_set) {
 
 		var results = [];
-		
+
 		var sums 	= {
 			period 	: 0,
 			offset 	: 0,
