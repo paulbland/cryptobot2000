@@ -41,6 +41,14 @@ module.exports = {
                 console.log('top 20 - results (max and avg) is')
                 console.log(results['15_days']['max_results'])
                 console.log(results['15_days']['max_results_avg'])
+
+                // ok great. next maybe make a sim model and ut this in it
+
+                //datetime
+                //top_10
+                //top_10_avg
+
+                // maybe add rank to max results. top_1, top_2, top_3...
                 
             }
         });
