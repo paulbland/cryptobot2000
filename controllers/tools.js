@@ -256,6 +256,10 @@ module.exports  = {
     		return a + b;
 		}, 0);
 		return (sum / arr.length)
+	},
+
+	roundToPoint5: function(num) {
+  		return (Math.round(num * 2) / 2);
 	}
 
 

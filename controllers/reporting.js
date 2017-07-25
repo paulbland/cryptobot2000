@@ -151,10 +151,6 @@ module.exports  = {
 		`;
 	},
 		
-	roundToPoint5: function(num) {
-  		return (Math.round(num * 2) / 2);
-	},
-
     getFinalOutput: function() {
         return this.browser_output;
     },

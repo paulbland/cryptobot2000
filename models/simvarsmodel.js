@@ -29,15 +29,15 @@ var SimVarsSchema = new Schema({
     short_term: {
         period  : { type: Number, default: 0 },
         offset  : { type: Number, default: 0 },
-        low     : { type: Number, default: 0 },
-        high    : { type: Number, default: 0 }
+        low     : { type: String, default: '' },    // string because limited to 3 decimals
+        high    : { type: String, default: '' }     // string because limited to 3 decimals
     },
     long_term : {
         period  : { type: Number, default: 0 },
         offset  : { type: Number, default: 0 },
-        low     : { type: Number, default: 0 },
-        high    : { type: Number, default: 0 }
-    }        
+        low     : { type: String, default: '' },    // string because limited to 3 decimals
+        high    : { type: String, default: '' }     // string because limited to 3 decimals
+    }           
 });
 
 // // Compile model from schema

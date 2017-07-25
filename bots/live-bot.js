@@ -25,7 +25,7 @@ module.exports = {
 		});
 
         promise.then(function(db) {
-			console.log(`Running: live-bot.js (database: ${db.db.s.databaseName})`)
+			console.log(`live-bot: Running! (database: ${db.db.s.databaseName})`)
             self.step1()
             /* Use `db`, for instance `db.model()` */
          });
@@ -36,7 +36,7 @@ module.exports = {
 		priceRecordModels['ETH'].find({}, function(error, price_data_eth) {
 			if (error) {
 				res.json(error);
-				console.log('error connecting to db');
+				console.log('live-bot: Error connecting to db (model: priceRecordModels)');
 				process.exit(1);
 			}
 			else {
@@ -53,7 +53,7 @@ module.exports = {
 		liveDataModels['ETH'].findOne({}).sort('-datetime_updated').exec(function(error, lastLiveData) {
 			if (error) {
 				res.json(error);
-				console.log('error connecting to db');
+				console.log('live-bot: Error connecting to db (model: liveDataModels)');
 				process.exit(1);
 			}
 			else {
@@ -190,7 +190,7 @@ module.exports = {
 
 
 	sellCoinAPI: function(high_threshold, sell_all, lastLiveData, buy_sell_unit, latest_sell_price) {
-		console.log('SELLING COIN FROM API!');
+		console.log('live-bot: SELLING COIN FROM API!');
 
 		if (lastLiveData.totals.total_coins_owned === 0) {
 			//console.log('you don’t have any coins to sell!<br />')
@@ -231,7 +231,7 @@ module.exports = {
 					payment_method	: process.env.USD_ACCOUNT_ID
 				};
 				account.sell(args, function(err, xfer) {
-					console.log('selling from api - done');
+					console.log('live-bot: Selling from API done');
 
 					// store response in DB
 					newLiveData.transaction.api_response_err 	= JSON.stringify(err, null, " ");
@@ -248,7 +248,7 @@ module.exports = {
 
 
 	buyCoinAPI: function(lastLiveData, buy_sell_unit, latest_buy_price, total_spent, total_sold, reinvest_profit) {
-		console.log('BUYING COIN FROM API!');
+		console.log('live-bot: BUYING COIN FROM API!');
 
 		var buy_coin_result = tools.buyCoin(lastLiveData.totals.total_coins_owned, buy_sell_unit, latest_buy_price, false, 
 				lastLiveData.totals.total_spent, lastLiveData.totals.total_coins_sold_value, lastLiveData.totals.money_in_bank, reinvest_profit)
@@ -297,7 +297,7 @@ module.exports = {
 				};
 
 				account.buy(args, function(err, xfer) {
-					console.log('buying from api -  done');
+					console.log('live-bot: Buying from API done');
 
 					// store response in DB
 					newLiveData.transaction.api_response_err 	= JSON.stringify(err, null, " ");
@@ -323,7 +323,7 @@ module.exports = {
 			if (err) {
 				console.log(err);
 			}
-			console.log('Saved newLiveData (ETH) record');
+			console.log('live-bot: Saved newLiveData (ETH) record');
 		})
 
 	}

@@ -199,10 +199,10 @@ module.exports = {
 			// round offset and period to nearest 0.5 cos thats all i can handle at this point
 			var avgs = {
 				rank    : `top_${total}_avg`,
-				period 	: reporting.roundToPoint5(sums.period / total),  
-				offset 	: reporting.roundToPoint5(sums.offset / total),
-				low 	: (sums.low / total).toFixed(3),
-				high 	: (sums.high / total).toFixed(3)
+				period 	: tools.roundToPoint5(sums.period / total),  
+				offset 	: tools.roundToPoint5(sums.offset / total),
+				low 	: (sums.low / total),
+				high 	: (sums.high / total)
 			};
 			results.push(avgs)
 		}

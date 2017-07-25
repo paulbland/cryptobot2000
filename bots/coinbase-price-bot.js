@@ -22,7 +22,7 @@ module.exports = {
 		});
 
         promise.then(function(db) {
-			console.log(`Running: coinbase-price-bot.js (database: ${db.db.s.databaseName})`)
+			console.log(`coinbase-price-bot: Running! (database: ${db.db.s.databaseName})`)
             self.getPriceData('BTC')
             self.getPriceData('ETH')
             self.getPriceData('LTC')
@@ -60,7 +60,7 @@ module.exports = {
 				pr.value_avg = ((pr.value_buy + pr.value_sell) / 2)
 				pr.save(function (err) {
 					if (err) return handleError(err);
-						console.log('saved ' + currency + ' from Coinbase');
+						console.log('coinbase-price-bot: Saved ' + currency + ' from Coinbase');
 				})
 			});
 
