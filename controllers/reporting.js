@@ -64,9 +64,7 @@ module.exports  = {
 	},
 	
 	printMaxResultTable: function(max_results, max_results_avg, days) {
-
-		this.debug(`<br /><strong>max 10 results and averages:</strong><br />`)
-		this.debug(`
+		this.debug(`<br /><strong>max 10 results and averages:</strong><br />
 			<table class="max">
 				<tr>
 					<th>rank</th>
@@ -77,14 +75,10 @@ module.exports  = {
 					<th>high</th>
 					<th>value</th>
 					<th>profit</th>
-				</tr>
-		`)
+				</tr>`)
 		
 		for (i=0; i<max_results.length; i++) {
-
-			var link = this.createLink(max_results[i].period, max_results[i].offset, 
-					max_results[i].low, max_results[i].high, 'ETH', days)
-
+			var link = this.createLink(max_results[i].period, max_results[i].offset, max_results[i].low, max_results[i].high, 'ETH', days)
 			this.debug(`
 				<tr>
 					<th>${(i+1)}</th>
@@ -97,14 +91,13 @@ module.exports  = {
 					<td>${max_results[i].profit}%</td>
 				</tr>
 			`);
-
+			// print avg for rows 5, 10 and 20 only
 			if ((i+1)===5 || (i+1)===10 || (i+1)===20) {
 				this.addAverageRow(max_results_avg[i], days);
 			}
 		}
 		this.debug(`</table>`);
 	},
-
 
 	addAverageRow: function(avg_item, days) {
 		var avg_link = this.createLink(avg_item.period, avg_item.offset, avg_item.low, avg_item.high, 'ETH', days)
