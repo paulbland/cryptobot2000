@@ -79,7 +79,7 @@ module.exports = {
 
                 newSimVars.save(function (err) {
 					if (err) {
-                        return handleError(err);
+                        console.log(err)//return handleError(err);
                     }
 					console.log('Saved newSimVars!');
 				});

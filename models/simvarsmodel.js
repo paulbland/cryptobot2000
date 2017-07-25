@@ -13,7 +13,9 @@ var SimVarsSchema = new Schema({
                 period  : { type: Number, default: 0 },
                 offset  : { type: Number, default: 0 },
                 low     : { type: Number, default: 0 },
-                high    : { type: Number, default: 0 }
+                high    : { type: Number, default: 0 },
+                value   : { type: Number, default: 0 },
+                profit  : { type: Number, default: 0 }
             }],
             max_results_avg : [{
                 rank    : { type: String, default: '' },

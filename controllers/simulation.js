@@ -336,7 +336,9 @@ module.exports = {
 
 		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
-		var profit_percentage	= ((final_profit / this.max_value_ever_owned) * 100).toFixed(2)
+		var profit_percentage	= ((final_profit / this.max_value_ever_owned) * 100)
+
+		if (isNaN(profit_percentage)) profit_percentage = 0;
 
 		// put all results in array - to print max values later
 		// similar to what happens in compileTableData.... kinda.. that could read from this?
@@ -502,7 +504,7 @@ module.exports = {
 		cell_str += `
 			<td style="background-color:${cell_color}">
 				<a href="${cell_link}" target="_blank">$${final_profit.toFixed(2)}</a><br />
-				<span>($${this.max_value_ever_owned.toFixed(2)}\/${profit_percentage}%)</span>
+				<span>($${this.max_value_ever_owned.toFixed(2)}\/${profit_percentage.toFixed(2)}%)</span>
 			</td>
 		`;
 

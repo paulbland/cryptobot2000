@@ -13,47 +13,50 @@
 
 	<% for (i=0; i<data.length; i++) { %>
 
-		<strong>datetime: <%- data[i].datetime.toUTCString() %></strong><br /><br />
+		<strong>datetime: <%- data[i].datetime.toUTCString() %></strong>
+		<span style="color:limegreen">
+			<%= moment(data[i].datetime).tz("America/New_York").calendar() %> (NY Time) 
+		</span></strong><br />
+		<br />
 
 		<% var result_data = data[i].result_data %>
 		<% for (j=0; j<result_data.length; j++) { %>
 
 			<strong>time_period: <%- result_data[j].time_period %></strong><br /><br />
 
-			<% if (typeof result_data[j].this_data !== 'undefined') { %>
+			<strong>max_results:</strong>
+			<% var max_results = result_data[j].this_data.max_results %>
+			<table class="max" style="display:inline">
+				<tr><th>rank</th><th>period</th><th>offset</th><th>low</th><th>high</th><th>value</th><th>profit</th><th>link</th></tr>
+				<% for (k=0; k<max_results.length; k++) { %>
+					<tr>
+						<th><%- max_results[k].rank %></th>
+						<td><%- max_results[k].period %></td>
+						<td><%- max_results[k].offset %></td>
+						<td><%- max_results[k].low %></td>
+						<td><%- max_results[k].high %></td>
+						<td>$<%- max_results[k].value.toFixed(2) %></td>
+						<td><%- max_results[k].profit.toFixed(2) %>%</td>
+						<td><a href="#" target="_blank">link</a></td>
+					</tr>
+				<% } %> 
+			</table>
 
-				<strong>max_results:</strong><br /><br />
-				<% var max_results = result_data[j].this_data.max_results %>
-				<table class="max">
-					<tr><th>rank</th><th>period</th><th>offset</th><th>low</th><th>high</th></tr>
-					<% for (k=0; k<max_results.length; k++) { %>
-						<tr>
-							<th><%- max_results[k].rank %></th>
-							<td><%- max_results[k].period %></td>
-							<td><%- max_results[k].offset %></td>
-							<td><%- max_results[k].low %></td>
-							<td><%- max_results[k].high %></td>
-						</tr>
-					<% } %> 
-				</table><br />
-
-				<strong>max_results_avg:</strong><br /><br />
-				<% var max_results_avg = result_data[j].this_data.max_results_avg %>
-				<table class="max">
-					<tr><th>rank</th><th>period</th><th>offset</th><th>low</th><th>high</th></tr>
-					<% for (k=0; k<max_results_avg.length; k++) { %>
-						<tr>
-							<th><%- max_results_avg[k].rank %></th>
-							<td><%- max_results_avg[k].period %></td>
-							<td><%- max_results_avg[k].offset %></td>
-							<td><%- max_results_avg[k].low %></td>
-							<td><%- max_results_avg[k].high %></td>
-						</tr>
-					<% } %> 
-				</table><br />
-			<% } %> 	
-			
-			<hr /><br />
+			<strong>max_results_avg:</strong>
+			<% var max_results_avg = result_data[j].this_data.max_results_avg %>
+			<table class="max" style="display:inline">
+				<tr><th>rank</th><th>period</th><th>offset</th><th>low</th><th>high</th><th>link</th></tr>
+				<% for (k=0; k<max_results_avg.length; k++) { %>
+					<tr>
+						<th><%- max_results_avg[k].rank %></th>
+						<td><%- max_results_avg[k].period %></td>
+						<td><%- max_results_avg[k].offset %></td>
+						<td><%- max_results_avg[k].low %></td>
+						<td><%- max_results_avg[k].high %></td>
+						<td><a href="#" target="_blank">link</a></td>
+					</tr>
+				<% } %> 
+			</table><br /><br /><hr /><br />
 
 		<% } %>
 

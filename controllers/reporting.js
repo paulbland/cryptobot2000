@@ -60,7 +60,7 @@ module.exports  = {
     updateSummaryData: function(final_profit, max_value_ever_owned, invest_profit_ratio, profit_percentage) {
         this.summary_output += '<strong>final profit: $' + final_profit.toFixed(2) + '</strong> ';
 		this.summary_output += '(<strong>max ever value: $' + max_value_ever_owned.toFixed(2) + '</strong>) ';
-		this.summary_output += 'percentage earnt: ' + profit_percentage + '%<br /><br />';
+		this.summary_output += 'percentage earnt: ' + profit_percentage.toFixed(2) + '%<br /><br />';
 	},
 	
 	printMaxResultTable: function(max_results, max_results_avg, days) {
