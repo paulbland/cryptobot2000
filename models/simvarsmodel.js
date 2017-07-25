@@ -5,24 +5,25 @@ var Schema = mongoose.Schema;
 
 var SimVarsSchema = new Schema({
     datetime	: Date,
-    max_results : [
-        {
-            rank    : { type: Number, default: 0 },
-            period  : { type: Number, default: 0 },
-            offset  : { type: Number, default: 0 },
-            low     : { type: Number, default: 0 },
-            high    : { type: Number, default: 0 }
+    result_data : [{
+        time_period : { type: String, default: '' },
+        this_data        : {
+            max_results : [{
+                rank    : { type: Number, default: 0 },
+                period  : { type: Number, default: 0 },
+                offset  : { type: Number, default: 0 },
+                low     : { type: Number, default: 0 },
+                high    : { type: Number, default: 0 }
+            }],
+            max_results_avg : [{
+                rank    : { type: String, default: '' },
+                period  : { type: Number, default: 0 },
+                offset  : { type: Number, default: 0 },
+                low     : { type: Number, default: 0 },
+                high    : { type: Number, default: 0 }
+            }]
         }
-    ],
-    max_results_avg : [
-        {
-            rank    : { type: Number, default: 0 },
-            period  : { type: Number, default: 0 },
-            offset  : { type: Number, default: 0 },
-            low     : { type: Number, default: 0 },
-            high    : { type: Number, default: 0 }
-        }
-    ],
+    }],
     short_term: {
         period  : { type: Number, default: 0 },
         offset  : { type: Number, default: 0 },
@@ -34,11 +35,7 @@ var SimVarsSchema = new Schema({
         offset  : { type: Number, default: 0 },
         low     : { type: Number, default: 0 },
         high    : { type: Number, default: 0 }
-    } 
-    
-
-    /* { type: String, default: '' }, */
-       
+    }        
 });
 
 // // Compile model from schema

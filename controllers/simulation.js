@@ -133,7 +133,7 @@ module.exports = {
 		// console.log('timing metric e: ' + moment().startOf('day').seconds(tools.timing_section_e).format('H:mm:ss') + ' as percentage ' + ((tools.timing_section_e/execution_time)*100).toFixed(2) + '%');
 		
 		// get just best results from all (sort and slice)
-		this.max_results 		= this.compileMaxResults(this.all_results, 20)
+		this.max_results 		= this.compileMaxResults(this.all_results, 10)
 		this.max_results_avg 	= this.compileMaxResultsAverages(this.max_results)
 		
 		if (output==='json') {
@@ -153,7 +153,7 @@ module.exports = {
 		}		
 	},
 
-	// jsut gets top 20
+	// just gets top 20
 	compileMaxResults: function(result_set, limit) {
 
 		// for really short tests if im doing fewer than 20 combos, need this
@@ -164,6 +164,11 @@ module.exports = {
 		result_set.sort(function(a, b) {
     		return parseFloat(b.value) - parseFloat(a.value);
 		});
+
+		// add rank var
+		for (i=0; i<result_set.length; i++) {
+			result_set[i].rank = (i+1);
+		}
 
 		return result_set.slice(0, limit);
 	},
@@ -188,7 +193,7 @@ module.exports = {
 			sums.low 	+= result_set[i].low;
 			sums.high	+= result_set[i].high;
 
-			var total 	= (i+1)
+			var total 	= (i+1);
 
 			// calculate averages
 			// round offset and period to nearest 0.5 cos thats all i can handle at this point

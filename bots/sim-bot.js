@@ -7,6 +7,8 @@ mongoose.Promise 	    = global.Promise;
 
 module.exports = {
 
+    test_periods : [1, 2, 3], //[15, 30, 45, 60, 75, 90]
+
     run: function() {
         this.dbConnect();
     },
@@ -25,6 +27,7 @@ module.exports = {
     },
 
     okRunTheThing: function() {
+        var self = this;
 
         // get price data for sim
         priceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_data) {
@@ -32,67 +35,55 @@ module.exports = {
                 res.json(error);
             }
             else {
-                var results = {}
-                var test_periods = [1, 2, 3] //[15, 30, 45, 60, 75, 90]
+                var newSimVars          = new simVarsModelETH();
+                newSimVars.datetime     = new Date();
+                newSimVars.result_data  = []
 
-                test_periods.forEach(function(days) {
-                    results[`${days}_days`] = simulation.runFullSimulation(price_data, 'ETH', days, 'json');
+                short_term_sums = {period:0, offset:0, low:0, high:0}
+                long_term_sums  = {period:0, offset:0, low:0, high:0}
+
+                self.test_periods.forEach(function(days) {
+                    var thisResult = simulation.runFullSimulation(price_data, 'ETH', days, 'json');
+                    newSimVars.result_data.push({
+                        time_period : `${days}_days`,
+                        this_data   : thisResult
+                    })
+
+                    // compile short term/long term avgs
+                    if (days===15||days===30||days===45) {
+                        short_term_sums.period  += thisResult['max_results_avg'][4]['period']
+                        short_term_sums.offset  += thisResult['max_results_avg'][4]['offset']
+                        short_term_sums.low     += thisResult['max_results_avg'][4]['low']
+                        short_term_sums.high    += thisResult['max_results_avg'][4]['high']
+                    }
+                    if (days===60||days===75||days===90) {
+                        long_term_sums.period   += thisResult['max_results_avg'][4]['period']
+                        long_term_sums.offset   += thisResult['max_results_avg'][4]['offset']
+                        long_term_sums.low      += thisResult['max_results_avg'][4]['low']
+                        long_term_sums.high     += thisResult['max_results_avg'][4]['high']
+                    }
                 })
-                //console.log(results)
 
-                // so to regenerate my google sheet
-                // console.log('90 days/top 5:', results['90_days']['max_results_avg'][4])
-                // console.log('75 days/top 5:', results['75_days']['max_results_avg'][4])
-                // console.log('60 days/top 5:', results['60_days']['max_results_avg'][4])
-                // console.log('45 days/top 5:', results['45_days']['max_results_avg'][4])
-                // console.log('30 days/top 5:', results['30_days']['max_results_avg'][4])
-                // console.log('15 days/top 5:', results['15_days']['max_results_avg'][4])
-
-                // ok great. next maybe make a sim model and ut this in it
-
-                //datetime
-                //top_10
-                //top_10_avg
-
-                // maybe add rank to max results. top_1, top_2, top_3... (maynbe just {rank : 1})
-
-                var short_term = {
-                    period : ((results['1_days']['max_results_avg'][4]['period'] + results['2_days']['max_results_avg'][4]['period'] + results['3_days']['max_results_avg'][4]['period']) / 3),
+                newSimVars.short_term = {
+                    period  : (short_term_sums.period / 3),
+                    offset  : (short_term_sums.offset / 3),
+                    low     : (short_term_sums.low / 3),
+                    high    : (short_term_sums.high / 3)
                 }
-                var long_term = {
-
+                newSimVars.long_term = {
+                    period  : (long_term_sums.period / 3),
+                    offset  : (long_term_sums.offset / 3),
+                    low     : (long_term_sums.low / 3),
+                    high    : (long_term_sums.high / 3)
                 }
 
-                var newSimVars = new simVarsModelETH();
-
-                newSimVars.datetime         = new Date();
-                newSimVars.max_results      = [
-                    results['1_days']['max_results'],
-                    results['2_days']['max_results'],
-                    results['3_days']['max_results']
-                ]
-                newSimVars.max_results_avg  = [
-                    results['1_days']['max_results_avg'],
-                    results['2_days']['max_results_avg'],
-                    results['3_days']['max_results_avg']
-                ]
-                newSimVars.short_term       = short_term;
-                newSimVars.longterm         = long_term;
-            
                 newSimVars.save(function (err) {
 					if (err) {
                         return handleError(err);
                     }
 					console.log('Saved newSimVars!');
-				})
-
-
-
-                
+				});
             }
         });
-
     }
-
-
 }
