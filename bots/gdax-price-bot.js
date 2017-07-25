@@ -3,49 +3,31 @@
  * it sets both sell and buy price for each of the three currencies
  * 
  */
-var mongoose 	= require('mongoose');
-var Gdax        = require('gdax');
-
-
-
-// adding back in. sort it out at work
-// //Get the default connection
- //var db = mongoose.connection;
- //console.log(db)
-
-// //Bind connection to error event (to get notification of connection errors)
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-var priceRecordModels = require('../models/pricerecordmodel')
+var mongoose 	        = require('mongoose');
+var Gdax                = require('gdax');
+var priceRecordModels   = require('../models/pricerecordmodel')
 
 module.exports = {
 
     run: function() {
-        console.log('running: gdax-price-bots.js')
-        var self = this;
-
-        var promise = mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
-        //mongoose.Promise = global.Promise;
-
-        promise.then(function(db) {
-
-          // console.log(Object.keys(db))
-           console.log('gdax-price-bots.js: database name is: ' + db.db.s.databaseName)
-            self.okNowRun()   
-            /* Use `db`, for instance `db.model()` */
-         });
-        
-               
+        console.log('running: gdax-price-bot.js')
+        this.dbConnect();
     },
 
-    okNowRun: function() {
-        this.getPriceData('BTC')
-        this.getPriceData('ETH')
-        this.getPriceData('LTC')
+    dbConnect: function() {
+        var self    = this;
+        var promise = mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
+
+        promise.then(function(db) {
+            console.log('gdax-price-bot.js: database name is: ' + db.db.s.databaseName)
+            self.getPriceData('BTC')
+            self.getPriceData('ETH')
+            self.getPriceData('LTC')
+            /* Use `db`, for instance `db.model()` */
+         });
     },
 
     getPriceData: function(currency) {
-
         var publicClient    = new Gdax.PublicClient(currency+'-USD');
         var pr              = new priceRecordModels[currency];
 

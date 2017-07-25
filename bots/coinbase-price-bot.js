@@ -3,14 +3,9 @@
  * 
  * 
  */
-var mongoose 	= require('mongoose');
-var coinbase 	= require('coinbase');
-
-// DATABASE
-mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
-mongoose.Promise = global.Promise;
-
-var priceRecordModels = require('../models/pricerecordmodel')
+var mongoose 			= require('mongoose');
+var coinbase 			= require('coinbase');
+var priceRecordModels 	= require('../models/pricerecordmodel')
 
 // Connect to Coinbase API
 var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
@@ -18,10 +13,22 @@ var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiS
 module.exports = {
 
 	run: function() {
-		this.getPriceData('BTC')
-		this.getPriceData('ETH')
-		this.getPriceData('LTC')
-	},
+        console.log('running: coinbase-price-bot.js')
+        this.dbConnect();
+    },
+
+    dbConnect: function() {
+        var self    = this;
+        var promise = mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
+
+        promise.then(function(db) {
+            console.log('coinbase-price-bot.js: database name is: ' + db.db.s.databaseName)
+            self.getPriceData('BTC')
+            self.getPriceData('ETH')
+            self.getPriceData('LTC')
+            /* Use `db`, for instance `db.model()` */
+         });
+    },
 
 	getPriceData: function(currency) {
 

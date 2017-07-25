@@ -5,8 +5,8 @@ var liveBot             = require('./live-bot.js')
 //var simBot              = require('./sim-bot.js')
 
 
-    gdaxPriceBot.run()
+   // gdaxPriceBot.run()
 
-   // coinbasePriceBot.run()
+    coinbasePriceBot.run()
 
    // liveBot.run()
