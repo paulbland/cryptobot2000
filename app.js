@@ -89,9 +89,9 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
 // LIVE RESULTS
 app.get('/live-result', basicAuth, function(req, res) {
 
-    var liveDataModelETH = require('./models/livedatamodeleth')
+    var liveDataModels = require('./models/livedatamodel')
 
-	liveDataModelETH.find({}).sort('-datetime_updated').exec(function(error, live_data_eth) {
+	liveDataModel['ETH'].find({}).sort('-datetime_updated').exec(function(error, live_data_eth) {
 		if (error) {
 			//res.json(error);
 			process.exit(1);
@@ -100,6 +100,25 @@ app.get('/live-result', basicAuth, function(req, res) {
 			res.render('live-result', {
 				data : live_data_eth,
 				moment : moment 
+			});
+		}
+	});
+})
+
+
+// SIM VARS
+app.get('/sim-vars', basicAuth, function(req, res) {
+
+    var simVarsModelETH = require('./models/simvarsmodel')
+
+	simVarsModelETH.find({}).sort('-datetime_updated').exec(function(error, sim_vars_eth) {
+		if (error) {
+			//res.json(error);
+			process.exit(1);
+		}
+		else {
+			res.render('sim-vars', {
+				data : sim_vars_eth
 			});
 		}
 	});
