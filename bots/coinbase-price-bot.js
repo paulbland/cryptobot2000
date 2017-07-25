@@ -13,7 +13,6 @@ var client 	= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiS
 module.exports = {
 
 	run: function() {
-        console.log('running: coinbase-price-bot.js')
         this.dbConnect();
     },
 
@@ -22,7 +21,7 @@ module.exports = {
         var promise = mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 
         promise.then(function(db) {
-            console.log('coinbase-price-bot.js: database name is: ' + db.db.s.databaseName)
+			console.log(`Running: coinbase-price-bot.js (database: ${db.db.s.databaseName})`)
             self.getPriceData('BTC')
             self.getPriceData('ETH')
             self.getPriceData('LTC')

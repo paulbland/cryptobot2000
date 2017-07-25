@@ -10,7 +10,6 @@ var priceRecordModels   = require('../models/pricerecordmodel')
 module.exports = {
 
     run: function() {
-        console.log('running: gdax-price-bot.js')
         this.dbConnect();
     },
 
@@ -19,7 +18,7 @@ module.exports = {
         var promise = mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
 
         promise.then(function(db) {
-            console.log('gdax-price-bot.js: database name is: ' + db.db.s.databaseName)
+			console.log(`Running: gdax-price-bot.js (database: ${db.db.s.databaseName})`)
             self.getPriceData('BTC')
             self.getPriceData('ETH')
             self.getPriceData('LTC')

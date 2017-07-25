@@ -1,29 +1,33 @@
-var mongoose 	= require('mongoose');
-var coinbase 	= require('coinbase');
-
-var tools 		= require('../controllers/tools')
-var reporting 	= require('../controllers/reporting')
-
-
-// DATABASE
-mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
-mongoose.Promise = global.Promise;
-
-// get models
-var liveDataModels 			= require('../models/livedatamodel')
-var priceRecordModels 		= require('../models/pricerecordmodel')
+var mongoose 			= require('mongoose');
+var coinbase 			= require('coinbase');
+var tools 				= require('../controllers/tools')
+var reporting 			= require('../controllers/reporting')
+var liveDataModels 		= require('../models/livedatamodel')
+var priceRecordModels 	= require('../models/pricerecordmodel')
 
 // prep new item to be appended to live data recrod
-var newLiveData 			= new liveDataModels['ETH'];
+var newLiveData 	= new liveDataModels['ETH'];
+mongoose.Promise 	= global.Promise;
 
 module.exports = {
 
-	really_buy_and_sell : false, // THIS IS IT!
+	really_buy_and_sell : false, // THIS IS IT!!!
 	initial_investment  : 2000,
 
 	run: function() {
-		this.step1();
+		this.dbConnect();
 	},
+
+	dbConnect: function() {
+		var self    = this;
+        var promise = mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
+
+        promise.then(function(db) {
+			console.log(`Running: live-bot.js (database: ${db.db.s.databaseName})`)
+            self.step1()
+            /* Use `db`, for instance `db.model()` */
+         });
+    },
 
 	step1: function() {
 		var self = this;
@@ -308,21 +312,19 @@ module.exports = {
 
 
 	finalStepSaveAndExit: function() {
+		var self = this;
 
-		newLiveData.totals.current_value_of_coins_owned 	= (newLiveData.totals.total_coins_owned * newLiveData.latest_sell_price)
-		newLiveData.totals.current_position 				= (newLiveData.totals.current_value_of_coins_owned + newLiveData.totals.total_coins_sold_value - newLiveData.totals.total_spent)
+		newLiveData.totals.current_value_of_coins_owned = (newLiveData.totals.total_coins_owned * newLiveData.latest_sell_price)
+		newLiveData.totals.current_position 			= (newLiveData.totals.current_value_of_coins_owned + newLiveData.totals.total_coins_sold_value - newLiveData.totals.total_spent)
 
 		newLiveData.save(function (err) {
 			if (err) {
 				console.log(err);
 			}
 			console.log('Saved newLiveData (ETH) record');
-			//process.exit();
 		})
 
 	}
-
-
 }
 
 
