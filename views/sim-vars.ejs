@@ -21,9 +21,11 @@
 		<% var result_data = data[i].result_data %>
 		<% for (j=0; j<result_data.length; j++) { %>
 
+			<% var days = result_data[j].time_period.substring(0, result_data[j].time_period.indexOf('_')) %>
 			<div class="table-wrapper">
 
-				<strong>time_period: <%- result_data[j].time_period %></strong><br /><br />
+				<strong>time_period: <%- result_data[j].time_period %></strong>
+				<a href="/run-simulation?currency=ETH&amp;days=<%- days %>" target="_blank">see full sim</a><br /><br />
 
 				<% var max_results 		= result_data[j].this_data.max_results %>
 				<% var max_results_avg 	= result_data[j].this_data.max_results_avg %>
@@ -39,7 +41,7 @@
 							<td><%- max_results[k].low.toFixed(3) %></td>
 							<td><%- max_results[k].high.toFixed(3) %></td>
 							<td>
-								<a href="/run-simulation-single?hrs_in_period=<%- max_results[k].period %>&amp;offset=<%- max_results[k].offset %>&amp;low_threshold=<%- max_results[k].low %>&amp;high_threshold=<%- max_results[k].high %>&amp;currency=ETH&amp;days=<%- result_data[j].time_period.substring(0, result_data[j].time_period.indexOf('_')) %>"
+								<a href="/run-simulation-single?hrs_in_period=<%- max_results[k].period %>&amp;offset=<%- max_results[k].offset %>&amp;low_threshold=<%- max_results[k].low %>&amp;high_threshold=<%- max_results[k].high %>&amp;currency=ETH&amp;days=<%- days %>"
 									target="_blank" style="color:rgb(0,<%- (192-(k*10)) %>,0)"><strong>$<%- max_results[k].value.toFixed(2) %></strong></a>
 							</td>
 							<td><%- max_results[k].profit.toFixed(2) %>%</td>
