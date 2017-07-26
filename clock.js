@@ -22,7 +22,7 @@ new CronJob('2-59/10 * * * *', function() {
     liveBot.run()
 }, null, true, timezone);
 
-// Every morning 4 am 
-new CronJob('0 4 * * *', function() {
+// Every morning 2 am 
+new CronJob('0 2 * * *', function() {
     simBot.run()
 }, null, true, timezone);
