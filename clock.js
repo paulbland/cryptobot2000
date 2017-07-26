@@ -3,7 +3,7 @@ var CronJob             = require('cron').CronJob;
 var gdaxPriceBot        = require('./bots/gdax-price-bot.js')
 var coinbasePriceBot    = require('./bots/coinbase-price-bot.js')
 var liveBot             = require('./bots/live-bot.js')
-var simBot              = require('./bots/sim-bot.js')
+//var simBot              = require('./bots/sim-bot.js')
 
 var timezone            = 'America/New_York';
 
@@ -23,6 +23,6 @@ new CronJob('2-59/10 * * * *', function() {
 }, null, true, timezone);
 
 // Every morning 2 am 
-new CronJob('50 7 * * *', function() {
-    simBot.run()
-}, null, true, timezone);
+// new CronJob('50 7 * * *', function() {
+//     simBot.run()
+// }, null, true, timezone);
