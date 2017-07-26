@@ -9,18 +9,17 @@ var moment      = require('moment');
 mongoose.connect(process.env.MONGODB_URI_NEW, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 
-var publicClient
+var publicClient;
 var PriceRecordModels = require('../models/pricerecordmodel') 
 
-// num of days to get
-var days            = 90;
+var days            = 120;      // num of days to get
 var num_done        = 0;
 var all_my_prices   = []
-var granularity     = 600;   // granularity 300 = 5 mins. 600 = 10 mins
-var delay           = 2000;
+var granularity     = 600;     // granularity - 300 = 5 mins, 600 = 10 mins
+var delay           = 2000;    // to combat public api limits
 
 
-getMyData('LTC') //BTC ETH LTC
+getMyData('ETH') //BTC ETH LTC
 
 
 function getMyData(currency) {

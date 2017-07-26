@@ -87,7 +87,7 @@ module.exports  = {
 					<td>(${(max_results[i].period+max_results[i].offset)})</td>
 					<td>${max_results[i].low}</td>
 					<td>${max_results[i].high}</td>
-					<td><a href="${link}" target="_blank" style="color:rgb(0,${(192-(i*5))},0)"><strong>$${max_results[i].value.toFixed(2)}</strong></td>
+					<td><a href="${link}" target="_blank" style="color:rgb(0,${(192-(i*10))},0)"><strong>$${max_results[i].value.toFixed(2)}</strong></td>
 					<td>${max_results[i].profit.toFixed(2)}%</td>
 				</tr>
 			`);
@@ -107,8 +107,8 @@ module.exports  = {
 				<th>${avg_item.period}</th>
 				<th>${avg_item.offset}</th>
 				<th>${avg_item.period + avg_item.offset}</th>
-				<th>${avg_item.low}</th>
-				<th>${avg_item.high}</th>
+				<th>${avg_item.low.toFixed(3)}</th>
+				<th>${avg_item.high.toFixed(3)}</th>
 				<th></th>
 				<th><a href="${avg_link}" target="_blank">link →</a></th>
 			</tr>

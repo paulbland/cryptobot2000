@@ -10,52 +10,78 @@
 
 	<% for (i=0; i<data.length; i++) { %>
 
-		<strong>datetime: <%- data[i].datetime.toUTCString() %></strong>
+		<strong>datetime: <%- data[i].datetime.toUTCString() %>
 		<span style="color:limegreen">
 			<%= moment(data[i].datetime).tz("America/New_York").calendar() %> (NY Time) 
 		</span></strong><br />
 		<br />
 
+		<% var lowest_low = 1, highest_low = 0, lowest_high = 1, highest_high = 0, lowest_sum = 99, highest_sum = 0 %>
+
 		<% var result_data = data[i].result_data %>
 		<% for (j=0; j<result_data.length; j++) { %>
 
-			<strong>time_period: <%- result_data[j].time_period %></strong><br /><br />
+			<div class="table-wrapper">
 
-			<strong>max_results:</strong>
-			<% var max_results = result_data[j].this_data.max_results %>
-			<table class="max" style="display:inline">
-				<tr><th>rank</th><th>period</th><th>offset</th><th>low</th><th>high</th><th>value</th><th>profit</th><th>link</th></tr>
-				<% for (k=0; k<max_results.length; k++) { %>
-					<tr>
-						<th><%- max_results[k].rank %></th>
-						<td><%- max_results[k].period %></td>
-						<td><%- max_results[k].offset %></td>
-						<td><%- max_results[k].low %></td>
-						<td><%- max_results[k].high %></td>
-						<td>$<%- max_results[k].value.toFixed(2) %></td>
-						<td><%- max_results[k].profit.toFixed(2) %>%</td>
-						<td><a href="/run-simulation-single?hrs_in_period=<%- max_results[k].period %>&amp;offset=<%- max_results[k].offset %>&amp;low_threshold=<%- max_results[k].low %>&amp;high_threshold=<%- max_results[k].high %>&amp;currency=ETH&amp;days=<%- result_data[j].time_period.substring(0, result_data[j].time_period.indexOf('_')) %>" target="_blank">link →</a></td>
-					</tr>
-				<% } %> 
-			</table> 
+				<strong>time_period: <%- result_data[j].time_period %></strong><br /><br />
 
-			<strong>max_results_avg:</strong>
-			<% var max_results_avg = result_data[j].this_data.max_results_avg %>
-			<table class="max" style="display:inline">
-				<tr><th>rank</th><th>period</th><th>offset</th><th>low</th><th>high</th><th>link</th></tr>
-				<% for (k=0; k<max_results_avg.length; k++) { %>
-					<tr>
-						<th><%- max_results_avg[k].rank %></th>
-						<td><%- max_results_avg[k].period %></td>
-						<td><%- max_results_avg[k].offset %></td>
-						<td><%- max_results_avg[k].low %></td>
-						<td><%- max_results_avg[k].high %></td>
-						<td><a href="/run-simulation-single?hrs_in_period=<%- max_results_avg[k].period %>&amp;offset=<%- max_results_avg[k].offset %>&amp;low_threshold=<%- max_results_avg[k].low %>&amp;high_threshold=<%- max_results_avg[k].high %>&amp;currency=ETH&amp;days=<%- result_data[j].time_period.substring(0, result_data[j].time_period.indexOf('_')) %>" target="_blank">link →</a></td>
-					</tr>
-				<% } %> 
-			</table><br /><br /><hr /><br />
+				<% var max_results 		= result_data[j].this_data.max_results %>
+				<% var max_results_avg 	= result_data[j].this_data.max_results_avg %>
+
+				<table class="max">
+					<tr><th>rank</th><th>period</th><th>offset</th><th>(sum)</th><th>low</th><th>high</th><th>value</th><th>profit</th></tr>
+					<% for (k=0; k<max_results.length; k++) { %>
+						<tr>
+							<th><%- max_results[k].rank %></th>
+							<td><%- max_results[k].period %></td>
+							<td><%- max_results[k].offset %></td>
+							<td>(<%- (max_results[k].period + max_results[k].offset) %>)</td>
+							<td><%- max_results[k].low.toFixed(3) %></td>
+							<td><%- max_results[k].high.toFixed(3) %></td>
+							<td>
+								<a href="/run-simulation-single?hrs_in_period=<%- max_results[k].period %>&amp;offset=<%- max_results[k].offset %>&amp;low_threshold=<%- max_results[k].low %>&amp;high_threshold=<%- max_results[k].high %>&amp;currency=ETH&amp;days=<%- result_data[j].time_period.substring(0, result_data[j].time_period.indexOf('_')) %>"
+									target="_blank" style="color:rgb(0,<%- (192-(k*10)) %>,0)"><strong>$<%- max_results[k].value.toFixed(2) %></strong></a>
+							</td>
+							<td><%- max_results[k].profit.toFixed(2) %>%</td>
+						</tr>
+
+						<% lowest_low 	= (max_results[k].low < lowest_low) ? max_results[k].low : lowest_low %>
+						<% highest_low 	= (max_results[k].low > highest_low) ? max_results[k].low : highest_low %>
+						<% lowest_high 	= (max_results[k].high < lowest_high) ? max_results[k].high : lowest_high %>
+						<% highest_high = (max_results[k].high > highest_high) ? max_results[k].high : highest_high %>
+
+						<% lowest_sum 	= ((max_results[k].period + max_results[k].offset) < lowest_sum) ? (max_results[k].period + max_results[k].offset) : lowest_sum %>
+						<% highest_sum 	= ((max_results[k].period + max_results[k].offset) > highest_sum) ? (max_results[k].period + max_results[k].offset) : highest_sum %>
+				
+					<% } %> 
+					<% for (k=4; k<max_results_avg.length; k+=5) { %>
+						<tr>
+							<th><%- max_results_avg[k].rank %></th>
+							<th><%- max_results_avg[k].period %></th>
+							<th><%- max_results_avg[k].offset %></th>
+							<th>(<%- (max_results_avg[k].period + max_results_avg[k].offset) %>)</th>
+							<th><%- max_results_avg[k].low.toFixed(3) %></th>
+							<th><%- max_results_avg[k].high.toFixed(3) %></th>
+							<th></th>
+							<th><a href="/run-simulation-single?hrs_in_period=<%- max_results_avg[k].period %>&amp;offset=<%- max_results_avg[k].offset %>&amp;low_threshold=<%- max_results_avg[k].low.toFixed(3) %>&amp;high_threshold=<%- max_results_avg[k].high.toFixed(3) %>&amp;currency=ETH&amp;days=<%- result_data[j].time_period.substring(0, result_data[j].time_period.indexOf('_')) %>" target="_blank">link →</a></td>
+						</tr>
+					<% } %> 
+				</table>
+
+				
+			</div>
 
 		<% } %>
+
+		<div style="clear:left">
+			lowest_low: <%- lowest_low.toFixed(3) %><br />
+			highest_low: <%- highest_low.toFixed(3)  %><br />
+			lowest_high: <%- lowest_high.toFixed(3)  %><br />
+			highest_high: <%- highest_high.toFixed(3) %><br />
+			lowest_sum: <%- lowest_sum  %><br />
+			highest_sum: <%- highest_sum %>
+		</div>
+
 	<% } %>
 
 </body>

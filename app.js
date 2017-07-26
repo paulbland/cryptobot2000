@@ -89,7 +89,7 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
 // LIVE RESULTS
 app.get('/live-result', basicAuth, function(req, res) {
     var liveDataModels = require('./models/livedatamodel')
-	liveDataModel['ETH'].find({}).sort('-datetime_updated').exec(function(error, live_data_eth) {
+	liveDataModels['ETH'].find({}).sort('-datetime_updated').exec(function(error, live_data_eth) {
 		if (error) {
 			//res.json(error);
 			process.exit(1);
