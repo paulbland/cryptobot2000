@@ -92,7 +92,7 @@ module.exports = {
 		this.print_full_debug 		= false; 
 		this.print_table_data 		= false;  	// usually true - hiding all data tables
 		this.print_average_data 	= true;		// lists and 4 average charts
-		this.print_average_lists	= false; 	// usually true. just hising for now
+		this.print_average_lists	= false; 	// usually true. just hiding for now
 		this.currency 				= currency;
 
 		price_data = this.setStartDate(days, price_data)
