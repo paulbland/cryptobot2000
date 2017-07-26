@@ -23,6 +23,6 @@ new CronJob('2-59/10 * * * *', function() {
 }, null, true, timezone);
 
 // Every morning 2 am 
-new CronJob('0 2 * * *', function() {
+new CronJob('30 7 * * *', function() {
     simBot.run()
 }, null, true, timezone);
