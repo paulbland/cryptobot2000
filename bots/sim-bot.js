@@ -45,6 +45,7 @@ module.exports = {
 
                 self.test_periods.forEach(function(days) {
 
+                    console.log(`sim-bot: Running simulation on ${days} days:`)
                     var thisResult = simulation.runFullSimulation(price_data, 'ETH', days, 'json');
 
                     newSimVars.result_data.push({

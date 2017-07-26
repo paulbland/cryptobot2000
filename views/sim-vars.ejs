@@ -10,7 +10,7 @@
 
 	<% for (i=0; i<data.length; i++) { %>
 
-		<strong>datetime: <%- data[i].datetime.toUTCString() %>
+		<strong><%- data[i].datetime.toUTCString() %>
 		<span style="color:limegreen">
 			<%= moment(data[i].datetime).tz("America/New_York").calendar() %> (NY Time) 
 		</span></strong><br />
@@ -74,13 +74,12 @@
 		<% } %>
 
 		<div style="clear:left">
-			lowest_low: <%- lowest_low.toFixed(3) %><br />
-			highest_low: <%- highest_low.toFixed(3)  %><br />
-			lowest_high: <%- lowest_high.toFixed(3)  %><br />
-			highest_high: <%- highest_high.toFixed(3) %><br />
-			lowest_sum: <%- lowest_sum  %><br />
-			highest_sum: <%- highest_sum %>
+			<strong>low range:</strong> <%- lowest_low.toFixed(3) %> → <%- highest_low.toFixed(3)  %><br />
+			<strong>high range:</strong> <%- lowest_high.toFixed(3) %> → <%- highest_high.toFixed(3) %><br />
+			<strong>sum range:</strong> <%- lowest_sum %> → <%- highest_sum %>
 		</div>
+
+		<br /><hr /><br />
 
 	<% } %>
 
