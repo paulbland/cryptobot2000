@@ -4,6 +4,12 @@ body {
 	font-size: 12px;
 	padding: 10px;
 }
+
+a {
+	color: blue;
+	text-decoration: none;
+	font-weight: bold;
+}
 table.main {
 	border-collapse: collapse;
 	margin: 0 0 15px;
