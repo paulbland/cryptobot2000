@@ -1,8 +1,8 @@
 module.exports = {
 	
 	// EVERYTHING FROM SIM VARs +/- 1 units (0.5 or 0.005) 
-	low_values 				: genValues(0.110, 0.175, 0.005, 3),
-	high_values 			: genValues(0.170, 0.225, 0.005, 3), 
+	low_values 				: genValues(0.105, 0.175, 0.005, 3),
+	high_values 			: genValues(0.170, 0.230, 0.005, 3), 
 	period_offset_combos	: genCombos(14.5, 20.5, 0.5, 1)
 
 }	
