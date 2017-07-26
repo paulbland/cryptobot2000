@@ -1,14 +1,9 @@
 module.exports = {
 	
-	// WIDE (~16 mins for 30 days)
-	// low_values 			: genValues(0.125, 0.210, 0.005, 3),
-	// high_values 			: genValues(0.100, 0.220, 0.005, 3), 
-	// period_offset_combos	: genCombos(15, 24, 0.5, 1),
-
-	// EVERYTHING FROM JUST TOP 20 (FROM TESTS ABOVE) (+ 1 unit (0.5 or 0.005) either side)
-	low_values 				: genValues(0.115, 0.175, 0.005, 3),
-	high_values 			: genValues(0.170, 0.235, 0.005, 3), 
-	period_offset_combos	: genCombos(15, 20, 0.5, 1)
+	// EVERYTHING FROM SIM VARs +/- 2 units (0.5 or 0.005) 
+	low_values 				: genValues(0.110, 0.180, 0.005, 3),
+	high_values 			: genValues(0.165, 0.240, 0.005, 3), 
+	period_offset_combos	: genCombos(14.5, 20.5, 0.5, 1)
 
 }	
 
