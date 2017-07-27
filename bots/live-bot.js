@@ -7,7 +7,7 @@ var priceRecordModels 	= require('../models/pricerecordmodel')
 
 // prep new item to be appended to live data recrod
 mongoose.Promise 	= global.Promise;
-var newLiveData;
+var newLiveData; // visible globally
 
 module.exports = {
 

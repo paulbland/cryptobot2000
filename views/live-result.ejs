@@ -17,7 +17,7 @@
 	<% var low_threshold = data[0].program_vars.low_threshold %>
 	<% var high_threshold = data[0].program_vars.high_threshold %>
 
-	&gt; <a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&low_threshold=<%- low_threshold %>&high_threshold=<%- high_threshold %>&currency=ETH">Run simulation for this data</a><br /><br />
+	&gt; <a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=30">Run simulation for this data (30 days)</a><br /><br />
 	<br />
 
 	<% for (i in data) { %>
