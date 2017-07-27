@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 var LiveDataSchema = new Schema({
 
     datetime_updated	    : Date,
+    bot_name                : { type: String, default: '' },
     latest_sell_price       : { type: Number, default: 0 }, 
     latest_buy_price        : { type: Number, default: 0 },
     avg_for_period          : { type: Number, default: 0 },

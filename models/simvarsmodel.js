@@ -3,6 +3,13 @@ var mongoose 	= require('mongoose');
 // Define a schema
 var Schema = mongoose.Schema;
 
+var schemaSimVarsObj = {
+    period  : { type: Number, default: 0 },
+    offset  : { type: Number, default: 0 },
+    low     : { type: Number, default: 0 },
+    high    : { type: Number, default: 0 }
+}
+
 var SimVarsSchema = new Schema({
     datetime	: Date,
     result_data : [{
@@ -25,7 +32,18 @@ var SimVarsSchema = new Schema({
                 high    : { type: Number, default: 0 }
             }]
         }
-    }]       
+    }],
+    
+    '1_day_bot' : schemaSimVarsObj,
+    '2_day_bot' : schemaSimVarsObj,
+    '3_day_bot' : schemaSimVarsObj,
+
+    '15_day_bot' : schemaSimVarsObj,
+    '30_day_bot' : schemaSimVarsObj,
+    '45_day_bot' : schemaSimVarsObj,
+    '60_day_bot' : schemaSimVarsObj,
+    '75_day_bot' : schemaSimVarsObj,
+    '90_day_bot' : schemaSimVarsObj           
 });
 
 // // Compile model from schema

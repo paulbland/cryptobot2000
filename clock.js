@@ -19,7 +19,7 @@ new CronJob('5-59/10 * * * *', function() {
 
 // Every 10 min (starting at :02)
 new CronJob('2-59/10 * * * *', function() {
-    liveBot.run()
+    liveBot.run('15_day_bot')
 }, null, true, timezone);
 
 // Every morning 2 am 

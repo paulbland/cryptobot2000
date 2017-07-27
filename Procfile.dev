@@ -6,8 +6,6 @@ gdax-get-price-history: node ./scripts/gdax-get-price-history.js
 update-coinbase-data: node ./scripts/update-coinbase-data.js
 
 # TEST BOTS (usually run from clock.js)
-# *** run with: `heroku local test-bots -f Procfile.dev`
 test-bots: node ./bots/test-bots.js
-
 
 sim-bot-runner:  node ./bots/sim-bot-runner.js

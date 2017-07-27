@@ -4,6 +4,7 @@ var tools 				= require('../controllers/tools')
 var reporting 			= require('../controllers/reporting')
 var liveDataModels 		= require('../models/livedatamodel')
 var priceRecordModels 	= require('../models/pricerecordmodel')
+var simVarsModelETH 	= require('../models/simvarsmodel')
 
 // prep new item to be appended to live data recrod
 mongoose.Promise 	= global.Promise;
@@ -13,8 +14,14 @@ module.exports = {
 
 	really_buy_and_sell : false, // THIS IS IT!!!
 	initial_investment  : 2000,
+	bot_name 			: null,
+	period 				: 0,
+	offset 				: 0,
+	low_threshold 		: 0,
+	high_threshold 		: 0,
 
-	run: function() {
+	run: function(bot_name) {
+		this.bot_name = bot_name;
 		this.dbConnect();
 	},
 
@@ -25,12 +32,30 @@ module.exports = {
 		});
 
         promise.then(function(db) {
-			console.log(`live-bot: Running! (database: ${db.db.s.databaseName})`)
-			newLiveData = new liveDataModels['ETH'];
-            self.step1()
+			console.log(`live-bot (${self.bot_name}): Running! (database: ${db.db.s.databaseName})`)
+            self.getSimVars()
             /* Use `db`, for instance `db.model()` */
          });
-    },
+	},
+		
+	getSimVars: function() {
+		var self = this;
+
+		// get latest sim vars (1 item)
+		simVarsModelETH.find({}).sort('-datetime').limit(1).exec(function(error, sim_vars_eth) {
+			if (error) {
+				console.log(error);
+				process.exit(1);
+			}
+			else {
+				self.period 		= sim_vars_eth[0][self.bot_name].period;
+				self.offset 		= sim_vars_eth[0][self.bot_name].offset;
+				self.low_threshold 	= sim_vars_eth[0][self.bot_name].low;
+				self.high_threshold = sim_vars_eth[0][self.bot_name].high;
+				self.step1();
+			}
+		});
+	},
 
 	step1: function() {
 		var self = this;
@@ -89,13 +114,9 @@ module.exports = {
 	step3: function(price_data, lastLiveData) {
 		//console.log('starting step 3...');
 
-		// hard code vars for live
-		var low_threshold 		= 0.15;
-		var high_threshold 		= 0.16;
+		// hard code some vars for live
 		var buy_sell_method		= 'avg';
 		var print_full_debug 	= false;
-		var period 				= 7; 
-		var offset 				= 13.5;
 		var interval_in_minutes = 10;
 		var sell_all			= true; 
 		var buy_sell_percentage	= 7.5;
@@ -103,21 +124,22 @@ module.exports = {
 		var buy_sell_unit		= (this.initial_investment * (buy_sell_percentage / 100)); // calculate
 		//var buy_sell_unit		= (lastLiveData.totals.money_in_bank * (buy_sell_percentage / 100)); // calculate
 
-		var values_per_period 	= tools.calculateValuesForGivenPeriod(period, interval_in_minutes)			
-		var values_in_offset	= tools.calculateValuesForGivenPeriod(offset, interval_in_minutes)	
+		var values_per_period 	= tools.calculateValuesForGivenPeriod(this.period, interval_in_minutes)			
+		var values_in_offset	= tools.calculateValuesForGivenPeriod(this.offset, interval_in_minutes)	
 		var from_index 			= (price_data.length - (values_per_period + values_in_offset))		// start index, minus offset and period length
 		var to_index 			= (price_data.length - values_in_offset)							// last period index (same without period length)
 		var data_to_be_tested 	= price_data.slice((from_index - 1), (to_index - 1));				// get slice. take one since index starts from 0
 		var this_index 			= (price_data.length - 1);											// always last value
 		var latest_buy_price 	= price_data[this_index].value_buy;									// this will be the currect price we're evaluating
 		var latest_sell_price 	= price_data[this_index].value_sell;								// this will be the currect price we're evaluating
+		var avg_for_period 		= tools.calculateAverage(data_to_be_tested) 
 
 		// decide buy or sell
-		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug)
+		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug)
 
 		// TESTING OVERRIDE
-		// sell_or_buy = 'sell'
-		// sell_or_buy = 'buy'
+		//sell_or_buy = 'sell'
+		 //sell_or_buy = 'buy'
 
 		// console.log('price_data.length: ' + price_data.length)
 		// console.log('from_index: ' + from_index)
@@ -128,47 +150,37 @@ module.exports = {
 		// console.log('sell_or_buy: ' + sell_or_buy)
 
 		// create new record 
-		newLiveData.datetime_updated 				= new Date;
-		newLiveData.latest_sell_price 				= latest_sell_price;
-		newLiveData.latest_buy_price 				= latest_buy_price;
-		newLiveData.transaction.transaction	 		= sell_or_buy;
-
-		// set fields that may not be updated to most recent value
-		newLiveData.totals.total_coins_owned 			= lastLiveData.totals.total_coins_owned;			// total - carried over
-		newLiveData.totals.total_coins_sold_value 		= lastLiveData.totals.total_coins_sold_value;		// total - carried over
-		newLiveData.totals.total_sell_transactions 		= lastLiveData.totals.total_sell_transactions;		// total - carried over
-		newLiveData.totals.total_buy_transactions 		= lastLiveData.totals.total_buy_transactions;		// total - carried over
-		newLiveData.totals.total_spent					= lastLiveData.totals.total_spent;					// total - carried over
-		newLiveData.totals.current_value_of_coins_owned	= lastLiveData.totals.current_value_of_coins_owned;	// total - carried over
-		newLiveData.totals.current_position				= lastLiveData.totals.current_position;				// total - carried over
-		newLiveData.totals.money_in_bank				= lastLiveData.totals.money_in_bank;				// total - carried over
-
-		newLiveData.transaction.transaction_notes		= '';										// transaction - reset
-		newLiveData.transaction.number_of_coins_to_sell	= 0;										// transaction - reset // sell only
-		newLiveData.transaction.result_of_this_sale		= 0;										// transaction - reset // sell only
-		newLiveData.transaction.number_of_coins_to_buy	= 0;										// transaction - reset // buy only
-		newLiveData.transaction.amount_spent_on_this_transaction = 0;								// transaction - reset // buy only
-		newLiveData.transaction.api_response_err		= '';										// transaction - reset
-		newLiveData.transaction.api_response_xfer		= '';										// transaction - reset
-		
-		var avg_for_period 						= tools.calculateAverage(data_to_be_tested) 
+		newLiveData = new liveDataModels['ETH'];
+		newLiveData.datetime_updated 			= new Date;
+		newLiveData.bot_name		 			= this.bot_name;
+		newLiveData.latest_sell_price 			= latest_sell_price;
+		newLiveData.latest_buy_price 			= latest_buy_price;
 		newLiveData.avg_for_period 				= avg_for_period														// current iteration - set here only
-		newLiveData.avg_plus_high_threshold 	= tools.calculateAvgPlusHighThreshold(avg_for_period, high_threshold); 	// current iteration - set here only
-		newLiveData.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, low_threshold); 	// current iteration - set here only
-
-		// wont change but lets record to make it easier to read logs
-		newLiveData.program_vars = {
-			low_threshold 		: low_threshold,
-			high_threshold 		: high_threshold,
+		newLiveData.avg_plus_high_threshold 	= tools.calculateAvgPlusHighThreshold(avg_for_period, this.high_threshold); 	// current iteration - set here only
+		newLiveData.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, this.low_threshold); 	// current iteration - set here only
+		newLiveData.totals 						= lastLiveData.totals;			// object!! all totals  - carried over
+		newLiveData.transaction = {
+			transaction 						: sell_or_buy,
+			transaction_notes					: '',		// transaction - reset
+			number_of_coins_to_sell				: 0,		// transaction - reset // sell only
+			result_of_this_sale					: 0,		// transaction - reset // sell only
+			number_of_coins_to_buy				: 0,		// transaction - reset // buy only
+			amount_spent_on_this_transaction 	: 0,		// transaction - reset // buy only
+			api_response_err					: '',		// transaction - reset
+			api_response_xfer					: ''		// transaction - reset
+		}
+		newLiveData.program_vars = {						// wont change but lets record to make it easier to read logs
+			low_threshold 		: this.low_threshold,
+			high_threshold 		: this.high_threshold,
 			buy_sell_percentage	: buy_sell_percentage,
 			buy_sell_unit	 	: buy_sell_unit,
-			period	 			: period,
-			offset	 			: offset,
+			period	 			: this.period,
+			offset	 			: this.offset,
 			reinvest_profit	 	: reinvest_profit
 		} 		
 
 		if (sell_or_buy === 'sell') {
-			this.sellCoinAPI(high_threshold, sell_all, lastLiveData, buy_sell_unit, latest_sell_price)
+			this.sellCoinAPI(this.high_threshold, sell_all, lastLiveData, buy_sell_unit, latest_sell_price)
 		} else if (sell_or_buy === 'buy') {
 			this.buyCoinAPI(lastLiveData, buy_sell_unit, latest_buy_price, reinvest_profit)
 		} else {
@@ -324,7 +336,8 @@ module.exports = {
 			if (err) {
 				console.log(err);
 			}
-			console.log('live-bot: Saved newLiveData (ETH) record');
+			console.log(`live-bot (${self.bot_name}): Saved newLiveData (ETH) record`);
+			//return true;
 		})
 
 	}

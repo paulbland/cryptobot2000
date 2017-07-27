@@ -88,8 +88,13 @@ app.get('/run-simulation-single', basicAuth, function(req, res) {
 
 // LIVE RESULTS
 app.get('/live-result', basicAuth, function(req, res) {
+
+	if (typeof req.query.bot_name === 'undefined') {
+        res.send('No bot_name var present.')
+	}
+	
     var liveDataModels = require('./models/livedatamodel')
-	liveDataModels['ETH'].find({}).sort('-datetime_updated').exec(function(error, live_data_eth) {
+	liveDataModels['ETH'].find({'bot_name' : req.query.bot_name}).sort('-datetime_updated').exec(function(error, live_data_eth) {
 		if (error) {
 			//res.json(error);
 			process.exit(1);
@@ -106,6 +111,7 @@ app.get('/live-result', basicAuth, function(req, res) {
 
 // SIM VARS
 app.get('/sim-vars', basicAuth, function(req, res) {
+
     var simVarsModelETH = require('./models/simvarsmodel')
 	simVarsModelETH.find({}).sort('-datetime').exec(function(error, sim_vars_eth) {
 		if (error) {

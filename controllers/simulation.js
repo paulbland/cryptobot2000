@@ -201,8 +201,8 @@ module.exports = {
 				rank    : `top_${total}_avg`,
 				period 	: tools.roundToPoint5(sums.period / total),  
 				offset 	: tools.roundToPoint5(sums.offset / total),
-				low 	: (sums.low / total),
-				high 	: (sums.high / total)
+				low 	: parseFloat((sums.low / total).toFixed(3)),
+				high 	: parseFloat((sums.high / total).toFixed(3))
 			};
 			results.push(avgs)
 		}

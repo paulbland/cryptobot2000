@@ -8,7 +8,7 @@ mongoose.Promise 	    = global.Promise;
 
 module.exports = {
 
-    test_periods: [15, 30, 45, 60, 75, 90],  
+    test_periods: [1,2,3],//[15, 30, 45, 60, 75, 90],  
 
     run: function() {
         this.dbConnect();
@@ -41,7 +41,6 @@ module.exports = {
                 newSimVars.result_data  = []
 
                 self.test_periods.forEach(function(days) {
-                    
                     console.log(`sim-bot: Running simulation on ${days} days:`)
                     var thisResult = simulation.runFullSimulation(price_data, 'ETH', days, 'json');
 
@@ -49,6 +48,9 @@ module.exports = {
                         time_period : `${days}_days`,
                         this_data   : thisResult
                     })
+
+                    // add data directly to bot name (bot key must exist in schema!...)
+                    newSimVars[`${days}_day_bot`] = thisResult.max_results_avg[4] //use top 5
                 })
 
                 newSimVars.save(function (err) {

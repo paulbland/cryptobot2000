@@ -27,7 +27,8 @@
 			<%= moment(data[i].datetime_updated).tz("America/New_York").calendar() %> (NY Time), 
 			<%= moment(data[i].datetime_updated).fromNow() %>
 		</span></strong><br />
-		<br />
+		
+		<strong>bot_name:</strong> <%- data[i].bot_name %><br /><br />
 
 		<strong>program_vars:</strong><br />
 		<t2></t2>period: <%- data[i].program_vars.period %> hrs<br />
