@@ -118,7 +118,7 @@ module.exports = {
 			for (y=0; y < test_values.low_values.length; y++) {
 				for (z=0; z < test_values.high_values.length; z++) {		
 					this.processDataSet(test_values.period_offset_combos[x].period, test_values.period_offset_combos[x].offset, 
-							test_values.low_values[y], test_values.high_values[z], price_data)
+							test_values.low_values[y], test_values.high_values[z], price_data, 'browser')
 				}
 			}
 		}
@@ -223,7 +223,7 @@ module.exports = {
 		price_data = this.setStartDate(days, price_data)
 
 		this.printSummary(price_data);
-		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data)
+		this.processDataSet(hrs_in_period, offset, low_threshold, high_threshold, price_data, 'browser')
 
 		this.browser_output 	= reporting.getFinalOutput()
 		this.chart_data 		= reporting.getFinalChartData()
@@ -236,7 +236,7 @@ module.exports = {
 	 * essentially a single simulation
 	 * 
 	 */
-	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data) {
+	processDataSet: function(hrs_in_period, offset, low_threshold, high_threshold, price_data, output) {
 
 		if (this.print_basic_debug) {
 			this.printLoopSummary(hrs_in_period, offset, low_threshold, high_threshold)
@@ -361,6 +361,13 @@ module.exports = {
 		
 		if (this.print_average_data) {
 			this.compileAverageData(hrs_in_period, offset, low_threshold, high_threshold, final_profit);
+		}
+
+		if (output === 'json') {
+			return {
+				final_profit 		: final_profit,
+				profit_percentage 	: profit_percentage
+			}
 		}
 	}, 
 
@@ -547,6 +554,117 @@ module.exports = {
 		this.table_averages[high_key].push(final_profit)
 		this.table_averages[low_key].push(final_profit)
 	},
+
+
+
+	simVarsResults: function(sim_vars_eth, price_data) {
+
+		var self = this;
+		var results = {};
+
+		this.print_basic_debug 	= false;
+		this.print_table_data 	= false;
+		this.print_average_data = false;
+		this.print_full_debug	= false;
+
+		var test_periods = ['15', '30', '45', '60', '75', '90']
+
+		var this_data;
+		var profit_sum;
+		var perc_sum;
+
+		// get sets of price data for each time period 
+		var this_price_data = [];
+		this_price_data['15'] = this.setStartDate(15, price_data)
+		this_price_data['30'] = this.setStartDate(30, price_data)
+		this_price_data['45'] = this.setStartDate(45, price_data)
+		this_price_data['60'] = this.setStartDate(60, price_data)
+		this_price_data['75'] = this.setStartDate(75, price_data)
+		this_price_data['90'] = this.setStartDate(90, price_data)
+
+		sim_vars_eth.result_data.forEach(function(sim_var_item) {
+
+			console.log('running for time period: ' + sim_var_item.time_period)
+
+			if (typeof results[sim_var_item.time_period] === 'undefined') {
+				results[sim_var_item.time_period] = {
+					top_1: {},
+					top_5_avg: {},
+					top_10_avg: {}
+				}
+			}
+
+			var candidates = {
+				'top_1' 		: sim_var_item.this_data.max_results[0],
+				'top_5_avg' 	: sim_var_item.this_data.max_results_avg[4],
+				'top_10_avg' 	: sim_var_item.this_data.max_results_avg[9],
+			}
+
+			for (key in candidates) {
+
+				profit_sum 	= 0
+				perc_sum 	= 0;
+				this_data 	= candidates[key];
+				results[sim_var_item.time_period][key]['vars'] = this_data
+
+				test_periods.forEach(function(this_test_period) {
+					results[sim_var_item.time_period][key][this_test_period] = self.processDataSet(this_data.period, this_data.offset, this_data.low, this_data.high, this_price_data[this_test_period], 'json')
+					profit_sum	+= results[sim_var_item.time_period][key][this_test_period]['final_profit']
+					perc_sum 	+= results[sim_var_item.time_period][key][this_test_period]['profit_percentage']
+				})
+
+				results[sim_var_item.time_period][key]['avg_profit']	= (profit_sum / test_periods.length)
+				results[sim_var_item.time_period][key]['avg_perc'] 	= (perc_sum / test_periods.length)
+			}
+
+			// // TOP 1 ---- 
+			// console.log(' --- top 1:')
+			// this_data = sim_var_item.this_data.max_results[0]; // top 1
+			// results[sim_var_item.time_period]['top_1']['vars'] = this_data
+			// profit_sum = 0
+			// perc_sum = 0;
+			// test_periods.forEach(function(this_test_period) {
+			// 	console.log('running for period : ' + this_test_period)
+			// 	results[sim_var_item.time_period]['top_1'][this_test_period] = self.processDataSet(this_data.period, this_data.offset, this_data.low, this_data.high, this_price_data[this_test_period], 'json')
+			// 	profit_sum	+= results[sim_var_item.time_period]['top_1'][this_test_period]['final_profit']
+			// 	perc_sum 	+= results[sim_var_item.time_period]['top_1'][this_test_period]['profit_percentage']
+			// })
+			// results[sim_var_item.time_period]['top_1']['avg_profit']	= (profit_sum / test_periods.length)
+			// results[sim_var_item.time_period]['top_1']['avg_perc'] 	= (perc_sum / test_periods.length)
+
+			// // TOP 5 AVG ---
+			// console.log(' --- top 5 avg:')
+			// this_data = sim_var_item.this_data.max_results_avg[4]; // top 5 avg
+			// results[sim_var_item.time_period]['top_5_avg']['vars'] = this_data
+			// profit_sum = 0
+			// perc_sum = 0;
+			// test_periods.forEach(function(this_test_period) {
+			// 	console.log('running for period : ' + this_test_period)
+			// 	results[sim_var_item.time_period]['top_5_avg'][this_test_period] = self.processDataSet(this_data.period, this_data.offset, this_data.low, this_data.high, this_price_data[this_test_period], 'json')
+			// 	profit_sum	+= results[sim_var_item.time_period]['top_5_avg'][this_test_period]['final_profit']
+			// 	perc_sum 	+= results[sim_var_item.time_period]['top_5_avg'][this_test_period]['profit_percentage']
+			// })
+			// results[sim_var_item.time_period]['top_5_avg']['avg_profit']	= (profit_sum / test_periods.length)
+			// results[sim_var_item.time_period]['top_5_avg']['avg_perc'] 	= (perc_sum / test_periods.length)
+
+			// // TOP 10 AVG ----
+			// console.log(' --- top 10 avg:')
+			// this_data = sim_var_item.this_data.max_results_avg[9]; // top 10 avg
+			// results[sim_var_item.time_period]['top_10_avg']['vars'] = this_data
+			// profit_sum = 0
+			// perc_sum = 0;
+			// test_periods.forEach(function(this_test_period) {
+			// 	console.log('running for period : ' + this_test_period)
+			// 	results[sim_var_item.time_period]['top_10_avg'][this_test_period] = self.processDataSet(this_data.period, this_data.offset, this_data.low, this_data.high, this_price_data[this_test_period], 'json')
+			// 	profit_sum	+= results[sim_var_item.time_period]['top_10_avg'][this_test_period]['final_profit']
+			// 	perc_sum 	+= results[sim_var_item.time_period]['top_10_avg'][this_test_period]['profit_percentage']
+			// })
+			// results[sim_var_item.time_period]['top_10_avg']['avg_profit']	= (profit_sum / test_periods.length)
+			// results[sim_var_item.time_period]['top_10_avg']['avg_perc'] 	= (perc_sum / test_periods.length)
+		})
+
+		return results;
+	}
 
 
 }

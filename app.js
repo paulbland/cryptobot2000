@@ -128,6 +128,33 @@ app.get('/sim-vars', basicAuth, function(req, res) {
 	});
 })
 
+
+
+// SIM VAR RESULTS
+app.get('/sim-vars-results', basicAuth, function(req, res) {
+
+	var simVarsModelETH = require('./models/simvarsmodel')
+	
+	PriceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_data) { 
+   		if (error) { res.json(error); }
+        else {
+
+			// ----------
+			simVarsModelETH.find({}).sort('-datetime').limit(1).exec(function(error, sim_vars_eth) {
+				if (error) { res.json(error); }
+				else {
+					var data = simulation.simVarsResults(sim_vars_eth[0], price_data)
+					res.render('sim-vars-results', {
+						data: data,
+						data_string: JSON.stringify(data, null, " ")
+					});
+				}
+			});
+			// ----------           
+        }
+	});	
+})
+
 app.listen(process.env.PORT, function() { 
 	console.log('running on port: ' + process.env.PORT)
 })

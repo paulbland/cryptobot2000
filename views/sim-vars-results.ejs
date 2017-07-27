@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Cryptobot2000</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+
+    <% for (i in data) { %>
+        sim vars: <%- i %> <br />
+        <table class="max">
+            <tr>
+                <th></th>
+                <th>period</th>
+                <th>offset</th>
+                <th>low</th>
+                <th>high</th>
+                <th colspan="2">15</th>
+                <th colspan="2">30</th>
+                <th colspan="2">45</th>
+                <th colspan="2">60</th>
+                <th colspan="2">75</th>
+                <th colspan="2">90</th>
+                <th>avg profit</th>
+                <th>avg perc</th>
+            </tr>
+            <% for (j in data[i]) { %>
+                <tr><th><%- j %></th>
+                <th><%- data[i][j]['vars'].period %></th>
+                <th><%- data[i][j]['vars'].offset %></th>
+                <th><%- data[i][j]['vars'].low %></th>
+                <th><%- data[i][j]['vars'].high %></th>
+                <% for (k in data[i][j]) { %>
+                    <!--<%- k %>-->
+                    <% if (k !== 'vars' && k !== 'avg_profit' && k !== 'avg_perc') { %>
+                        <td>$<%- data[i][j][k].final_profit.toFixed(2) %></td>
+                        <td><%- data[i][j][k].profit_percentage.toFixed(2) %>%</td>
+                    <%  } %>
+                <%  } %>
+                <th>$<%- data[i][j]['avg_profit'].toFixed(2) %></th>
+                <th><%- data[i][j]['avg_perc'].toFixed(2) %>%</th>
+            <%  } %>
+        </table>
+        <br /><br />
+    <%  } %>
+
+   <pre><%- data_string %> </pre>
+   
+</body>
+</html>
