@@ -2,8 +2,8 @@ module.exports = {
 	
 	// EVERYTHING FROM SIM VARs +/- 1 units (0.5 or 0.005) 
 	// this is currently 40.3k/174m (5 min for 30 days)
-	low_values 				: genValues(0.100, 0.175, 0.005, 3),
-	high_values 			: genValues(0.170, 0.225, 0.005, 3), 
+	low_values 				: genValues(0.095, 0.175, 0.005, 3),
+	high_values 			: genValues(0.170, 0.230, 0.005, 3), 
 	period_offset_combos	: genCombos(14, 20.5, 0.5, 1)
 }	
 
