@@ -12,7 +12,7 @@ mongoose.Promise = global.Promise;
 var publicClient;
 var PriceRecordModels = require('../models/pricerecordmodel') 
 
-var days            = 120;      // num of days to get
+var days            = 90;      // num of days to get
 var num_done        = 0;
 var all_my_prices   = []
 var granularity     = 600;     // granularity - 300 = 5 mins, 600 = 10 mins

@@ -6,8 +6,8 @@ var liveDataModels 		= require('../models/livedatamodel')
 var priceRecordModels 	= require('../models/pricerecordmodel')
 
 // prep new item to be appended to live data recrod
-var newLiveData 	= new liveDataModels['ETH'];
 mongoose.Promise 	= global.Promise;
+var newLiveData;
 
 module.exports = {
 
@@ -26,6 +26,7 @@ module.exports = {
 
         promise.then(function(db) {
 			console.log(`live-bot: Running! (database: ${db.db.s.databaseName})`)
+			newLiveData = new liveDataModels['ETH'];
             self.step1()
             /* Use `db`, for instance `db.model()` */
          });
