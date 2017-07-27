@@ -594,6 +594,7 @@ module.exports = {
 				}
 			}
 
+			// define which values you would like to assess
 			var candidates = {
 				'top_1' 		: sim_var_item.this_data.max_results[0],
 				'top_5_avg' 	: sim_var_item.this_data.max_results_avg[4],
@@ -601,7 +602,6 @@ module.exports = {
 			}
 
 			for (key in candidates) {
-
 				profit_sum 	= 0
 				perc_sum 	= 0;
 				this_data 	= candidates[key];
@@ -614,57 +614,9 @@ module.exports = {
 				})
 
 				results[sim_var_item.time_period][key]['avg_profit']	= (profit_sum / test_periods.length)
-				results[sim_var_item.time_period][key]['avg_perc'] 	= (perc_sum / test_periods.length)
+				results[sim_var_item.time_period][key]['avg_perc'] 		= (perc_sum / test_periods.length)
 			}
-
-			// // TOP 1 ---- 
-			// console.log(' --- top 1:')
-			// this_data = sim_var_item.this_data.max_results[0]; // top 1
-			// results[sim_var_item.time_period]['top_1']['vars'] = this_data
-			// profit_sum = 0
-			// perc_sum = 0;
-			// test_periods.forEach(function(this_test_period) {
-			// 	console.log('running for period : ' + this_test_period)
-			// 	results[sim_var_item.time_period]['top_1'][this_test_period] = self.processDataSet(this_data.period, this_data.offset, this_data.low, this_data.high, this_price_data[this_test_period], 'json')
-			// 	profit_sum	+= results[sim_var_item.time_period]['top_1'][this_test_period]['final_profit']
-			// 	perc_sum 	+= results[sim_var_item.time_period]['top_1'][this_test_period]['profit_percentage']
-			// })
-			// results[sim_var_item.time_period]['top_1']['avg_profit']	= (profit_sum / test_periods.length)
-			// results[sim_var_item.time_period]['top_1']['avg_perc'] 	= (perc_sum / test_periods.length)
-
-			// // TOP 5 AVG ---
-			// console.log(' --- top 5 avg:')
-			// this_data = sim_var_item.this_data.max_results_avg[4]; // top 5 avg
-			// results[sim_var_item.time_period]['top_5_avg']['vars'] = this_data
-			// profit_sum = 0
-			// perc_sum = 0;
-			// test_periods.forEach(function(this_test_period) {
-			// 	console.log('running for period : ' + this_test_period)
-			// 	results[sim_var_item.time_period]['top_5_avg'][this_test_period] = self.processDataSet(this_data.period, this_data.offset, this_data.low, this_data.high, this_price_data[this_test_period], 'json')
-			// 	profit_sum	+= results[sim_var_item.time_period]['top_5_avg'][this_test_period]['final_profit']
-			// 	perc_sum 	+= results[sim_var_item.time_period]['top_5_avg'][this_test_period]['profit_percentage']
-			// })
-			// results[sim_var_item.time_period]['top_5_avg']['avg_profit']	= (profit_sum / test_periods.length)
-			// results[sim_var_item.time_period]['top_5_avg']['avg_perc'] 	= (perc_sum / test_periods.length)
-
-			// // TOP 10 AVG ----
-			// console.log(' --- top 10 avg:')
-			// this_data = sim_var_item.this_data.max_results_avg[9]; // top 10 avg
-			// results[sim_var_item.time_period]['top_10_avg']['vars'] = this_data
-			// profit_sum = 0
-			// perc_sum = 0;
-			// test_periods.forEach(function(this_test_period) {
-			// 	console.log('running for period : ' + this_test_period)
-			// 	results[sim_var_item.time_period]['top_10_avg'][this_test_period] = self.processDataSet(this_data.period, this_data.offset, this_data.low, this_data.high, this_price_data[this_test_period], 'json')
-			// 	profit_sum	+= results[sim_var_item.time_period]['top_10_avg'][this_test_period]['final_profit']
-			// 	perc_sum 	+= results[sim_var_item.time_period]['top_10_avg'][this_test_period]['profit_percentage']
-			// })
-			// results[sim_var_item.time_period]['top_10_avg']['avg_profit']	= (profit_sum / test_periods.length)
-			// results[sim_var_item.time_period]['top_10_avg']['avg_perc'] 	= (perc_sum / test_periods.length)
 		})
-
 		return results;
 	}
-
-
 }
