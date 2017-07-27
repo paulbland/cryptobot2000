@@ -584,8 +584,6 @@ module.exports = {
 
 		sim_vars_eth.result_data.forEach(function(sim_var_item) {
 
-			console.log('running for time period: ' + sim_var_item.time_period)
-
 			if (typeof results[sim_var_item.time_period] === 'undefined') {
 				results[sim_var_item.time_period] = {
 					top_1: {},
