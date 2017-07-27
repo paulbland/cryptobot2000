@@ -81,30 +81,18 @@
 			<strong>sum range:</strong> <%- lowest_sum %> → <%- highest_sum %>
 		</div>
 
-		<div style="float:left;margin: 0 15px 0 0">
-			<strong>1 day bot: (1_days/top_5_avg)</strong><br />
-			period: <%- data[i]['1_day_bot'].period %><br />
-			offset: <%- data[i]['1_day_bot'].offset %><br />
-			low: <%- data[i]['1_day_bot'].low.toFixed(3) %><br />
-			high: <%- data[i]['1_day_bot'].high.toFixed(3) %>
-		</div>
+		<% var bot_vars = [15,30,45,60,75,90] %>
+		<% bot_vars.forEach(function(item) { %>
+			<div style="float:left;margin: 0 15px 0 0">
+				<strong><%- item %> day bot: (<%- item %>_days/top_5_avg)</strong><br />
+				period: <%- data[i][item +'_day_bot'].period %><br />
+				offset: <%- data[i][item +'_day_bot'].offset %><br />
+				low: <%- data[i][item +'_day_bot'].low.toFixed(3) %><br />
+				high: <%- data[i][item +'_day_bot'].high.toFixed(3) %>
+			</div>
+		<% }) %>
 
-		<div style="float:left;margin: 0 15px 0 0">
-			<strong>2 day bot: (2_days/top_5_avg)</strong><br />
-			period: <%- data[i]['2_day_bot'].period %><br />
-			offset: <%- data[i]['2_day_bot'].offset %><br />
-			low: <%- data[i]['2_day_bot'].low.toFixed(3) %><br />
-			high: <%- data[i]['2_day_bot'].high.toFixed(3) %>
-		</div>
-
-		<div style="float:left;margin: 0 15px 0 0">
-			<strong>3 day bot: (3_days/top_5_avg)</strong><br />
-			period: <%- data[i]['3_day_bot'].period %><br />
-			offset: <%- data[i]['3_day_bot'].offset %><br />
-			low: <%- data[i]['3_day_bot'].low.toFixed(3) %><br />
-			high: <%- data[i]['3_day_bot'].high.toFixed(3) %>
-		</div>
-
+		
 		<div style="clear:left"></div>
 
 

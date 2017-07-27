@@ -19,9 +19,16 @@ module.exports = {
 	offset 				: 0,
 	low_threshold 		: 0,
 	high_threshold 		: 0,
+	running 			: false,
 
 	run: function(bot_name) {
-		this.bot_name = bot_name;
+		// prevention so we cant run two bots at once. 
+		if (this.running) {
+			console.log(`Can't start ${bot_name}. live-bot (${this.bot_name}) already running. Exiting.`);
+			return false;
+		}
+		this.running 	= true;
+		this.bot_name 	= bot_name;
 		this.dbConnect();
 	},
 
@@ -203,7 +210,7 @@ module.exports = {
 
 
 	sellCoinAPI: function(high_threshold, sell_all, lastLiveData, buy_sell_unit, latest_sell_price) {
-		console.log('live-bot: SELLING COIN FROM API!');
+		console.log(`live-bot (${this.bot_name}): SELLING COIN FROM API!`);
 
 		if (lastLiveData.totals.total_coins_owned === 0) {
 			//console.log('you don’t have any coins to sell!<br />')
@@ -217,8 +224,8 @@ module.exports = {
 		// console.log("sell_coin_result");
 		// console.log(sell_coin_result);
 
-		newLiveData.transaction.number_of_coins_to_sell 	= sell_coin_result.number_of_coins_to_sell;
-		newLiveData.transaction.result_of_this_sale 		= sell_coin_result.result_of_this_sale;
+		newLiveData.transaction.number_of_coins_to_sell = sell_coin_result.number_of_coins_to_sell;
+		newLiveData.transaction.result_of_this_sale 	= sell_coin_result.result_of_this_sale;
 		newLiveData.transaction.transaction_notes 		= sell_coin_result.transaction_notes;
 		
 		newLiveData.totals.total_coins_owned 			= (lastLiveData.totals.total_coins_owned - sell_coin_result.number_of_coins_to_sell);
@@ -228,7 +235,6 @@ module.exports = {
 		if (sell_coin_result.number_of_coins_to_sell > 0) {
 			newLiveData.totals.total_sell_transactions = (lastLiveData.totals.total_sell_transactions + 1);
 		}
-
 
 		if (this.really_buy_and_sell) {
 			var self = this;
@@ -244,7 +250,7 @@ module.exports = {
 					payment_method	: process.env.USD_ACCOUNT_ID
 				};
 				account.sell(args, function(err, xfer) {
-					console.log('live-bot: Selling from API done');
+					console.log(`live-bot (${self.bot_name}): Selling from API done`);
 
 					// store response in DB
 					newLiveData.transaction.api_response_err 	= JSON.stringify(err, null, " ");
@@ -261,7 +267,7 @@ module.exports = {
 
 
 	buyCoinAPI: function(lastLiveData, buy_sell_unit, latest_buy_price, total_spent, total_sold, reinvest_profit) {
-		console.log('live-bot: BUYING COIN FROM API!');
+		console.log(`live-bot (${this.bot_name}): BUYING COIN FROM API!`);
 
 		var buy_coin_result = tools.buyCoin(lastLiveData.totals.total_coins_owned, buy_sell_unit, latest_buy_price, false, 
 				lastLiveData.totals.total_spent, lastLiveData.totals.total_coins_sold_value, lastLiveData.totals.money_in_bank, reinvest_profit)
@@ -310,7 +316,7 @@ module.exports = {
 				};
 
 				account.buy(args, function(err, xfer) {
-					console.log('live-bot: Buying from API done');
+					console.log(`live-bot (${self.bot_name}): Buying from API done`);
 
 					// store response in DB
 					newLiveData.transaction.api_response_err 	= JSON.stringify(err, null, " ");
@@ -337,7 +343,8 @@ module.exports = {
 				console.log(err);
 			}
 			console.log(`live-bot (${self.bot_name}): Saved newLiveData (ETH) record`);
-			//return true;
+			console.log(`live-bot (${self.bot_name}): Finished.`);
+			self.running = false; //return true;
 		})
 
 	}

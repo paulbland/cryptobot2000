@@ -33,11 +33,6 @@ var SimVarsSchema = new Schema({
             }]
         }
     }],
-    
-    '1_day_bot' : schemaSimVarsObj,
-    '2_day_bot' : schemaSimVarsObj,
-    '3_day_bot' : schemaSimVarsObj,
-
     '15_day_bot' : schemaSimVarsObj,
     '30_day_bot' : schemaSimVarsObj,
     '45_day_bot' : schemaSimVarsObj,

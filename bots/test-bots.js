@@ -8,8 +8,9 @@
 
 // cant run bots at same time!! all uses same object!
 
-liveBot.run('1_day_bot')
-liveBot.run('2_day_bot')
-liveBot.run('3_day_bot')
+setTimeout(function() { liveBot.run('1_day_bot'); }, 0);
+setTimeout(function() { liveBot.run('2_day_bot'); }, 1000);
+setTimeout(function() { liveBot.run('3_day_bot'); }, 2000);
+
 
 // simBot.run()

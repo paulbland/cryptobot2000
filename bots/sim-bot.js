@@ -8,7 +8,7 @@ mongoose.Promise 	    = global.Promise;
 
 module.exports = {
 
-    test_periods: [1,2,3],//[15, 30, 45, 60, 75, 90],  
+    test_periods: [15, 30, 45, 60, 75, 90],  //[1,2,3]
 
     run: function() {
         this.dbConnect();
@@ -50,7 +50,7 @@ module.exports = {
                     })
 
                     // add data directly to bot name (bot key must exist in schema!...)
-                    newSimVars[`${days}_day_bot`] = thisResult.max_results_avg[4] //use top 5
+                    newSimVars[`${days}_day_bot`] = thisResult.max_results_avg[4] // use top_5_avg
                 })
 
                 newSimVars.save(function (err) {
