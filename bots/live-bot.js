@@ -7,7 +7,7 @@ var priceRecordModels 	= require('../models/pricerecordmodel')
 var simVarsModelETH 	= require('../models/simvarsmodel')
 
 // prep new item to be appended to live data recrod
-mongoose.Promise 	= global.Promise;
+mongoose.Promise = global.Promise;
 var newLiveData; // visible globally
 
 module.exports = {

@@ -10,8 +10,6 @@
 
 liveBot.run('1_day_bot')
 liveBot.run('2_day_bot')
-lliveBot.run('3_day_bot')
-
-
+liveBot.run('3_day_bot')
 
 // simBot.run()
