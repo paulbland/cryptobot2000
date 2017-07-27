@@ -84,3 +84,11 @@ table.max th a:hover {
 	float: left;
 	margin: 0 30px 30px 0;
 }
+.sim-var-wrapper {
+	display: flex;
+	clear: left;
+}
+.sim-var-wrapper .sim-var-item {
+	margin: 0 40px 30px 0;
+	width: 
+}

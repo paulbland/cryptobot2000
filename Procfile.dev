@@ -8,4 +8,5 @@ update-coinbase-data: node ./scripts/update-coinbase-data.js
 # TEST BOTS (usually run from clock.js)
 test-bots: node ./bots/test-bots.js
 
+# RUN SIM VARS LOCALLY
 sim-bot-runner:  node ./bots/sim-bot-runner.js

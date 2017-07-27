@@ -107,7 +107,7 @@ module.exports = {
 						latest_sell_price      	 	: 0, 
 						latest_buy_price        	: 0,
 						transaction: {
-							transaction 			: ''
+							action : ''
 						}
 					}
 				}
@@ -145,8 +145,8 @@ module.exports = {
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug)
 
 		// TESTING OVERRIDE
-		//sell_or_buy = 'sell'
-		 //sell_or_buy = 'buy'
+		// sell_or_buy = 'sell'
+		// sell_or_buy = 'buy'
 
 		// console.log('price_data.length: ' + price_data.length)
 		// console.log('from_index: ' + from_index)
@@ -167,7 +167,7 @@ module.exports = {
 		newLiveData.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, this.low_threshold); 	// current iteration - set here only
 		newLiveData.totals 						= lastLiveData.totals;			// object!! all totals  - carried over
 		newLiveData.transaction = {
-			transaction 						: sell_or_buy,
+			action 								: sell_or_buy,
 			transaction_notes					: '',		// transaction - reset
 			number_of_coins_to_sell				: 0,		// transaction - reset // sell only
 			result_of_this_sale					: 0,		// transaction - reset // sell only
