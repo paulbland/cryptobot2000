@@ -67,6 +67,32 @@ table.max th a:hover {
 }
 
 
+
+
+
+table.sim-vars {
+	border-collapse: collapse;
+}
+table.sim-vars td, 
+table.sim-vars th {
+	padding: 5px;
+	border: 1px solid lightgray;
+	text-align: center;
+	width: 65px;
+}
+table.sim-vars th {
+	background: #eee;
+}
+table.sim-vars td a,
+table.sim-vars th a {
+	text-decoration: none;
+}
+table.sim-vars td a:hover, 
+table.sim-vars th a:hover {
+	text-decoration: underline;
+}
+
+
 .json-resp-wrapper .json-resp-link  {
 	color: blue;
 	cursor: pointer;
@@ -90,5 +116,4 @@ table.max th a:hover {
 }
 .sim-var-wrapper .sim-var-item {
 	margin: 0 40px 30px 0;
-	width: 
 }
