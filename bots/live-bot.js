@@ -83,7 +83,7 @@ module.exports = {
 	step2: function(price_data_eth) {
 		var self = this;
 		// get latest 
-		liveDataModels['ETH'].findOne({}).sort('-datetime_updated').exec(function(error, lastLiveData) {
+		liveDataModels['ETH'].findOne({bot_name:self.bot_name}).sort('-datetime_updated').exec(function(error, lastLiveData) {
 			if (error) {
 				res.json(error);
 				console.log('live-bot: Error connecting to db (model: liveDataModels)');
@@ -111,6 +111,7 @@ module.exports = {
 						}
 					}
 				}
+				console.log('- lastLiveData ' + lastLiveData)
 				self.step3(price_data_eth, lastLiveData)
 			}
 		});
@@ -142,7 +143,7 @@ module.exports = {
 		var avg_for_period 		= tools.calculateAverage(data_to_be_tested) 
 
 		// decide buy or sell
-		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug)
+		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug, false)
 
 		// TESTING OVERRIDE
 		// sell_or_buy = 'sell'

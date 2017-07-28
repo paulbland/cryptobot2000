@@ -8,6 +8,6 @@
 
 // cant run bots at same time!! all uses same object!
 // this is jsut testing 0 uses clock
-liveBot.run('75_day_bot');
+liveBot.run('90_day_bot');
 
 // simBot.run()

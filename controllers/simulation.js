@@ -295,7 +295,7 @@ module.exports = {
 
 			// run the decide algorithm on just this part
 			var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, 
-					this.buy_sell_method, this.print_full_debug)
+					this.buy_sell_method, this.print_full_debug, true)
 
 			//this.timing_section_b += ((new Date() - start_b))
 
@@ -334,7 +334,7 @@ module.exports = {
 			final_sell_price *= this.crash_effect;
 		}
 
-		var final_profit 		= ((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent)
+		var final_profit 		= parseInt(((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent).toFixed(2))
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 		var profit_percentage	= ((final_profit / this.max_value_ever_owned) * 100)
 

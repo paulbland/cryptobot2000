@@ -13,17 +13,17 @@ module.exports  = {
 		for (var j=0; j < len; j++) {
 			sum += data_to_be_tested[j].value_avg;
 		}
-		return (sum/len);
+		return parseFloat((sum/len).toFixed(2));
 
 	},
 
 
 	sum_last : 0,
 	sum : 0,
-	calculateAverageNew: function(data_to_be_tested) { 
+	calculateAverageLoop: function(data_to_be_tested) { 
 		
 		// NEW WAY - FASTER
-		// BUT CAN ONLY BE USED IN CINTEXT OF SIM LOOP
+		// BUT CAN ONLY BE USED IN CONTEXT OF SIM LOOP
 		var len = data_to_be_tested.length
 
 		if (this.sum === 0) {
@@ -36,7 +36,7 @@ module.exports  = {
 			this.sum = this.sum - this.sum_last + data_to_be_tested[len - 1].value_avg
 		}
 		this.sum_last = data_to_be_tested[0].value_avg;
-		return (this.sum/len);
+		return parseFloat((this.sum/len).toFixed(2));
 	},
 
 	
@@ -67,14 +67,14 @@ module.exports  = {
 	},
 
 
-
+	// returns float with 2 decimals
 	calculateAvgPlusHighThreshold: function(avg_for_period, high_threshold) {
-		return (avg_for_period * (1 + high_threshold));
+		return parseFloat((avg_for_period * (1 + high_threshold)).toFixed(2));
 	},
 
-
+	// returns float
 	calculateAvgMinusLowThreshold: function(avg_for_period, low_threshold) {
-		return (avg_for_period * (1 - low_threshold));
+		return parseFloat((avg_for_period * (1 - low_threshold)).toFixed(2));
 	},
 
 
@@ -83,12 +83,16 @@ module.exports  = {
 	/* 
 	* this function takes a slide of the array (144 values for a day, fewer for other periods) and decides on selling or buying
 	*/
-	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug) {
+	decideBuyOrSell: function(data_to_be_tested, latest_buy_price, latest_sell_price, low_threshold, high_threshold, buy_sell_method, print_full_debug, use_loop_fn) {
 
 		if (buy_sell_method === 'avg') {
 			
 			//var start_c = new Date();
-			var avg_for_period 				= this.calculateAverageNew(data_to_be_tested)						// get avg for period
+			if (use_loop_fn) {
+				var avg_for_period = this.calculateAverageLoop(data_to_be_tested)						// get avg for period
+			} else {
+				var avg_for_period = this.calculateAverage(data_to_be_tested)							// get avg for period
+			}
 			//this.timing_section_c += ((new Date() - start_c))
 
 			//var start_d = new Date();
@@ -99,13 +103,13 @@ module.exports  = {
 			var sell 	= (latest_sell_price > avg_plus_high_threshold) ? true : false;
 			var buy 	= (latest_buy_price < avg_minus_low_threshold) ? true : false;
 
-			console.log('avg_for_period ' + avg_for_period)
-			console.log('avg_plus_high_threshold ' + avg_plus_high_threshold)
-			console.log('avg_minus_low_threshold ' + avg_minus_low_threshold)
-			console.log('high_threshold ' + high_threshold)
-			console.log('low_threshold ' + low_threshold)
-			console.log('sell ' + sell)
-			console.log('buy ' + buy)
+			console.log('- avg_for_period ' + avg_for_period)
+			console.log('- avg_plus_high_threshold ' + avg_plus_high_threshold)
+			console.log('- avg_minus_low_threshold ' + avg_minus_low_threshold)
+			console.log('- high_threshold ' + high_threshold)
+			console.log('- low_threshold ' + low_threshold)
+			console.log('- sell ' + sell)
+			console.log('- buy ' + buy)
 
 			if (print_full_debug) {
 				reporting.debug('avg_for_period: $' + avg_for_period.toFixed(2) + '<br>');// print avg result to browser
