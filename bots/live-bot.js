@@ -111,7 +111,7 @@ module.exports = {
 						}
 					}
 				}
-				console.log('- lastLiveData ' + lastLiveData)
+				//console.log('- lastLiveData ' + lastLiveData)
 				self.step3(price_data_eth, lastLiveData)
 			}
 		});

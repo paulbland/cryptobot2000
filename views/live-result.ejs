@@ -19,7 +19,22 @@
 	<% var low_threshold = data[0].program_vars.low_threshold %>
 	<% var high_threshold = data[0].program_vars.high_threshold %>
 
-	&gt; <a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=30">Run simulation for this data (30 days)</a><br /><br />
+	<a href="/live-result?bot_name=15_day_bot">15_day_bot</a> &middot;
+	<a href="/live-result?bot_name=30_day_bot">30_day_bot</a> &middot;
+	<a href="/live-result?bot_name=45_day_bot">45_day_bot</a> &middot;
+	<a href="/live-result?bot_name=60_day_bot">60_day_bot</a> &middot;
+	<a href="/live-result?bot_name=75_day_bot">75_day_bot</a> &middot;
+	<a href="/live-result?bot_name=90_day_bot">90_day_bot</a> &middot;	
+	<br /><br />
+
+	Run simulation for this data:
+	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=30">15 days</a> &middot;
+	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=30">30 days</a> &middot;
+	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=30">45 days</a> &middot;
+	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=30">60 days</a> &middot;
+	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=30">75 days</a> &middot;
+	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=30">90 days</a>
+	<br />
 	<br />
 
 	<% for (i in data) { %>
