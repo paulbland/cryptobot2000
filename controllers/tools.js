@@ -99,6 +99,14 @@ module.exports  = {
 			var sell 	= (latest_sell_price > avg_plus_high_threshold) ? true : false;
 			var buy 	= (latest_buy_price < avg_minus_low_threshold) ? true : false;
 
+			console.log('avg_for_period ' + avg_for_period)
+			console.log('avg_plus_high_threshold ' + avg_plus_high_threshold)
+			console.log('avg_minus_low_threshold ' + avg_minus_low_threshold)
+			console.log('high_threshold ' + high_threshold)
+			console.log('low_threshold ' + low_threshold)
+			console.log('sell ' + sell)
+			console.log('buy ' + buy)
+
 			if (print_full_debug) {
 				reporting.debug('avg_for_period: $' + avg_for_period.toFixed(2) + '<br>');// print avg result to browser
 				reporting.debug('(avg price plus high threshold ('+high_threshold+'%) is $' + avg_plus_high_threshold.toFixed(2) + ')<br />');
