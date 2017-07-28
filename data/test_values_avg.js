@@ -2,9 +2,9 @@ module.exports = {
 	
 	// EVERYTHING FROM SIM VARs +/- 1 units (0.5 or 0.005) 
 	// everything set 1 unit. low-low set 3 units (from 0.085) cos it really seems like it wants more...
-	low_values 				: genValues(0.070, 0.175, 0.005, 3),
+	low_values 				: genValues(0.075, 0.175, 0.005, 3),
 	high_values 			: genValues(0.170, 0.235, 0.005, 3), 
-	period_offset_combos	: genCombos(13.5, 20.5, 0.5, 1)
+	period_offset_combos	: genCombos(13, 20, 0.5, 1)
 }	
 
 function genValues(min, max, inc, prec) {
