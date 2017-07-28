@@ -334,7 +334,7 @@ module.exports = {
 			final_sell_price *= this.crash_effect;
 		}
 
-		var final_profit 		= parseInt(((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent).toFixed(2))
+		var final_profit 		= parseFloat(((this.total_coins_owned * final_sell_price) + this.total_sold - this.total_spent).toFixed(2))
 		var invest_profit_ratio	= (this.max_value_ever_owned / final_profit).toFixed(2)
 		var profit_percentage	= ((final_profit / this.max_value_ever_owned) * 100)
 
