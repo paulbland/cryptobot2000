@@ -13,7 +13,7 @@ var newLiveData; // visible globally
 module.exports = {
 
 	really_buy_and_sell : false, // THIS IS IT!!!
-	initial_investment  : 2000,
+	initial_investment  : parseFloat((2000/6).toFixed(2)),//2000, // 6 bots!
 	bot_name 			: null,
 	period 				: 0,
 	offset 				: 0,

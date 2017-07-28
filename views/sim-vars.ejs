@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>Cryptobot2000</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css">
 </head>
 <body>
 
@@ -31,7 +31,17 @@
 				<% var max_results_avg 	= result_data[j].this_data.max_results_avg %>
 
 				<table class="max">
-					<tr><th>rank</th><th>period</th><th>offset</th><th>(sum)</th><th>low</th><th>high</th><th>value</th><th>profit</th></tr>
+					<tr>
+						<th>rank</th>
+						<th>period</th>
+						<th>offset</th>
+						<th>(sum)</th>
+						<th>low</th>
+						<th>high</th>
+						<th>value</th>
+						<th>profit</th>
+					</tr>
+					
 					<% for (k=0; k<max_results.length; k++) { %>
 						<tr>
 							<th><%- max_results[k].rank %></th>
