@@ -100,6 +100,10 @@ app.get('/live-result', basicAuth, function(req, res) {
 			process.exit(1);
 		}
 		else {
+			if (live_data_eth.length) {
+				res.end('no data found')
+				process.exit(1);
+			}
 			res.render('live-result', {
 				data : live_data_eth,
 				moment : moment 
