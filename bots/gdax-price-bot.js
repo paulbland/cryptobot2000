@@ -48,7 +48,7 @@ module.exports = {
                 }
                 console.log('gdax-price-bot: Saved ' + currency + ' from GDAX');
 
-                if (self.currenciesComplete++ === 3) {
+                if (++self.currenciesComplete === 3) {
                     console.log('gdax-price-bot: Finished.');
                 }
             });
