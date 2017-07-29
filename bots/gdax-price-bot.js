@@ -9,7 +9,10 @@ var priceRecordModels   = require('../models/pricerecordmodel')
 
 module.exports = {
 
+    currenciesComplete: 0,
+
     run: function() {
+        this.currenciesComplete = 0;
         this.dbConnect();
     },
 
@@ -31,9 +34,9 @@ module.exports = {
     getPriceData: function(currency) {
         var publicClient    = new Gdax.PublicClient(currency+'-USD');
         var pr              = new priceRecordModels[currency];
+        var self            = this;
 
         publicClient.getProductTicker(function(err, response, data) {
-
             pr.datetime     = data.time;
             pr.value_buy    = data.price; //bid ***** currently just getting last price !
             pr.value_sell   = data.price; //ask
@@ -44,6 +47,10 @@ module.exports = {
                     return handleError(err);
                 }
                 console.log('gdax-price-bot: Saved ' + currency + ' from GDAX');
+
+                if (self.currenciesComplete++ === 3) {
+                    console.log('gdax-price-bot: Finished.');
+                }
             });
         });
     }
