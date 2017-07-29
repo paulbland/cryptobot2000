@@ -43,7 +43,7 @@ module.exports = {
                 if (err) {
                     return handleError(err);
                 }
-                console.log('gdax-price-bot: Finished. (Saved ' + currency + ' from GDAX)');
+                console.log('gdax-price-bot: Saved ' + currency + ' from GDAX');
             });
         });
     }
