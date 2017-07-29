@@ -14,8 +14,8 @@ module.exports = {
 		'30_days' 	: genValues(0.175, 0.200, 0.005, 3), 
 		'45_days' 	: genValues(0.180, 0.200, 0.005, 3), 
 		'60_days' 	: genValues(0.180, 0.200, 0.005, 3), 
-		'75_days' 	: genValues(0.150, 0.175, 0.005, 3), 
-		'90_days' 	: genValues(0.150, 0.175, 0.005, 3)
+		'75_days' 	: genValues(0.145, 0.175, 0.005, 3), 
+		'90_days' 	: genValues(0.145, 0.175, 0.005, 3)
 	},
 	period_offset : {
 		'15_days' 	: genCombos(14.5, 17, 0.5, 1),
