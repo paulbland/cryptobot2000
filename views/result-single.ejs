@@ -1,63 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Cryptobot2000</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="/styles.css">
+<% include ./partials/header_start %>
 	
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	<script type="text/javascript">
-		google.charts.load('current', {'packages':['corechart']});
-		google.charts.setOnLoadCallback(drawChart);
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawChart);
 
-		function drawChart() {
+	function drawChart() {
 
-			var data = new google.visualization.DataTable();
+		var data = new google.visualization.DataTable();
 
-			data.addColumn('string', 'Date'); 
-			data.addColumn('number', 'buy price '); 
-			data.addColumn({type:'string', role:'annotation'}); 
-			data.addColumn('number', 'sell price '); 
-			data.addColumn({type:'string', role:'annotation'}); 
-			data.addColumn('number', 'avg'); 
+		data.addColumn('string', 'Date'); 
+		data.addColumn('number', 'buy price '); 
+		data.addColumn({type:'string', role:'annotation'}); 
+		data.addColumn('number', 'sell price '); 
+		data.addColumn({type:'string', role:'annotation'}); 
+		data.addColumn('number', 'avg'); 
 
-			data.addRows([
-				<%- chart_data %>
-			]);
+		data.addRows([
+			<%- chart_data %>
+		]);
 
-			var options = {
-				title: '<%- currency %>',
-				curveType: 'function',
-				legend: { position: 'bottom' },
-				colors: ['red', 'blue', 'green'],
-				chartArea: {'width': '85%', 'height': '85%'},
-				vAxis: {
-           			viewWindowMode:'explicit',
-            		viewWindow: {
-              			max: 450,
-             			min: 0
-            		}
-				},
-				hAxis : { 
-        			textStyle : {
-            			fontSize: 10 // or the number you want
-			        }
-    			}
-			}; 
+		var options = {
+			title: '<%- currency %>',
+			curveType: 'function',
+			legend: { position: 'bottom' },
+			colors: ['red', 'blue', 'green'],
+			chartArea: {'width': '85%', 'height': '85%'},
+			vAxis: {
+				viewWindowMode:'explicit',
+				viewWindow: {
+					max: 450,
+					min: 0
+				}
+			},
+			hAxis : { 
+				textStyle : {
+					fontSize: 10 // or the number you want
+				}
+			}
+		}; 
 
-			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+		var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
-			chart.draw(data, options);
-		}
-    </script>
-</head>
-<body>
+		chart.draw(data, options);
+	}
+</script>
+
+<% include ./partials/header_end %>
 
 	<h1><%- currency %></h1>
 	<div id="curve_chart" style="width: 100%; height: 90vh"></div>
 	<p><%- summary_output %></p>
 	<p><%- data %></p>
 
-</body>
-</html>
+<% include ./partials/footer %>

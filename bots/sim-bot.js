@@ -21,7 +21,7 @@ module.exports = {
 		});
 
         promise.then(function(db) {
-			console.log(`sim-bot: Running! (database: ${db.db.s.databaseName})`)
+			console.log(`sim-bot: Starting. (database: ${db.db.s.databaseName})`)
             self.okRunTheThing()
             /* Use `db`, for instance `db.model()` */
          });
@@ -57,7 +57,7 @@ module.exports = {
 					if (err) {
                         console.log(err)//return handleError(err);
                     } else {    
-                        console.log(`sim-bot: Saved newSimVars!`);
+                        console.log(`sim-bot: Finished. (Saved newSimVars)`);
                     }
 				});
             }

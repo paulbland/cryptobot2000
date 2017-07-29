@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Cryptobot2000</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="/styles.css">
+<% include ./partials/header_start %>
 
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript">
@@ -55,11 +49,9 @@
 		}
 </script>
 
-</head>
-<body>
+<% include ./partials/header_end %>
 
 	<h1><%- currency %></h1>
-
 	<p><%- data %></p>
 
 	<div id="average_chart_low" style="width: 45%; height: 400px; display: inline-block"></div>
@@ -81,5 +73,4 @@
 		</table>
 	<% } %>	
 
-</body>
-</html>
+<% include ./partials/footer %>

@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Cryptobot2000</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="/styles.css">
-</head>
-<body>
+<% include ./partials/header_start %>
+<% include ./partials/header_end %>
+<% include ./partials/nav %>
 
     <% for (i in data) { %>
         <strong>sim vars: <%- i %></strong> <br /><br />
@@ -48,5 +42,4 @@
 
    <pre><%- data_string %> </pre>
    
-</body>
-</html>
+<% include ./partials/footer %>

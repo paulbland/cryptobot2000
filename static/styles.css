@@ -117,3 +117,7 @@ table.sim-vars th a:hover {
 .sim-var-wrapper .sim-var-item {
 	margin: 0 40px 30px 0;
 }
+.sim-var-wrapper .sim-var-item.sim-var-item__light {
+	color: #aaa;
+}
+

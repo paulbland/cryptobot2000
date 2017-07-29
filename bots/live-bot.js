@@ -39,7 +39,7 @@ module.exports = {
 		});
 
         promise.then(function(db) {
-			console.log(`live-bot (${self.bot_name}): Running! (database: ${db.db.s.databaseName})`)
+			console.log(`live-bot (${self.bot_name}): Starting. (database: ${db.db.s.databaseName})`)
             self.getSimVars()
             /* Use `db`, for instance `db.model()` */
          });
@@ -343,8 +343,7 @@ module.exports = {
 			if (err) {
 				console.log(err);
 			}
-			console.log(`live-bot (${self.bot_name}): Saved newLiveData (ETH) record`);
-			console.log(`live-bot (${self.bot_name}): Finished.`);
+			console.log(`live-bot (${self.bot_name}): Finished. (Saved newLiveData (ETH) record)`);
 			self.running = false; //return true;
 		})
 

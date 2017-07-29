@@ -105,26 +105,30 @@ module.exports = {
 			return; 
 		}
 
+		// Set test vars for each time period
+		var low_values 			= test_values.low_values[`${days}_days`]
+		var high_values 		= test_values.high_values[`${days}_days`]
+		var period_offset 		= test_values.period_offset[`${days}_days`]
+
 		// TIMING DATA
-		var total_tests			= (test_values.period_offset_combos.length * test_values.low_values.length * test_values.high_values.length);
+		var total_tests			= (period_offset.length * low_values.length * high_values.length);
 		var total_loops			= (total_tests *  price_data.length)
 		var start 				= new Date();
-		var time_per_loop 		= 0.0016874719; //ms
+		var time_per_loop 		= 0.0038406819; //ms
 		var expected_time		= moment().startOf('day').millisecond(time_per_loop * total_loops).format('H:mm:ss')
 
-		console.log(`Running ${numeral(total_tests).format('0.0a')} tests (${numeral(total_loops).format('0a')} loops). Should be about ${expected_time}.`)
+		console.log(`--- Running ${numeral(total_tests).format('0.0a')} tests (${numeral(total_loops).format('0a')} loops). Should be about ${expected_time}.`)
 
-		for (x=0; x < test_values.period_offset_combos.length; x++) {
-			for (y=0; y < test_values.low_values.length; y++) {
-				for (z=0; z < test_values.high_values.length; z++) {		
-					this.processDataSet(test_values.period_offset_combos[x].period, test_values.period_offset_combos[x].offset, 
-							test_values.low_values[y], test_values.high_values[z], price_data, 'browser')
+		for (x=0; x < period_offset.length; x++) {
+			for (y=0; y < low_values.length; y++) {
+				for (z=0; z < high_values.length; z++) {		
+					this.processDataSet(period_offset[x].period, period_offset[x].offset, low_values[y], high_values[z], price_data, 'browser')
 				}
 			}
 		}
 
 		var execution_time = ((new Date() - start))
-		console.log('Took ' + moment().startOf('day').millisecond(execution_time).format('H:mm:ss') + '. (about ' + (execution_time / total_loops).toFixed(10) + ' ms each)')
+		console.log('--- Took ' + moment().startOf('day').millisecond(execution_time).format('H:mm:ss') + '. (about ' + (execution_time / total_loops).toFixed(10) + ' ms each)')
 
 		// console.log('timing metric a: ' + moment().startOf('day').seconds(this.timing_section_a).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_a/execution_time)*100).toFixed(2) + '%');
 		// console.log('timing metric b: ' + moment().startOf('day').seconds(this.timing_section_b).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_b/execution_time)*100).toFixed(2) + '%');

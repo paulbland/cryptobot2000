@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Cryptobot2000</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="/styles.css">
-</head>
-<body>
+<% include ./partials/header_start %>
+<% include ./partials/header_end %>
+<% include ./partials/nav %>
 
 	<% for (i=0; i<data.length; i++) { %>
 
@@ -15,8 +9,6 @@
 			<%= moment(data[i].datetime).tz("America/New_York").calendar() %> (NY Time) 
 		</span></strong><br />
 		<br />
-
-		<% var lowest_low = 1, highest_low = 0, lowest_high = 1, highest_high = 0, lowest_sum = 99, highest_sum = 0 %>
 
 		<% var result_data = data[i].result_data %>
 		<% for (j=0; j<result_data.length; j++) { %>
@@ -30,6 +22,8 @@
 				<% var max_results 		= result_data[j].this_data.max_results %>
 				<% var max_results_avg 	= result_data[j].this_data.max_results_avg %>
 
+				<% var lowest_low = 1, highest_low = 0, lowest_high = 1, highest_high = 0, lowest_sum = 99, highest_sum = 0 %>
+
 				<table class="max">
 					<tr>
 						<th>rank</th>
@@ -41,7 +35,7 @@
 						<th>value</th>
 						<th>profit</th>
 					</tr>
-					
+
 					<% for (k=0; k<max_results.length; k++) { %>
 						<tr>
 							<th><%- max_results[k].rank %></th>
@@ -79,19 +73,21 @@
 						</tr>
 					<% } %> 
 				</table>
+				<br />
 
+				<div class="sim-var-wrapper">
+					<div class="sim-var-item sim-var-item__light">
+						<strong>low range:</strong> <%- lowest_low.toFixed(3) %> → <%- highest_low.toFixed(3)  %><br />
+						<strong>high range:</strong> <%- lowest_high.toFixed(3) %> → <%- highest_high.toFixed(3) %><br />
+						<strong>sum range:</strong> <%- lowest_sum %> → <%- highest_sum %>
+					</div>
+				</div>
 				
 			</div>
 
 		<% } %>
 
 		<div class="sim-var-wrapper">
-
-			<div class="sim-var-item">
-				<strong>low range:</strong> <%- lowest_low.toFixed(3) %> → <%- highest_low.toFixed(3)  %><br />
-				<strong>high range:</strong> <%- lowest_high.toFixed(3) %> → <%- highest_high.toFixed(3) %><br />
-				<strong>sum range:</strong> <%- lowest_sum %> → <%- highest_sum %>
-			</div>
 
 			<% var bot_vars = [15,30,45,60,75,90] %>
 			<% bot_vars.forEach(function(item) { %>

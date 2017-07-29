@@ -20,7 +20,7 @@ module.exports = {
         });
         
         promise.then(function(db) {
-			console.log(`gdax-price-bot: Running! (database: ${db.db.s.databaseName})`)
+			console.log(`gdax-price-bot: Starting. (database: ${db.db.s.databaseName})`)
             self.getPriceData('BTC')
             self.getPriceData('ETH')
             self.getPriceData('LTC')
@@ -43,7 +43,7 @@ module.exports = {
                 if (err) {
                     return handleError(err);
                 }
-                console.log('gdax-price-bot: Saved ' + currency + ' from GDAX');
+                console.log('gdax-price-bot: Finished. (Saved ' + currency + ' from GDAX)');
             });
         });
     }
