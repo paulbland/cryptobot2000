@@ -24,7 +24,8 @@ app.use('/results', express.static('results'))
 
 // INDEX
 app.get('/', basicAuth, function(req, res) {
-	res.sendFile(path.join(__dirname+'/index.html'));
+	res.render('index');
+	//res.sendFile(path.join(__dirname+'/index.html'));
 })
 
 // FULL SIMULATION
