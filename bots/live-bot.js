@@ -24,7 +24,7 @@ module.exports = {
 	run: function(bot_name) {
 		console.log('initial_investment ' + this.initial_investment)
 		console.log('typeof initial_investment ' + typeof this.initial_investment)
-		
+
 		// prevention so we cant run two bots at once. 
 		if (this.running) {
 			console.log(`Can't start ${bot_name}. live-bot (${this.bot_name}) already running. Exiting.`);
@@ -192,7 +192,7 @@ module.exports = {
 		if (sell_or_buy === 'sell') {
 			this.sellCoinAPI(this.high_threshold, sell_all, lastLiveData, buy_sell_unit, latest_sell_price)
 		} else if (sell_or_buy === 'buy') {
-			this.buyCoinAPI(lastLiveData, buy_sell_unit, latest_buy_price, reinvest_profit)
+			this.buyCoinAPI(lastLiveData, buy_sell_unit, latest_buy_price, reinvest_profit, latest_sell_price)
 		} else {
 			// Do nothing
 			// returns 'do_nothing'
@@ -269,10 +269,10 @@ module.exports = {
 	},
 
 
-	buyCoinAPI: function(lastLiveData, buy_sell_unit, latest_buy_price, total_spent, total_sold, reinvest_profit) {
+	buyCoinAPI: function(lastLiveData, buy_sell_unit, latest_buy_price, reinvest_profit, latest_sell_price) {
 		console.log(`live-bot (${this.bot_name}): BUYING COIN FROM API!`);
 
-		var buy_coin_result = tools.buyCoin(lastLiveData.totals.total_coins_owned, buy_sell_unit, latest_buy_price, false, 
+		var buy_coin_result = tools.buyCoin(lastLiveData.totals.total_coins_owned, buy_sell_unit, latest_buy_price, false, latest_sell_price,
 				lastLiveData.totals.total_spent, lastLiveData.totals.total_coins_sold_value, lastLiveData.totals.money_in_bank, reinvest_profit)
 
 		// console.log("buy_coin_result");
