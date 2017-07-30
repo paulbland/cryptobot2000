@@ -214,15 +214,15 @@ module.exports  = {
 			var current_position = this.calculateCurrentPosition(total_coins_owned, latest_sell_price, total_sold, total_spent)
 			var reached_limit = ((money_in_bank - buy_sell_unit) < current_position) // THIS WILL RETAIN PROFIT
 			
-			console.log('***checking limit:')
-			console.log('total_coins_owned: ' + total_coins_owned);
-			console.log('latest_sell_price: ' + latest_sell_price);
-			console.log('total_sold: ' + total_sold);
-			console.log('total_spent: ' + total_spent);
-			console.log('current_position: ' + current_position);
-			console.log('money_in_bank: ' + money_in_bank);
-			console.log('buy_sell_unit: ' + buy_sell_unit);
-			console.log('reached_limit: ' + reached_limit);
+			// console.log('***checking limit:')
+			// console.log('total_coins_owned: ' + total_coins_owned);
+			// console.log('latest_sell_price: ' + latest_sell_price);
+			// console.log('total_sold: ' + total_sold);
+			// console.log('total_spent: ' + total_spent);
+			// console.log('current_position: ' + current_position);
+			// console.log('money_in_bank: ' + money_in_bank);
+			// console.log('buy_sell_unit: ' + buy_sell_unit);
+			// console.log('reached_limit: ' + reached_limit);
 		}
 
 		if (reached_limit) {
