@@ -149,7 +149,7 @@ module.exports = {
 
 		// TESTING OVERRIDE
 		// sell_or_buy = 'sell'
-		// sell_or_buy = 'buy'
+		sell_or_buy = 'buy'
 
 		// console.log('price_data.length: ' + price_data.length)
 		// console.log('from_index: ' + from_index)
