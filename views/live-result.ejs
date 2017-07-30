@@ -34,15 +34,15 @@
 		<strong>program_vars:</strong><br />
 		<t2></t2>period: <%- data[i].program_vars.period %> hrs<br />
 		<t2></t2>offset: <%- data[i].program_vars.offset %> hrs<br />
-		<t2></t2>low_threshold: <%- data[i].program_vars.low_threshold %>%<br />
-		<t2></t2>high_threshold: <%- data[i].program_vars.high_threshold %>%<br />
+		<t2></t2>low_threshold: <%- (data[i].program_vars.low_threshold * 100).toFixed(2) %>%<br />
+		<t2></t2>high_threshold: <%- (data[i].program_vars.high_threshold * 100).toFixed(2) %>%<br />
 		<t2></t2>buy_sell_percentage: <%- data[i].program_vars.buy_sell_percentage %>%<br />
 		<t2></t2>buy_sell_unit: $<%- data[i].program_vars.buy_sell_unit %><br />
 		<t2></t2>reinvest_profit: <%- data[i].program_vars.reinvest_profit %><br />
 		<br />
 
 		<strong>this_iteration:</strong><br />
-		<t2></t2>avg_for_period: $<%- data[i].avg_for_period %><br />
+		<t2></t2>avg_for_period: $<%- data[i].avg_for_period.toFixed(2) %><br />
 		<t2></t2>latest_buy_price: $<%- data[i].latest_buy_price %><br />
 		<t2></t2>latest_sell_price: $<%- data[i].latest_sell_price %><br />
 		<t2></t2>avg_minus_low_threshold: $<%- data[i].avg_minus_low_threshold.toFixed(2) %><br />
@@ -52,7 +52,7 @@
 		<strong>transaction:</strong><br />
 		<t2></t2>action: <span style="color:red"><strong><%- data[i].transaction.action %></strong></span><br />
 		<t2></t2>transaction_notes: <%- data[i].transaction.transaction_notes %><br />
-		<t2></t2>(if buy) amount_spent_on_this_transaction: <%- data[i].transaction.amount_spent_on_this_transaction %><br />
+		<t2></t2>(if buy) amount_spent_on_this_transaction: $<%- data[i].transaction.amount_spent_on_this_transaction.toFixed(2) %><br />
 		<t2></t2>(if buy) number_of_coins_to_buy: <%- data[i].transaction.number_of_coins_to_buy %><br />
 		<t2></t2>(if sell) result_of_this_sale: $<%- data[i].transaction.result_of_this_sale.toFixed(2) %><br />
 		<t2></t2>(if sell) number_of_coins_to_sell: <%- data[i].transaction.number_of_coins_to_sell %><br />
@@ -74,8 +74,9 @@
 		<t2></t2>total_spent: $<%- data[i].totals.total_spent.toFixed(2) %><br />
 		<t2></t2>total_coins_sold_value: $<%- data[i].totals.total_coins_sold_value.toFixed(2) %><br />
 		<t2></t2>total_coins_owned: <%- data[i].totals.total_coins_owned %><br />
-		<t2></t2>current_value_of_coins_owned: <%- data[i].totals.current_value_of_coins_owned %><br />
+		<t2></t2>current_value_of_coins_owned: $<%- data[i].totals.current_value_of_coins_owned.toFixed(2) %><br />
 		<t2></t2>current_position: $<%- data[i].totals.current_position.toFixed(2) %><br />
+		<t2></t2>money_in_bank: $<%- data[i].totals.money_in_bank.toFixed(2) %><br />
 		<br />
 		<hr />
 		<br />

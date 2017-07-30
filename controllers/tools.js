@@ -170,7 +170,7 @@ module.exports  = {
 
 		var result_of_this_sale = (current_coin_price_sell * number_of_coins_to_sell)
 
-		var transaction_notes = 'Selling ' + number_of_coins_to_sell.toFixed(2) + ' coins values at $' + current_coin_price_sell.toFixed(2) + ' each for a total sale of $' + result_of_this_sale.toFixed(2);
+		var transaction_notes = 'Selling ' + number_of_coins_to_sell + ' coins values at $' + current_coin_price_sell.toFixed(2) + ' each for a total sale of $' + result_of_this_sale.toFixed(2);
 
 		
 		if (print_full_debug) {
@@ -198,7 +198,7 @@ module.exports  = {
 		var number_of_coins_to_buy 					= (buy_sell_unit / current_coin_price_buy);
 		var amount_spent_on_this_transaction 		= buy_sell_unit;
 
-		var transaction_notes = 'Buying ' + number_of_coins_to_buy.toFixed(2) + ' coins valued at $' + current_coin_price_buy.toFixed(2) + ' each for a total purchase of $' + amount_spent_on_this_transaction.toFixed(2);
+		var transaction_notes = 'Buying ' + number_of_coins_to_buy + ' coins valued at $' + current_coin_price_buy.toFixed(2) + ' each for a total purchase of $' + amount_spent_on_this_transaction.toFixed(2);
 
 		if (print_full_debug) {
 			reporting.debug('buy_sell_unit: ' 							+ buy_sell_unit + '<br />');
