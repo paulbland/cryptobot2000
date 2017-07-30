@@ -44,7 +44,8 @@ module.exports = {
             
             pr.save(function (err) {
                 if (err) {
-                    return handleError(err);
+                    res.json(error);
+					process.exit(1);
                 }
                 console.log('gdax-price-bot: Saved ' + currency + ' from GDAX');
 

@@ -41,7 +41,8 @@ app.get('/run-simulation', basicAuth, function(req, res) {
 
     PriceRecordModels[req.query.currency].find({}).sort('datetime').exec(function(error, price_data) {
    		if (error) {
-            res.json(error);
+			res.json(error);
+			process.exit(1);
         }
         else {
 			simulation.runFullSimulation(price_data, req.query.currency, req.query.days, 'browser');

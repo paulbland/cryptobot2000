@@ -129,8 +129,7 @@ module.exports = {
 		var sell_all			= true; 
 		var buy_sell_percentage	= 7.5;
 		var reinvest_profit     = false;
-		var buy_sell_unit		= (this.initial_investment * (buy_sell_percentage / 100)); // calculate
-		//var buy_sell_unit		= (lastLiveData.totals.money_in_bank * (buy_sell_percentage / 100)); // calculate
+		var buy_sell_unit		= parseFloat((this.initial_investment * (buy_sell_percentage / 100)).toFixed(2)); // calculate
 
 		var values_per_period 	= tools.calculateValuesForGivenPeriod(this.period, interval_in_minutes)			
 		var values_in_offset	= tools.calculateValuesForGivenPeriod(this.offset, interval_in_minutes)	
@@ -158,33 +157,33 @@ module.exports = {
 		// console.log('sell_or_buy: ' + sell_or_buy)
 
 		// create new record 
-		newLiveData = new liveDataModels['ETH'];
+		newLiveData 							= new liveDataModels['ETH'];
 		newLiveData.datetime_updated 			= new Date;
 		newLiveData.bot_name		 			= this.bot_name;
 		newLiveData.latest_sell_price 			= latest_sell_price;
 		newLiveData.latest_buy_price 			= latest_buy_price;
-		newLiveData.avg_for_period 				= avg_for_period														// current iteration - set here only
+		newLiveData.avg_for_period 				= avg_for_period																// current iteration - set here only
 		newLiveData.avg_plus_high_threshold 	= tools.calculateAvgPlusHighThreshold(avg_for_period, this.high_threshold); 	// current iteration - set here only
-		newLiveData.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, this.low_threshold); 	// current iteration - set here only
+		newLiveData.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, this.low_threshold); 		// current iteration - set here only
 		newLiveData.totals 						= lastLiveData.totals;			// object!! all totals  - carried over
 		newLiveData.transaction = {
 			action 								: sell_or_buy,
-			transaction_notes					: '',		// transaction - reset
-			number_of_coins_to_sell				: 0,		// transaction - reset // sell only
-			result_of_this_sale					: 0,		// transaction - reset // sell only
-			number_of_coins_to_buy				: 0,		// transaction - reset // buy only
-			amount_spent_on_this_transaction 	: 0,		// transaction - reset // buy only
-			api_response_err					: '',		// transaction - reset
-			api_response_xfer					: ''		// transaction - reset
-		}
-		newLiveData.program_vars = {						// wont change but lets record to make it easier to read logs
-			low_threshold 		: this.low_threshold,
-			high_threshold 		: this.high_threshold,
-			buy_sell_percentage	: buy_sell_percentage,
-			buy_sell_unit	 	: buy_sell_unit,
-			period	 			: this.period,
-			offset	 			: this.offset,
-			reinvest_profit	 	: reinvest_profit
+			transaction_notes					: '',							// transaction - reset
+			number_of_coins_to_sell				: 0,							// transaction - reset // sell only
+			result_of_this_sale					: 0,							// transaction - reset // sell only
+			number_of_coins_to_buy				: 0,							// transaction - reset // buy only
+			amount_spent_on_this_transaction 	: 0,							// transaction - reset // buy only
+			api_response_err					: '',							// transaction - reset
+			api_response_xfer					: ''							// transaction - reset
+		}					
+		newLiveData.program_vars = {											// wont change but lets record to make it easier to read logs
+			low_threshold 						: this.low_threshold,
+			high_threshold 						: this.high_threshold,
+			buy_sell_percentage					: buy_sell_percentage,
+			buy_sell_unit	 					: buy_sell_unit,
+			period	 							: this.period,
+			offset	 							: this.offset,
+			reinvest_profit	 					: reinvest_profit
 		} 		
 
 		if (sell_or_buy === 'sell') {
@@ -349,55 +348,3 @@ module.exports = {
 
 	}
 }
-
-
-
-
-
-
-/*
-set heroku scheduler to run this every 10 minutes
-
-
---- 
-connect to db - -DONE
-get price data from DB -- DONE
-get latest live info from db (btc-live-result)
-decide buy or sell
-do real buy or do real sell
-update db with details (new record)
-
-	-include transaciton details and totals
-
-	live result contains: {
-		-datetime updated
-		-sellbuy price datetime?
-		-this - sell price
-		-this - buy price
-		-total - num coins currently owned (start at 0)
-		-total - num coins sold 
-		-total - money invested
-		-total - money from sales
-		-total - cash reserve 
-		-this-transaction {
-			- action taken - (buy_sell_or_nothing)
-			 - num_coins bought
-			 - buy price (is above buy eh)
-			 - coins sold 
-			- total result of this sale}
-		}
-
-exit()
-
-
-
-
-also-
-
-- create live_result.js - that shows db entires, in reverse chronilogical
-
-
-- Split simulation obj into simulation / tools / reporting
-
-
-*/

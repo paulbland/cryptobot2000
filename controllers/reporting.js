@@ -166,6 +166,4 @@ module.exports  = {
 	getAverageChartData: function() {
         return this.average_chart_data;
     }
-
-
 }

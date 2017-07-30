@@ -179,9 +179,9 @@ module.exports  = {
 		}
 
 		return {
-			"number_of_coins_to_sell" 	: number_of_coins_to_sell,
-			"result_of_this_sale" 		: result_of_this_sale,
-			"transaction_notes" 		: transaction_notes
+			number_of_coins_to_sell : number_of_coins_to_sell,
+			result_of_this_sale 	: result_of_this_sale,
+			transaction_notes 		: transaction_notes
 		}
 
 
@@ -251,9 +251,9 @@ module.exports  = {
 
 		// return some vars for sim to update 
 		return {
-			"number_of_coins_to_buy" 			: number_of_coins_to_buy,
-			"amount_spent_on_this_transaction" 	: amount_spent_on_this_transaction,
-			"transaction_notes" 				: transaction_notes
+			number_of_coins_to_buy				: number_of_coins_to_buy,
+			amount_spent_on_this_transaction	: amount_spent_on_this_transaction,
+			transaction_notes 					: transaction_notes
 		}
 
 	},

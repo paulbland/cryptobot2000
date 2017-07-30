@@ -59,8 +59,11 @@ module.exports = {
 				pr.datetime = new Date;
 				pr.value_avg = ((pr.value_buy + pr.value_sell) / 2)
 				pr.save(function (err) {
-					if (err) return handleError(err);
-						console.log('coinbase-price-bot: Saved ' + currency + ' from Coinbase');
+					if (err) {
+						res.json(error);
+						process.exit(1);
+					}
+					console.log('coinbase-price-bot: Saved ' + currency + ' from Coinbase');
 				})
 			});
 
