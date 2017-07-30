@@ -22,6 +22,9 @@ module.exports = {
 	running 			: false,
 
 	run: function(bot_name) {
+		console.log('initial_investment ' + this.initial_investment)
+		console.log('typeof initial_investment ' + typeof this.initial_investment)
+		
 		// prevention so we cant run two bots at once. 
 		if (this.running) {
 			console.log(`Can't start ${bot_name}. live-bot (${this.bot_name}) already running. Exiting.`);
