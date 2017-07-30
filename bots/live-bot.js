@@ -13,7 +13,7 @@ var newLiveData; // visible globally
 module.exports = {
 
 	really_buy_and_sell : false, // THIS IS IT!!!
-	initial_investment  : parseFloat((2000/6).toFixed(2)),//2000, // 6 bots!
+	initial_investment  : 333.33, // 2000/6 (6 bots)!
 	bot_name 			: null,
 	period 				: 0,
 	offset 				: 0,
@@ -22,8 +22,8 @@ module.exports = {
 	running 			: false,
 
 	run: function(bot_name) {
-		console.log('initial_investment ' + this.initial_investment)
-		console.log('typeof initial_investment ' + typeof this.initial_investment)
+		//console.log('initial_investment ' + this.initial_investment)
+		//console.log('typeof initial_investment ' + typeof this.initial_investment)
 
 		// prevention so we cant run two bots at once. 
 		if (this.running) {
@@ -148,7 +148,7 @@ module.exports = {
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug, false)
 
 		// TESTING OVERRIDE
-		sell_or_buy = 'sell'
+		// sell_or_buy = 'sell'
 		// sell_or_buy = 'buy'
 
 		// console.log('price_data.length: ' + price_data.length)
