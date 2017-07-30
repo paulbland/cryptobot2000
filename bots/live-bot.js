@@ -148,7 +148,7 @@ module.exports = {
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug, false)
 
 		// TESTING OVERRIDE
-		// sell_or_buy = 'sell'
+		sell_or_buy = 'sell'
 		// sell_or_buy = 'buy'
 
 		// console.log('price_data.length: ' + price_data.length)
