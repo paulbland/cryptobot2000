@@ -3,6 +3,7 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 	google.charts.load('current', {'packages':['corechart']});
+	//google.charts.load('current', {'packages':['line']});
 	google.charts.setOnLoadCallback(drawChart);
 
 	function drawChart() {
@@ -41,16 +42,17 @@
 		}; 
 
 		var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
 		chart.draw(data, options);
+
+		//var chart = new google.charts.Line(document.getElementById('curve_chart'));
+      	//chart.draw(data, google.charts.Line.convertOptions(options));
 	}
 </script>
 
 <% include ./partials/header_end %>
 
-	<h1><%- currency %></h1>
-	<div id="curve_chart" style="width: 100%; height: 90vh"></div>
-	<p><%- summary_output %></p>
-	<p><%- data %></p>
+<div id="curve_chart" style="width: 100%; height: 90vh"></div>
+<p><%- summary_output %></p>
+<p><%- data %></p>
 
 <% include ./partials/footer %>

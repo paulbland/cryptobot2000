@@ -36,12 +36,6 @@
 				vAxis: { 
 					gridlines: { count: 20 },
 				},
-				/*trendlines: {
-					0: {
-						type: 'polynomial',
-						degree: 2
-					}
-				}*/
 			}; 
 
 			var chart = new google.visualization.LineChart(document.getElementById('average_chart_' + chart_tag));
@@ -51,7 +45,7 @@
 
 <% include ./partials/header_end %>
 
-	<h1><%- currency %></h1>
+	<h2>Full Simulation (<%- currency %>)</h2>
 	<p><%- data %></p>
 
 	<div id="average_chart_low" style="width: 45%; height: 400px; display: inline-block"></div>

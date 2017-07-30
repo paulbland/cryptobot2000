@@ -1,24 +1,13 @@
 <% include ./partials/header_start %>
 <% include ./partials/header_end %>
-<% include ./partials/nav %>
 
-	<h1>Live Result</h1>
+	<h2>Live Result</h2>
 	<h3><%- data[0].bot_name %></h3>
-	<br />
 	
 	<% var period = data[0].program_vars.period %>
 	<% var offset = data[0].program_vars.offset %>
 	<% var low_threshold = data[0].program_vars.low_threshold %>
 	<% var high_threshold = data[0].program_vars.high_threshold %>
-
-	<a href="/live-result?bot_name=15_day_bot">15_day_bot</a> &middot;
-	<a href="/live-result?bot_name=30_day_bot">30_day_bot</a> &middot;
-	<a href="/live-result?bot_name=45_day_bot">45_day_bot</a> &middot;
-	<a href="/live-result?bot_name=60_day_bot">60_day_bot</a> &middot;
-	<a href="/live-result?bot_name=75_day_bot">75_day_bot</a> &middot;
-	<a href="/live-result?bot_name=90_day_bot">90_day_bot</a>	
-	<br />
-	<br />
 
 	Run simulation for this data:
 	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=15">15 days</a> &middot;
@@ -28,6 +17,8 @@
 	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=75">75 days</a> &middot;
 	<a target="_blank" href="/run-simulation-single?hrs_in_period=<%- period %>&amp;offset=<%- offset %>&amp;low_threshold=<%- low_threshold %>&amp;high_threshold=<%- high_threshold %>&amp;currency=ETH&amp;days=90">90 days</a>
 	<br />
+	<br />
+	<hr />
 	<br />
 
 	<% for (i in data) { %>
