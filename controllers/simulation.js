@@ -90,7 +90,7 @@ module.exports = {
 		this.table_averages 		= {};
 		this.print_basic_debug 		= false; 
 		this.print_full_debug 		= false; 
-		this.print_table_data 		= false;  	// usually true - hiding all data tables
+		this.print_table_data 		= true;  	// show or hide full tables
 		this.print_average_data 	= true;		// lists and 4 average charts
 		this.print_average_lists	= false; 	// usually true. just hiding for now
 		this.currency 				= currency;
@@ -579,12 +579,15 @@ module.exports = {
 
 		// get sets of price data for each time period 
 		var this_price_data = [];
-		this_price_data['15'] = this.setStartDate(15, price_data)
-		this_price_data['30'] = this.setStartDate(30, price_data)
-		this_price_data['45'] = this.setStartDate(45, price_data)
-		this_price_data['60'] = this.setStartDate(60, price_data)
-		this_price_data['75'] = this.setStartDate(75, price_data)
-		this_price_data['90'] = this.setStartDate(90, price_data)
+		test_periods.forEach(function(this_test_period) {
+			this_price_data[this_test_period] = this.setStartDate(parseInt(this_test_period), price_data)
+		});
+		// this_price_data['15'] = this.setStartDate(15, price_data)
+		// this_price_data['30'] = this.setStartDate(30, price_data)
+		// this_price_data['45'] = this.setStartDate(45, price_data)
+		// this_price_data['60'] = this.setStartDate(60, price_data)
+		// this_price_data['75'] = this.setStartDate(75, price_data)
+		// this_price_data['90'] = this.setStartDate(90, price_data)
 
 		sim_vars_eth.result_data.forEach(function(sim_var_item) {
 
