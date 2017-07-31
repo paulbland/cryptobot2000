@@ -580,7 +580,7 @@ module.exports = {
 		// get sets of price data for each time period 
 		var this_price_data = [];
 		test_periods.forEach(function(this_test_period) {
-			this_price_data[this_test_period] = this.setStartDate(parseInt(this_test_period), price_data)
+			this_price_data[this_test_period] = self.setStartDate(parseInt(this_test_period), price_data)
 		});
 		// this_price_data['15'] = this.setStartDate(15, price_data)
 		// this_price_data['30'] = this.setStartDate(30, price_data)
