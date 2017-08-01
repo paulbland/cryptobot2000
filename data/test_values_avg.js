@@ -2,7 +2,7 @@ module.exports = {
 	
 	// EVERYTHING FROM SIM VARs +/- 2 units (0.5 or 0.005) 
 	low_values : {
-		'15_days' 	: genValues(0.105, 0.180, 0.005, 3),
+		'15_days' 	: genValues(0.100, 0.180, 0.005, 3),
 		'30_days' 	: genValues(0.125, 0.160, 0.005, 3),
 		'45_days' 	: genValues(0.130, 0.170, 0.005, 3),
 		'60_days' 	: genValues(0.130, 0.185, 0.005, 3),
