@@ -13,16 +13,16 @@ module.exports = {
 	interval_in_minutes 	: 10,	// how often data is collected in minutes
 
 	// these are here because they must be visible globally, even though are updated throughout iterations
-	total_coins_owned 		: null,
-	total_spent 			: null,
-	total_sold 				: null,
-	total_sell_transactions : null,
-	total_buy_transactions 	: null,
-	max_coins_ever_owned	: null,
-	max_value_ever_owned	: null,
+	total_coins_owned 		: 0,
+	total_spent 			: 0,
+	total_sold 				: 0,
+	total_sell_transactions : 0,
+	total_buy_transactions 	: 0,
+	max_coins_ever_owned	: 0,
+	max_value_ever_owned	: 0,
 
 	// these are for full sim (rusn over entire thing)
-	all_results 			: [],			// all data to print max at end
+	all_results 			: [],		// all data to print max at end
 	max_results 			: [], 		// top 20
 	max_results_avg 		: [], 		// top 20 - avg
 	browser_output 			: '',
@@ -85,15 +85,16 @@ module.exports = {
 
 	runFullSimulation: function(price_data, currency, days, output) {
 		reporting.resetOutput(); 
+		this.resetAllSimVars();
 
-		this.table_data 			= {};
-		this.table_averages 		= {};
 		this.print_basic_debug 		= false; 
 		this.print_full_debug 		= false; 
 		this.print_table_data 		= true;  	// show or hide full tables
 		this.print_average_data 	= true;		// lists and 4 average charts
 		this.print_average_lists	= false; 	// usually true. just hiding for now
 		this.currency 				= currency;
+		
+		//this.printAllDebug()
 
 		price_data = this.setStartDate(days, price_data)
 
@@ -623,5 +624,68 @@ module.exports = {
 			}
 		})
 		return results;
+	},
+
+
+	resetAllSimVars: function() {
+		this.table_data 			= {};
+		this.table_averages 		= {};
+		
+
+		this.total_coins_owned 		= 0;
+		this.total_spent = 0;
+		this.total_sold = 0;
+		this.total_sell_transactions = 0;
+		this.total_buy_transactions = 0;
+		this.max_coins_ever_owned = 0;
+		this.max_value_ever_owned = 0;
+		this.all_results = [];
+		this.max_results = [];
+		this.max_results_avg = [];
+		this.browser_output = '';
+		this.buy_sell_unit = 0;
+		this.money_in_bank = 0
+		this.start_date = '';
+		this.days = 0;
+	},
+
+	printAllDebug: function() {
+		console.log('full debug');
+		console.log(`interval_in_minutes: ${this.interval_in_minutes}`);
+		console.log(`total_coins_owned: ${this.total_coins_owned}`);
+		console.log(`total_spent: ${this.total_spent}`);
+		console.log(`total_sold: ${this.total_sold}`);
+		console.log(`total_sell_transactions: ${this.total_sell_transactions}`);
+		console.log(`total_buy_transactions: ${this.total_buy_transactions}`);
+		console.log(`max_coins_ever_owned: ${this.max_coins_ever_owned}`);
+		console.log(`max_value_ever_owned: ${this.max_value_ever_owned}`);
+		console.log(`all_results: ${this.all_results}`);
+		console.log(`max_results: ${this.max_results}`);
+		console.log(`max_results_avg: ${this.max_results_avg}`);
+		console.log(`browser_output: ${this.browser_output}`);
+		console.log(`chart_data: ${this.chart_data}`);
+		console.log(`average_chart_data: ${this.average_chart_data}`);
+		console.log(`summary_output: ${this.summary_output}`);
+		console.log(`currency: ${this.currency}`);
+		console.log(`print_full_debug: ${this.print_full_debug}`);
+		console.log(`print_basic_debug: ${this.print_basic_debug}`);
+		console.log(`print_chart_data: ${this.print_chart_data}`);
+		console.log(`print_chart_data: ${this.print_chart_data}`);
+		console.log(`print_table_data: ${this.print_table_data}`);
+		console.log(`print_average_data: ${this.print_average_data}`);
+		console.log(`print_average_lists: ${this.print_average_lists}`);
+		console.log(`buy_sell_method: ${this.buy_sell_method}`);
+		console.log(`buy_sell_percentage: ${this.buy_sell_percentage}`);
+		console.log(`initial_investment: ${this.initial_investment}`);
+		console.log(`buy_sell_unit: ${this.buy_sell_unit}`);
+		console.log(`money_in_bank: ${this.money_in_bank}`);
+		console.log(`sell_all: ${this.sell_all}`);
+		console.log(`simulate_crash: ${this.simulate_crash}`);
+		console.log(`crash_effect: ${this.crash_effect}`);
+		console.log(`reinvest_profit: ${this.reinvest_profit}`);
+		console.log(`start_date: ${this.start_date}`);
+		console.log(`days: ${this.days}`);
+		console.log(`timing_section_a: ${this.timing_section_a}`);
+		console.log(`buy_sell_method: ${this.timing_section_b}`);
 	}
 }
