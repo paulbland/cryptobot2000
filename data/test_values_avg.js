@@ -13,7 +13,7 @@ module.exports = {
 		'15_days' 	: genValues(0.110, 0.235, 0.005, 3), 
 		'30_days' 	: genValues(0.170, 0.205, 0.005, 3), 
 		'45_days' 	: genValues(0.175, 0.205, 0.005, 3), 
-		'60_days' 	: genValues(0.165, 0.210, 0.005, 3), 
+		'60_days' 	: genValues(0.165, 0.220, 0.005, 3), 
 		'75_days' 	: genValues(0.140, 0.180, 0.005, 3), 
 		'90_days' 	: genValues(0.140, 0.180, 0.005, 3)
 	},
