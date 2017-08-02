@@ -168,6 +168,8 @@ module.exports = {
 		newLiveData.avg_for_period 				= avg_for_period																// current iteration - set here only
 		newLiveData.avg_plus_high_threshold 	= tools.calculateAvgPlusHighThreshold(avg_for_period, this.high_threshold); 	// current iteration - set here only
 		newLiveData.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, this.low_threshold); 		// current iteration - set here only
+		newLiveData.datetime_collected			= price_data[this_index].datetime;
+		
 		newLiveData.totals 						= lastLiveData.totals;			// object!! all totals  - carried over
 		newLiveData.transaction = {
 			action 								: sell_or_buy,

@@ -1,5 +1,6 @@
 var tools 		= require('./tools')
 var reporting 	= require('./reporting')
+var config 		= require('../config/config')
 
 var moment 		= require('moment-timezone');
 var numeral 	= require('numeral');
@@ -291,9 +292,15 @@ module.exports = {
 
 			if (this.print_full_debug) {
 				reporting.printLoopDebug(i, values_per_period, price_data, hrs_in_period, this_index, offset, values_in_offset);
-				reporting.debug('data collected at: ' + data_to_be_tested[data_to_be_tested.length-1].datetime + '<br />');// print result
-				reporting.debug('latest buy price: $' + latest_buy_price.toFixed(2) + '<br>');
-				reporting.debug('latest sell price: $' + latest_sell_price.toFixed(2) + '<br>');
+				reporting.debug(`
+					data collected at: ${current_date}
+					<span style="color:limegreen">
+						${moment(current_date).tz(config.timezone).calendar()}
+						(${moment(current_date).tz(config.timezone).fromNow()})
+					</span><br />
+					latest buy price: $${latest_buy_price.toFixed(2)}<br />
+					latest sell price: $${latest_sell_price.toFixed(2)}<br />
+				`);
 			} 
 
 			//var start_b = new Date();

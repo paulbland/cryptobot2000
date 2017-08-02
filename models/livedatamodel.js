@@ -12,6 +12,7 @@ var LiveDataSchema = new Schema({
     avg_for_period          : { type: Number, default: 0 },
     avg_plus_high_threshold : { type: Number, default: 0 },
     avg_minus_low_threshold : { type: Number, default: 0 },
+    datetime_collected      : Date,
     program_vars: {
         low_threshold 		: { type: Number, default: 0 },
 		high_threshold 		: { type: Number, default: 0 },
