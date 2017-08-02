@@ -47,7 +47,7 @@
 		<t2></t2>latest_sell_price: $<%- data[i].latest_sell_price %><br />
 		<t2></t2>avg_minus_low_threshold: $<%- data[i].avg_minus_low_threshold.toFixed(2) %><br />
 		<t2></t2>avg_plus_high_threshold: $<%- data[i].avg_plus_high_threshold.toFixed(2) %><br />
-		<t2></t2>datetime_collected: $<%- data[i].datetime_collected.toUTCString() %> 
+		<t2></t2>datetime_collected: <%- data[i].datetime_collected.toUTCString() %> 
 			(<%= moment(data[i].datetime_collected).tz("America/New_York").calendar() %> (NY Time), 
 			<%= moment(data[i].datetime_collected).fromNow() %>)<br />
 		<br />
