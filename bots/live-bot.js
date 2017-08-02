@@ -69,7 +69,7 @@ module.exports = {
 
 	step1: function() {
 		var self = this;
-		priceRecordModels['ETH'].find({}, function(error, price_data_eth) {
+		priceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_data_eth) {
 			if (error) {
 				res.json(error);
 				console.log('live-bot: Error connecting to db (model: priceRecordModels)');

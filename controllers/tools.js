@@ -8,6 +8,7 @@ module.exports  = {
 	timing_section_e : 0,
 	
 	calculateAverage: function(data_to_be_tested) { 
+		//console.log(data_to_be_tested)
 		var sum = 0;
 		var len = data_to_be_tested.length
 		for (var j=0; j < len; j++) {
@@ -93,6 +94,9 @@ module.exports  = {
 			} else {
 				var avg_for_period = this.calculateAverage(data_to_be_tested)							// get avg for period
 			}
+
+			// debug
+			//console.log(avg_for_period + ' should equal ' + this.calculateAverage(data_to_be_tested))
 			//this.timing_section_c += ((new Date() - start_c))
 
 			//var start_d = new Date();
