@@ -24,9 +24,9 @@ module.exports = {
         
         promise.then(function(db) {
 			console.log(`price-bot: Starting. (database: ${db.db.s.databaseName})`)
-            self.getPriceData('BTC')
+            //self.getPriceData('BTC')
             self.getPriceData('ETH')
-            self.getPriceData('LTC')
+            //self.getPriceData('LTC')
             /* Use `db`, for instance `db.model()` */
          });
     },
@@ -49,7 +49,7 @@ module.exports = {
                 }
                 console.log('price-bot: Saved ' + currency + ' from GDAX');
 
-                if (++self.currenciesComplete === 3) {
+                if (++self.currenciesComplete === 1) {//was 3! when im getting all three currencies (ln 27-29)
                     console.log('price-bot: Finished.');
                 }
             });
