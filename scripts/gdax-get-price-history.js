@@ -15,7 +15,7 @@ var PriceRecordModels = require('../models/pricerecordmodel')
 var days            = 90;      // num of days to get
 var num_done        = 0;
 var all_my_prices   = []
-var granularity     = 600;     // granularity - 300 = 5 mins, 600 = 10 mins
+var granularity     = 300;     // granularity - 300 = 5 mins, 600 = 10 mins
 var delay           = 2000;    // to combat public api limits
 
 
