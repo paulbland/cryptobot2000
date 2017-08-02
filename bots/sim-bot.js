@@ -50,9 +50,8 @@ module.exports = {
                     })
 
                     // add data directly to bot name (bot key must exist in schema!...)
-                    // thisResult.max_results_avg[4] // use top_5_avg
-                    // changed! -- using top 1
-                    newSimVars[`${days}_day_bot`] = thisResult.max_results[0]; 
+                    // thisResult.max_results[0]; // use this for top 1
+                    newSimVars[`${days}_day_bot`] = thisResult.max_results_avg[4] // use top_5_avg
                 })
 
                 newSimVars.save(function (err) {
