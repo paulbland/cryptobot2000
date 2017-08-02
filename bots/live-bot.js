@@ -128,7 +128,7 @@ module.exports = {
 		// hard code some vars for live
 		var buy_sell_method		= 'avg';
 		var print_full_debug 	= false;
-		var interval_in_minutes = 10;
+		var interval_in_minutes = 5;
 		var sell_all			= true; 
 		var buy_sell_percentage	= 7.5;
 		var reinvest_profit     = false;
