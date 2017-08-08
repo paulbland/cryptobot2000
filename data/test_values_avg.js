@@ -6,7 +6,7 @@ module.exports = {
 		'30_days' 	: genValues(0.145, 0.175, 0.005, 3), 
 		'45_days' 	: genValues(0.155, 0.180, 0.005, 3), 
 		'60_days' 	: genValues(0.150, 0.195, 0.005, 3), 
-		'75_days' 	: genValues(0.120, 0.160, 0.005, 3),
+		'75_days' 	: genValues(0.120, 0.165, 0.005, 3),
 		'90_days' 	: genValues(0.075, 0.120, 0.005, 3)
 	},
 	high_values : {
@@ -23,7 +23,7 @@ module.exports = {
 		'45_days' 	: genCombos(17, 20, 0.5, 1),  
 		'60_days' 	: genCombos(16.5, 19, 0.5, 1),  
 		'75_days' 	: genCombos(8.5, 14.5, 0.5, 1),
-		'90_days' 	: genCombos(8.5, 14.5, 0.5, 1)
+		'90_days' 	: genCombos(8, 14.5, 0.5, 1)
 	}
 }	
 
