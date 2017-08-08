@@ -29,8 +29,7 @@ module.exports = {
 
 function genValues(min, max, inc, prec) {
 	var arr = []
-	for (i=min; i<=max; i+=inc) {
-		i = parseFloat(i.toFixed(prec))
+	for (i=min; i<=max; i+=inc, i=parseFloat(i.toFixed(prec))) {
 		arr.push(i)
 	}
 	return arr;

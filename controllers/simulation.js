@@ -553,8 +553,8 @@ module.exports = {
 		this.table_averages['sum_' + (period + offset)].push(final_profit)
 
 		// compile averages for low and high
-		var high_key 	= 'high_' + high_threshold;
-		var low_key 	= 'low_' + low_threshold;
+		var high_key 	= 'high_' + high_threshold.toFixed(3);
+		var low_key 	= 'low_' + low_threshold.toFixed(3);
 
 		if (typeof this.table_averages[high_key] === 'undefined') {
 			this.table_averages[high_key] = []

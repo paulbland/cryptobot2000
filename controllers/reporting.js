@@ -85,8 +85,8 @@ module.exports  = {
 					<td>${max_results[i].period}</td>
 					<td>${max_results[i].offset}</td>
 					<td>(${(max_results[i].period+max_results[i].offset)})</td>
-					<td>${max_results[i].low}</td>
-					<td>${max_results[i].high}</td>
+					<td>${max_results[i].low.toFixed(3)}</td>
+					<td>${max_results[i].high.toFixed(3)}</td>
 					<td><a href="${link}" target="_blank" style="color:rgb(0,${(192-(i*10))},0)"><strong>$${max_results[i].value.toFixed(2)}</strong></td>
 					<td>${max_results[i].profit.toFixed(2)}%</td>
 				</tr>
