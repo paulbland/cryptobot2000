@@ -47,7 +47,7 @@ module.exports = {
 	buy_sell_unit 			: 0,			// calculated
 	money_in_bank 			: 0,			// calculated	
 	sell_all				: true,			// false means sell just one unit
-	simulate_crash 			: false, 
+	simulate_crash 			: true, 
 	crash_effect 			: 0,			// 0, 0.25, 0.5...
 	reinvest_profit 		: false,
 	start_date				: null, 		// must be set in sim from days value
@@ -119,7 +119,7 @@ module.exports = {
 		var time_per_loop 		= 0.0038406819; //ms
 		var expected_time		= moment().startOf('day').millisecond(time_per_loop * total_loops).format('H:mm:ss')
 
-		console.log(`--- Running ${numeral(total_tests).format('0.0a')} tests (${numeral(total_loops).format('0a')} loops). Should be about ${expected_time}.`)
+		console.log(`→→→ Running ${numeral(total_tests).format('0.0a')} tests (${numeral(total_loops).format('0a')} loops). Should be about ${expected_time}.`)
 
 		for (x=0; x < period_offset.length; x++) {
 			for (y=0; y < low_values.length; y++) {
@@ -130,7 +130,7 @@ module.exports = {
 		}
 
 		var execution_time = ((new Date() - start))
-		console.log('--- Took ' + moment().startOf('day').millisecond(execution_time).format('H:mm:ss') + '. (about ' + (execution_time / total_loops).toFixed(10) + ' ms each)')
+		console.log('✔   Took ' + moment().startOf('day').millisecond(execution_time).format('H:mm:ss') + '. (about ' + (execution_time / total_loops).toFixed(10) + ' ms each)')
 
 		// console.log('timing metric a: ' + moment().startOf('day').seconds(this.timing_section_a).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_a/execution_time)*100).toFixed(2) + '%');
 		// console.log('timing metric b: ' + moment().startOf('day').seconds(this.timing_section_b).format('H:mm:ss') + ' as percentage ' + ((this.timing_section_b/execution_time)*100).toFixed(2) + '%');
