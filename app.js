@@ -162,5 +162,5 @@ app.get('/sim-vars-results', basicAuth, function(req, res) {
 })
 
 app.listen(process.env.PORT, function() { 
-	console.log('cryptobot2000 is running at http://localhost:' + process.env.PORT)
+	console.log('Cryptobot2000 is running at http://localhost:' + process.env.PORT)
 })
