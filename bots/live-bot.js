@@ -1,5 +1,6 @@
 var mongoose 			= require('mongoose');
-var coinbase 			= require('coinbase');
+//var coinbase 			= require('coinbase');
+var Gdax        		= require('gdax');
 var tools 				= require('../controllers/tools')
 var reporting 			= require('../controllers/reporting')
 var liveDataModels 		= require('../models/livedatamodel')
@@ -246,6 +247,7 @@ module.exports = {
 
 			// connect to coinbase and get my ETH account
 			//console.log('connecting to api')
+			/*
 			var client 			= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 			var myETHAccount 	= client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
 
@@ -265,6 +267,24 @@ module.exports = {
 				});
 
 			});
+			*/
+			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com');
+			var sellParams = {
+				'type' 		: 'market',
+				'size' 		: sell_coin_result.number_of_coins_to_sell,  
+				'product_id': 'ETH-USD',
+			};
+			authedClient.sell(sellParams, function(error, response, data) {
+				if (error) {
+					console.log(`live-bot (${self.bot_name}): Error selling from GDAX API`, error)
+					newLiveData.transaction.api_response_err = JSON.stringify(error, null, " ");
+				} else {
+					console.log(`live-bot (${self.bot_name}): Selling from GDAX API done`);
+					newLiveData.transaction.api_response_xfer 	= JSON.stringify(data, null, " ");
+					self.finalStepSaveAndExit();
+				}
+			});
+
 		} else {
 			this.finalStepSaveAndExit();
 		}
@@ -299,6 +319,7 @@ module.exports = {
 
 			// connect to coinbase and get my ETH account
 			//console.log('connecting to api')
+			/*
 			var client = new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
 
 			// THIS FOR ETH WALLET ID ONLY
@@ -329,6 +350,23 @@ module.exports = {
 
 					self.finalStepSaveAndExit();
 				});
+			});
+			*/
+			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com');
+			var buyParams = {
+				'type' 		: 'market',
+				'size' 		: buy_coin_result.number_of_coins_to_buy,  
+				'product_id': 'ETH-USD',
+			};
+			authedClient.buy(buyParams, function(error, response, data) {
+				if (error) {
+					console.log(`live-bot (${self.bot_name}): Error buying from GDAX API`, error)
+					newLiveData.transaction.api_response_err = JSON.stringify(error, null, " ");
+				} else {
+					console.log(`live-bot (${self.bot_name}): Buying from GDAX API done`);
+					newLiveData.transaction.api_response_xfer 	= JSON.stringify(data, null, " ");
+					self.finalStepSaveAndExit();
+				}
 			});
 		} else {
 			this.finalStepSaveAndExit();
