@@ -42,7 +42,7 @@ module.exports = {
 		});
 
         promise.then(function(db) {
-			console.log(`live-bot (${self.bot_name}): Starting. (database: ${db.db.s.databaseName})`)
+			self.debug(`Starting. (database: ${db.db.s.databaseName})`)
             self.getSimVars()
             /* Use `db`, for instance `db.model()` */
          });
@@ -72,7 +72,7 @@ module.exports = {
 		priceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_data_eth) {
 			if (error) {
 				res.json(error);
-				console.log('live-bot: Error connecting to db (model: priceRecordModels)');
+				self.debug(`Error connecting to db (model: priceRecordModels)`);
 				process.exit(1);
 			}
 			else {
@@ -89,7 +89,7 @@ module.exports = {
 		liveDataModels['ETH'].findOne({bot_name:self.bot_name}).sort('-datetime_updated').exec(function(error, lastLiveData) {
 			if (error) {
 				res.json(error);
-				console.log('live-bot: Error connecting to db (model: liveDataModels)');
+				self.debug(`Error connecting to db (model: liveDataModels)`);
 				process.exit(1);
 			}
 			else {
@@ -148,8 +148,8 @@ module.exports = {
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug, false)
 
 		// TESTING OVERRIDE
-		// sell_or_buy = 'sell'
-		// sell_or_buy = 'buy'
+		//sell_or_buy = 'sell'
+		//sell_or_buy = 'buy'
 
 		// console.log('price_data.length: ' + price_data.length)
 		// console.log('from_index: ' + from_index)
@@ -215,7 +215,7 @@ module.exports = {
 
 
 	sellCoinAPI: function(high_threshold, sell_all, lastLiveData, buy_sell_unit, latest_sell_price) {
-		console.log(`live-bot (${this.bot_name}): SELLING COIN FROM API!`);
+		this.debug(`Selling coins from GDAX API`);
 
 		if (lastLiveData.totals.total_coins_owned === 0) {
 			//console.log('you don’t have any coins to sell!<br />')
@@ -245,18 +245,19 @@ module.exports = {
 			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com');
 			var sellParams = {
 				'type' 		: 'market',
-				'size' 		: sell_coin_result.number_of_coins_to_sell,  
+				'size' 		: sell_coin_result.number_of_coins_to_sell,  //0.01
 				'product_id': 'ETH-USD',
 			};
 			authedClient.sell(sellParams, function(error, response, data) {
 				if (error) {
-					console.log(`live-bot (${self.bot_name}): Error selling from GDAX API`, error)
-					newLiveData.transaction.api_response_err = JSON.stringify(error, null, " ");
+					var errStr = JSON.stringify(error, null, " ");
+					self.debug(`Error selling from GDAX API. Error object: ${errStr}`)
+					newLiveData.transaction.api_response_err = errStr;
 				} else {
-					console.log(`live-bot (${self.bot_name}): Selling from GDAX API done`);
+					self.debug(`Selling from GDAX API done`);
 					newLiveData.transaction.api_response_xfer = JSON.stringify(data, null, " ");
-					self.finalStepSaveAndExit();
 				}
+				self.finalStepSaveAndExit();
 			});
 
 		} else {
@@ -266,7 +267,7 @@ module.exports = {
 
 
 	buyCoinAPI: function(lastLiveData, buy_sell_unit, latest_buy_price, reinvest_profit, latest_sell_price) {
-		console.log(`live-bot (${this.bot_name}): BUYING COIN FROM API!`);
+		this.debug(`Buying coin from GDAX API`);
 
 		var buy_coin_result = tools.buyCoin(lastLiveData.totals.total_coins_owned, buy_sell_unit, latest_buy_price, false, latest_sell_price,
 				lastLiveData.totals.total_spent, lastLiveData.totals.total_coins_sold_value, lastLiveData.totals.money_in_bank, reinvest_profit)
@@ -287,21 +288,22 @@ module.exports = {
 
 		if (this.really_buy_and_sell) {
 			var self = this;
-			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com');
+			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com'); 
 			var buyParams = {
 				'type' 		: 'market',
-				'size' 		: buy_coin_result.number_of_coins_to_buy,  
+				'size' 		: buy_coin_result.number_of_coins_to_buy,  //0.01
 				'product_id': 'ETH-USD',
 			};
 			authedClient.buy(buyParams, function(error, response, data) {
 				if (error) {
-					console.log(`live-bot (${self.bot_name}): Error buying from GDAX API`, error)
-					newLiveData.transaction.api_response_err = JSON.stringify(error, null, " ");
+					var errStr = JSON.stringify(error, null, " ");
+					self.debug(`Error buying from GDAX API. Error object: ${errStr}`)
+					newLiveData.transaction.api_response_err = errStr;
 				} else {
-					console.log(`live-bot (${self.bot_name}): Buying from GDAX API done`);
-					newLiveData.transaction.api_response_xfer 	= JSON.stringify(data, null, " ");
-					self.finalStepSaveAndExit();
+					self.debug(`Buying from GDAX API done`);
+					newLiveData.transaction.api_response_xfer = JSON.stringify(data, null, " ");
 				}
+				self.finalStepSaveAndExit();
 			});
 		} else {
 			this.finalStepSaveAndExit();
@@ -320,9 +322,14 @@ module.exports = {
 			if (err) {
 				console.log(err);
 			}
-			console.log(`live-bot (${self.bot_name}): Finished. (Saved newLiveData (ETH) record)`);
+			self.debug(`Finished. (Saved newLiveData (ETH) record)`);
 			self.running = false; //return true;
 		})
 
+	},
+
+
+	debug: function(msg) {
+		console.log(`live-bot (${this.bot_name}): ${msg}`);
 	}
 }

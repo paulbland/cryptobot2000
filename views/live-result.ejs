@@ -61,7 +61,7 @@
 		<t2></t2>(if sell) number_of_coins_to_sell: <%- data[i].transaction.number_of_coins_to_sell %><br />
 		
 		<t2></t2>api_response_xfer: 
-		<% if (data[i].transaction.api_response_xfer != '') { %>
+		<% if (data[i].transaction.api_response_xfer !== '') { %>
 			<span class="json-resp-wrapper">
 				<span class="json-resp-link">show ↓</span>
 				<div class="json-resp"><pre><%- data[i].transaction.api_response_xfer %></pre></div>
