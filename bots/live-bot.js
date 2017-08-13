@@ -1,5 +1,4 @@
 var mongoose 			= require('mongoose');
-//var coinbase 			= require('coinbase');
 var Gdax        		= require('gdax');
 var tools 				= require('../controllers/tools')
 var reporting 			= require('../controllers/reporting')
@@ -225,10 +224,9 @@ module.exports = {
 			return;
 		}
 
-		var sell_coin_result = tools.sellCoin(high_threshold, false, sell_all, lastLiveData.totals.total_coins_owned, buy_sell_unit, latest_sell_price)
+		var sell_coin_result = tools.sellCoin(high_threshold, false, sell_all, lastLiveData.totals.total_coins_owned, buy_sell_unit, latest_sell_price);
 
-		// console.log("sell_coin_result");
-		// console.log(sell_coin_result);
+		// console.log("sell_coin_result", sell_coin_result);
 
 		newLiveData.transaction.number_of_coins_to_sell = sell_coin_result.number_of_coins_to_sell;
 		newLiveData.transaction.result_of_this_sale 	= sell_coin_result.result_of_this_sale;
@@ -244,30 +242,6 @@ module.exports = {
 
 		if (this.really_buy_and_sell) {
 			var self = this;
-
-			// connect to coinbase and get my ETH account
-			//console.log('connecting to api')
-			/*
-			var client 			= new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
-			var myETHAccount 	= client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
-
-				var args = {
-					amount			: sell_coin_result.number_of_coins_to_sell,  //"0.01",
-					currency 		: "ETH",
-					payment_method	: process.env.USD_ACCOUNT_ID
-				};
-				account.sell(args, function(err, xfer) {
-					console.log(`live-bot (${self.bot_name}): Selling from API done`);
-
-					// store response in DB
-					newLiveData.transaction.api_response_err 	= JSON.stringify(err, null, " ");
-					newLiveData.transaction.api_response_xfer 	= JSON.stringify(xfer, null, " ");
-
-					self.finalStepSaveAndExit();
-				});
-
-			});
-			*/
 			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com');
 			var sellParams = {
 				'type' 		: 'market',
@@ -280,7 +254,7 @@ module.exports = {
 					newLiveData.transaction.api_response_err = JSON.stringify(error, null, " ");
 				} else {
 					console.log(`live-bot (${self.bot_name}): Selling from GDAX API done`);
-					newLiveData.transaction.api_response_xfer 	= JSON.stringify(data, null, " ");
+					newLiveData.transaction.api_response_xfer = JSON.stringify(data, null, " ");
 					self.finalStepSaveAndExit();
 				}
 			});
@@ -296,9 +270,8 @@ module.exports = {
 
 		var buy_coin_result = tools.buyCoin(lastLiveData.totals.total_coins_owned, buy_sell_unit, latest_buy_price, false, latest_sell_price,
 				lastLiveData.totals.total_spent, lastLiveData.totals.total_coins_sold_value, lastLiveData.totals.money_in_bank, reinvest_profit)
-
-		// console.log("buy_coin_result");
-		// console.log(buy_coin_result);
+		
+		// console.log("buy_coin_result", buy_coin_result);
 
 		newLiveData.totals.total_coins_owned 						= (lastLiveData.totals.total_coins_owned + buy_coin_result.number_of_coins_to_buy);
 		newLiveData.totals.total_spent 								= (lastLiveData.totals.total_spent + buy_coin_result.amount_spent_on_this_transaction);
@@ -312,46 +285,8 @@ module.exports = {
 			newLiveData.totals.total_buy_transactions 	= (lastLiveData.totals.total_buy_transactions + 1);
 		}
 
-
-
 		if (this.really_buy_and_sell) {
 			var self = this;
-
-			// connect to coinbase and get my ETH account
-			//console.log('connecting to api')
-			/*
-			var client = new coinbase.Client({'apiKey': process.env.COINBASE_API_KEY, 'apiSecret': process.env.COINBASE_API_SECRET});
-
-			// THIS FOR ETH WALLET ID ONLY
-			// 		client.getAccounts({}, function(err, accounts) {
-			//  	 console.log(accounts);
-			// });
-
-			// FOR THIS USE PAYMETN METHOD ONLY
-			// client.getPaymentMethods({}, function(err, pms) {
-			//   console.log(pms);
-			// });
-
-			// hit up the API
-			var myETHAccount = client.getAccount(process.env.ETH_ACCOUNT_ID, function(err, account) {
-
-				var args = {
-					amount 			: buy_coin_result.number_of_coins_to_buy, //0.01
-					currency 		: "ETH",
-					payment_method 	: process.env.USD_ACCOUNT_ID
-				};
-
-				account.buy(args, function(err, xfer) {
-					console.log(`live-bot (${self.bot_name}): Buying from API done`);
-
-					// store response in DB
-					newLiveData.transaction.api_response_err 	= JSON.stringify(err, null, " ");
-					newLiveData.transaction.api_response_xfer 	= JSON.stringify(xfer, null, " ");
-
-					self.finalStepSaveAndExit();
-				});
-			});
-			*/
 			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com');
 			var buyParams = {
 				'type' 		: 'market',
