@@ -47,7 +47,7 @@ module.exports = {
 	buy_sell_unit 			: 0,			// calculated
 	money_in_bank 			: 0,			// calculated	
 	sell_all				: true,			// false means sell just one unit
-	simulate_crash 			: true, 
+	simulate_crash 			: false,  
 	crash_effect 			: 0,			// 0, 0.25, 0.5...
 	reinvest_profit 		: false,
 	start_date				: null, 		// must be set in sim from days value
