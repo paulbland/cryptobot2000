@@ -2,25 +2,25 @@ module.exports = {
 	
 	// EVERYTHING FROM SIM VARs +/- 3 units (0.5 or 0.005) - update both every day!
 	low_values : {
-		'30_days' 	: genValues(0.120, 0.155, 0.005, 3), 
-		'45_days' 	: genValues(0.140, 0.185, 0.005, 3), 
+		'30_days' 	: genValues(0.105, 0.140, 0.005, 3), 
+		'45_days' 	: genValues(0.145, 0.180, 0.005, 3), 
 		'60_days' 	: genValues(0.145, 0.185, 0.005, 3), 
-		'75_days' 	: genValues(0.145, 0.195, 0.005, 3),
-		'90_days' 	: genValues(0.155, 0.210, 0.005, 3)
+		'75_days' 	: genValues(0.145, 0.190, 0.005, 3),
+		'90_days' 	: genValues(0.140, 0.180, 0.005, 3)
 	},
 	high_values : {
 		'30_days' 	: genValues(0.155, 0.210, 0.005, 3),  
-		'45_days' 	: genValues(0.170, 0.225, 0.005, 3),  
+		'45_days' 	: genValues(0.170, 0.240, 0.005, 3),  
 		'60_days' 	: genValues(0.170, 0.225, 0.005, 3), 
-		'75_days' 	: genValues(0.185, 0.225, 0.005, 3), 
-		'90_days' 	: genValues(0.185, 0.225, 0.005, 3)
+		'75_days' 	: genValues(0.185, 0.240, 0.005, 3), 
+		'90_days' 	: genValues(0.190, 0.225, 0.005, 3)
 	},
 	period_offset : {
-		'30_days' 	: genCombos(18.5, 23.5, 0.5, 1),
-		'45_days' 	: genCombos(15.5, 20.5, 0.5, 1),  
+		'30_days' 	: genCombos(17.5, 21.5, 0.5, 1),
+		'45_days' 	: genCombos(16.5, 20.5, 0.5, 1),  
 		'60_days' 	: genCombos(16, 20.5, 0.5, 1),  
-		'75_days' 	: genCombos(16, 19.5, 0.5, 1),
-		'90_days' 	: genCombos(14, 21, 0.5, 1)
+		'75_days' 	: genCombos(15.5, 20, 0.5, 1),
+		'90_days' 	: genCombos(12.5, 16, 0.5, 1)
 	}
 }	
 
