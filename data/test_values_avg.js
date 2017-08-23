@@ -9,18 +9,18 @@ module.exports = {
 		'90_days' 	: genValues(0.130, 0.175, 0.005, 3)
 	},
 	high_values : {
-		'30_days' 	: genValues(0.180, 0.265, 0.005, 3),  
+		'30_days' 	: genValues(0.165, 0.280, 0.005, 3),  
 		'45_days' 	: genValues(0.170, 0.240, 0.005, 3),  
 		'60_days' 	: genValues(0.170, 0.240, 0.005, 3), 
 		'75_days' 	: genValues(0.185, 0.240, 0.005, 3), 
-		'90_days' 	: genValues(0.180, 0.230, 0.005, 3)
+		'90_days' 	: genValues(0.175, 0.230, 0.005, 3)
 	},
 	period_offset : {
 		'30_days' 	: genCombos(18, 21, 0.5, 1),
 		'45_days' 	: genCombos(16.5, 20.5, 0.5, 1),  
 		'60_days' 	: genCombos(16, 20.5, 0.5, 1),  
-		'75_days' 	: genCombos(15.5, 20, 0.5, 1),
-		'90_days' 	: genCombos(10, 16, 0.5, 1)
+		'75_days' 	: genCombos(16, 20, 0.5, 1),
+		'90_days' 	: genCombos(10, 17.5, 0.5, 1)
 	}
 }	
 
