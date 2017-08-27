@@ -2,27 +2,27 @@ module.exports = {
 	
 	// EVERYTHING FROM SIM VARs +/- 3 units (0.5 or 0.005) - update both every day!
 	// ***new method:
-	// max since aug 16 (last 10 days) --- +/- 1 unit (since turned off crash)
+	// max since aug 16 (since turned off crash)  +/- 1 unit 
 	low_values : {
-		'30_days' 	: genValues(0.090, 0.145, 0.005, 3), // done
-		'45_days' 	: genValues(0.135, 0.175, 0.005, 3), // done
-		'60_days' 	: genValues(0.155, 0.175, 0.005, 3), // done
-		'75_days' 	: genValues(0.155, 0.185, 0.005, 3), // done
-		'90_days' 	: genValues(0.135, 0.200, 0.005, 3)  // done
+		'30_days' 	: genValues(0.085, 0.145, 0.005, 3), 
+		'45_days' 	: genValues(0.135, 0.175, 0.005, 3), 
+		'60_days' 	: genValues(0.155, 0.175, 0.005, 3), 
+		'75_days' 	: genValues(0.155, 0.185, 0.005, 3), 
+		'90_days' 	: genValues(0.135, 0.200, 0.005, 3)  
 	},
 	high_values : {
-		'30_days' 	: genValues(0.150, 0.275, 0.005, 3),  // done
-		'45_days' 	: genValues(0.205, 0.245, 0.005, 3),  // done
-		'60_days' 	: genValues(0.180, 0.230, 0.005, 3),  // done
-		'75_days' 	: genValues(0.195, 0.230, 0.005, 3),  // done
-		'90_days' 	: genValues(0.185, 0.230, 0.005, 3)   // done
+		'30_days' 	: genValues(0.150, 0.275, 0.005, 3),  
+		'45_days' 	: genValues(0.205, 0.250, 0.005, 3), 
+		'60_days' 	: genValues(0.180, 0.230, 0.005, 3),  
+		'75_days' 	: genValues(0.195, 0.230, 0.005, 3),  
+		'90_days' 	: genValues(0.185, 0.230, 0.005, 3)   
 	},
 	period_offset : {
-		'30_days' 	: genCombos(17.5, 23, 0.5, 1), // done
-		'45_days' 	: genCombos(15, 19.5, 0.5, 1), // done
-		'60_days' 	: genCombos(16.5, 19.5, 0.5, 1), // done
-		'75_days' 	: genCombos(16.5, 19, 0.5, 1), 	 // done
-		'90_days' 	: genCombos(9, 20, 0.5, 1)  // done
+		'30_days' 	: genCombos(17.5, 23, 0.5, 1), 
+		'45_days' 	: genCombos(14.5, 19.5, 0.5, 1), 
+		'60_days' 	: genCombos(16.5, 19.5, 0.5, 1), 
+		'75_days' 	: genCombos(16.5, 19, 0.5, 1), 	 
+		'90_days' 	: genCombos(9, 20, 0.5, 1)  
 	}
 }	
 
