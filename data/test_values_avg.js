@@ -11,10 +11,10 @@ module.exports = {
 		'90_days' 	: genValues(0.135, 0.200, 0.005, 3)  
 	},
 	high_values : {
-		'30_days' 	: genValues(0.130, 0.275, 0.005, 3), 
+		'30_days' 	: genValues(0.125, 0.275, 0.005, 3), 
 		'45_days' 	: genValues(0.205, 0.265, 0.005, 3), 
 		'60_days' 	: genValues(0.180, 0.230, 0.005, 3),  
-		'75_days' 	: genValues(0.185, 0.230, 0.005, 3),  
+		'75_days' 	: genValues(0.180, 0.230, 0.005, 3),  
 		'90_days' 	: genValues(0.185, 0.230, 0.005, 3)   
 	},
 	period_offset : {
