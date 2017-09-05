@@ -233,7 +233,8 @@ module.exports  = {
 			number_of_coins_to_buy 				= 0;
 			amount_spent_on_this_transaction 	= 0;
 
-			transaction_notes += '***reached limit*** - setting number_of_coins_to_buy/amount_spent_on_this_transaction to 0';
+			transaction_notes = '***reached limit*** setting number_of_coins_to_buy/amount_spent_on_this_transaction to 0';
+			transaction_notes += ' (money_in_bank: ' + money_in_bank + ', buy_sell_unit: ' + buy_sell_unit + ', current_position: ' + current_position + ')';
 
 			if (print_full_debug) {
 				reporting.debug('***reached limit!***<br />')
