@@ -287,7 +287,7 @@ module.exports = {
 			newLiveData.totals.total_buy_transactions 	= (lastLiveData.totals.total_buy_transactions + 1);
 		}
 
-		if (this.really_buy_and_sell && (buy_coin_result.amount_spent_on_this_transaction > 0)) {
+		if (this.really_buy_and_sell && (buy_coin_result.number_of_coins_to_buy > 0)) {
 			var self = this;
 			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com'); 
 			var buyParams = {
