@@ -12,7 +12,7 @@ var newLiveData; // visible globally
 
 module.exports = {
 
-	really_buy_and_sell : true, // THIS IS IT!!!
+	really_buy_and_sell : false,// true, // THIS IS IT!!!
 	initial_investment  : (2000/5), // 2000/5 = (5 bots)!
 	bot_name 			: null,
 	period 				: 0,
@@ -144,6 +144,8 @@ module.exports = {
 		var latest_sell_price 	= price_data[this_index].value_sell;								// this will be the currect price we're evaluating
 		var avg_for_period 		= tools.calculateAverage(data_to_be_tested) 
 
+
+		latest_buy_price = 285;
 		// decide buy or sell
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug, false)
 
