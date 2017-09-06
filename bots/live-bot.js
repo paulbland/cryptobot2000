@@ -12,7 +12,7 @@ var newLiveData; // visible globally
 
 module.exports = {
 
-	really_buy_and_sell : true, // THIS IS IT!!!
+	really_buy_and_sell : false, // THIS IS IT!!!
 	initial_investment  : (2000/5), // 2000/5 = (5 bots)!
 	bot_name 			: null,
 	period 				: 0,
@@ -288,13 +288,16 @@ module.exports = {
 			newLiveData.totals.total_buy_transactions 	= (lastLiveData.totals.total_buy_transactions + 1);
 		}
 
+		console.log('umm');
+		console.log(parseFloat(buy_coin_result.number_of_coins_to_buy.toFixed(8)));
+
 		if (this.really_buy_and_sell && (buy_coin_result.amount_spent_on_this_transaction > 0)) {
 			var self = this;
 			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com'); 
 			var buyParams = {
 				'type' 		: 'market',
-				//'size' 		: buy_coin_result.number_of_coins_to_buy,  //0.01
-				'funds' 	: buy_coin_result.amount_spent_on_this_transaction, // changed to $ amount instead 
+				'size' 		: parseFloat(buy_coin_result.number_of_coins_to_buy.toFixed(8)),  //0.01
+				//'funds' 	: buy_coin_result.amount_spent_on_this_transaction, // changed to $ amount instead 
 				'product_id': 'ETH-USD',
 			};
 			authedClient.buy(buyParams, function(error, response, data) {
