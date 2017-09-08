@@ -212,10 +212,13 @@ module.exports  = {
 			reporting.debug('amount_spent_on_this_transaction: ' 		+ amount_spent_on_this_transaction + '<br />');
 		}
 
-		if (reinvest_profit) {
+		var current_position = this.calculateCurrentPosition(total_coins_owned, latest_sell_price, total_sold, total_spent)
+
+		// if currnet_positon is negative it screws this up, so i added in this little extra rule. if crurr pos is less than 0, then just check if we have money.
+
+		if (reinvest_profit || (current_position <= 0)) {
 			var reached_limit = (money_in_bank < buy_sell_unit) 			// THIS WILL SPEND PROFIT
 		} else {
-			var current_position = this.calculateCurrentPosition(total_coins_owned, latest_sell_price, total_sold, total_spent)
 			var reached_limit = ((money_in_bank - buy_sell_unit) < current_position) // THIS WILL RETAIN PROFIT
 			
 			// console.log('***checking limit:')
