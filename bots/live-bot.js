@@ -131,7 +131,7 @@ module.exports = {
 		var interval_in_minutes = 5;
 		var sell_all			= true; 
 		var buy_sell_percentage	= 7.5;
-		var reinvest_profit     = false;
+		var reinvest_profit     = true;  // set this back to false after first ever "sell"
 		var buy_sell_unit		= parseFloat((this.initial_investment * (buy_sell_percentage / 100)).toFixed(2)); // calculate
 
 		var values_per_period 	= tools.calculateValuesForGivenPeriod(this.period, interval_in_minutes)			
