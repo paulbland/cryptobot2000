@@ -22,7 +22,7 @@ module.exports = {
 		'45_days' 	: genCombos(12.5, 25.5, 0.5, 1), 
 		'60_days' 	: genCombos(14.5, 21.5, 0.5, 1), 
 		'75_days' 	: genCombos(15.5, 20.5, 0.5, 1), 	 
-		'90_days' 	: genCombos(8.5, 20, 0.5, 1)  
+		'90_days' 	: genCombos(8.5, 20, 0.5, 1)   
 	}
 }	
 
