@@ -5,20 +5,20 @@ module.exports = {
 	// max since aug 16 (since turned off crash)  +/- 1 unit 
 	low_values : {
 		'30_days' 	: genValues(0.050, 0.180, 0.01, 3),  // was 0.005
-		'45_days' 	: genValues(0.040, 0.210, 0.01, 3),  //   "
+		'45_days' 	: genValues(0.040, 0.220, 0.01, 3),  //   "
 		'60_days' 	: genValues(0.120, 0.190, 0.01, 3), 
 		'75_days' 	: genValues(0.130, 0.190, 0.01, 3), 
 		'90_days' 	: genValues(0.110, 0.200, 0.01, 3)  
 	},
 	high_values : {
 		'30_days' 	: genValues(0.090, 0.290, 0.01, 3),  // was 0.005 
-		'45_days' 	: genValues(0.090, 0.310, 0.01, 3),  //   "
-		'60_days' 	: genValues(0.180, 0.330, 0.01, 3),  
-		'75_days' 	: genValues(0.180, 0.290, 0.01, 3),  
-		'90_days' 	: genValues(0.180, 0.300, 0.01, 3)   
+		'45_days' 	: genValues(0.090, 0.320, 0.01, 3),  //   "
+		'60_days' 	: genValues(0.180, 0.340, 0.01, 3),  
+		'75_days' 	: genValues(0.180, 0.300, 0.01, 3),  
+		'90_days' 	: genValues(0.180, 0.310, 0.01, 3)   
 	},
 	period_offset : {
-		'30_days' 	: genCombos(17, 27, 1, 1), // was 0.5
+		'30_days' 	: genCombos(17, 28, 1, 1), // was 0.5
 		'45_days' 	: genCombos(12, 29, 1, 1), //   "
 		'60_days' 	: genCombos(14, 22, 1, 1), 
 		'75_days' 	: genCombos(15, 23, 1, 1), 	 
