@@ -8,21 +8,21 @@ module.exports = {
 		'45_days' 	: genValues(0.040, 0.240, 0.01, 3),  //   "
 		'60_days' 	: genValues(0.120, 0.240, 0.01, 3), 
 		'75_days' 	: genValues(0.130, 0.240, 0.01, 3), 
-		'90_days' 	: genValues(0.080, 0.220, 0.01, 3)  
+		'90_days' 	: genValues(0.080, 0.230, 0.01, 3)  
 	},
 	high_values : {
 		'30_days' 	: genValues(0.090, 0.290, 0.01, 3),  // was 0.005 
 		'45_days' 	: genValues(0.090, 0.340, 0.01, 3),  //   "
-		'60_days' 	: genValues(0.170, 0.390, 0.01, 3),  
+		'60_days' 	: genValues(0.170, 0.400, 0.01, 3),  
 		'75_days' 	: genValues(0.170, 0.360, 0.01, 3),  
-		'90_days' 	: genValues(0.160, 0.360, 0.01, 3)   
+		'90_days' 	: genValues(0.160, 0.370, 0.01, 3)   
 	},
 	period_offset : {
 		'30_days' 	: genCombos(17, 33, 1, 1), // was 0.5
-		'45_days' 	: genCombos(11, 33, 1, 1), //   "
+		'45_days' 	: genCombos(10, 33, 1, 1), //   "
 		'60_days' 	: genCombos(14, 28, 1, 1), 
-		'75_days' 	: genCombos(15, 30, 1, 1), 	 
-		'90_days' 	: genCombos(8, 26, 1, 1)   
+		'75_days' 	: genCombos(15, 31, 1, 1), 	 
+		'90_days' 	: genCombos(8, 27, 1, 1)   
 	}
 }	
 
