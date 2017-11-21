@@ -11,7 +11,7 @@ module.exports = {
 		'90_days' 	: genValues(0.080, 0.240, 0.01, 3)  
 	},
 	high_values : {
-		'30_days' 	: genValues(0.080, 0.290, 0.01, 3),  // was 0.005 
+		'30_days' 	: genValues(0.080, 0.290, 0.01, 3),  // was 0.005  
 		'45_days' 	: genValues(0.080, 0.340, 0.01, 3),  //   "
 		'60_days' 	: genValues(0.170, 0.410, 0.01, 3),  
 		'75_days' 	: genValues(0.170, 0.370, 0.01, 3),  
