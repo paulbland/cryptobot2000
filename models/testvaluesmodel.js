@@ -14,9 +14,7 @@ var testValuesObj = {
 var TestValuesSchema = new Schema({
     datetime    : Date,
     '30_days'   : testValuesObj,
-    /* '45_days'   : testValuesObj, */
     '60_days'   : testValuesObj,
-    /* '75_days'   : testValuesObj, */
     '90_days'   : testValuesObj,          
     '180_days'   : testValuesObj,          
     '270_days'   : testValuesObj,          
