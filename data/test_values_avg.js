@@ -3,27 +3,36 @@ module.exports = {
 	// EVERYTHING FROM SIM VARs +/- 3 units (0.5 or 0.005) - update both every day!
 	// ***new method:
 	// max since aug 16 (since turned off crash)  +/- 1 unit 
-	// precision was originally 0.005 // was 0.01
+	// precision was originally 0.005 / 0.5
 	low_values : {
-		'30_days' 	: genValues(0.090, 0.150, 0.005, 3),    //done
-		'45_days' 	: genValues(0.040, 0.240, 0.02, 3), 
-		'60_days' 	: genValues(0.100, 0.240, 0.02, 3), 
-		'75_days' 	: genValues(0.110, 0.240, 0.02, 3), 
-		'90_days' 	: genValues(0.020, 0.050, 0.005, 3)  //done
+		'30_days' 	: genValues(0.090, 0.150, 0.005, 3), // done					// 0:32 
+	//	'45_days' 	: genValues(0.100, 0.200, 0.020, 3), // done (best = 125)		// 0:28
+		'60_days' 	: genValues(0.000, 0.120, 0.020, 3), // done (best = 110)		// 0:23
+	//	'75_days' 	: genValues(0.080, 0.160, 0.010, 3), // done					// 0:28 
+		'90_days' 	: genValues(0.020, 0.050, 0.005, 3), // done					// 0:26
+		'180_days' 	: genValues(0.150, 0.250, 0.025, 3), // done (best = 225)		// 0:29
+		'270_days' 	: genValues(0.000, 0.090, 0.015, 3), // done (best = 0)			// 0:28
+		'360_days' 	: genValues(0.050, 0.150, 0.025, 3)  // done (best = 150)		// 0:27
 	},
 	high_values : {
-		'30_days' 	: genValues(0.000, 0.040, 0.005, 3),    //done
-		'45_days' 	: genValues(0.080, 0.340, 0.02, 3), 
-		'60_days' 	: genValues(0.160, 0.420, 0.02, 3),  
-		'75_days' 	: genValues(0.160, 0.380, 0.02, 3),  
-		'90_days' 	: genValues(0.030, 0.100, 0.005, 3)   //done
+		'30_days' 	: genValues(0.005, 0.040, 0.005, 3),  // done
+	//	'45_days' 	: genValues(0.000, 0.100, 0.020, 3),  // done (best = 25)
+		'60_days' 	: genValues(0.000, 0.050, 0.010, 3),  // done (best = 40) 
+		//'75_days' 	: genValues(0.040, 0.140, 0.010, 3),  // done
+		'90_days' 	: genValues(0.030, 0.100, 0.005, 3),  // done
+		'180_days' 	: genValues(0.000, 0.125, 0.025, 3),  // done (best = 50)
+		'270_days' 	: genValues(0.150, 0.285, 0.015, 3),  // done (best = 200)
+		'360_days' 	: genValues(0.200, 0.300, 0.025, 3)   // done (best = 250)
 	},
 	period_offset : {
-		'30_days' 	: genCombos(12, 36, 1, 1), //done
-		'45_days' 	: genCombos(10, 36, 1, 1), 
-		'60_days' 	: genCombos(13, 30, 1, 1), 
-		'75_days' 	: genCombos(15, 32, 1, 1), 	 
-		'90_days' 	: genCombos(2, 18, 1, 1)   //done
+		'30_days' 	: genCombos(12, 36, 1, 1),  // done
+		//'45_days' 	: genCombos(36, 56, 1, 1),  // done (best = 39)
+		'60_days' 	: genCombos(28, 42, 1, 1),  // done (best = 36) 
+	//	'75_days' 	: genCombos(20, 28, 1, 1), 	// done
+		'90_days' 	: genCombos(2, 18, 1, 1),   // done
+		'180_days' 	: genCombos(14, 28, 1, 1), 	// done (best = 16)
+		'270_days' 	: genCombos(6, 14, 1, 1),	// done (best = 14)
+		'360_days' 	: genCombos(8, 20, 1, 1)   	// done (best = 8)
 	}
 }	
 

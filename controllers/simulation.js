@@ -223,7 +223,7 @@ module.exports = {
 		
 		this.table_data 		= {};
 		this.print_basic_debug 	= true;
-		this.print_full_debug 	= true; //usually true for single sim
+		this.print_full_debug 	= false; //usually true for single sim // turning off for 360 day sim
 		this.print_chart_data	= true;
 
 		price_data = this.setStartDate(days, price_data)
@@ -579,7 +579,7 @@ module.exports = {
 		this.print_average_data = false;
 		this.print_full_debug	= false;
 
-		var test_periods = ['30', '45', '60', '75', '90']
+		var test_periods = ['30', '60', '90', '180', '270', '360'] //'45', '75',
 
 		var this_data;
 		var profit_sum;

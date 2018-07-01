@@ -35,10 +35,13 @@ var SimVarsSchema = new Schema({
     }],
     /*'15_day_bot' : schemaSimVarsObj,*/
     '30_day_bot' : schemaSimVarsObj,
-    '45_day_bot' : schemaSimVarsObj,
+   /* '45_day_bot' : schemaSimVarsObj, */
     '60_day_bot' : schemaSimVarsObj,
-    '75_day_bot' : schemaSimVarsObj,
-    '90_day_bot' : schemaSimVarsObj           
+   /* '75_day_bot' : schemaSimVarsObj,*/
+    '90_day_bot' : schemaSimVarsObj,
+    '180_day_bot' : schemaSimVarsObj,
+    '270_day_bot' : schemaSimVarsObj,
+    '360_day_bot' : schemaSimVarsObj           
 });
 
 // // Compile model from schema
