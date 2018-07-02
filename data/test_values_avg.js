@@ -5,12 +5,12 @@ module.exports = {
 	// max since aug 16 (since turned off crash)  +/- 1 unit 
 	// precision was originally 0.005 / 0.5
 	low_values : {
-		'30_days' 	: genValues(0.090, 0.150, 0.005, 3), // done					// 0:32 
-		'60_days' 	: genValues(0.000, 0.120, 0.020, 3), // done (best = 110)		// 0:23
-		'90_days' 	: genValues(0.020, 0.050, 0.005, 3), // done					// 0:26
-		'180_days' 	: genValues(0.150, 0.250, 0.025, 3), // done (best = 225)		// 0:29
-		'270_days' 	: genValues(0.000, 0.090, 0.015, 3), // done (best = 0)			// 0:28
-		'360_days' 	: genValues(0.050, 0.150, 0.025, 3)  // done (best = 150)		// 0:27
+		'30_days' 	: genValues(0.090, 0.150, 0.005, 3), // done					// 0:32  x2
+		'60_days' 	: genValues(0.000, 0.120, 0.020, 3), // done (best = 110)		// 0:23  x2
+		'90_days' 	: genValues(0.020, 0.050, 0.005, 3), // done					// 0:26 x2
+		'180_days' 	: genValues(0.150, 0.250, 0.025, 3), // done (best = 225)		// 0:29 x2
+		'270_days' 	: genValues(0.000, 0.090, 0.015, 3), // done (best = 0)			// 0:28 x2 
+		'360_days' 	: genValues(0.050, 0.150, 0.025, 3)  // done (best = 150)		// 0:27 x2
 	},
 	high_values : {
 		'30_days' 	: genValues(0.005, 0.040, 0.005, 3),  // done
@@ -21,12 +21,12 @@ module.exports = {
 		'360_days' 	: genValues(0.200, 0.300, 0.025, 3)   // done (best = 250)
 	},
 	period_offset : {
-		'30_days' 	: genCombos(12, 36, 1, 1),  // done
-		'60_days' 	: genCombos(28, 42, 1, 1),  // done (best = 36) 
-		'90_days' 	: genCombos(2, 18, 1, 1),   // done
-		'180_days' 	: genCombos(14, 28, 1, 1), 	// done (best = 16)
-		'270_days' 	: genCombos(6, 14, 1, 1),	// done (best = 14)
-		'360_days' 	: genCombos(8, 20, 1, 1)   	// done (best = 8)
+		'30_days' 	: genCombos(12, 36, 0.5, 1),  // done
+		'60_days' 	: genCombos(28, 42, 0.5, 1),  // done (best = 36) 
+		'90_days' 	: genCombos(2, 18, 0.5, 1),   // done
+		'180_days' 	: genCombos(14, 28, 0.5, 1), 	// done (best = 16)
+		'270_days' 	: genCombos(6, 14, 0.5, 1),	// done (best = 14)
+		'360_days' 	: genCombos(8, 20, 0.5, 1)   	// done (best = 8)
 	}
 }	
 
