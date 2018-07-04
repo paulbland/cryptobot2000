@@ -579,7 +579,7 @@ module.exports = {
 		this.print_average_data = false;
 		this.print_full_debug	= false;
 
-		var test_periods = ['30', '60', '90', '180', '270', '360'] 
+		var test_periods = ['30', '60', '90', '120', '180', '270', '360'] 
 
 		var this_data;
 		var profit_sum;
