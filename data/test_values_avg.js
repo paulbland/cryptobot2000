@@ -1,9 +1,5 @@
 module.exports = {
 	
-	// EVERYTHING FROM SIM VARs +/- 3 units (0.5 or 0.005) - update both every day!
-	// ***new method:
-	// max since aug 16 (since turned off crash)  +/- 1 unit 
-	// precision was originally 0.005 / 0.5
 	low_values : {
 		'30_days' 	: genValues(0.080, 0.130, 0.005, 3), // // 0:48
 		'60_days' 	: genValues(0.115, 0.130, 0.005, 3), // // 0:13   
