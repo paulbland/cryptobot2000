@@ -19,10 +19,12 @@ var TestValuesSchema = new Schema({
     '60_days'   : testValuesObj,
     '75_days'   : testValuesObj,
     '90_days'   : testValuesObj,          
+    '105_days'   : testValuesObj,          
     '120_days'   : testValuesObj,          
-    '180_days'   : testValuesObj,          
-    '270_days'   : testValuesObj,          
-    '360_days'   : testValuesObj          
+    '135_days'   : testValuesObj,          
+    '150_days'   : testValuesObj,          
+    '165_days'   : testValuesObj,          
+    '180_days'   : testValuesObj
 });
 
 module.exports = mongoose.model('TestValuesModel', TestValuesSchema);

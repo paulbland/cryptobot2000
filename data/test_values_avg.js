@@ -10,10 +10,14 @@ module.exports = {
 		'60_days' 	: genValues(0.110, 0.120, 0.005, 3), 
 		'75_days' 	: genValues(0.100, 0.115, 0.005, 3), 
 		'90_days' 	: genValues(0.105, 0.115, 0.005, 3), 
+		'105_days' 	: genValues(0.050, 0.100, 0.005, 3), 
 		'120_days' 	: genValues(0.035, 0.085, 0.005, 3), 
+		'135_days' 	: genValues(0.035, 0.065, 0.005, 3), 
+		'150_days' 	: genValues(0.025, 0.055, 0.005, 3), 
+		'165_days' 	: genValues(0.015, 0.045, 0.005, 3), 
 		'180_days' 	: genValues(0.000, 0.020, 0.005, 3), 
-		'270_days' 	: genValues(0.000, 0.025, 0.005, 3),   
-		'360_days' 	: genValues(0.010, 0.035, 0.005, 3)  
+		// '270_days' 	: genValues(0.000, 0.025, 0.005, 3),   
+		// '360_days' 	: genValues(0.010, 0.035, 0.005, 3)  
 	},
 	high_values : { 
 		'15_days' 	: genValues(0.000, 0.015, 0.005, 3),  
@@ -22,10 +26,14 @@ module.exports = {
 		'60_days' 	: genValues(0.000, 0.020, 0.005, 3),  
 		'75_days' 	: genValues(0.000, 0.035, 0.005, 3),  
 		'90_days' 	: genValues(0.025, 0.045, 0.005, 3),  
+		'105_days' 	: genValues(0.035, 0.065, 0.005, 3),  
 		'120_days' 	: genValues(0.065, 0.095, 0.005, 3),  
+		'135_days' 	: genValues(0.045, 0.075, 0.005, 3),  
+		'150_days' 	: genValues(0.035, 0.055, 0.005, 3),  
+		'165_days' 	: genValues(0.025, 0.030, 0.005, 3),  
 		'180_days' 	: genValues(0.000, 0.005, 0.005, 3),   
-		'270_days' 	: genValues(0.130, 0.160, 0.005, 3),   
-		'360_days' 	: genValues(0.165, 0.225, 0.005, 3)  
+		// '270_days' 	: genValues(0.130, 0.160, 0.005, 3),   
+		// '360_days' 	: genValues(0.165, 0.225, 0.005, 3)  
 	},
 	// genCombos(2, 24, 1, 1),
 	period_offset : {
@@ -35,10 +43,14 @@ module.exports = {
 		'60_days' 	: genCombos(36.5, 38, 0.5, 1),
 		'75_days' 	: genCombos(36.5, 41.5, 0.5, 1),
 		'90_days' 	: genCombos(33, 37.5, 0.5, 1),
+		'105_days' 	: genCombos(33, 37.5, 0.5, 1),
 		'120_days' 	: genCombos(14.5, 22.5, 0.5, 1),
+		'135_days' 	: genCombos(10, 18, 0.5, 1),
+		'150_days' 	: genCombos(8, 12, 0.5, 1),
+		'165_days' 	: genCombos(4, 6, 0.5, 1),
 		'180_days' 	: genCombos(1, 2.5, 0.5, 1),
-		'270_days' 	: genCombos(3, 4.5, 0.5, 1),
-		'360_days' 	: genCombos(1.5, 3.5, 0.5, 1) 
+		// '270_days' 	: genCombos(3, 4.5, 0.5, 1),
+		// '360_days' 	: genCombos(1.5, 3.5, 0.5, 1) 
 	}
 }	
 
