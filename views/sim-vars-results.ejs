@@ -36,8 +36,9 @@
                 <% for (k in data[i][j]) { %>
                     <!--<%- k %>-->
                     <% if (k !== 'vars' && k !== 'avg_profit' && k !== 'avg_perc') { %>
-                        <td><strong>$<%- data[i][j][k].final_profit.toFixed(2) %></strong></td>
-                        <td><%- data[i][j][k].profit_percentage.toFixed(2) %>%</td>
+                        <% var col = (data[i][j][k].final_profit > 0) ? 'green' : 'red'; %>
+                        <td style="background-color:<%- col %>"><strong>$<%- data[i][j][k].final_profit.toFixed(2) %></strong></td>
+                        <td style="background-color:<%- col %>"><%- data[i][j][k].profit_percentage.toFixed(2) %>%</td>
                     <%  } %>
                 <%  } %>
                 <th>$<%- data[i][j]['avg_profit'].toFixed(2) %></th>
