@@ -47,7 +47,7 @@ var LiveDataSchema = new Schema({
 // Compile model from schema
 var liveDataModels = []
 liveDataModels['BTC'] = mongoose.model('LiveDataModelBTC', LiveDataSchema);
-liveDataModels['ETH'] = mongoose.model('LiveDataModelETH', LiveDataSchema);
+liveDataModels['ETH'] = mongoose.model('LiveDataModelETH2', LiveDataSchema);
 liveDataModels['LTC'] = mongoose.model('LiveDataModelLTC', LiveDataSchema);
 
 module.exports = liveDataModels;
