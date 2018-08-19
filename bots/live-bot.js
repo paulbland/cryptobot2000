@@ -72,7 +72,7 @@ module.exports = {
 		console.log(`step1() start = ${Math.round(usedStart * 100) / 100} MB`);
 
 		var self = this;
-		priceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_data_eth) {
+		priceRecordModels['ETH'].find({}).sort('datetime').limit((60/5) * 48).exec(function(error, price_data_eth) { // how mayn 5 min intervals in 1 hr, mult by 48
 			if (error) {
 				res.json(error);
 				self.debug(`Error connecting to db (model: priceRecordModels)`);
