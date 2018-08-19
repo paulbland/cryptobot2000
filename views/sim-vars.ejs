@@ -104,12 +104,16 @@
 					offset: <%- data[i][item +'_day_bot'].offset %><br />
 					low: <%- data[i][item +'_day_bot'].low.toFixed(3) %><br />
 					high: <%- data[i][item +'_day_bot'].high.toFixed(3) %>
+					<% if (data[i][item +'_day_bot'].updated) { %>
+						updated:<br /> 
+						<span style="color:limegreen"><%= moment(data[i][item +'_day_bot'].updated).tz("America/New_York").calendar() %> </span>
+					<% } %>
 				</div>
 			<% }) %>
 
 		</div>
 
-		*using top_5_avg
+		*using top_1 now! <!--top_5_avg-->
 
 		<br /><hr /><br />
 

@@ -119,7 +119,7 @@ app.get('/live-result', basicAuth, function(req, res) {
 app.get('/sim-vars', basicAuth, function(req, res) {
 
     var simVarsModelETH = require('./models/simvarsmodel')
-	simVarsModelETH.find({}).sort('-datetime').exec(function(error, sim_vars_eth) {
+	simVarsModelETH.find({}).sort('-datetime').limit(1).exec(function(error, sim_vars_eth) {
 		if (error) {
 			//res.json(error);
 			process.exit(1);
