@@ -68,11 +68,10 @@ module.exports = {
 	},
 
 	step1: function() {
-		const usedStart = process.memoryUsage().heapUsed / 1024 / 1024;
-		console.log(`step1() start = ${Math.round(usedStart * 100) / 100} MB`);
-
 		var self = this;
-		priceRecordModels['ETH'].find({}).sort('datetime').limit((60/5) * 48).exec(function(error, price_data_eth) { // how mayn 5 min intervals in 1 hr, mult by 48
+		// Having memory problems in clock.js functions, so limiting this to just get last 72 hrs. I don't think we ever really use more than that
+		var limit = ((60/5) * 72); // this calculates number of 5-mintue intervals in a 72 hr period
+		priceRecordModels['ETH'].find({}).sort('datetime').limit(limit).exec(function(error, price_data_eth) { 
 			if (error) {
 				res.json(error);
 				self.debug(`Error connecting to db (model: priceRecordModels)`);
@@ -80,10 +79,6 @@ module.exports = {
 			}
 			else {
 				//console.log('Got priceRecordModels - ETH data');
-
-				const usedEnd = process.memoryUsage().heapUsed / 1024 / 1024;
-				console.log(`step1() end = ${Math.round(usedEnd * 100) / 100} MB`);
-
 				self.step2(price_data_eth);
 			}
 		});
