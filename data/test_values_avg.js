@@ -1,7 +1,7 @@
 module.exports = {
 	
 	// 			period	offset	(sum)	low		high	value
-	// 15 --- 	1		25		(26)	0.130	0.000	$198.86
+	// 15 --- 	1		25		(26)	0.130	0.000	$198.86		- r2 - running
 	// 30 --- 	1		25		(26)	0.130	0.000	$197.97
 	// 45 --- 	1		25		(26)	0.130	0.000	$314.08
 	// 60 --- 	1		25		(26)	0.130	0.030	$389.79
@@ -17,20 +17,20 @@ module.exports = {
 	// all +/- 3 units from last sim vars1
 
 	// genValues(0.000, 0.250, 0.010, 3), 15->105
-	// genValues(0.000, 0.250, 0.020, 3), 120->
+	// genValues(0.000, 0.250, 0.020, 3), 120-> 
 	low_values : {
-		'15_days' 	: genValues(0.115, 0.145, 0.005, 3), // done   	0:01:21
-		'30_days' 	: genValues(0.115, 0.145, 0.005, 3), // done	0:02:42
-		'45_days' 	: genValues(0.115, 0.145, 0.005, 3), // done	0:04:03
-		'60_days' 	: genValues(0.115, 0.145, 0.005, 3), // done	0:09:29
-		'75_days' 	: genValues(0.115, 0.145, 0.005, 3), // done	0:13:24
-		'90_days' 	: genValues(0.105, 0.135, 0.005, 3), // done	0:12:39
-		'105_days' 	: genValues(0.105, 0.135, 0.005, 3), // done	0:14:45
-		'120_days' 	: genValues(0.105, 0.135, 0.005, 3), // done	0:16:52
-		'135_days' 	: genValues(0.045, 0.075, 0.005, 3), // done	0:09:22
-		'150_days' 	: genValues(0.165, 0.195, 0.005, 3), // done	0:35:01
-		'165_days' 	: genValues(0.145, 0.175, 0.005, 3), // done	0:25:34
-		'180_days' 	: genValues(0.145, 0.175, 0.005, 3), // done	0:27:54
+		'15_days' 	: genValues(0.115, 0.145, 0.005, 3), 
+		'30_days' 	: genValues(0.115, 0.145, 0.005, 3), 
+		'45_days' 	: genValues(0.115, 0.145, 0.005, 3), 
+		'60_days' 	: genValues(0.115, 0.145, 0.005, 3), 
+		'75_days' 	: genValues(0.115, 0.145, 0.005, 3), 
+		'90_days' 	: genValues(0.105, 0.135, 0.005, 3), 
+		'105_days' 	: genValues(0.105, 0.135, 0.005, 3), 
+		'120_days' 	: genValues(0.105, 0.135, 0.005, 3), 
+		'135_days' 	: genValues(0.045, 0.075, 0.005, 3), 
+		'150_days' 	: genValues(0.165, 0.195, 0.005, 3), 
+		'165_days' 	: genValues(0.145, 0.175, 0.005, 3), 
+		'180_days' 	: genValues(0.145, 0.175, 0.005, 3), 
 	},
 	high_values : { 
 		'15_days' 	: genValues(0.000, 0.015, 0.005, 3), // done
