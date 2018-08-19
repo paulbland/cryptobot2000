@@ -42,7 +42,7 @@ module.exports = {
 		});
 
         promise.then(function(db) {
-			//self.debug(`Starting. (database: ${db.db.s.databaseName})`)
+			self.debug(`Starting. (database: ${db.db.s.databaseName})`)
             self.getSimVars()
             /* Use `db`, for instance `db.model()` */
          });
