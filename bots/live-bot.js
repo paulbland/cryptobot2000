@@ -32,10 +32,6 @@ module.exports = {
 		}
 		this.running 	= true;
 		this.bot_name 	= bot_name;
-
-		const used = process.memoryUsage().heapUsed / 1024 / 1024;
-		console.log(`run() uses approximately ${Math.round(used * 100) / 100} MB`);
-
 		this.dbConnect();
 	},
 
@@ -47,10 +43,6 @@ module.exports = {
 
         promise.then(function(db) {
 			self.debug(`Starting. (database: ${db.db.s.databaseName})`)
-
-			const used = process.memoryUsage().heapUsed / 1024 / 1024;
-			console.log(`dbConnect() uses approximately ${Math.round(used * 100) / 100} MB`);
-
             self.getSimVars()
             /* Use `db`, for instance `db.model()` */
          });
@@ -70,16 +62,15 @@ module.exports = {
 				self.offset 		= sim_vars_eth[0][self.bot_name].offset;
 				self.low_threshold 	= sim_vars_eth[0][self.bot_name].low;
 				self.high_threshold = sim_vars_eth[0][self.bot_name].high;
-
-				const used = process.memoryUsage().heapUsed / 1024 / 1024;
-				console.log(`getSimVars() uses approximately ${Math.round(used * 100) / 100} MB`);
-
 				self.step1();
 			}
 		});
 	},
 
 	step1: function() {
+		const usedStart = process.memoryUsage().heapUsed / 1024 / 1024;
+		console.log(`step1() start = ${Math.round(usedStart * 100) / 100} MB`);
+
 		var self = this;
 		priceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_data_eth) {
 			if (error) {
@@ -90,8 +81,8 @@ module.exports = {
 			else {
 				//console.log('Got priceRecordModels - ETH data');
 
-				const used = process.memoryUsage().heapUsed / 1024 / 1024;
-				console.log(`step1() uses approximately ${Math.round(used * 100) / 100} MB`);
+				const usedEnd = process.memoryUsage().heapUsed / 1024 / 1024;
+				console.log(`step1() end = ${Math.round(usedEnd * 100) / 100} MB`);
 
 				self.step2(price_data_eth);
 			}
@@ -131,10 +122,6 @@ module.exports = {
 					}
 				}
 				//console.log('- lastLiveData ' + lastLiveData)
-
-				const used = process.memoryUsage().heapUsed / 1024 / 1024;
-				console.log(`step2() uses approximately ${Math.round(used * 100) / 100} MB`);
-
 				self.step3(price_data_eth, lastLiveData)
 			}
 		});
@@ -211,9 +198,6 @@ module.exports = {
 			offset	 							: this.offset,
 			reinvest_profit	 					: reinvest_profit
 		} 		
-
-		const used = process.memoryUsage().heapUsed / 1024 / 1024;
-		console.log(`step3() uses approximately ${Math.round(used * 100) / 100} MB`);
 
 		if (sell_or_buy === 'sell') {
 			this.sellCoinAPI(this.high_threshold, sell_all, lastLiveData, buy_sell_unit, latest_sell_price)
@@ -347,10 +331,6 @@ module.exports = {
 			if (err) {
 				console.log(err);
 			}
-
-			const used = process.memoryUsage().heapUsed / 1024 / 1024;
-			console.log(`finalStepSaveAndExit() uses approximately ${Math.round(used * 100) / 100} MB`);
-
 			self.debug(`Finished. (Saved newLiveData (ETH) record)`);
 			self.running = false; //return true;
 		})
