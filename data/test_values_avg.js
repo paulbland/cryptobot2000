@@ -1,56 +1,65 @@
 module.exports = {
 	
-	// all +/- 3 units from last sim vars
+	// 			period	offset	(sum)	low		high	value
+	// 15 --- 	1		25		(26)	0.130	0.000	$198.86
+	// 30 --- 	1		25		(26)	0.130	0.000	$197.97
+	// 45 --- 	1		25		(26)	0.130	0.000	$314.08
+	// 60 --- 	1		25		(26)	0.130	0.030	$389.79
+	// 75 --- 	10		24		(34)	0.130 	0.010	$481.75
+	// 90 --- 	3		37		(40)	0.120	0.000	$615.75
+	// 105---	5		35		(40)	0.120	0.000	$880.57
+	// 120---	5		35		(40)	0.120	0.000	$978.89	
+	// 135---	2		10		(12)	0.060	0.080	$1016.07
+	// 150---	1		37		(38)	0.180	0.240	$1141.05	
+	// 165---	6		38		(44)	0.160	0.000	$1184.95
+	// 180---	6		38		(44)	0.160	0.000	$1184.95
 
-	// genValues(0.000, 0.250, 0.010, 3),
+	// all +/- 3 units from last sim vars1
+
+	// genValues(0.000, 0.250, 0.010, 3), 15->105
+	// genValues(0.000, 0.250, 0.020, 3), 120->
 	low_values : {
-		'15_days' 	: genValues(0.000, 0.035, 0.005, 3), 
-		'30_days' 	: genValues(0.045, 0.090, 0.005, 3), 
-		'45_days' 	: genValues(0.075, 0.115, 0.005, 3),  
-		'60_days' 	: genValues(0.115, 0.145, 0.010, 3),          
-		'75_days' 	: genValues(0.075, 0.135, 0.005, 3), 
-		'90_days' 	: genValues(0.105, 0.135, 0.005, 3),      
-		'105_days' 	: genValues(0.060, 0.110, 0.010, 3),
-		'120_days' 	: genValues(0.070, 0.115, 0.005, 3), 
-		'135_days' 	: genValues(0.040, 0.100, 0.005, 3),
-		'150_days' 	: genValues(0.070, 0.105, 0.005, 3),   
-		'165_days' 	: genValues(0.005, 0.080, 0.005, 3),
-		'180_days' 	: genValues(0.000, 0.040, 0.005, 3),
-		// '270_days' 	: genValues(0.000, 0.025, 0.005, 3),   
-		// '360_days' 	: genValues(0.010, 0.035, 0.005, 3)  
+		'15_days' 	: genValues(0.115, 0.145, 0.005, 3), // done   	0:01:21
+		'30_days' 	: genValues(0.115, 0.145, 0.005, 3), // done	0:02:42
+		'45_days' 	: genValues(0.115, 0.145, 0.005, 3), // done	0:04:03
+		'60_days' 	: genValues(0.115, 0.145, 0.005, 3), // done	0:09:29
+		'75_days' 	: genValues(0.115, 0.145, 0.005, 3), // done	0:13:24
+		'90_days' 	: genValues(0.105, 0.135, 0.005, 3), // done	0:12:39
+		'105_days' 	: genValues(0.105, 0.135, 0.005, 3), // done	0:14:45
+		'120_days' 	: genValues(0.105, 0.135, 0.005, 3), // done	0:16:52
+		'135_days' 	: genValues(0.045, 0.075, 0.005, 3), // done	0:09:22
+		'150_days' 	: genValues(0.165, 0.195, 0.005, 3), // done	0:35:01
+		'165_days' 	: genValues(0.145, 0.175, 0.005, 3), // done	0:25:34
+		'180_days' 	: genValues(0.145, 0.175, 0.005, 3), // done	0:27:54
 	},
 	high_values : { 
-		'15_days' 	: genValues(0.000, 0.020, 0.005, 3),  
-		'30_days' 	: genValues(0.000, 0.020, 0.005, 3),  
-		'45_days' 	: genValues(0.030, 0.070, 0.005, 3),  
-		'60_days' 	: genValues(0.000, 0.025, 0.010, 3),  
-		'75_days' 	: genValues(0.000, 0.020, 0.005, 3),  
-		'90_days' 	: genValues(0.000, 0.020, 0.005, 3),  
-		'105_days' 	: genValues(0.015, 0.055, 0.010, 3), 
-		'120_days' 	: genValues(0.055, 0.105, 0.005, 3),  
-		'135_days' 	: genValues(0.060, 0.105, 0.005, 3),  
-		'150_days' 	: genValues(0.055, 0.090, 0.005, 3),  
-		'165_days' 	: genValues(0.000, 0.055, 0.005, 3),  
-		'180_days' 	: genValues(0.000, 0.020, 0.005, 3),   
-		// '270_days' 	: genValues(0.130, 0.160, 0.005, 3),   
-		// '360_days' 	: genValues(0.165, 0.225, 0.005, 3)  
+		'15_days' 	: genValues(0.000, 0.015, 0.005, 3), // done
+		'30_days' 	: genValues(0.000, 0.015, 0.005, 3), // done
+		'45_days' 	: genValues(0.000, 0.015, 0.005, 3), // done
+		'60_days' 	: genValues(0.015, 0.045, 0.005, 3), // done
+		'75_days' 	: genValues(0.000, 0.025, 0.005, 3), // done  
+		'90_days' 	: genValues(0.000, 0.015, 0.005, 3), // done
+		'105_days' 	: genValues(0.000, 0.015, 0.005, 3), // done
+		'120_days' 	: genValues(0.000, 0.015, 0.005, 3), // done
+		'135_days' 	: genValues(0.065, 0.095, 0.005, 3), // done
+		'150_days' 	: genValues(0.225, 0.255, 0.005, 3), // done    
+		'165_days' 	: genValues(0.000, 0.015, 0.005, 3), // done
+		'180_days' 	: genValues(0.000, 0.015, 0.005, 3), // done
 	},
-	// genCombos(2, 24, 1, 1),
+	// genCombos(2, 48, 2, 1), 15->
 	period_offset : {
-		'15_days' 	: genCombos(1, 8.5, 0.5, 1),
-		'30_days' 	: genCombos(1, 5, 0.5, 1),
-		'45_days' 	: genCombos(16.5, 24, 0.5, 1),
-		'60_days' 	: genCombos(31.5, 36.5, 1, 1),
-		'75_days' 	: genCombos(36, 41, 0.5, 1),
-		'90_days' 	: genCombos(37, 42, 0.5, 1),
-		'105_days' 	: genCombos(18.5, 26.5, 1, 1),
-		'120_days' 	: genCombos(13, 22, 0.5, 1),
-		'135_days' 	: genCombos(9.5, 18.5, 1, 1),
-		'150_days' 	: genCombos(7.5, 11.5, 1, 1),
-		'165_days' 	: genCombos(0.5, 8, 0.5, 1),
-		'180_days' 	: genCombos(0.5, 4.5, 0.5, 1),
-		// '270_days' 	: genCombos(3, 4.5, 0.5, 1),
-		// '360_days' 	: genCombos(1.5, 3.5, 0.5, 1) 
+		'15_days' 	: genCombos(23, 29, 1, 1), // done
+		'30_days' 	: genCombos(23, 29, 1, 1), // done
+		'45_days' 	: genCombos(23, 29, 1, 1), // done
+		'60_days' 	: genCombos(23, 29, 1, 1), // done
+		'75_days' 	: genCombos(31, 37, 1, 1), // done
+		'90_days' 	: genCombos(37, 43, 1, 1), // done
+		'105_days' 	: genCombos(37, 43, 1, 1), // done
+		'120_days' 	: genCombos(37, 43, 1, 1), // done
+		'135_days' 	: genCombos(9, 15, 1, 1),  // done
+		'150_days' 	: genCombos(35, 41, 1, 1), // done
+		'165_days' 	: genCombos(41, 47, 1, 1), // done
+		'180_days' 	: genCombos(41, 47, 1, 1), // done
 	}
 }	
 
