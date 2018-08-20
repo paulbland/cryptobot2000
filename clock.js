@@ -2,7 +2,7 @@ var CronJob             = require('cron').CronJob;
 var priceBot            = require('./bots/price-bot.js')
 var liveBot             = require('./bots/live-bot.js')
 var config 		        = require('./config/config')
-var simBot              = require('./sim-bot.js')
+var simBot              = require('./bots/sim-bot.js')
 
 
 new CronJob('45 20 * * 0', function()            { simBot.run() }, null, true, config.timezone);                // run sim bot ... once a week at 8:45pm on sunday
