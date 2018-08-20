@@ -130,7 +130,7 @@ module.exports = {
 		// hard code some vars for live
 		var buy_sell_method		= 'avg';
 		var print_full_debug 	= false;
-		var interval_in_minutes = 5;
+		var interval_in_minutes = 15;
 		var sell_all			= true; 
 		var buy_sell_percentage	= 7.5;
 		var reinvest_profit     = false;
@@ -326,7 +326,7 @@ module.exports = {
 			if (err) {
 				console.log(err);
 			}
-			// self.debug(`Finished.`);// (Saved newLiveData (ETH) record)`);
+			self.debug(`Finished.`);// (Saved newLiveData (ETH) record)`);
 			self.running = false; //return true;
 		})
 

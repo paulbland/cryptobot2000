@@ -15,8 +15,8 @@ var PriceRecordModels = require('../models/pricerecordmodel')
 var days            = 180;      // num of days to get
 var num_done        = 0;
 var all_my_prices   = []
-var granularity     = 300;     // granularity - 300 = 5 mins, 600 = 10 mins
-var delay           = 2000;    // to combat public api limits
+var granularity     = 900;     // granularity - 300 = 5 mins, 600 = 10 mins 900 =15 ins
+var delay           = 1000;    // to combat public api limits
 
 
 getMyData('ETH') //BTC ETH LTC
