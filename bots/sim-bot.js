@@ -34,8 +34,7 @@ module.exports = {
         priceRecordModels['ETH'].find({}).sort('datetime').exec(function(error, price_data) {
             if (error) {
                 res.json(error);
-            }
-            else {
+            } else {
                 var newSimVars          = new simVarsModelETH();
                 newSimVars.datetime     = new Date();
                 newSimVars.result_data  = []

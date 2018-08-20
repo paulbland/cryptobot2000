@@ -32,7 +32,7 @@ module.exports = {
     },
 
     getPriceData: function(currency) {
-        var publicClient    = new Gdax.PublicClient(currency+'-USD');
+        var publicClient    = new Gdax.PublicClient(currency+'-USD', 'https://api.pro.coinbase.com');
         var pr              = new priceRecordModels[currency];
         var self            = this;
 
@@ -50,7 +50,7 @@ module.exports = {
                 //console.log('price-bot: Saved ' + currency + ' from GDAX');
 
                 if (++self.currenciesComplete === 1) {//was 3! when im getting all three currencies (ln 27-29)
-                    console.log('price-bot: Finished.');
+                    // console.log('price-bot: Finished.');
                 }
             });
         });

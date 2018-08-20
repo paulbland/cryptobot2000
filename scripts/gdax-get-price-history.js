@@ -12,7 +12,7 @@ mongoose.Promise = global.Promise;
 var publicClient;
 var PriceRecordModels = require('../models/pricerecordmodel') 
 
-var days            = 360;      // num of days to get
+var days            = 180;      // num of days to get
 var num_done        = 0;
 var all_my_prices   = []
 var granularity     = 300;     // granularity - 300 = 5 mins, 600 = 10 mins
@@ -24,7 +24,7 @@ getMyData('ETH') //BTC ETH LTC
 
 function getMyData(currency) {
 
-    publicClient = new Gdax.PublicClient(currency+'-USD');
+    publicClient = new Gdax.PublicClient(currency+'-USD', 'https://api.pro.coinbase.com');
     
     // FOR EACH DAY 
     for (i=days; i>0; i--) {

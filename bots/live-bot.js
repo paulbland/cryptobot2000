@@ -245,7 +245,7 @@ module.exports = {
 
 		if (this.really_buy_and_sell) {
 			var self = this;
-			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com');
+			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.pro.coinbase.com');
 			var sellParams = {
 				'type' 		: 'market',
 				'size' 		: parseFloat(sell_coin_result.number_of_coins_to_sell.toFixed(8)),  //0.01
@@ -291,7 +291,7 @@ module.exports = {
 
 		if (this.really_buy_and_sell && (buy_coin_result.number_of_coins_to_buy > 0)) {
 			var self = this;
-			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.gdax.com'); 
+			var authedClient = new Gdax.AuthenticatedClient(process.env.GDAX_API_KEY, process.env.GDAX_API_SECRET, process.env.GDAX_API_PASSPHRASE, 'https://api.pro.coinbase.com'); 
 			var buyParams = {
 				'type' 		: 'market',
 				'size' 		: parseFloat(buy_coin_result.number_of_coins_to_buy.toFixed(8)),  //0.01
