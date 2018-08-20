@@ -15,7 +15,6 @@ module.exports  = {
 			sum += data_to_be_tested[j].value_avg;
 		}
 		return parseFloat((sum/len).toFixed(2));
-
 	},
 
 
