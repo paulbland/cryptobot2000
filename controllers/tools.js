@@ -8,7 +8,7 @@ module.exports  = {
 	timing_section_e : 0,
 	
 	calculateAverage: function(data_to_be_tested) { 
-		console.log(data_to_be_tested)
+		//console.log(data_to_be_tested)
 		var sum = 0;
 		var len = data_to_be_tested.length
 		for (var j=0; j < len; j++) {
