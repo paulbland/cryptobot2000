@@ -6,7 +6,7 @@ var config 		        = require('./config/config')
 
 
 //new CronJob('45 20 * * 0', function()            { simBot.run() }, null, true, config.timezone);                // run sim bot ... once a week at 8:45pm on sunday
-//new CronJob('*/5 * * * *', function()            { priceBot.run() }, null, true, config.timezone);              // Every 5 min starting at hh:00:00
+new CronJob('*/5 * * * *', function()            { priceBot.run() }, null, true, config.timezone);              // Every 5 min starting at hh:00:00
 
 new CronJob('1-59/5 * * * *', function()         { liveBot.run('15_day_bot') }, null, true, config.timezone);   // Every 5 min starting at hh:01:00
 new CronJob('20 1-59/5 * * * *', function()      { liveBot.run('30_day_bot') }, null, true, config.timezone);   // Every 5 min starting at hh:01:20
