@@ -125,6 +125,7 @@ module.exports = {
 
 
 	step3: function(price_data, lastLiveData) {
+		console.log('price_data.length: ' + price_data.length)
 		//console.log('starting step 3...');
 
 		// hard code some vars for live
@@ -145,7 +146,6 @@ module.exports = {
 		var latest_buy_price 	= price_data[this_index].value_buy;									// this will be the currect price we're evaluating
 		var latest_sell_price 	= price_data[this_index].value_sell;								// this will be the currect price we're evaluating
 		var avg_for_period 		= tools.calculateAverage(data_to_be_tested) 
-console.log(avg_for_period)
 
 		// decide buy or sell
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug, false)
