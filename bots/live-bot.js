@@ -326,7 +326,7 @@ module.exports = {
 			if (err) {
 				console.log(err);
 			}
-			self.debug(`Finished.`);// (Saved newLiveData (ETH) record)`);
+			// self.debug(`Finished.`);// (Saved newLiveData (ETH) record)`);
 			self.running = false; //return true;
 		})
 
