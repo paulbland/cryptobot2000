@@ -70,7 +70,7 @@ module.exports = {
 	step1: function() {
 		var self = this;
 		// Having memory problems in clock.js functions, so limiting this to just get last 72 hrs. I don't think we ever really use more than that
-		var limit = ((60/5) * 72); // this calculates number of 5-mintue intervals in a 72 hr period
+		var limit = ((60/15) * 72); // this calculates number of 15-mintue intervals in a 72 hr period
 		priceRecordModels['ETH'].find({}).sort('datetime').limit(limit).exec(function(error, price_data_eth) { 
 			if (error) {
 				res.json(error);
