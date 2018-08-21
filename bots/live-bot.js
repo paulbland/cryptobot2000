@@ -12,7 +12,7 @@ var newLiveData; // visible globally
 
 module.exports = {
 
-	really_buy_and_sell : true, // THIS IS IT!!!
+	really_buy_and_sell : false, // THIS IS IT!!!
 	initial_investment  : 83.33, // ($1000/12), // $2000/5 = (5 bots)!
 	bot_name 			: null,
 	period 				: 0,
@@ -71,7 +71,8 @@ module.exports = {
 		var self = this;
 		// Having memory problems in clock.js functions, so limiting this to just get last 72 hrs. I don't think we ever really use more than that
 		var limit = ((60/15) * 96); // this calculates number of 15-mintue intervals in a 72 hr period
-		priceRecordModels['ETH'].find({}).sort('datetime').limit(limit).exec(function(error, price_data_eth) { 
+		priceRecordModels['ETH'].find({}).sort('-datetime').limit(limit).exec(function(error, price_data_eth) { 
+			price_data_eth = price_data_eth.reverse();
 			if (error) {
 				res.json(error);
 				self.debug(`Error connecting to db (model: priceRecordModels)`);
