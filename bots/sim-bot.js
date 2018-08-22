@@ -8,7 +8,7 @@ mongoose.Promise 	    = global.Promise;
 
 module.exports = {
 
-    test_periods: [15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180],
+    test_periods: [30, 60, 90, 120, 150, 180],
 
     run: function() {
         this.dbConnect();
