@@ -66,7 +66,7 @@ function genValues(min, max, inc, prec) {
 function genCombos(min, max, inc, prec) {
 	var sums = genValues(min, max, inc, prec);
 	var res = [];
-	var inc = 1; 
+	var inc = 2; 
 	var buffer = 1; // usually use 2 "period=1" is always bad..?
 	sums.forEach(function(sum) {
 		for (i=buffer; i<=(sum-buffer); i+=inc) {
