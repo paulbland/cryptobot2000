@@ -1,21 +1,18 @@
 module.exports = {
 
-	// this.. probably 8 hrs?? 
-	// so .... maaaaybe 24 for slow heroku
-
 	low_values : {
-		'15_days' 	: genValues(0.075, 0.250, 0.025, 3), 
-		'30_days' 	: genValues(0.075, 0.250, 0.025, 3),       
-		'45_days' 	: genValues(0.075, 0.250, 0.025, 3), 
-		'60_days' 	: genValues(0.075, 0.250, 0.025, 3),
-		'75_days' 	: genValues(0.075, 0.250, 0.025, 3),
-		'90_days' 	: genValues(0.075, 0.250, 0.025, 3),
-		'105_days' 	: genValues(0.075, 0.250, 0.025, 3),
-		'120_days' 	: genValues(0.075, 0.250, 0.025, 3), 
-		'135_days' 	: genValues(0.075, 0.250, 0.025, 3), 
-		'150_days' 	: genValues(0.075, 0.250, 0.025, 3), 
-		'165_days' 	: genValues(0.075, 0.250, 0.025, 3), 
-		'180_days' 	: genValues(0.075, 0.250, 0.025, 3), 
+		'15_days' 	: genValues(0.075, 0.300, 0.025, 3), 
+		'30_days' 	: genValues(0.075, 0.300, 0.025, 3),       
+		'45_days' 	: genValues(0.075, 0.300, 0.025, 3), 
+		'60_days' 	: genValues(0.075, 0.300, 0.025, 3),
+		'75_days' 	: genValues(0.075, 0.300, 0.025, 3),
+		'90_days' 	: genValues(0.075, 0.300, 0.025, 3),
+		'105_days' 	: genValues(0.075, 0.300, 0.025, 3),
+		'120_days' 	: genValues(0.075, 0.300, 0.025, 3), 
+		'135_days' 	: genValues(0.075, 0.300, 0.025, 3), 
+		'150_days' 	: genValues(0.075, 0.300, 0.025, 3), 
+		'165_days' 	: genValues(0.075, 0.300, 0.025, 3), 
+		'180_days' 	: genValues(0.075, 0.300, 0.025, 3), 
 	},
 	high_values : { 
 		'15_days' 	: genValues(0.000, 0.300, 0.025, 3),
@@ -32,18 +29,18 @@ module.exports = {
 		'180_days' 	: genValues(0.000, 0.300, 0.025, 3), 
 	},
 	period_offset : {
-		'15_days' 	: genCombos(2, 198, 4, 1), 
-		'30_days' 	: genCombos(2, 98, 4, 1), 
-		'45_days' 	: genCombos(2, 98, 4, 1),  
-		'60_days' 	: genCombos(2, 98, 4, 1), 
-		'75_days' 	: genCombos(2, 98, 4, 1), 
-		'90_days' 	: genCombos(2, 98, 4, 1), 
-		'105_days' 	: genCombos(2, 98, 4, 1), 
-		'120_days' 	: genCombos(2, 98, 4, 1), 
-		'135_days' 	: genCombos(2, 98, 4, 1), 
-		'150_days' 	: genCombos(2, 98, 4, 1), 
-		'165_days' 	: genCombos(2, 98, 4, 1), 
-		'180_days' 	: genCombos(2, 98, 4, 1),   
+		'15_days' 	: genCombos(2, 192, 8, 1), 
+		'30_days' 	: genCombos(2, 192, 8, 1), 
+		'45_days' 	: genCombos(2, 192, 8, 1),   
+		'60_days' 	: genCombos(2, 192, 8, 1),  
+		'75_days' 	: genCombos(2, 192, 8, 1), 
+		'90_days' 	: genCombos(2, 192, 8, 1), 
+		'105_days' 	: genCombos(2, 192, 8, 1), 
+		'120_days' 	: genCombos(2, 192, 8, 1),  
+		'135_days' 	: genCombos(2, 192, 8, 1), 
+		'150_days' 	: genCombos(2, 192, 8, 1), 
+		'165_days' 	: genCombos(2, 192, 8, 1),
+		'180_days' 	: genCombos(2, 192, 8, 1), 
 	}
 }	
 
@@ -66,7 +63,7 @@ function genValues(min, max, inc, prec) {
 function genCombos(min, max, inc, prec) {
 	var sums = genValues(min, max, inc, prec);
 	var res = [];
-	var inc = 2; 
+	var inc = 4; 
 	var buffer = 2; // usually use 2 "period=1" is always bad..?
 	sums.forEach(function(sum) {
 		for (i=buffer; i<=(sum-buffer); i+=inc) {
