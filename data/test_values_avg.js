@@ -5,7 +5,7 @@ module.exports = {
 
 	low_values : {
 		'15_days' 	: genValues(0.075, 0.250, 0.025, 3), 
-		'30_days' 	: genValues(0.075, 0.250, 0.025, 3),   
+		'30_days' 	: genValues(0.075, 0.250, 0.025, 3),       
 		'45_days' 	: genValues(0.075, 0.250, 0.025, 3), 
 		'60_days' 	: genValues(0.075, 0.250, 0.025, 3),
 		'75_days' 	: genValues(0.075, 0.250, 0.025, 3),
@@ -32,18 +32,18 @@ module.exports = {
 		'180_days' 	: genValues(0.000, 0.300, 0.025, 3), 
 	},
 	period_offset : {
-		'15_days' 	: genCombos(34, 98, 4, 1), 
-		'30_days' 	: genCombos(34, 98, 4, 1), 
-		'45_days' 	: genCombos(34, 98, 4, 1),  
-		'60_days' 	: genCombos(34, 98, 4, 1), 
-		'75_days' 	: genCombos(34, 98, 4, 1), 
-		'90_days' 	: genCombos(34, 98, 4, 1), 
-		'105_days' 	: genCombos(34, 98, 4, 1), 
-		'120_days' 	: genCombos(34, 98, 4, 1), 
-		'135_days' 	: genCombos(34, 98, 4, 1), 
-		'150_days' 	: genCombos(34, 98, 4, 1), 
-		'165_days' 	: genCombos(34, 98, 4, 1), 
-		'180_days' 	: genCombos(34, 98, 4, 1),   
+		'15_days' 	: genCombos(2, 198, 4, 1), 
+		'30_days' 	: genCombos(2, 98, 4, 1), 
+		'45_days' 	: genCombos(2, 98, 4, 1),  
+		'60_days' 	: genCombos(2, 98, 4, 1), 
+		'75_days' 	: genCombos(2, 98, 4, 1), 
+		'90_days' 	: genCombos(2, 98, 4, 1), 
+		'105_days' 	: genCombos(2, 98, 4, 1), 
+		'120_days' 	: genCombos(2, 98, 4, 1), 
+		'135_days' 	: genCombos(2, 98, 4, 1), 
+		'150_days' 	: genCombos(2, 98, 4, 1), 
+		'165_days' 	: genCombos(2, 98, 4, 1), 
+		'180_days' 	: genCombos(2, 98, 4, 1),   
 	}
 }	
 
