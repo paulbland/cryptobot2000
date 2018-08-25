@@ -1,8 +1,9 @@
 module.exports = {
 
 	// currently --- 
-	// lowest and highest values (plus inc) for all values
+	// lowest and highest values (+/- 1 inc) for all values
 	// and 4 hr / 1.5% incremeents
+	// 
 
 	low_values : {
 		'30_days' 	: genValues(0.025, 0.375, 0.015, 3),

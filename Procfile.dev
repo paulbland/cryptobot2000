@@ -9,4 +9,5 @@ update-coinbase-data: node ./scripts/update-coinbase-data.js
 test-bots: node ./bots/test-bots.js
 
 # RUN SIM VARS LOCALLY
-sim-bot-runner:  node ./bots/sim-bot-runner.js
+# (Adding full node path for imac crontab - not usually necessary)
+sim-bot-runner:  /usr/local/bin/node ./bots/sim-bot-runner.js
