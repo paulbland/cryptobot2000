@@ -1,28 +1,28 @@
 module.exports = {
 
 	low_values : {
-		'30_days' 	: genValues(0.050, 0.350, 0.015, 3),   	// 0:24
-		'60_days' 	: genValues(0.050, 0.350, 0.015, 3), 	// 0:47
-		'90_days' 	: genValues(0.050, 0.350, 0.015, 3),	// 1:11
-		'120_days' 	: genValues(0.050, 0.350, 0.015, 3), 	// 1:35
-		'150_days' 	: genValues(0.050, 0.350, 0.015, 3), 	// 1:59
-		'180_days' 	: genValues(0.050, 0.350, 0.015, 3),  	// 2:24 = 8 hrs. 
+		'30_days' 	: genValues(0.050, 0.350, 0.025, 3),   	// 0:24
+		'60_days' 	: genValues(0.050, 0.350, 0.025, 3), 	// 0:47
+		'90_days' 	: genValues(0.050, 0.350, 0.025, 3),	// 1:11
+		'120_days' 	: genValues(0.050, 0.350, 0.025, 3), 	// 1:35
+		'150_days' 	: genValues(0.050, 0.350, 0.025, 3), 	// 1:59
+		'180_days' 	: genValues(0.050, 0.350, 0.025, 3),  	// 2:24 = 8 hrs. 
 	},
 	high_values : { 
-		'30_days' 	: genValues(0.000, 0.275, 0.015, 3), 
-		'60_days' 	: genValues(0.000, 0.275, 0.015, 3), 
-		'90_days' 	: genValues(0.000, 0.275, 0.015, 3), 
-		'120_days' 	: genValues(0.000, 0.275, 0.015, 3), 
-		'150_days' 	: genValues(0.000, 0.275, 0.015, 3), 
-		'180_days' 	: genValues(0.000, 0.275, 0.015, 3), 
+		'30_days' 	: genValues(0.000, 0.275, 0.025, 3), 
+		'60_days' 	: genValues(0.000, 0.275, 0.025, 3), 
+		'90_days' 	: genValues(0.000, 0.275, 0.025, 3), 
+		'120_days' 	: genValues(0.000, 0.275, 0.025, 3), 
+		'150_days' 	: genValues(0.000, 0.275, 0.025, 3), 
+		'180_days' 	: genValues(0.000, 0.275, 0.025, 3), 
 	},
 	period_offset : {
-		'30_days' 	: genCombos(2, 240, 4, 1),   /// maybe nbetter at 4?
-		'60_days' 	: genCombos(2, 240, 4, 1),    
-		'90_days' 	: genCombos(2, 240, 4, 1), 
-		'120_days' 	: genCombos(2, 240, 4, 1),  
-		'150_days' 	: genCombos(2, 240, 4, 1), 
-		'180_days' 	: genCombos(2, 240, 4, 1), 
+		'30_days' 	: genCombos(2, 360, 4, 1),   /// maybe nbetter at 4?
+		'60_days' 	: genCombos(2, 360, 4, 1),    
+		'90_days' 	: genCombos(2, 360, 4, 1), 
+		'120_days' 	: genCombos(2, 360, 4, 1),  
+		'150_days' 	: genCombos(2, 360, 4, 1), 
+		'180_days' 	: genCombos(2, 360, 4, 1), 
 	}
 }	
 
