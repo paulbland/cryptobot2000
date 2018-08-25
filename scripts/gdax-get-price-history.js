@@ -16,7 +16,7 @@ var days            = 180;      // num of days to get
 var num_done        = 0;
 var all_my_prices   = []
 var granularity     = 3600;     // granularity - 300 = 5 mins, 600 = 10 mins 900 =15 ins --- 3600==1 hr!
-var delay           = 1000;    // to combat public api limits
+var delay           = 750;    // to combat public api limits
 
 
 getMyData('ETH') //BTC ETH LTC
@@ -47,13 +47,14 @@ function getRates(i, currency) {
     // 144 a day
 
     var start   = moment().subtract(i, 'days');
-    var end     = moment().subtract((i - 1), 'days').subtract(granularity, 'seconds');
+    var end     = moment().subtract((i - 1), 'days');//.subtract(granularity, 'seconds');
 
     var vars = {
         'granularity'  : granularity,             
         start          : start.toISOString(),
         end            : end.toISOString()
     }
+    // console.log(vars)
 
     // HIT API AND PUSH DATA
     publicClient.getProductHistoricRates(vars, function(err, response, data) {
