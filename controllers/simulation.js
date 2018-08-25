@@ -11,7 +11,7 @@ module.exports = {
 	// not changed by refresh!!?!?!
 
 	// these are constant vars thoughout entire simulation
-	interval_in_minutes 	: 15,	// how often data is collected in minutes
+	interval_in_minutes 	: config.interval_in_minutes,	// how often data is collected in minutes
 
 	// these are here because they must be visible globally, even though are updated throughout iterations
 	total_coins_owned 		: 0,

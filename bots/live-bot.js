@@ -5,6 +5,7 @@ var reporting 			= require('../controllers/reporting')
 var liveDataModels 		= require('../models/livedatamodel')
 var priceRecordModels 	= require('../models/pricerecordmodel')
 var simVarsModelETH 	= require('../models/simvarsmodel')
+var config 				= require('../config/config')
 
 // prep new item to be appended to live data recrod
 mongoose.Promise = global.Promise;
@@ -70,7 +71,7 @@ module.exports = {
 	step1: function() {
 		var self = this;
 		// Having memory problems in clock.js functions, so limiting this to just get last 72 hrs. I don't think we ever really use more than that
-		var limit = ((60/15) * 240); // this calculates number of 15-mintue intervals in a n hr period
+		var limit = ((60/config.interval_in_minutes) * 240); // this calculates number of x-mintue intervals in a y (240) hr period
 		priceRecordModels['ETH'].find({}).sort('-datetime').limit(limit).exec(function(error, price_data_eth) { 
 			price_data_eth = price_data_eth.reverse();
 			if (error) {
@@ -131,7 +132,7 @@ module.exports = {
 		// hard code some vars for live
 		var buy_sell_method		= 'avg';
 		var print_full_debug 	= false;
-		var interval_in_minutes = 15;
+		var interval_in_minutes = config.interval_in_minutes;
 		var sell_all			= true; 
 		var buy_sell_percentage	= 7.5;
 		var reinvest_profit     = false;
