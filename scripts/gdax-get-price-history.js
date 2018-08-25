@@ -47,7 +47,7 @@ function getRates(i, currency) {
     // 144 a day
 
     var start   = moment().subtract(i, 'days');
-    var end     = moment().subtract((i - 1), 'days');//.subtract(granularity, 'seconds');
+    var end     = moment().subtract((i - 1), 'days').subtract(granularity, 'seconds');
 
     var vars = {
         'granularity'  : granularity,             

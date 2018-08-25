@@ -71,7 +71,8 @@ module.exports = {
 	step1: function() {
 		var self = this;
 		// Having memory problems in clock.js functions, so limiting this to just get last 72 hrs. I don't think we ever really use more than that
-		var limit = ((60/config.interval_in_minutes) * 240); // this calculates number of x-mintue intervals in a y (240) hr period
+		// last value needs to be same as max values in rest vars
+		var limit = ((60/config.interval_in_minutes) * 286); // this calculates number of x-mintue intervals in a y (240) hr period
 		priceRecordModels['ETH'].find({}).sort('-datetime').limit(limit).exec(function(error, price_data_eth) { 
 			price_data_eth = price_data_eth.reverse();
 			if (error) {
