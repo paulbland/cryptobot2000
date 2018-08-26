@@ -203,10 +203,11 @@ module.exports = {
 
 			// calculate averages
 			// round offset and period to nearest 0.5 cos thats all i can handle at this point
+			// changed to math.round as 0.5 is causing problems now we're only getting price every hr
 			var avgs = {
 				rank    : `top_${total}_avg`,
-				period 	: tools.roundToPoint5(sums.period / total),  
-				offset 	: tools.roundToPoint5(sums.offset / total),
+				period 	: Math.round(sums.period / total), // tools.roundToPoint5(sums.period / total),  
+				offset 	: Math.round(sums.offset / total), // tools.roundToPoint5(sums.offset / total),
 				low 	: parseFloat((sums.low / total).toFixed(3)),
 				high 	: parseFloat((sums.high / total).toFixed(3))
 			};

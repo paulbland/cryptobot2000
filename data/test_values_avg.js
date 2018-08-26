@@ -3,16 +3,14 @@ module.exports = {
 	// currently --- 
 	// lowest and highest values (+/- 1 inc) for all values
 	// and 4 hr / 1.5% incremeents
-	// 
-	// this is 12 hrs on home computer
 
 	low_values : {
-		'30_days' 	: genValues(0.040, 0.280, 0.015, 3),
+		'30_days' 	: genValues(0.040, 0.280, 0.015, 3), // 0:13 h:m
 		'60_days' 	: genValues(0.040, 0.280, 0.015, 3),
 		'90_days' 	: genValues(0.040, 0.280, 0.015, 3),
 		'120_days' 	: genValues(0.040, 0.280, 0.015, 3),
 		'150_days' 	: genValues(0.040, 0.280, 0.015, 3),
-		'180_days' 	: genValues(0.040, 0.280, 0.015, 3),
+		'180_days' 	: genValues(0.040, 0.280, 0.015, 3), // 1:27 h:m
 	},
 	high_values : { 
 		'30_days' 	: genValues(0.000, 0.225, 0.015, 3),
