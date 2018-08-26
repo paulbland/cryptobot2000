@@ -11,9 +11,9 @@ var config 		        = require('./config/config')
 
 new CronJob('0 * * * *', function() { priceBot.run() }, null, true, config.timezone); // every hour at hh:00
 
-new CronJob('1 * * * *', function() { liveBot.run('30_day_bot') }, null, true, config.timezone); // every hour at hh:01
-new CronJob('2 * * * *', function() { liveBot.run('60_day_bot') }, null, true, config.timezone); // every hour at hh:02
-new CronJob('3 * * * *', function() { liveBot.run('90_day_bot') }, null, true, config.timezone); // every hour at hh:03
-new CronJob('4 * * * *', function() { liveBot.run('120_day_bot') }, null, true, config.timezone); // every hour at hh:04
-new CronJob('5 * * * *', function() { liveBot.run('150_day_bot') }, null, true, config.timezone); // every hour at hh:05
-new CronJob('6 * * * *', function() { liveBot.run('180_day_bot') }, null, true, config.timezone); // every hour at hh:06
+new CronJob('1-59/5 * * * *', function() { liveBot.run('30_day_bot') }, null, true, config.timezone); // every 5 mins at hh:01:00
+new CronJob('30 1-59/5 * * * *', function() { liveBot.run('60_day_bot') }, null, true, config.timezone); // every hour at hh:01:30
+new CronJob('2-59/5 * * * *', function() { liveBot.run('90_day_bot') }, null, true, config.timezone); // every hour at hh:02:00
+new CronJob('30 2-59/5 * * * *', function() { liveBot.run('120_day_bot') }, null, true, config.timezone); // every hour at hh:02:30
+new CronJob('3-59/5 * * * *', function() { liveBot.run('150_day_bot') }, null, true, config.timezone); // every hour at hh:03:00
+new CronJob('30 3-59/5 * * * *', function() { liveBot.run('180_day_bot') }, null, true, config.timezone); // every hour at hh:03:30

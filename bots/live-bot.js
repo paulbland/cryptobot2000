@@ -14,13 +14,16 @@ var newLiveData; // visible globally
 module.exports = {
 
 	really_buy_and_sell : true, // THIS IS IT!!!
-	initial_investment  : 165, // ($1000/6, roughly), // $2000/5 = (5 bots)!
+	initial_investment  : 165, // (total investment/num bots = $1000/6 , roughly)
 	bot_name 			: null,
 	period 				: 0,
 	offset 				: 0,
 	low_threshold 		: 0,
 	high_threshold 		: 0,
 	running 			: false,
+	latest_buy_price	: 0,
+	latest_sell_price	: 0,
+	datetime_collected	: 0,
 
 	run: function(bot_name) {
 		//console.log('initial_investment ' + this.initial_investment)
@@ -70,9 +73,9 @@ module.exports = {
 
 	step1: function() {
 		var self = this;
-		// Having memory problems in clock.js functions, so limiting this to just get last 72 hrs. I don't think we ever really use more than that
-		// last value needs to be same as max values in rest vars
-		var limit = ((60/config.interval_in_minutes) * 286); // this calculates number of x-mintue intervals in a y (240) hr period
+		// Having memory problems in clock.js functions, so limiting this to just get last x hrs. 
+		// (last value needs to be same as max values in test vars)
+		var limit = ((60/config.interval_in_minutes) * 210); // this calculates number of x-mintue intervals in a y (240) hr period
 		priceRecordModels['ETH'].find({}).sort('-datetime').limit(limit).exec(function(error, price_data_eth) { 
 			price_data_eth = price_data_eth.reverse();
 			if (error) {
@@ -125,10 +128,25 @@ module.exports = {
 		});
 	},
 
+	step3: function(price_data_eth, lastLiveData) {
+		// get live data
+		var publicClient    = new Gdax.PublicClient('ETH-USD', config.api_endpoint); 
+        var self            = this;
+        publicClient.getProductTicker(function(err, response, data) {
+			if (err) {
+				res.json(error);
+				process.exit(1);
+			} else {
+				self.latest_buy_price    	= data.price; 
+				self.latest_sell_price    	= data.price; 
+				self.datetime_collected 	= data.time;
+				self.step4(price_data_eth, lastLiveData)
+			}
+		});
+	},
 
-
-	step3: function(price_data, lastLiveData) {
-		//console.log('starting step 3...');
+	step4: function(price_data, lastLiveData) {
+		//console.log('starting step 4...');
 
 		// hard code some vars for live
 		var buy_sell_method		= 'avg';
@@ -144,9 +162,9 @@ module.exports = {
 		var from_index 			= (price_data.length - (values_per_period + values_in_offset))		// start index, minus offset and period length
 		var to_index 			= (price_data.length - values_in_offset)							// last period index (same without period length)
 		var data_to_be_tested 	= price_data.slice((from_index - 1), (to_index - 1));				// get slice. take one since index starts from 0
-		var this_index 			= (price_data.length - 1);											// always last value
-		var latest_buy_price 	= price_data[this_index].value_buy;									// this will be the currect price we're evaluating
-		var latest_sell_price 	= price_data[this_index].value_sell;								// this will be the currect price we're evaluating
+		// var this_index 			= (price_data.length - 1);											// always last value
+		var latest_buy_price 	= this.latest_buy_price; // price_data[this_index].value_buy;		// this will be the current price we're evaluating
+		var latest_sell_price 	= this.latest_sell_price; // price_data[this_index].value_sell;		// this will be the current price we're evaluating
 		var avg_for_period 		= tools.calculateAverage(data_to_be_tested) 
 
 		// decide buy or sell
@@ -173,7 +191,7 @@ module.exports = {
 		newLiveData.avg_for_period 				= avg_for_period																// current iteration - set here only
 		newLiveData.avg_plus_high_threshold 	= tools.calculateAvgPlusHighThreshold(avg_for_period, this.high_threshold); 	// current iteration - set here only
 		newLiveData.avg_minus_low_threshold 	= tools.calculateAvgMinusLowThreshold(avg_for_period, this.low_threshold); 		// current iteration - set here only
-		newLiveData.datetime_collected			= price_data[this_index].datetime;
+		newLiveData.datetime_collected			= this.datetime_collected; // price_data[this_index].datetime;
 		
 		newLiveData.totals 						= lastLiveData.totals;			// object!! all totals  - carried over
 		newLiveData.transaction = {

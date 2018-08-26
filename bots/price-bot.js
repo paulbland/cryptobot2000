@@ -6,6 +6,7 @@
 var mongoose 	        = require('mongoose');
 var Gdax                = require('gdax');
 var priceRecordModels   = require('../models/pricerecordmodel')
+var config 				= require('../config/config')
 
 module.exports = {
 
@@ -32,7 +33,7 @@ module.exports = {
     },
 
     getPriceData: function(currency) {
-        var publicClient    = new Gdax.PublicClient(currency+'-USD', 'https://api.pro.coinbase.com');
+        var publicClient    = new Gdax.PublicClient(currency+'-USD', config.api_endpoint); 
         var pr              = new priceRecordModels[currency];
         var self            = this;
 

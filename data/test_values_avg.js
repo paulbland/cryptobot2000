@@ -4,14 +4,15 @@ module.exports = {
 	// lowest and highest values (+/- 1 inc) for all values
 	// and 4 hr / 1.5% incremeents
 	// 
+	// this is 12 hrs on home computer
 
 	low_values : {
-		'30_days' 	: genValues(0.025, 0.375, 0.015, 3),
-		'60_days' 	: genValues(0.025, 0.375, 0.015, 3),
-		'90_days' 	: genValues(0.025, 0.375, 0.015, 3),
-		'120_days' 	: genValues(0.025, 0.375, 0.015, 3),
-		'150_days' 	: genValues(0.025, 0.375, 0.015, 3),
-		'180_days' 	: genValues(0.025, 0.375, 0.015, 3),
+		'30_days' 	: genValues(0.040, 0.280, 0.015, 3),
+		'60_days' 	: genValues(0.040, 0.280, 0.015, 3),
+		'90_days' 	: genValues(0.040, 0.280, 0.015, 3),
+		'120_days' 	: genValues(0.040, 0.280, 0.015, 3),
+		'150_days' 	: genValues(0.040, 0.280, 0.015, 3),
+		'180_days' 	: genValues(0.040, 0.280, 0.015, 3),
 	},
 	high_values : { 
 		'30_days' 	: genValues(0.000, 0.225, 0.015, 3),
@@ -22,12 +23,12 @@ module.exports = {
 		'180_days' 	: genValues(0.000, 0.225, 0.015, 3),
 	},
 	period_offset : {
-		'30_days' 	: genCombos(30, 286, 4, 1),
-		'60_days' 	: genCombos(30, 286, 4, 1),
-		'90_days' 	: genCombos(30, 286, 4, 1),
-		'120_days' 	: genCombos(30, 286, 4, 1),
-		'150_days' 	: genCombos(30, 286, 4, 1),
-		'180_days' 	: genCombos(30, 286, 4, 1),
+		'30_days' 	: genCombos(30, 210, 4, 1),
+		'60_days' 	: genCombos(30, 210, 4, 1),
+		'90_days' 	: genCombos(30, 210, 4, 1),
+		'120_days' 	: genCombos(30, 210, 4, 1),
+		'150_days' 	: genCombos(30, 210, 4, 1),
+		'180_days' 	: genCombos(30, 210, 4, 1),
 	}
 }
 
@@ -50,7 +51,7 @@ function genValues(min, max, inc, prec) {
 function genCombos(min, max, inc, prec) {
 	var sums = genValues(min, max, inc, prec);
 	var res = [];
-	var inc = 4;  //  maybe better at 4?
+	var inc = 4;  
 	var buffer = 2; // usually use 2 "period=1" is always bad..?
 	sums.forEach(function(sum) {
 		for (i=buffer; i<=(sum-buffer); i+=inc) {
