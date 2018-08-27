@@ -348,6 +348,7 @@ module.exports = {
 			}
 			// self.debug(`Finished.`);// (Saved newLiveData (ETH) record)`);
 			self.running = false; //return true;
+			process.exit(0);
 		})
 
 	},
