@@ -52,7 +52,7 @@ module.exports = {
 
                 if (++self.currenciesComplete === 1) {//was 3! when im getting all three currencies (ln 27-29)
                     console.log('price-bot: Finished.');
-                    process.exit();
+                    //process.exit();
                 }
             });
         });
