@@ -168,7 +168,8 @@ module.exports = {
 		var avg_for_period 		= tools.calculateAverage(data_to_be_tested) 
 
 		// Release this memory??
-		price_data = [];
+		// price_data = [];
+		price_data.splice(0, price_data.length)
 
 		// decide buy or sell
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug, false)
