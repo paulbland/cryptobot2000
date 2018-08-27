@@ -5,7 +5,7 @@ var config 		        = require('./config/config')
 //var simBot              = require('./sim-bot.js')
 
 const used = process.memoryUsage().heapUsed / 1024 / 1024;
-self.debug(`CLOCK: script uses approximately ${Math.round(used * 100) / 100} MB`);
+console.log(`CLOCK: script uses approximately ${Math.round(used * 100) / 100} MB`);
 
 // for reference:
 //  */15 * * * * --- every 15 mins
