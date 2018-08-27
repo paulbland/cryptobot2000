@@ -347,6 +347,11 @@ module.exports = {
 				console.log(err);
 			}
 			// self.debug(`Finished.`);// (Saved newLiveData (ETH) record)`);
+
+			// Some temp debug code
+			const used = process.memoryUsage().heapUsed / 1024 / 1024;
+			self.debug(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
+			
 			self.running = false; //return true;
 			//process.exit();
 		})
