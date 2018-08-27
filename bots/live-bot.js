@@ -77,7 +77,6 @@ module.exports = {
 		// (last value needs to be same as max values in test vars)
 		var limit = ((60/config.interval_in_minutes) * 210); // this calculates number of x-mintue intervals in a y (240) hr period
 		priceRecordModels['ETH'].find({}).sort('-datetime').limit(limit).exec(function(error, price_data_eth) { 
-			price_data_eth = price_data_eth.reverse();
 			if (error) {
 				res.json(error);
 				self.debug(`Error connecting to db (model: priceRecordModels)`);
@@ -85,6 +84,7 @@ module.exports = {
 			}
 			else {
 				//console.log('Got priceRecordModels - ETH data');
+				price_data_eth.reverse();
 				self.step2(price_data_eth);
 			}
 		});
@@ -168,8 +168,8 @@ module.exports = {
 		var avg_for_period 		= tools.calculateAverage(data_to_be_tested) 
 
 		// Release this memory??
-		// price_data = [];
-		price_data.splice(0, price_data.length)
+		// price_data = []; // doesnt work
+		// price_data.splice(0, price_data.length) // doesnt work!
 
 		// decide buy or sell
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug, false)

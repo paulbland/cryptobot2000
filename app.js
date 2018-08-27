@@ -96,7 +96,7 @@ app.get('/live-result', basicAuth, function(req, res) {
 	}
 	
     var liveDataModels = require('./models/livedatamodel')
-	liveDataModels['ETH'].find({'bot_name' : req.query.bot_name}).sort('-datetime_updated').limit(1440).exec(function(error, live_data_eth) {
+	liveDataModels['ETH'].find({'bot_name' : req.query.bot_name}).sort('-datetime_updated').limit(60).exec(function(error, live_data_eth) {
 		if (error) {
 			//res.json(error);
 			process.exit(1);
