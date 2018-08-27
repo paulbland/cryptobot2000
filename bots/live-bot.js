@@ -167,8 +167,8 @@ module.exports = {
 		var latest_sell_price 	= this.latest_sell_price; // price_data[this_index].value_sell;		// this will be the current price we're evaluating
 		var avg_for_period 		= tools.calculateAverage(data_to_be_tested) 
 
-		// Release this
-		//price_data = [];
+		// Release this memory??
+		price_data = [];
 
 		// decide buy or sell
 		var sell_or_buy = tools.decideBuyOrSell(data_to_be_tested, latest_buy_price, latest_sell_price, this.low_threshold, this.high_threshold, buy_sell_method, print_full_debug, false)
