@@ -6,7 +6,7 @@ module.exports = {
 
 	low_values : {
 		'30_days' 	: genValues(0.040, 0.295, 0.015, 3), // 0:13 h:m
-		'60_days' 	: genValues(0.040, 0.280, 0.015, 3),
+		'60_days' 	: genValues(0.040, 0.295, 0.015, 3),
 		'90_days' 	: genValues(0.040, 0.280, 0.015, 3),
 		'120_days' 	: genValues(0.040, 0.280, 0.015, 3),
 		'150_days' 	: genValues(0.040, 0.280, 0.015, 3),
