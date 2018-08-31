@@ -14,7 +14,7 @@ var newLiveData; // visible globally
 module.exports = {
 
 	really_buy_and_sell : true, // THIS IS IT!!!
-	initial_investment  : 165, // (total investment/num bots = $1000/6 , roughly)
+	initial_investment  : 200, // (total investment/num bots = $1000/6 , roughly)
 	bot_name 			: null,
 	period 				: 0,
 	offset 				: 0,
