@@ -75,7 +75,7 @@ module.exports = {
 		var self = this;
 		// Having memory problems in clock.js functions, so limiting this to just get last x hrs. 
 		// (last value needs to be same as max values in test vars)
-		var limit = ((60/config.interval_in_minutes) * 240); // this calculates number of x-mintue intervals in a y (240) hr period
+		var limit = ((60/config.interval_in_minutes) * 260); // this calculates number of x-mintue intervals in a y (240) hr period
 		priceRecordModels['ETH'].find({}).sort('-datetime').limit(limit).exec(function(error, price_data_eth) { 
 			if (error) {
 				res.json(error);
