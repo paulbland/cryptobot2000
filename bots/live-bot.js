@@ -137,8 +137,8 @@ module.exports = {
 				res.json(error);
 				process.exit(1);
 			} else {
-				self.latest_buy_price    	= data.price; 
-				self.latest_sell_price    	= data.price; 
+				self.latest_buy_price    	= parseFloat(data.price);
+				self.latest_sell_price    	= parseFloat(data.price);
 				self.datetime_collected 	= data.time;
 				self.step4(price_data_eth, lastLiveData)
 			}
