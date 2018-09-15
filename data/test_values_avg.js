@@ -22,12 +22,12 @@ module.exports = {
 		'180_days' 	: genValues(0.000, 0.220, 0.015, 3),
 	},
 	period_offset : {
-		'30_days' 	: genCombos(22, 238, 4, 1),
-		'60_days' 	: genCombos(22, 238, 4, 1),
-		'90_days' 	: genCombos(22, 238, 4, 1),
-		'120_days' 	: genCombos(22, 238, 4, 1),
-		'150_days' 	: genCombos(22, 238, 4, 1),
-		'180_days' 	: genCombos(22, 238, 4, 1),
+		'30_days' 	: genCombos(22, 242, 4, 1),
+		'60_days' 	: genCombos(22, 242, 4, 1),
+		'90_days' 	: genCombos(22, 242, 4, 1),
+		'120_days' 	: genCombos(22, 242, 4, 1),
+		'150_days' 	: genCombos(22, 242, 4, 1),
+		'180_days' 	: genCombos(22, 242, 4, 1),
 	}
 }
 
